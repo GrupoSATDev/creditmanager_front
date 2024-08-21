@@ -76,5 +76,19 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
         ]
+    },
+    {
+        path: 'pages',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: LayoutComponent,
+        resolve: {
+            initialData: initialDataResolver
+        },
+        children: [
+            {
+                path: 'configuracion', loadChildren: () => import('app/pages/configuraciones/configuraciones.routes')
+            }
+        ]
     }
 ];
