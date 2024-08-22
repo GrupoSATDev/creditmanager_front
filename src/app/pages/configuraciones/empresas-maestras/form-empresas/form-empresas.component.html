@@ -1,1 +1,89 @@
-<p>form-empresas works!</p>
+<div class="flex min-w-0 flex-auto flex-col items-center sm:justify-center">
+    <div
+        class="w-full px-4 py-8 sm:bg-card sm:w-auto sm:rounded-2xl sm:p-12 sm:shadow"
+    >
+        <div class="mx-auto w-full max-w-80 sm:mx-0 sm:w-80">
+
+            <!-- Title -->
+            <div
+                class="mt-8 text-3xl font-extrabold leading-tight tracking-tight"
+            >
+               Nueva empresa
+            </div>
+
+            <!-- Sign Up form -->
+            <form class="mt-8">
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Nit</mat-label>
+                    <input id="nit" matInput />
+
+                </mat-form-field>
+
+                <!-- Email field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Razón social</mat-label>
+                    <input matInput />
+                </mat-form-field>
+
+                <!-- Company field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Correo</mat-label>
+                    <input
+                        matInput
+                    />
+                </mat-form-field>
+
+                <!-- Company field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Teléfono</mat-label>
+                    <input
+                        matInput
+                    />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Departamentos</mat-label>
+                    <mat-select
+                        [value]="'buy'"
+                        #buySellSelect="matSelect"
+                    >
+                        <mat-option [value]="'buy'">Atlantico</mat-option>
+                        <mat-option [value]="'sell'">Antioquia</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select
+                        [value]="'buy'"
+                        #buySellSelect="matSelect"
+                    >
+                        <mat-option [value]="'buy'">Barranquilla</mat-option>
+                        <mat-option [value]="'sell'">Medellin</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Company field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Dirección</mat-label>
+                    <input
+                        matInput
+                    />
+                </mat-form-field>
+                <!-- Submit button -->
+                <button
+                    class="fuse-mat-button-large mt-6 w-full"
+                    mat-flat-button
+                    [color]="'primary'"
+                >
+
+                   <span> Create your free account </span>
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

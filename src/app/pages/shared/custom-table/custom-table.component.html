@@ -3,7 +3,7 @@
 
         <!-- Definir columnas -->
         <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ column | titlecase }} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ column }} </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element[column] }} </mat-cell>
         </ng-container>
 

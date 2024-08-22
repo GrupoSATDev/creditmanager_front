@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
@@ -6,6 +6,8 @@ import { MatInput } from '@angular/material/input';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { CommonModule } from '@angular/common';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { FormEmpresasComponent } from '../form-empresas/form-empresas.component';
 
 @Component({
   selector: 'app-grid-empresas',
@@ -22,12 +24,18 @@ import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 })
 export class GridEmpresasComponent {
 
+    constructor(
+        private _matDialog: MatDialog
+    ) {
+    }
+
+
     data = [
-        { 'Razon social': 'CrediGO', Direccion: 'Via 11 no - 138', Estado: true },
-        { 'Razon social': 'Crediplus', Direccion: 'Via 11 no - 138', Estado: true },
+        {'Nit': 101010, 'Razon social': 'Crediplus', 'Correo': 'crediplus@gmail.com', 'Telefono': 3456777, 'Direccion': 'Calle 70 no 60 - 61'},
+        {'Nit': 101012, 'Razon social': 'Credirapid', 'Correo': 'credirapid@gmail.com', 'Telefono': 3456779, 'Direccion': 'Calle 91 no 100 - 61'},
     ];
 
-    columns = ['Razon social', 'Direccion', 'Estado'];
+    columns = ['Nit', 'Razon social', 'Correo', 'Telefono', 'Direccion'];
 
     buttons: IButton[] = [
         {
@@ -45,5 +53,14 @@ export class GridEmpresasComponent {
             }
         }
     ];
+
+    onNew(): void {
+        this._matDialog.open(FormEmpresasComponent, {
+            autoFocus: false,
+            data: {
+                note: {},
+            },
+        });
+    }
 
 }
