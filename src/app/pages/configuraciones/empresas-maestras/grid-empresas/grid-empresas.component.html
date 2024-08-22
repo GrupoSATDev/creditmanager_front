@@ -7,6 +7,52 @@
         <!-- Title -->
         <div class="text-4xl font-extrabold tracking-tight">Empresas maestras</div>
 
+        <!-- Actions -->
+        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+            <!-- Search -->
+            <mat-form-field
+                class="fuse-mat-dense fuse-mat-rounded min-w-64"
+                [subscriptSizing]="'dynamic'"
+            >
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:magnifying-glass'"
+                ></mat-icon>
+                <input
+                    matInput
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar empresas'"
+                />
+            </mat-form-field>
+            <!-- Add product button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+            >
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Nueva empresa</span>
+            </button>
+        </div>
+
     </div>
+
+    <!--Main-->
+    <div class="flex flex-auto overflow-hidden">
+        <!-- Products list -->
+        <div
+            class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
+        >
+            <app-custom-table
+                [columns]="columns"
+                [displayedColumns]="columns"
+                [data]="data"
+                [buttons]="buttons"
+            ></app-custom-table>
+        </div>
+
+    </div>
+
 
 </div>

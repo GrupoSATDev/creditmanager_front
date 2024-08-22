@@ -1,0 +1,31 @@
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Definir columnas -->
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ column | titlecase }} </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element[column] }} </mat-cell>
+        </ng-container>
+
+        <!-- Columna de acciones -->
+        <ng-container matColumnDef="actions" *ngIf="buttons.length > 0">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let button of buttons">
+                    <button mat-icon-button *ngIf="button.icon" (click)="onButtonClick(button.action, element)">
+                        <mat-icon>{{ button.icon }}</mat-icon>
+                    </button>
+                    <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)">
+                        {{ button.label }}
+                    </button>
+                </ng-container>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
