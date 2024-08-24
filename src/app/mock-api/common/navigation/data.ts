@@ -9,10 +9,16 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'settings',
         children: [
             {
-                id: 'apps.ecommerce.inventory',
+                id: 'apps.empresas.maestras',
                 title: 'Empresas maestras',
                 type: 'basic',
                 link: '/pages/configuracion/empresas-maestras',
+            },
+            {
+                id: 'apps.empresas.clientes',
+                title: 'Empresas clientes',
+                type: 'basic',
+                link: '/pages/configuracion/empresas-clientes',
             },
         ],
     },

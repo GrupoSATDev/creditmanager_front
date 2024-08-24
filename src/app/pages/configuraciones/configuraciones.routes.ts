@@ -7,6 +7,10 @@ export default [
             {
                 path: 'empresas-maestras',
                 loadChildren: () => import('./empresas-maestras/empresas-maestras.routes')
+            },
+            {
+                path: 'empresas-clientes',
+                loadChildren: () => import('./empresas-clientes/empresas-clientes.routes')
             }
         ]
     }
