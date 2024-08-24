@@ -60,6 +60,8 @@ export class GridEmpresasComponent {
             data: {
                 note: {},
             },
+            maxHeight: '90vh',
+            maxWidth: '100%',
         });
     }
 
