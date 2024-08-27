@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     FormsModule,
     NgForm,
@@ -67,12 +67,11 @@ export class AuthSignInComponent implements OnInit {
     ngOnInit(): void {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email: [
-                'hughes.brian@company.com',
+            correo: [
+                '',
                 [Validators.required, Validators.email],
             ],
-            password: ['admin', Validators.required],
-            rememberMe: [''],
+            contrasena: ['', Validators.required],
         });
     }
 
