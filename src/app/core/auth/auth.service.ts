@@ -4,6 +4,7 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
+import { user } from '../../mock-api/common/user/data';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -62,6 +63,7 @@ export class AuthService {
 
         return this._httpClient.post(this._appSettings.auth.url.base, credentials).pipe(
             switchMap((response: any) => {
+                console.log(response)
                 // Store the access token in the local storage
                 this.accessToken = response.token;
 
@@ -69,7 +71,8 @@ export class AuthService {
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                //this._userService.user = response.user;
+                this._userService.user = user;
 
                 // Return a new observable with the response
                 return of(response);
