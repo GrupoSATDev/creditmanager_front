@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { guardar } from '../../../../core/constant/dialogs';
 
 @Component({
   selector: 'app-form-empresas',
@@ -37,6 +39,7 @@ export class FormEmpresasComponent implements OnInit{
     private _locacionService = inject(LocacionService);
     private empresasService = inject(EmpresasMaestrasService);
     public dialogRef = inject(MatDialogRef<FormEmpresasComponent>);
+    public fuseService = inject(FuseConfirmationService);
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
@@ -64,10 +67,23 @@ export class FormEmpresasComponent implements OnInit{
     onSave() {
         if (this.form.valid) {
             const data = this.form.getRawValue();
-            this.empresasService.postEmpresa(data).subscribe((res) => {
-                console.log(res)
-                this.closeDialog();
+            const dialog = this.fuseService.open({
+                ...guardar
+            });
+
+            dialog.afterClosed().subscribe((response) => {
+
+                if (response.confirm) {
+                    this.empresasService.postEmpresa(data).subscribe((res) => {
+                        console.log(res)
+                        this.closeDialog();
+                    })
+                }else {
+                    this.closeDialog();
+                }
             })
+
+
         }
     }
 
