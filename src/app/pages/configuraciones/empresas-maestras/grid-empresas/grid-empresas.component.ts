@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormEmpresasComponent } from '../form-empresas/form-empresas.component';
 import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
 import { Subscription } from 'rxjs';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 
 
 
@@ -34,7 +35,8 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
 
     constructor(
         private _matDialog: MatDialog,
-        private empresasService: EmpresasMaestrasService
+        private empresasService: EmpresasMaestrasService,
+        private estadoDatosService: EstadosDatosService
     ) {
     }
 
@@ -89,6 +91,18 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
 
     ngOnInit(): void {
         this.getEmpresas();
+        this.listenGrid();
+    }
+
+    private listenGrid() {
+        const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
+
+        refreshData$.subscribe((state) => {
+            if (state) {
+                this.getEmpresas();
+            }
+        })
+
     }
 
     ngOnDestroy(): void {

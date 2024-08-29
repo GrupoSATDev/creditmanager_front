@@ -11,6 +11,7 @@ import { EmpresasMaestrasService } from '../../../../core/services/empresas-maes
 import { MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { guardar } from '../../../../core/constant/dialogs';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 
 @Component({
   selector: 'app-form-empresas',
@@ -40,6 +41,7 @@ export class FormEmpresasComponent implements OnInit{
     private empresasService = inject(EmpresasMaestrasService);
     public dialogRef = inject(MatDialogRef<FormEmpresasComponent>);
     public fuseService = inject(FuseConfirmationService);
+    public estadosDatosService = inject(EstadosDatosService);
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
@@ -73,9 +75,10 @@ export class FormEmpresasComponent implements OnInit{
 
             dialog.afterClosed().subscribe((response) => {
 
-                if (response.confirm) {
+                if (response === 'confirmed') {
                     this.empresasService.postEmpresa(data).subscribe((res) => {
                         console.log(res)
+                        this.estadosDatosService.stateGrid.next(true);
                         this.closeDialog();
                     })
                 }else {
