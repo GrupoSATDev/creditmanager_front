@@ -8,7 +8,7 @@ import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { guardar } from '../../../../core/constant/dialogs';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -45,6 +45,7 @@ export class FormEmpresasComponent implements OnInit{
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
+    public _matData = inject(MAT_DIALOG_DATA);
 
     getMunicipios(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
@@ -53,10 +54,17 @@ export class FormEmpresasComponent implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        const dialogData = this._matData;
+        console.log(dialogData)
+        if (dialogData.edit) {
+            const data = dialogData.data;
+            this.form.patchValue(data);
+        }
     }
 
     private createForm() {
         this.form = this.fb.group({
+            id: [null],
             nit: [''],
             razonSocial: [''],
             correo: [''],
@@ -68,24 +76,44 @@ export class FormEmpresasComponent implements OnInit{
 
     onSave() {
         if (this.form.valid) {
-            const data = this.form.getRawValue();
-            const dialog = this.fuseService.open({
-                ...guardar
-            });
+            if (!this._matData.edit) {
+                const data = this.form.getRawValue();
+                const dialog = this.fuseService.open({
+                    ...guardar
+                });
 
-            dialog.afterClosed().subscribe((response) => {
+                dialog.afterClosed().subscribe((response) => {
 
-                if (response === 'confirmed') {
-                    this.empresasService.postEmpresa(data).subscribe((res) => {
-                        console.log(res)
-                        this.estadosDatosService.stateGrid.next(true);
+                    if (response === 'confirmed') {
+                        this.empresasService.postEmpresa(data).subscribe((res) => {
+                            console.log(res)
+                            this.estadosDatosService.stateGrid.next(true);
+                            this.closeDialog();
+                        })
+                    }else {
                         this.closeDialog();
-                    })
-                }else {
-                    this.closeDialog();
-                }
-            })
+                    }
+                })
+            }else {
+                const data = this.form.getRawValue();
+                const dialog = this.fuseService.open({
+                    ...guardar
+                });
 
+                dialog.afterClosed().subscribe((response) => {
+
+                    if (response === 'confirmed') {
+                        this.empresasService.putEmpresa(data).subscribe((res) => {
+                            console.log(res)
+                            this.estadosDatosService.stateGrid.next(true);
+                            this.closeDialog();
+                        })
+                    }else {
+                        this.closeDialog();
+                    }
+                })
+
+            }
 
         }
     }

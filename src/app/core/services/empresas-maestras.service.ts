@@ -18,6 +18,13 @@ export class EmpresasMaestrasService {
   }
 
   postEmpresa(data): Observable<any> {
+      delete data.id;
       return this._http.post(this.appSettings.empresasMaestras.url.base, data)
+  }
+
+  putEmpresa(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.empresasMaestras.url.base}/${id}`, data)
   }
 }

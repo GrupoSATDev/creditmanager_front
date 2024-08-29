@@ -4,7 +4,7 @@
         <div
             class="mt-8 text-3xl font-extrabold leading-tight tracking-tight text-center"
         >
-           Nueva empresa
+           {{_matData.edit ? 'Actualizar empresa' : 'Nueva empresa'}}
         </div>
 
         <!-- Sign Up form -->
@@ -77,7 +77,7 @@
                 (click)="onSave()"
             >
 
-               <span> Guardar </span>
+               <span> {{_matData.edit ? 'Actualizar' : 'Guardar'}} </span>
             </button>
         </form>
 

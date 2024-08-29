@@ -32,6 +32,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
 
     public subcription$: Subscription;
+    public selectedData: any;
 
     constructor(
         private _matDialog: MatDialog,
@@ -40,10 +41,7 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
     ) {
     }
 
-
-    data = [
-
-    ];
+    data = [];
 
     columns = ['Nit', 'Razon social', 'Correo', 'Telefono', 'Direccion'];
     columnPropertyMap = {
@@ -60,6 +58,8 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
             icon: 'edit',
             action: (element) => {
                 console.log('Editing', element);
+                this.selectedData = element;
+                this.onEdit();
             }
         },
         {
@@ -75,11 +75,23 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
         this._matDialog.open(FormEmpresasComponent, {
             autoFocus: false,
             data: {
-                note: {},
+                edit: false,
             },
             maxHeight: '90vh',
             maxWidth: '100%',
         });
+    }
+
+    onEdit(): void {
+        this._matDialog.open(FormEmpresasComponent, {
+            autoFocus: false,
+            data: {
+                edit: true,
+                data: this.selectedData
+            },
+            maxHeight: '90vh',
+            maxWidth: '100%',
+        })
     }
 
     getEmpresas() {
