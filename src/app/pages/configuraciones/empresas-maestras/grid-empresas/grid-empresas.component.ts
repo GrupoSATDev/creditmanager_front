@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
@@ -8,11 +8,17 @@ import { CommonModule } from '@angular/common';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { FormEmpresasComponent } from '../form-empresas/form-empresas.component';
+import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
+import { Subscription } from 'rxjs';
+
+
+
 
 @Component({
   selector: 'app-grid-empresas',
   standalone: true,
     imports: [
+        CommonModule,
         MatFormField,
         MatIcon,
         MatButton,
@@ -22,20 +28,29 @@ import { FormEmpresasComponent } from '../form-empresas/form-empresas.component'
   templateUrl: './grid-empresas.component.html',
   styleUrl: './grid-empresas.component.scss'
 })
-export class GridEmpresasComponent {
+export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
+
+    public subcription$: Subscription;
 
     constructor(
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private empresasService: EmpresasMaestrasService
     ) {
     }
 
 
     data = [
-        {'Nit': 101010, 'Razon social': 'Crediplus', 'Correo': 'crediplus@gmail.com', 'Telefono': 3456777, 'Direccion': 'Calle 70 no 60 - 61'},
-        {'Nit': 101012, 'Razon social': 'Credirapid', 'Correo': 'credirapid@gmail.com', 'Telefono': 3456779, 'Direccion': 'Calle 91 no 100 - 61'},
+
     ];
 
     columns = ['Nit', 'Razon social', 'Correo', 'Telefono', 'Direccion'];
+    columnPropertyMap = {
+        'Nit': 'nit',
+        'Razon social': 'razonSocial',
+        'Correo': 'correo',
+        'Telefono': 'telefono',
+        'Direccion': 'direccion'
+    };
 
     buttons: IButton[] = [
         {
@@ -63,6 +78,25 @@ export class GridEmpresasComponent {
             maxHeight: '90vh',
             maxWidth: '100%',
         });
+    }
+
+    getEmpresas() {
+        this.subcription$ = this.empresasService.getEmpresas().subscribe((response) => {
+            this.data = response.data;
+        })
+
+    }
+
+    ngOnInit(): void {
+        this.getEmpresas();
+    }
+
+    ngOnDestroy(): void {
+        this.subcription$.unsubscribe();
+    }
+
+    ngAfterViewInit(): void {
+
     }
 
 }

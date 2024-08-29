@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -6,7 +6,6 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { IButton } from '../interfaces/buttonsInterfaces';
-
 
 @Component({
   selector: 'app-custom-table',
@@ -23,11 +22,15 @@ import { IButton } from '../interfaces/buttonsInterfaces';
   templateUrl: './custom-table.component.html',
   styleUrl: './custom-table.component.scss'
 })
-export class CustomTableComponent<T> implements  OnInit{
+
+
+export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChanges {
     @Input() columns: string[] = [];
     @Input() displayedColumns: string[] = [];
     @Input() data: T[] = [];
     @Input() buttons: IButton[] = [];
+    @Input() columnPropertyMap: { [key: string]: string } = {};
+
 
     dataSource = new MatTableDataSource<T>([]);
 
@@ -35,10 +38,19 @@ export class CustomTableComponent<T> implements  OnInit{
     @ViewChild(MatSort) sort!: MatSort;
 
     ngOnInit(): void {
-        this.dataSource.data = this.data;
 
         if (this.buttons.length > 0 && !this.displayedColumns.includes('actions')) {
             this.displayedColumns = [...this.displayedColumns, 'actions'];
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['data']) {
+            this.dataSource.data = this.data;
+            console.log('Data received in ngOnChanges:', this.data);
+
+            console.log('Columns:', this.columns);
+            console.log('Displayed Columns:', this.displayedColumns);
         }
     }
 
