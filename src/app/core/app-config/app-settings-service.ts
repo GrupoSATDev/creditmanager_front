@@ -15,5 +15,17 @@ export class AppSettingsService {
         },
     };
 
+    public departamentos = {
+        url: {
+            base: EndPoints.uriBase('Departamentos')
+        }
+    }
+
+    public municipios = {
+        url: {
+            base: EndPoints.uriBase('Municipios')
+        }
+    }
+
 
 }
