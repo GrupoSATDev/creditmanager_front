@@ -62,13 +62,13 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
                 this.onEdit();
             }
         },
-        {
+        /*{
             label: 'Delete',
             icon: 'delete',
             action: (element) => {
                 console.log('Deleting', element);
             }
-        }
+        }*/
     ];
 
     onNew(): void {
