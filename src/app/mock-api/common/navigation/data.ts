@@ -20,6 +20,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/configuracion/empresas-clientes',
             },
+            {
+                id: 'apps.tipos.documentos',
+                title: 'Tipos de documentos',
+                type: 'basic',
+                link: '/pages/configuracion/tipos-documentos',
+            },
+            {
+                id: 'apps.capital.inversion',
+                title: 'Capital de inversión',
+                type: 'basic',
+                link: '/pages/configuracion/capital-inversion',
+            },
+            {
+                id: 'apps.departamentos',
+                title: 'Departamentos',
+                type: 'basic',
+                link: '/pages/configuracion/departamentos',
+            },
         ],
     },
 

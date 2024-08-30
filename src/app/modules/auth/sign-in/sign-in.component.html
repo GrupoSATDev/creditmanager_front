@@ -56,7 +56,7 @@
                     <mat-label>Usuario</mat-label>
                     <input id="correo" matInput [formControlName]="'correo'" />
                     @if (signInForm.get('correo').hasError('required')) {
-                        <mat-error> Email address is required </mat-error>
+                        <mat-error> El correo es requirido </mat-error>
                     }
                     @if (signInForm.get('correo').hasError('correo')) {
                         <mat-error>
@@ -98,7 +98,7 @@
                             ></mat-icon>
                         }
                     </button>
-                    <mat-error> Contraseña es invalidad! </mat-error>
+                    <mat-error> Contraseña es invalida! </mat-error>
                 </mat-form-field>
 
                 <!-- Actions -->
@@ -121,7 +121,7 @@
 
                 <!-- Submit button -->
                 <button
-                    class="fuse-mat-button-large mt-6 w-full"
+                    class="fuse-mat-button-large mt-6 w-full bg-blue-600"
                     mat-flat-button
                     [color]="'primary'"
                     [disabled]="signInForm.disabled"
@@ -196,36 +196,10 @@
         <!-- Content -->
         <div class="relative z-10 w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome to</div>
-                <div>our community</div>
+                <div>Bienvenido a CrediPlus</div>
             </div>
             <div class="mt-6 text-lg leading-6 tracking-tight text-gray-400">
-                Fuse helps developers to build organized and well coded
-                dashboards full of beautiful and rich modules. Join us and start
-                building your application today.
-            </div>
-            <div class="mt-8 flex items-center">
-                <div class="flex flex-0 items-center -space-x-1.5">
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/female-18.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/female-11.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/male-09.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/male-16.jpg"
-                    />
-                </div>
-                <div class="ml-4 font-medium tracking-tight text-gray-400">
-                    More than 17k people joined us, it's your turn
-                </div>
+                Plataforma para gestionar préstamos a colaboradores de manera eficiente y segura. Inicia Sesión y accede las opciones que tenemos para ti.
             </div>
         </div>
     </div>

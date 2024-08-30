@@ -11,6 +11,18 @@ export default [
             {
                 path: 'empresas-clientes',
                 loadChildren: () => import('./empresas-clientes/empresas-clientes.routes')
+            },
+            {
+                path: 'tipos-documentos',
+                loadChildren: () => import('./tipos-documentos/tipos-documentos.routes')
+            },
+            {
+                path: 'capital-inversion',
+                loadChildren: () => import('./capital-inversion/capital-inversion.routes')
+            },
+            {
+                path: 'departamentos',
+                loadChildren: () => import('./departamentos/departamentos.routes')
             }
         ]
     }
