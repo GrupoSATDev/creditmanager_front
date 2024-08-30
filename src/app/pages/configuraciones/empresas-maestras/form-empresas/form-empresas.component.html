@@ -70,15 +70,28 @@
                 />
             </mat-form-field>
             <!-- Submit button -->
-            <button
-                class="fuse-mat-button-large mt-6 w-full bg-blue-900"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="onSave()"
-            >
+            <div class="flex flex-wrap justify-between ">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
 
-               <span> {{_matData.edit ? 'Actualizar' : 'Guardar'}} </span>
-            </button>
+                   <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                   <span> {{_matData.edit ? 'Actualizar' : 'Guardar'}} </span>
+                </button>
+
+            </div>
         </form>
 
     </div>
