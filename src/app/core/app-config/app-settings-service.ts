@@ -23,7 +23,8 @@ export class AppSettingsService {
 
     public municipios = {
         url: {
-            base: EndPoints.uriBase('Municipios/Departamento')
+            base: EndPoints.uriBase('Municipios/Departamento'),
+            baseMunicipio: EndPoints.uriBase('Municipios')
         }
     }
 

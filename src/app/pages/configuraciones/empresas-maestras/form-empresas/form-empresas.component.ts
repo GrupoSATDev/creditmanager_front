@@ -12,6 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { guardar } from '../../../../core/constant/dialogs';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 
 @Component({
   selector: 'app-form-empresas',
@@ -42,6 +43,7 @@ export class FormEmpresasComponent implements OnInit{
     public dialogRef = inject(MatDialogRef<FormEmpresasComponent>);
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
+    public toasService = inject(ToastAlertsService);
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
@@ -88,6 +90,11 @@ export class FormEmpresasComponent implements OnInit{
                         this.empresasService.postEmpresa(data).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
+                            this.toasService.toasAlertWarn({
+                                message: 'Registro creado con exito!',
+                                actionMessage: 'Cerrar',
+                                duration: 3000
+                            })
                             this.closeDialog();
                         })
                     }else {
@@ -106,6 +113,11 @@ export class FormEmpresasComponent implements OnInit{
                         this.empresasService.putEmpresa(data).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
+                            this.toasService.toasAlertWarn({
+                                message: 'Registro actualizado con exito!',
+                                actionMessage: 'Cerrar',
+                                duration: 3000
+                            })
                             this.closeDialog();
                         })
                     }else {
