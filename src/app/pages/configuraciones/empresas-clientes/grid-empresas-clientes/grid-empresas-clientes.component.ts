@@ -28,10 +28,7 @@ export class GridEmpresasClientesComponent {
     ) {
     }
 
-    data = [
-        {'Nit': 101010, 'Razon social': 'Crediplus', 'Correo': 'crediplus@gmail.com', 'Telefono': 3456777, 'Direccion': 'Calle 70 no 60 - 61'},
-        {'Nit': 101012, 'Razon social': 'Credirapid', 'Correo': 'credirapid@gmail.com', 'Telefono': 3456779, 'Direccion': 'Calle 91 no 100 - 61'},
-    ];
+    data = [];
 
     columns = ['Nit', 'Razon social', 'Correo', 'Telefono', 'Direccion'];
 

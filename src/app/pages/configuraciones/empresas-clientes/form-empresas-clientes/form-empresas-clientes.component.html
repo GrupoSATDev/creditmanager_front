@@ -1,1 +1,100 @@
-<p>form-empresas-clientes works!</p>
+<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-extrabold leading-tight tracking-tight text-center"
+        >
+            Nuevo empresa cliente
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8">
+            <!-- Name field -->
+            <mat-form-field class="w-full">
+                <mat-label>Nit</mat-label>
+                <input  matInput />
+            </mat-form-field>
+
+            <!-- Name field -->
+            <mat-form-field class="w-full">
+                <mat-label>Razón social</mat-label>
+                <input  matInput />
+            </mat-form-field>
+
+            <!-- Name field -->
+            <mat-form-field class="w-full">
+                <mat-label>Correo</mat-label>
+                <input  matInput />
+            </mat-form-field>
+
+            <!-- Name field -->
+            <mat-form-field class="w-full">
+                <mat-label>Teléfono</mat-label>
+                <input  matInput />
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Detalle inverión</mat-label>
+                <textarea matInput placeholder="Detalle"></textarea>
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Departamentos</mat-label>
+
+                <mat-select
+                    #data
+                    (selectionChange)="getMunicipios($event)"
+                >
+                    <ng-container *ngIf="departamentos$ | async as departamentos">
+                        <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Ciudad</mat-label>
+                <mat-select [formControlName]="'idMunicipio'">
+                    <ng-container *ngIf="municipios$ | async as municipios">
+                        <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Dirección</mat-label>
+                <input
+                    matInput
+                />
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Fecha de corte</mat-label>
+                <input matInput type="date"/>
+            </mat-form-field>
+
+            <div class="flex flex-wrap justify-between ">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100"
+                    mat-flat-button
+                    [color]="'primary'"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50"
+                    mat-flat-button
+                    [color]="'primary'"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
