@@ -57,10 +57,11 @@ export class FormEmpresasComponent implements OnInit{
     ngOnInit(): void {
         this.createForm();
         const dialogData = this._matData;
-        console.log(dialogData)
         if (dialogData.edit) {
             const data = dialogData.data;
             this.form.patchValue(data);
+            const {idDepartamento} = data;
+            this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
         }
     }
 
@@ -72,6 +73,7 @@ export class FormEmpresasComponent implements OnInit{
             correo: [''],
             telefono: [''],
             direccion: [''],
+            idDepartamento: [''],
             idMunicipio: ['']
         })
     }
@@ -80,6 +82,7 @@ export class FormEmpresasComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
+                const {idDepartamento, ...form} = data;
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -87,7 +90,7 @@ export class FormEmpresasComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresasService.postEmpresa(data).subscribe((res) => {
+                        this.empresasService.postEmpresa(form).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
@@ -103,6 +106,7 @@ export class FormEmpresasComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
+                const {idDepartamento, ...form} = data;
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -110,7 +114,7 @@ export class FormEmpresasComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresasService.putEmpresa(data).subscribe((res) => {
+                        this.empresasService.putEmpresa(form).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({

@@ -41,10 +41,10 @@
 
             <mat-form-field  class="w-full">
                 <mat-label>Departamentos</mat-label>
-
                     <mat-select
                         #data
                         (selectionChange)="getMunicipios($event)"
+                        [formControlName]="'idDepartamento'"
                     >
                         <ng-container *ngIf="departamentos$ | async as departamentos">
                             <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
