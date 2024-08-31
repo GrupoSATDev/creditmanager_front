@@ -22,5 +22,11 @@ export class TiposDocumentosService {
       return this._http.post(this.appSettings.tiposDocumentos.url.base, data)
     }
 
+    putDocumentos(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.tiposDocumentos.url.base}/${id}`, data)
+    }
+
 
 }
