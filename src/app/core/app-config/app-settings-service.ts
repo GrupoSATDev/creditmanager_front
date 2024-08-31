@@ -46,5 +46,11 @@ export class AppSettingsService {
         }
     }
 
+    public tiposDocumentos = {
+        url: {
+            base: EndPoints.uriBase('TipoDocumentos')
+        }
+    }
+
 
 }

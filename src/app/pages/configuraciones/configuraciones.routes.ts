@@ -23,6 +23,10 @@ export default [
             {
                 path: 'departamentos',
                 loadChildren: () => import('./departamentos/departamentos.routes')
+            },
+            {
+                path: 'generos',
+                loadChildren: () => import('./generos/generos.routes')
             }
         ]
     }
