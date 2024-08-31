@@ -4,12 +4,13 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { FormTiposDocumentosComponent } from '../form-tipos-documentos/form-tipos-documentos.component';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
+import { Estados } from '../../../../core/enums/estados';
 
 @Component({
   selector: 'app-grid-tipos-documentos',
@@ -34,7 +35,7 @@ export class GridTiposDocumentosComponent implements OnInit, OnDestroy{
     columnPropertyMap = {
         'Estado': 'estado',
         'Código': 'codigo',
-        'Nombre documento': 'nombreDocumento',
+        'Nombre documento': 'nombre',
     };
 
     buttons: IButton[] = [
@@ -80,7 +81,18 @@ export class GridTiposDocumentosComponent implements OnInit, OnDestroy{
     }
 
     getDocumentos(): void {
-        this.subcription$ = this.tiposDocumentosServices.getTiposDocumentos().subscribe((response) => {
+        this.subcription$ = this.tiposDocumentosServices.getTiposDocumentos().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                        return items;
+                    }
+                })
+                return response;
+
+            })
+        ).subscribe((response) => {
             this.data = response.data;
         })
     }
