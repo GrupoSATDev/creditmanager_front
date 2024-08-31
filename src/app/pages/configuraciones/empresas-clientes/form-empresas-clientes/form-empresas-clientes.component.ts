@@ -16,6 +16,8 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { TiposEmpresasService } from '../../../../core/services/tipos-empresas.service';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 
 @Component({
   selector: 'app-form-empresas-clientes',
@@ -36,6 +38,12 @@ import { EmpresasClientesService } from '../../../../core/services/empresas-clie
         MatDatepickerToggle,
         MatDatepicker,
         MatFormFieldModule
+    ],
+    providers: [
+        {
+            provide: DateAdapter, useClass: DateAdapterService,
+        },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     ],
   templateUrl: './form-empresas-clientes.component.html',
   styleUrl: './form-empresas-clientes.component.scss'
@@ -66,6 +74,13 @@ export class FormEmpresasClientesComponent implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        const dialogData = this._matData;
+        if (dialogData.edit) {
+            const data = dialogData.data;
+            this.form.patchValue(data);
+            const {idDepartamento} = data;
+            this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+        }
 
     }
 
@@ -97,7 +112,7 @@ export class FormEmpresasClientesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, idEmpresa,  ...form} = data;
+                const {idDepartamento,  ...form} = data;
                 const dialog = this.fuseService.open({
                     ...guardar
                 });

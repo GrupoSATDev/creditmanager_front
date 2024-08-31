@@ -7,9 +7,10 @@ import { CustomTableComponent } from '../../../shared/custom-table/custom-table.
 import { MatDialog } from '@angular/material/dialog';
 import { FormEmpresasClientesComponent } from '../form-empresas-clientes/form-empresas-clientes.component';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { Estados } from '../../../../core/enums/estados';
 
 @Component({
   selector: 'app-grid-empresas-clientes',
@@ -84,7 +85,18 @@ export class GridEmpresasClientesComponent implements OnInit, OnDestroy{
     }
 
     getEmpresas() {
-        this.subcription$ = this.empresaClienteService.getEmpresas().subscribe((response) => {
+        this.subcription$ = this.empresaClienteService.getEmpresas().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                        return items;
+                    }
+                })
+                return response;
+
+            })
+        ).subscribe((response) => {
             this.data = response.data;
         })
     }
