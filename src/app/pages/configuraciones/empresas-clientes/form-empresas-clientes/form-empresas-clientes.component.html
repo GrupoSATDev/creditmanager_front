@@ -4,37 +4,37 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            Nuevo empresa cliente
+            {{_matData.edit ? 'Actualizar empresa' : 'Crear empresa'}}
         </div>
 
         <!-- Sign Up form -->
-        <form class="mt-8">
+        <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Nit</mat-label>
-                <input  matInput />
+                <input  matInput [formControlName]="'nit'"/>
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Razón social</mat-label>
-                <input  matInput />
+                <input  matInput [formControlName]="'razonSocial'" />
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Correo</mat-label>
-                <input  matInput />
+                <input  matInput  [formControlName]="'correo'" />
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Teléfono</mat-label>
-                <input  matInput />
+                <input  matInput     [formControlName]="'telefono'" />
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Detalle inverión</mat-label>
+                <mat-label>Detalle de inverión</mat-label>
                 <textarea matInput placeholder="Detalle"></textarea>
             </mat-form-field>
 
@@ -63,13 +63,32 @@
             <mat-form-field class="w-full">
                 <mat-label>Dirección</mat-label>
                 <input
-                    matInput
-                />
+                    matInput [formControlName]="'direccion'" />
             </mat-form-field>
 
             <mat-form-field  class="w-full">
                 <mat-label>Fecha de corte</mat-label>
-                <input matInput type="date"/>
+                <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCorte'">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Tipos de empresas</mat-label>
+                <mat-select [formControlName]="'idTipoEmpresa'">
+                    <ng-container *ngIf="tiposEmpresas$ | async as tipos">
+                        <mat-option [value]="tipo.id" *ngFor="let tipo of tipos.data">{{tipo.nombre}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Empresa maestra</mat-label>
+                <mat-select [formControlName]="'idEmpresa'">
+                    <ng-container *ngIf="empresas$ | async as empresas">
+                        <mat-option [value]="empresa.id" *ngFor="let empresa of empresas.data">{{empresa.razonSocial}}</mat-option>
+                    </ng-container>
+                </mat-select>
             </mat-form-field>
 
             <div class="flex flex-wrap justify-between ">
@@ -77,6 +96,7 @@
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button
                     [color]="'primary'"
+                    (click)="closeDialog()"
                 >
 
                     <span> Cancelar </span>
@@ -86,6 +106,7 @@
                     class="fuse-mat-button-large mt-6 bg-crediblue-50"
                     mat-flat-button
                     [color]="'primary'"
+                    (click)="onSave()"
                 >
 
                     <span> Guardar </span>

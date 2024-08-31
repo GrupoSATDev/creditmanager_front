@@ -34,5 +34,17 @@ export class AppSettingsService {
         }
     }
 
+    public empresasClientes = {
+        url: {
+            base: EndPoints.uriBase('SubEmpresas')
+        }
+    }
+
+    public tiposEmpresas = {
+        url: {
+            base: EndPoints.uriBase('TipoEmpresas')
+        }
+    }
+
 
 }

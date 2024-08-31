@@ -115,7 +115,6 @@ export class FormEmpresasComponent implements OnInit{
 
                     if (response === 'confirmed') {
                         this.empresasService.putEmpresa(form).subscribe((res) => {
-                            console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
                                 message: 'Registro actualizado con exito!',
