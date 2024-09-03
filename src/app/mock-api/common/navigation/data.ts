@@ -2,6 +2,27 @@
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
+    {
+        id: 'apps.gestion-creditos',
+        title: 'Gestión de créditos',
+        type: 'collapsable',
+        icon: 'attach_money',
+        children: [
+            {
+                id: 'apps.gestion.solicitudes',
+                title: 'Solicitudes',
+                type: 'basic',
+                link: '/pages/gestion-creditos/solicitudes',
+            },
+            {
+                id: 'apps.gestion.tasas',
+                title: 'Tasas de interes',
+                type: 'basic',
+                link: '/pages/gestion-creditos/tasas',
+            },
+
+        ],
+    },
    {
         id: 'apps.configuraciones',
         title: 'Configuraciones',
@@ -46,27 +67,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
-    {
-        id: 'apps.gestion-creditos',
-        title: 'Gestión de créditos',
-        type: 'collapsable',
-        icon: 'attach_money',
-        children: [
-            {
-                id: 'apps.gestion.solicitudes',
-                title: 'Solicitudes',
-                type: 'basic',
-                link: '/pages/gestion-creditos/solicitudes',
-            },
-            {
-                id: 'apps.gestion.tasas',
-                title: 'Tasas de interes',
-                type: 'basic',
-                link: '/pages/gestion-creditos/tasas',
-            },
 
-        ],
-    },
 
 
 ];
