@@ -68,10 +68,11 @@
                 <!-- Password field -->
                 <mat-form-field class="w-full">
                     <mat-label>Contraseña</mat-label>
+
                     <input
                         id="contrasena"
                         matInput
-                        type="contrasena"
+                        type="password"
                         [formControlName]="'contrasena'"
                         #passwordField
                     />
@@ -79,13 +80,13 @@
                         mat-icon-button
                         type="button"
                         (click)="
-                            passwordField.type === 'contrasena'
+                            passwordField.type === 'password'
                                 ? (passwordField.type = 'text')
-                                : (passwordField.type = 'contrasena')
+                                : (passwordField.type = 'password')
                         "
                         matSuffix
                     >
-                        @if (passwordField.type === 'contrasena') {
+                        @if (passwordField.type === 'password') {
                             <mat-icon
                                 class="icon-size-5"
                                 [svgIcon]="'heroicons_solid:eye'"

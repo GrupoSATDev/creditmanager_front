@@ -73,8 +73,16 @@ export class AuthService {
                 this._authenticated = true;
 
                 // Store the user on the user service
+                const dataUser = {
+                    id: Math.random().toString(),
+                    name: response.data.nombre,
+                    email: response.data.correo,
+                    avatar: 'images/avatars/avatar-user.png',
+                    status: 'online'
+                }
+                this._userService.user = dataUser;
                 //this._userService.user = response.user;
-                this._userService.user = user;
+                //this._userService.user = user;
 
                 // Return a new observable with the response
                 return of(response);
