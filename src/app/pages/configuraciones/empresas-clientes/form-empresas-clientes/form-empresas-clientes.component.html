@@ -4,11 +4,12 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar empresa' : 'Crear empresa'}}
+            {{_matData.edit ? 'Actualizar empresa cliente' : 'Crear empresa cliente'}}
         </div>
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
+            {{form.getRawValue() | json}}
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Nit</mat-label>
@@ -33,10 +34,6 @@
                 <input  matInput     [formControlName]="'telefono'" />
             </mat-form-field>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Detalle de inverión</mat-label>
-                <textarea matInput placeholder="Detalle"></textarea>
-            </mat-form-field>
 
             <mat-form-field  class="w-full">
                 <mat-label>Departamentos</mat-label>
@@ -78,15 +75,6 @@
                 <mat-select [formControlName]="'idTipoEmpresa'">
                     <ng-container *ngIf="tiposEmpresas$ | async as tipos">
                         <mat-option [value]="tipo.id" *ngFor="let tipo of tipos.data">{{tipo.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field  class="w-full">
-                <mat-label>Empresa maestra</mat-label>
-                <mat-select [formControlName]="'idEmpresa'">
-                    <ng-container *ngIf="empresas$ | async as empresas">
-                        <mat-option [value]="empresa.id" *ngFor="let empresa of empresas.data">{{empresa.razonSocial}}</mat-option>
                     </ng-container>
                 </mat-select>
             </mat-form-field>

@@ -3,7 +3,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
@@ -16,8 +16,9 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { TiposEmpresasService } from '../../../../core/services/tipos-empresas.service';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { CUSTOM_DATE_FORMATS } from '../../../../core/constant/custom-date-format';
 
 @Component({
   selector: 'app-form-empresas-clientes',
@@ -40,10 +41,9 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
         MatFormFieldModule
     ],
     providers: [
-        {
-            provide: DateAdapter, useClass: DateAdapterService,
-        },
+        { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        DatePipe
     ],
   templateUrl: './form-empresas-clientes.component.html',
   styleUrl: './form-empresas-clientes.component.scss'
@@ -66,6 +66,7 @@ export class FormEmpresasClientesComponent implements OnInit{
     public municipios$: Observable<any>;
     public tiposEmpresas$ = this.tiposEmpresaService.getTiposEmpresas();
     public _matData = inject(MAT_DIALOG_DATA);
+    private datePipe = inject(DatePipe);
 
     getMunicipios(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
@@ -88,7 +89,12 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, idEmpresa, ...form} = data;
+                const {idDepartamento, idEmpresa, fechaCorte, ...form} = data;
+                let fecha = this.datePipe.transform(fechaCorte, 'yyyy-MM-dd');
+                const createData = {
+                    fechaCorte: fecha,
+                    ...form
+                }
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -96,7 +102,7 @@ export class FormEmpresasClientesComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresaClienteService.postEmpresaCliente(form).subscribe((res) => {
+                        this.empresaClienteService.postEmpresaCliente(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
@@ -112,7 +118,13 @@ export class FormEmpresasClientesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento,  ...form} = data;
+                const {idDepartamento, fechaCorte,  ...form} = data;
+                let fecha = this.datePipe.transform(fechaCorte, 'yyy-MM-dd');
+                const createData = {
+                    fechaCorte: fecha,
+                    ...form
+                }
+
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -120,7 +132,7 @@ export class FormEmpresasClientesComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresaClienteService.putEmpresaCliente(form).subscribe((res) => {
+                        this.empresaClienteService.putEmpresaCliente(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
                                 message: 'Registro actualizado con exito!',
@@ -150,7 +162,6 @@ export class FormEmpresasClientesComponent implements OnInit{
             idDepartamento: [''],
             idTipoEmpresa: [''],
             idMunicipio: [''],
-            idEmpresa: [''],
             fechaCorte: [''],
             estado: [true],
         })

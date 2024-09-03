@@ -1,25 +1,21 @@
 import { Injectable } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DateAdapterService extends NativeDateAdapter {
 
-    override parse(value: any): Date | null {
-        return value ? new Date(Date.parse(value)) : null;
+    override parse(value: string): Date | null {
+        if (value) {
+            const [year, month, day] = value.split('-').map(Number);
+            return new Date(year, month - 1, day);
+        }
+        return null;
     }
 
     override format(date: Date, displayFormat: Object): string {
-        const pad = (n: number) => n < 10 ? '0' + n : n;
-        const year = date.getUTCFullYear();
-        const month = pad(date.getUTCMonth() + 1);
-        const day = pad(date.getUTCDate());
-        const hours = pad(date.getUTCHours());
-        const minutes = pad(date.getUTCMinutes());
-        const seconds = pad(date.getUTCSeconds());
-        const milliseconds = pad(date.getUTCMilliseconds());
-
-        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }
