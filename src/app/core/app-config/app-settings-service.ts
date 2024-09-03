@@ -52,5 +52,11 @@ export class AppSettingsService {
         }
     }
 
+    public generos = {
+        url: {
+            base: EndPoints.uriBase('Generos')
+        }
+    }
+
 
 }

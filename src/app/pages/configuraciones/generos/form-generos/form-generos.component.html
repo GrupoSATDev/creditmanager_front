@@ -1,1 +1,46 @@
-<p>form-generos works!</p>
+<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar género' : 'Crear género'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+
+            <mat-form-field class="w-full">
+                <mat-label>Nombre</mat-label>
+                <input  matInput [formControlName]="'nombre'"/>
+            </mat-form-field>
+
+            <div class="flex flex-wrap justify-between ">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+

@@ -38,6 +38,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/configuracion/departamentos',
             },
+            {
+                id: 'apps.generos',
+                title: 'Géneros',
+                type: 'basic',
+                link: '/pages/configuracion/generos',
+            },
         ],
     },
 
