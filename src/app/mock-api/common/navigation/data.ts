@@ -58,6 +58,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/solicitudes',
             },
+            {
+                id: 'apps.gestion.tasas',
+                title: 'Tasas de interes',
+                type: 'basic',
+                link: '/pages/gestion-creditos/tasas',
+            },
 
         ],
     },

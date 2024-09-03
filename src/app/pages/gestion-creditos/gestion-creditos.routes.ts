@@ -7,7 +7,10 @@ export default [
             {
                 path: 'solicitudes',
                 loadChildren: () => import('./solicitudes/solicitudes.routes')
-
+            },
+            {
+                path: 'tasas',
+                loadChildren: () => import('./tasas-intereses/tasa-intereses.routes')
             }
         ]
     }

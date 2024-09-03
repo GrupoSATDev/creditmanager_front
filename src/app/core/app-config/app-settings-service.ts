@@ -64,5 +64,11 @@ export class AppSettingsService {
         }
     }
 
+    public solicitudesCreditos = {
+        url: {
+            base: EndPoints.uriBase('Solicitudes')
+        }
+    }
+
 
 }
