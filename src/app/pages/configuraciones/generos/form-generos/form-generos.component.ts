@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -23,7 +23,7 @@ import { GenerosService } from '../../../../core/services/generos.service';
   templateUrl: './form-generos.component.html',
   styleUrl: './form-generos.component.scss'
 })
-export class FormGenerosComponent {
+export class FormGenerosComponent implements OnInit{
     private fb = inject(FormBuilder);
     public form: FormGroup;
     public dialogRef = inject(MatDialogRef<FormGenerosComponent>);
