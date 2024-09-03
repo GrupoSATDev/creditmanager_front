@@ -4,26 +4,26 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            Nuevo capital inversor
+            {{_matData.edit ? 'Actualizar capital' : 'Crear capital'}}
         </div>
 
         <!-- Sign Up form -->
-        <form class="mt-8">
+        <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
             <mat-form-field class="w-full">
-                <mat-label>Nombre inversor</mat-label>
-                <input  matInput />
+                <mat-label>Nombre de inversor</mat-label>
+                <input  matInput [formControlName]="'nombreInversor'"/>
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
-                <mat-label>Rubro inversor</mat-label>
-                <input  matInput />
+                <mat-label>Rubro de inversor</mat-label>
+                <input  matInput [formControlName]="'rubroInversion'" />
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Detalle inverión</mat-label>
-                <textarea matInput placeholder="Detalle"></textarea>
+                <mat-label>Detalle de inversión</mat-label>
+                <textarea matInput placeholder="Detalle" [formControlName]="'detalleInversion'"></textarea>
             </mat-form-field>
 
             <div class="flex flex-wrap justify-between ">
@@ -31,6 +31,7 @@
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button
                     [color]="'primary'"
+                    (click)="closeDialog()"
                 >
 
                     <span> Cancelar </span>
@@ -40,6 +41,7 @@
                     class="fuse-mat-button-large mt-6 bg-crediblue-50"
                     mat-flat-button
                     [color]="'primary'"
+                    (click)="onSave()"
                 >
 
                     <span> Guardar </span>

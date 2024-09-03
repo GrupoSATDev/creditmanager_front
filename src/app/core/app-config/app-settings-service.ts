@@ -58,5 +58,11 @@ export class AppSettingsService {
         }
     }
 
+    public capitalInversion = {
+        url: {
+            base: EndPoints.uriBase('CapitalInversiones')
+        }
+    }
+
 
 }
