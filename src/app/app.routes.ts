@@ -88,6 +88,9 @@ export const appRoutes: Route[] = [
         children: [
             {
                 path: 'configuracion', loadChildren: () => import('app/pages/configuraciones/configuraciones.routes')
+            },
+            {
+                path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes')
             }
         ]
     }

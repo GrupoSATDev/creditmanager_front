@@ -46,6 +46,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
+    {
+        id: 'apps.gestion-creditos',
+        title: 'Gestión de créditos',
+        type: 'collapsable',
+        icon: 'attach_money',
+        children: [
+            {
+                id: 'apps.gestion.solicitudes',
+                title: 'Solicitudes',
+                type: 'basic',
+                link: '/pages/gestion-creditos/solicitudes',
+            },
+
+        ],
+    },
+
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [
