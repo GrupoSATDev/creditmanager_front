@@ -20,4 +20,15 @@ export class LocacionService {
   getMunicipio(id): Observable<any> {
       return this._http.get(`${this.appSettingService.municipios.url.base}/${id}`)
   }
+
+  postDepartamento(data): Observable<any> {
+      delete data.id;
+      return this._http.post(this.appSettingService.departamentos.url.base, data)
+  }
+
+  putDepartamento(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettingService.departamentos.url.base}/${id}`, data)
+  }
 }
