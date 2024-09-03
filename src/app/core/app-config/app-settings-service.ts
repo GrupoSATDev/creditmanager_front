@@ -70,5 +70,11 @@ export class AppSettingsService {
         }
     }
 
+    public tasasIntereses = {
+        url: {
+            base: EndPoints.uriBase('TasaIntereses')
+        }
+    }
+
 
 }
