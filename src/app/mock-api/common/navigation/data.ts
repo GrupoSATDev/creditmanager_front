@@ -20,6 +20,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/tasas',
             },
+            {
+                id: 'apps.gestion.tipos.pagos',
+                title: 'Tipos de pagos',
+                type: 'basic',
+                link: '/pages/gestion-creditos/tipos-pagos',
+            },
 
         ],
     },

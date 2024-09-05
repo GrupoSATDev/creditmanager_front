@@ -11,6 +11,10 @@ export default [
             {
                 path: 'tasas',
                 loadChildren: () => import('./tasas-intereses/tasa-intereses.routes')
+            },
+            {
+                path: 'tipos-pagos',
+                loadChildren: () => import('./tipos-pagos/tipos-pagos.routes')
             }
         ]
     }
