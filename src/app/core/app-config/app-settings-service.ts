@@ -76,5 +76,11 @@ export class AppSettingsService {
         }
     }
 
+    public tiposPagos = {
+        url: {
+            base: EndPoints.uriBase('TiposPagos')
+        }
+    }
+
 
 }
