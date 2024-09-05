@@ -2,7 +2,12 @@ import { Routes } from '@angular/router';
 
 export default [
     {
-        path: 'gestion-empleados',
-        loadChildren: () => import('./empleados/empleados.routes')
-    }
+      path: '',
+      children: [
+        {
+            path: 'empleados',
+            loadChildren: () => import('./empleados/empleados.routes')
+        }
+      ]
+    },
 ] as Routes
