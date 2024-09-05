@@ -90,7 +90,8 @@ export class GridEmpresasClientesComponent implements OnInit, OnDestroy{
                 response.data.forEach((items) => {
                     if (items.estado) {
                         items.estado = Estados.ACTIVO;
-                        return items;
+                    }else {
+                        items.estado = Estados.INACTIVO;
                     }
                 })
                 return response;
