@@ -82,5 +82,11 @@ export class AppSettingsService {
         }
     }
 
+    public empleados = {
+        url: {
+            base: EndPoints.uriBase('Trabajadores')
+        }
+    }
+
 
 }
