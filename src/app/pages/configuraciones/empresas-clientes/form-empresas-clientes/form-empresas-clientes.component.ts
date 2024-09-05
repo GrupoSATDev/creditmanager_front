@@ -90,7 +90,7 @@ export class FormEmpresasClientesComponent implements OnInit{
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
                 const {idDepartamento, idEmpresa, fechaCorte, ...form} = data;
-                let fecha = this.datePipe.transform(fechaCorte, 'yyyy-MM-dd');
+                let fecha = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
                 const createData = {
                     fechaCorte: fecha,
                     ...form
@@ -119,7 +119,7 @@ export class FormEmpresasClientesComponent implements OnInit{
             }else {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaCorte,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaCorte, 'yyy-MM-dd');
+                let fecha = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
                 const createData = {
                     fechaCorte: fecha,
                     ...form
