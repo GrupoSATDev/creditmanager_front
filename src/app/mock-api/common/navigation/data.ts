@@ -29,6 +29,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
         ],
     },
+    {
+        id: 'apps.gestion-empleados',
+        title: 'Gestión de empleados',
+        type: 'collapsable',
+        icon: 'heroicons_outline:user-group',
+        children: [
+            {
+                id: 'apps.gestion.empleados',
+                title: 'Empleados',
+                type: 'basic',
+                link: '/pages/gestion-empleados/empleados',
+            },
+        ],
+    },
    {
         id: 'apps.configuraciones',
         title: 'Configuraciones',
