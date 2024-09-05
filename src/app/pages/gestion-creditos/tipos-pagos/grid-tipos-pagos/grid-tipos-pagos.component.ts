@@ -32,7 +32,7 @@ export class GridTiposPagosComponent implements OnInit, OnDestroy{
     columns = ['Estado', 'Tipos de pagos'];
     columnPropertyMap = {
         'Estado': 'estado',
-        'Tipos de pagos': 'tiposPagos',
+        'Tipos de pagos': 'nombre',
     };
 
     constructor(
