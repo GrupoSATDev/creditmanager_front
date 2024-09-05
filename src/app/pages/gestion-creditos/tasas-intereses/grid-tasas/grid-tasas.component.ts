@@ -32,11 +32,10 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Nombre inversor', 'Rubro inversión', 'Detalle inversión'];
+    columns = ['Estado', 'Porcentaje %'];
     columnPropertyMap = {
-        'Nombre de inversor': 'nombreInversor',
-        'Rubro de inversion': 'rubroInversion',
-        'Detalle inversion': 'detalleInversion',
+        'Estado': 'estado',
+        'Porcentaje %': 'porcentaje',
     };
 
     buttons: IButton[] = [
