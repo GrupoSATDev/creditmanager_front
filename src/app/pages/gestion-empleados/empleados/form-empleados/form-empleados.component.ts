@@ -86,7 +86,9 @@ export class FormEmpleadosComponent implements OnInit{
         if (dialogData.edit) {
             const data = dialogData.data;
             this.form.patchValue(data);
-            const {idDepartamento} = data;
+            const {idDepartamento, fechaNacimiento} = data;
+            const fecha = new Date(fechaNacimiento)
+            this.form.patchValue({fechaNacimiento: fecha})
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
         }
     }

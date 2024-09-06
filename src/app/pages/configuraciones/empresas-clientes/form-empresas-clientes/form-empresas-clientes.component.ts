@@ -79,7 +79,9 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (dialogData.edit) {
             const data = dialogData.data;
             this.form.patchValue(data);
-            const {idDepartamento} = data;
+            const {idDepartamento, fechaCorte} = data;
+            const fecha = new Date(fechaCorte)
+            this.form.patchValue({fechaCorte: fecha})
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
         }
 
