@@ -88,5 +88,11 @@ export class AppSettingsService {
         }
     }
 
+    public cargos = {
+        url: {
+            base: EndPoints.uriBase('Cargos')
+        }
+    }
+
 
 }

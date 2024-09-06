@@ -70,6 +70,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 edit: false,
             },
             maxHeight: '90vh',
+            width: '50%',
             maxWidth: '100%',
         })
     }

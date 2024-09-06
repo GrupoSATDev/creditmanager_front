@@ -1,1 +1,207 @@
-<p>form-empleados works!</p>
+
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar empleado' : 'Crear empleado'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+            <div
+                class="group relative mx-auto mt-8 flex h-40 w-40 flex-0 rounded-full mb-8"
+            >
+                <div
+                    class="absolute inset-0 hidden cursor-pointer flex-col items-center justify-center rounded-full bg-gray-800 bg-opacity-80 backdrop-blur backdrop-filter group-hover:flex"
+                >
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:camera'"
+                    ></mat-icon>
+                    <div class="mx-6 mt-2 text-center font-medium text-white">
+                        Cambiar foto
+                    </div>
+                </div>
+                @if (profile.avatar) {
+                    <img
+                        class="h-full w-full rounded-full object-cover"
+                        [src]="profile.avatar"
+                        [alt]="'Profile avatar'"
+                    />
+                }
+                @if (!profile.avatar) {
+                    <div
+                        class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-8xl font-semibold uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                    >
+                        {{ profile.name.charAt(0) }}
+                    </div>
+                }
+            </div>
+            {{form.getRawValue() | json}}
+
+            <div class="flex gap-2.5">
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Primer nombre</mat-label>
+                    <input  matInput [formControlName]="'primerNombre'"/>
+                </mat-form-field>
+
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Segundo nombre</mat-label>
+                    <input  matInput [formControlName]="'segundoNombre'" />
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex gap-2.5">
+                <mat-form-field  class="w-full">
+                    <mat-label>Primer apellido</mat-label>
+                    <input  matInput [formControlName]="'primerApellido'" />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Segundo apellido</mat-label>
+                    <input  matInput [formControlName]="'segundoApellido'" />
+                </mat-form-field>
+            </div>
+
+            <div class="flex gap-2.5">
+                <mat-form-field  class="w-full">
+                    <mat-label>Tipos de documentos</mat-label>
+                    <mat-select
+                        [formControlName]="'idTipoDoc'"
+                    >
+                        <ng-container *ngIf="tiposDocumentos$ | async as documentos">
+                            <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Número de identificación</mat-label>
+                    <input  matInput [formControlName]="'numDoc'" />
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex gap-2.5">
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Género</mat-label>
+                    <mat-select
+                        [formControlName]="'idGenero'"
+                    >
+                        <ng-container *ngIf="generos$ | async as generos">
+                            <mat-option [value]="item.id" *ngFor="let item of generos.data">{{item.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'fechaNacimiento'">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="flex gap-2.5">
+                <mat-form-field  class="w-full">
+                    <mat-label>Departamentos</mat-label>
+                    <mat-select
+                        #data
+                        (selectionChange)="getMunicipios($event)"
+                        [formControlName]="'idDepartamento'"
+                    >
+                        <ng-container *ngIf="departamentos$ | async as departamentos">
+                            <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select [formControlName]="'idMunicipio'">
+                        <ng-container *ngIf="municipios$ | async as municipios">
+                            <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="flex gap-2.5">
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Dirección</mat-label>
+                    <input  matInput [formControlName]="'direccion'" />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Celular</mat-label>
+                    <input  matInput [formControlName]="'telefono'" />
+                </mat-form-field>
+            </div>
+
+            <div class="flex gap-2.5">
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Teléfono</mat-label>
+                    <input  matInput [formControlName]="'telefono2'" />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input  matInput [formControlName]="'correo'" />
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex gap-2.5">
+                <mat-form-field  class="w-full">
+                    <mat-label>Cargo</mat-label>
+                    <input  matInput [formControlName]="'idCargo'" />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Empresas clientes</mat-label>
+                    <mat-select [formControlName]="'idMunicipio'">
+                        <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
+                            <mat-option [value]="item.idEmpresa" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+
+            <div class="flex flex-wrap justify-end gap-2.5">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
