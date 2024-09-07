@@ -1,15 +1,121 @@
-<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <mat-horizontal-stepper [linear]="true" #stepper>
+        <!-- Primer paso: Información inicial -->
+        <mat-step [stepControl]="initialInfoForm" label="Solicitud de Crédito">
+            <div class="flex flex-col items-center justify-center w-full h-full px-4">
+                <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
+                    <!-- Contenido de la información inicial -->
+                    <h2 class="text-2xl font-bold mb-4">Solicitud de Crédito</h2>
+                    <p class="mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                    </p>
+                    <p class="mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                    </p>
+                    <button
+                        mat-raised-button
+                        matStepperNext
+                        [disabled]="initialInfoForm.invalid"
+                        class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100"
+                    >
+                        Siguiente
+                    </button>
+                </form>
+            </div>
+        </mat-step>
+
+        <!-- Segundo paso: Formulario de captura -->
+        <mat-step [stepControl]="firstFormGroup" label="Valida tu información">
+            <div class="flex flex-col items-center justify-center w-full h-full px-4">
+                <form [formGroup]="firstFormGroup">
+                    <mat-form-field class="w-full">
+                        <mat-label>Nombre de completo</mat-label>
+                        <input  matInput [formControlName]="'nombre'"/>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Identificación</mat-label>
+                        <input  matInput [formControlName]="'nombre'"/>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Dirección</mat-label>
+                        <input  matInput [formControlName]="'nombre'"/>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input  matInput [formControlName]="'nombre'"/>
+                    </mat-form-field>
+                     <mat-form-field class="w-full">
+                        <mat-label>Ciudad</mat-label>
+                        <input  matInput [formControlName]="'nombre'"/>
+                    </mat-form-field>
+
+                    <div class="flex flex-wrap justify-center gap-2.5">
+                        <button mat-raised-button matStepperPrevious class="px-6 py-2 rounded-md">Anterior</button>
+                        <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100">Siguiente</button>
+                    </div>
+
+                </form>
+            </div>
+        </mat-step>
+
+        <!-- Tercer paso: Otra información a leer -->
+        <mat-step label="Tasas de Interes">
+            <div class="flex flex-col items-center justify-center w-full h-full px-4">
+                <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
+                    <!-- Contenido de la información inicial -->
+                    <h2 class="text-2xl font-bold mb-4">Tasas de Interes Para Ti</h2>
+                    <p class="mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                    </p>
+                    <p class="mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                    </p>
+                    <button
+                        mat-raised-button
+                        matStepperNext
+                        [disabled]="initialInfoForm.invalid"
+                        class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100"
+                    >
+                        Siguiente
+                    </button>
+                </form>
+            </div>
+        </mat-step>
+
+        <!-- Cuarto paso: Segundo formulario -->
+        <mat-step [stepControl]="secondFormGroup" label="Solicita tu cupo">
+            <div class="flex flex-col items-center justify-center w-full h-full px-4">
+                <form [formGroup]="secondFormGroup" class="max-w-lg text-center">
+                    <h2 class="text-2xl font-bold mb-4">Solicita tu cupo</h2>
+                    <p class="mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                    </p>
+                    <mat-form-field class="w-full">
+                        <mat-label>Cupo</mat-label>
+                        <input  matInput [formControlName]="'cupo'"/>
+                    </mat-form-field>
+                    <button mat-raised-button [disabled]="secondFormGroup.invalid" class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100" (click)="onSave()">Finalizar</button>
+                </form>
+            </div>
+
+        </mat-step>
+    </mat-horizontal-stepper>
+
+</div>
+
+
+<!--<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
     <div class="">
-        <!-- Title -->
+        &lt;!&ndash; Title &ndash;&gt;
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
             {{_matData.edit ? 'Actualizar solicitud' : 'Crear solicitud'}}
         </div>
 
-        <!-- Sign Up form -->
+        &lt;!&ndash; Sign Up form &ndash;&gt;
         <form class="mt-8" [formGroup]="form">
-            <!-- Name field -->
+            &lt;!&ndash; Name field &ndash;&gt;
             <mat-form-field class="w-full">
                 <mat-label>Cupo $</mat-label>
                 <input  matInput [formControlName]="'cupo'"/>
@@ -47,6 +153,6 @@
         </form>
 
     </div>
-</div>
+</div>-->
 
 
