@@ -53,7 +53,8 @@ export class FormSolicitudesComponent implements OnInit{
         });
 
         this.secondFormGroup = this.fb.group({
-            cupo: ['', [Validators.required]]
+            cupo: ['', [Validators.required]],
+            observacion: ['', [Validators.required]],
         });
         this.createForm();
         const dialogData = this._matData;

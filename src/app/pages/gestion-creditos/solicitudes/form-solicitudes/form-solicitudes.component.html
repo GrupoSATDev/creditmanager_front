@@ -94,6 +94,10 @@
                         <mat-label>Cupo</mat-label>
                         <input  matInput [formControlName]="'cupo'"/>
                     </mat-form-field>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Observaciónes</mat-label>
+                        <textarea matInput placeholder="observacion" [formControlName]="'observacion'"></textarea>
+                    </mat-form-field>
                     <button mat-raised-button [disabled]="secondFormGroup.invalid" class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100" (click)="onSave()">Finalizar</button>
                 </form>
             </div>
