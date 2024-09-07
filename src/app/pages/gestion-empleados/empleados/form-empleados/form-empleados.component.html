@@ -161,12 +161,12 @@
             <div class="flex gap-2.5">
                 <mat-form-field  class="w-full">
                     <mat-label>Cargo</mat-label>
-                    <input  matInput [formControlName]="'idCargo'" />
+                    <input  matInput [formControlName]="'cargo'" />
                 </mat-form-field>
 
                 <mat-form-field  class="w-full">
                     <mat-label>Empresa</mat-label>
-                    <mat-select [formControlName]="'idMunicipio'">
+                    <mat-select [formControlName]="'idSubEmpresa'">
                         <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
                             <mat-option [value]="item.idEmpresa" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
                         </ng-container>

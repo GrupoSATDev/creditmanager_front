@@ -181,7 +181,7 @@ export class FormEmpleadosComponent implements OnInit{
             direccion: [''],
             idGenero: [''],
             correo: [''],
-            idCargo: [''],
+            cargo: [''],
             fechaNacimiento: [''],
             foto: [''],
             firma: [''],
