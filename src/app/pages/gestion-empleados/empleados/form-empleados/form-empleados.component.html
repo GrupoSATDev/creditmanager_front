@@ -23,21 +23,27 @@
                     <div class="mx-6 mt-2 text-center font-medium text-white">
                         Cambiar foto
                     </div>
+                    <input
+                        type="file"
+                        class="absolute inset-0 opacity-0 cursor-pointer"
+                        (change)="onFileSelected($event)"
+                    />
                 </div>
-                @if (profile.avatar) {
+                <!-- Mostrar la imagen o el texto inicial -->
+                <ng-container *ngIf="form.get('foto').value; else noAvatar">
                     <img
                         class="h-full w-full rounded-full object-cover"
-                        [src]="profile.avatar"
+                        [src]="image"
                         [alt]="'Profile avatar'"
                     />
-                }
-                @if (!profile.avatar) {
+                </ng-container>
+                <ng-template #noAvatar>
                     <div
                         class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-8xl font-semibold uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
                     >
-                        {{ profile.name.charAt(0) }}
+                        {{ form.get('primerNombre').value.charAt(0) ?? 'P' }}
                     </div>
-                }
+                </ng-template>
             </div>
 
             <div class="flex gap-2.5">
@@ -168,7 +174,7 @@
                     <mat-label>Empresa</mat-label>
                     <mat-select [formControlName]="'idSubEmpresa'">
                         <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
-                            <mat-option [value]="item.idEmpresa" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
+                            <mat-option [value]="item.id" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
                         </ng-container>
                     </mat-select>
                 </mat-form-field>

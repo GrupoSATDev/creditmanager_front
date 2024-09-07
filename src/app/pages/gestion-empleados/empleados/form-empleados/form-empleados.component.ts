@@ -73,7 +73,7 @@ export class FormEmpleadosComponent implements OnInit{
     public empresasClientes$ = this.empresaClienteService.getEmpresas();
     public cargos$ = this.cargosServices.getCargos();
     public _matData = inject(MAT_DIALOG_DATA);
-
+    public image: any;
 
     profile: any = {
         avatar: '',
@@ -90,6 +90,25 @@ export class FormEmpleadosComponent implements OnInit{
             const fecha = new Date(fechaNacimiento)
             this.form.patchValue({fechaNacimiento: fecha})
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+            this.image = `data:image/png;base64,  ${data.foto}`;
+        }
+    }
+
+    onFileSelected(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+
+            // Crear un reader para mostrar la imagen cargada
+            const reader = new FileReader();
+            reader.onload = () => {
+                // Settear la imagen cargada en el control de formulario 'foto'
+                const image = reader.result as string;
+                this.image = image;
+                const valueImage = image.split(',')[1]
+                this.form.get('foto').setValue(valueImage);
+            };
+            reader.readAsDataURL(file);
         }
     }
 
