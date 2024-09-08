@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { map, Subscription } from 'rxjs';
+import {  map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -31,15 +31,12 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Tipo de documento', 'Identificación','Primer nombre', 'Segundo nombre', 'Primer apellido', 'Segundo apellido', 'Dirección', 'Teléfono', 'Cargo',];
+    columns = ['Estado', 'Documento', 'Identificación','Nombre completo', 'Teléfono', 'Cargo',];
     columnPropertyMap = {
-        'Tipo de documento': 'idTipoDoc',
+        'Estado': 'estado',
+        'Documento': 'nombreTipoDocumento',
         'Identificación': 'numDoc',
-        'Primer nombre': 'primerNombre',
-        'Segundo nombre': 'segundoNombre',
-        'Primer apellido': 'primerApellido',
-        'Segundo apellido': 'segundoApellido',
-        'Dirección': 'direccion',
+        'Nombre completo': 'nombreCompleto',
         'Teléfono': 'telefono',
         'Cargo': 'cargo',
     };
@@ -100,6 +97,18 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 })
                 return response;
 
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items) {
+                        items.nombreCompleto = items.primerNombre.concat(' ',
+                            items.segundoNombre ? items.segundoNombre + ' ' : '',
+                            items.primerApellido,
+                            ' ',
+                            items.segundoApellido);
+                    }
+                })
+                return response;
             })
         ).subscribe((response) => {
             this.data = response.data;
