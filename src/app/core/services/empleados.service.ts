@@ -17,6 +17,10 @@ export class EmpleadosService {
         return this._http.get(this.appSettings.empleados.url.base)
     }
 
+    getEmpleado(id): Observable<any> {
+      return this._http.get(`${this.appSettings.empleados.url.base}/${id}`)
+    }
+
     postEmpleados(data): Observable<any> {
         delete data.id;
         return this._http.post(this.appSettings.empleados.url.base, data)

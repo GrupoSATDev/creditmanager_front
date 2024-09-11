@@ -12,6 +12,7 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 
 import { FormSolicitudesComponent } from '../form-solicitudes/form-solicitudes.component';
 import { Estados } from '../../../../core/enums/estados';
+import { FormApproveComponent } from '../form-approve/form-approve.component';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -49,6 +50,23 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
                 this.onEdit();
             }
         },
+        {
+            label: 'Approve',
+            icon: 'check',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
+                this.onApprove();
+            }
+        },
+        {
+            label: 'Decline',
+            icon: 'disabled_by_default',
+            action: (element) => {
+                console.log('Decline', element);
+                this.selectedData = element;
+            }
+        },
     ];
 
     constructor(
@@ -65,6 +83,18 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
                 edit: false,
             },
             maxHeight: '90vh',
+            maxWidth: '100%',
+        })
+    }
+
+    onApprove() {
+        this._matDialog.open(FormApproveComponent, {
+            autoFocus: false,
+            data: {
+                data: this.selectedData
+            },
+            maxHeight: '90vh',
+            width: '50%',
             maxWidth: '100%',
         })
     }

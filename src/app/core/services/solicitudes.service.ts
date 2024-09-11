@@ -27,4 +27,8 @@ export class SolicitudesService {
       delete data.id;
       return this._http.put(`${this.appSettings.solicitudesCreditos.url.base}/${id}`, data);
   }
+
+  patchSolicitud(id): Observable<any> {
+      return this._http.patch(`${this.appSettings.solicitudesCreditos.url.base}/${id}`, {})
+  }
 }
