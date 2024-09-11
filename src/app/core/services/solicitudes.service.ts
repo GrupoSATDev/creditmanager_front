@@ -28,7 +28,10 @@ export class SolicitudesService {
       return this._http.put(`${this.appSettings.solicitudesCreditos.url.base}/${id}`, data);
   }
 
-  patchSolicitud(id): Observable<any> {
-      return this._http.patch(`${this.appSettings.solicitudesCreditos.url.base}/${id}`, {})
+  patchSolicitud(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      const {idEstado} = data;
+      return this._http.patch(`${this.appSettings.solicitudesCreditos.url.base}/${id}?idEstado=${idEstado}`,{} )
   }
 }

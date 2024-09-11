@@ -45,8 +45,11 @@ export class FormApproveComponent implements OnInit, OnDestroy, AfterViewInit{
     }
 
     onSave() {
-        const idSolicitud = this.detalleEmpleado.idEstadoSolicitud;
-        this.subcription$ = this.solicitudService.patchSolicitud(idSolicitud).subscribe((response) => {
+        const data  = {
+            idEstado: this.detalleEmpleado.idEstadoSolicitud,
+            id: this.detalleEmpleado.id
+        }
+        this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
             if (response) {
                 this.estadosDatosService.stateGrid.next(true);
                 this.toasService.toasAlertWarn({
