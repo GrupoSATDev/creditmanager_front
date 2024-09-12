@@ -15,6 +15,10 @@ export default [
             {
                 path: 'tipos-pagos',
                 loadChildren: () => import('./tipos-pagos/tipos-pagos.routes')
+            },
+            {
+                path: 'creditos',
+                loadChildren: () => import('./creditos/creditos.routes')
             }
         ]
     }
