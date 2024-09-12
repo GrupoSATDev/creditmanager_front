@@ -16,6 +16,7 @@ import { FormApproveComponent } from '../form-approve/form-approve.component';
 import { DatePipe, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -42,6 +43,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
     private datePipe = inject(DatePipe);
+    private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.APROBADA;
 
     data = [];
@@ -62,7 +64,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             action: (element) => {
                 console.log('Approve', element);
                 this.selectedData = element;
-                this.onApprove();
+                this.router.navigate(['pages/gestion-creditos/solicitudes/estados', this.selectedData.id])
+
             }
         },
     ];

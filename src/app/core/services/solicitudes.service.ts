@@ -17,6 +17,10 @@ export class SolicitudesService {
       return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/${param}`);
   }
 
+  getSolicitud(id): Observable<any> {
+      return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/${id}`);
+  }
+
   postSolicitudes(data): Observable<any> {
       delete data.id;
       return this._http.post(this.appSettings.solicitudesCreditos.url.base, data);

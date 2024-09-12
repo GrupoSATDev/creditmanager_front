@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
-import { CurrencyPipe, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgForOf, NgIf } from '@angular/common';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-approve',
@@ -15,33 +17,34 @@ import { CurrencyPipe, NgIf } from '@angular/common';
         MatButton,
         CurrencyPipe,
         NgIf,
+        CdkScrollable,
+        AsyncPipe,
+        NgForOf,
     ],
   templateUrl: './form-approve.component.html',
   styleUrl: './form-approve.component.scss'
 })
-export class FormApproveComponent implements OnInit, OnDestroy, AfterViewInit{
+export class FormApproveComponent implements OnInit, OnDestroy{
     private empleadosServices = inject(EmpleadosService);
-    public dialogRef = inject(MatDialogRef<FormApproveComponent>);
     private solicitudService: SolicitudesService = inject(SolicitudesService);
     public toasService = inject(ToastAlertsService);
     public estadosDatosService = inject(EstadosDatosService);
-    public _matData = inject(MAT_DIALOG_DATA);
+    private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
     public subcription$: Subscription;
-    public empleadoData: any;
+    public items: any;
     public detalleEmpleado: any;
 
     ngOnInit(): void {
-        const dialogData = this._matData;
-        const {idTrabajador} = dialogData.data;
-        this.detalleEmpleado = dialogData.data;
-        this.getEmpleado(idTrabajador)
+        const id = this.activatedRoute.snapshot.paramMap.get('id');
+        this.getSolicitud(id);
+
     }
 
-    getEmpleado(id) {
-        this.subcription$ = this.empleadosServices.getEmpleado(id).subscribe((response) => {
-            this.empleadoData = response.data;
+    getSolicitud(id) {
+        this.subcription$ = this.solicitudService.getSolicitud(id).subscribe((response) => {
+            this.items = response.data;
         })
-
     }
 
     onSave() {
@@ -57,7 +60,6 @@ export class FormApproveComponent implements OnInit, OnDestroy, AfterViewInit{
                     actionMessage: 'Cerrar',
                     duration: 3000
                 })
-                this.closeDialog();
             }
         }, error => {
             this.toasService.toasAlertWarn({
@@ -74,12 +76,6 @@ export class FormApproveComponent implements OnInit, OnDestroy, AfterViewInit{
         this.subcription$.unsubscribe();
     }
 
-    closeDialog() {
-        this.dialogRef.close();
-    }
-
-    ngAfterViewInit(): void {
-    }
 
 
 
