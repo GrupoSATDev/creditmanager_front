@@ -13,8 +13,8 @@ export class SolicitudesService {
       private appSettings: AppSettingsService
   ) { }
 
-  getSolicitudes(): Observable<any> {
-      return this._http.get(this.appSettings.solicitudesCreditos.url.base);
+  getSolicitudes(param): Observable<any> {
+      return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/${param}`);
   }
 
   postSolicitudes(data): Observable<any> {
