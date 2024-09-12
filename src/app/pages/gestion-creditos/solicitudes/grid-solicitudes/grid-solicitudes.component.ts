@@ -34,25 +34,16 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Empleado','Cupo', 'Empresa', 'Observación', 'Estado'];
+    columns = ['Empleado','Cupo solicitado', 'Empresa', 'Observación', 'Estado'];
     columnPropertyMap = {
         'Empleado': 'nombreTrabajador',
-        'Cupo': 'cupo',
+        'Cupo solicitado': 'cupo',
         'Empresa': 'nombreSubEmpresa',
         'Observación': 'observacion',
         'Estado': 'nombreEstadoSolicitud',
     };
 
     buttons: IButton[] = [
-        {
-            label: 'Edit',
-            icon: 'edit',
-            action: (element) => {
-                console.log('Editing', element);
-                this.selectedData = element;
-                this.onEdit();
-            }
-        },
         {
             label: 'Approve',
             icon: 'check',
