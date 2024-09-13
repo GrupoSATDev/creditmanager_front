@@ -1,11 +1,11 @@
 <div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
     <mat-horizontal-stepper [linear]="true" #stepper>
         <!-- Primer paso: Información inicial -->
-        <mat-step [stepControl]="initialInfoForm" label="Solicitud de Crédito">
+        <mat-step [stepControl]="initialInfoForm" label="Terminos y condiciones">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
                     <!-- Contenido de la información inicial -->
-                    <h2 class="text-2xl font-bold mb-4">Solicitud de Crédito</h2>
+                    <h2 class="text-2xl font-bold mb-4">Terminos y condiciones</h2>
                     <p class="mb-6">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
                     </p>
@@ -25,7 +25,7 @@
         </mat-step>
 
         <!-- Segundo paso: Formulario de captura -->
-        <mat-step [stepControl]="firstFormGroup" label="Valida tu información">
+        <mat-step [stepControl]="firstFormGroup" label="Verifica tu información">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="firstFormGroup">
                     <mat-form-field class="w-full">
@@ -59,11 +59,11 @@
         </mat-step>
 
         <!-- Tercer paso: Otra información a leer -->
-        <mat-step label="Tasas de Interes">
+        <mat-step label="Pasos a seguir">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
                     <!-- Contenido de la información inicial -->
-                    <h2 class="text-2xl font-bold mb-4">Tasas de Interes Para Ti</h2>
+                    <h2 class="text-2xl font-bold mb-4">Pasos a seguir</h2>
                     <p class="mb-6">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
                     </p>
