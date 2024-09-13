@@ -94,5 +94,11 @@ export class AppSettingsService {
         }
     }
 
+    public creditos = {
+        url: {
+            base: EndPoints.uriBase('Creditos')
+        }
+    }
+
 
 }
