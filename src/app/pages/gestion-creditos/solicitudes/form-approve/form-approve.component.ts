@@ -2,13 +2,16 @@ import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/co
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { Observable, Subscription } from 'rxjs';
-import { MatButton } from '@angular/material/button';
+import { MatAnchor, MatButton } from '@angular/material/button';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
-import { AsyncPipe, CurrencyPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { guardar } from '../../../../core/constant/dialogs';
 
 @Component({
   selector: 'app-form-approve',
@@ -20,6 +23,10 @@ import { ActivatedRoute, Router } from '@angular/router';
         CdkScrollable,
         AsyncPipe,
         NgForOf,
+        DatePipe,
+        MatAnchor,
+        MatIcon,
+        RouterLink,
     ],
   templateUrl: './form-approve.component.html',
   styleUrl: './form-approve.component.scss'
@@ -28,6 +35,7 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     private empleadosServices = inject(EmpleadosService);
     private solicitudService: SolicitudesService = inject(SolicitudesService);
     public toasService = inject(ToastAlertsService);
+    public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
@@ -44,6 +52,7 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     getSolicitud(id) {
         this.subcription$ = this.solicitudService.getSolicitud(id).subscribe((response) => {
             this.items = response.data;
+            this.detalleEmpleado = response.data;
         })
     }
 
@@ -52,21 +61,30 @@ export class FormApproveComponent implements OnInit, OnDestroy{
             idEstado: this.detalleEmpleado.idEstadoSolicitud,
             id: this.detalleEmpleado.id
         }
-        this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
-            if (response) {
-                this.estadosDatosService.stateGrid.next(true);
-                this.toasService.toasAlertWarn({
-                    message: 'Registro creado con exito!',
-                    actionMessage: 'Cerrar',
-                    duration: 3000
+        const dialog = this.fuseService.open({
+            ...guardar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
+                    if (response) {
+                        this.estadosDatosService.stateGrid.next(true);
+                        this.toasService.toasAlertWarn({
+                            message: 'Registro creado con exito!',
+                            actionMessage: 'Cerrar',
+                            duration: 3000
+                        })
+                        this.router.navigate(['/pages/gestion-creditos/solicitudes']);
+                    }
+                }, error => {
+                    this.toasService.toasAlertWarn({
+                        message: 'Ha ocurrido un error!!!!',
+                        actionMessage: 'Cerrar',
+                        duration: 3000
+                    })
                 })
             }
-        }, error => {
-            this.toasService.toasAlertWarn({
-                message: 'Ha ocurrido un error!!!!',
-                actionMessage: 'Cerrar',
-                duration: 3000
-            })
         })
 
     }
