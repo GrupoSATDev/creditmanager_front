@@ -33,6 +33,7 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
 
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
 
     constructor(
         private _matDialog: MatDialog,
@@ -115,6 +116,11 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
             }
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {

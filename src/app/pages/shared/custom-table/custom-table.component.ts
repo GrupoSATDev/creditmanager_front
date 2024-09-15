@@ -30,6 +30,8 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
     @Input() data: T[] = [];
     @Input() buttons: IButton[] = [];
     @Input() columnPropertyMap: { [key: string]: string } = {};
+    @Input() searchTerm: string = '';
+    filteredData: T[] = [];
 
 
     dataSource = new MatTableDataSource<T>([]);
@@ -52,6 +54,19 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
             console.log('Columns:', this.columns);
             console.log('Displayed Columns:', this.displayedColumns);
         }
+
+        if (changes['data'] || changes['searchTerm']) {
+            this.filterData();
+        }
+
+    }
+
+    filterData() {
+        const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+        this.dataSource.data  = this.data.filter((item: any) => {
+                return item.razonSocial.toLowerCase().includes(lowerCaseSearchTerm)
+            }
+        );
     }
 
     ngAfterViewInit() {
