@@ -11,7 +11,8 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
-import { guardar } from '../../../../core/constant/dialogs';
+import { cancelar, guardar } from '../../../../core/constant/dialogs';
+import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 
 @Component({
   selector: 'app-form-approve',
@@ -58,11 +59,44 @@ export class FormApproveComponent implements OnInit, OnDestroy{
 
     onSave() {
         const data  = {
-            idEstado: this.detalleEmpleado.idEstadoSolicitud,
+            idEstado: CodigosEstadosSolicitudes.APROBADA,
             id: this.detalleEmpleado.id
         }
         const dialog = this.fuseService.open({
             ...guardar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
+                    if (response) {
+                        this.estadosDatosService.stateGrid.next(true);
+                        this.toasService.toasAlertWarn({
+                            message: 'Registro creado con exito!',
+                            actionMessage: 'Cerrar',
+                            duration: 3000
+                        })
+                        this.router.navigate(['/pages/gestion-creditos/solicitudes']);
+                    }
+                }, error => {
+                    this.toasService.toasAlertWarn({
+                        message: 'Ha ocurrido un error!!!!',
+                        actionMessage: 'Cerrar',
+                        duration: 3000
+                    })
+                })
+            }
+        })
+
+    }
+
+    onReject() {
+        const data  = {
+            idEstado: CodigosEstadosSolicitudes.RECHAZADA,
+            id: this.detalleEmpleado.id
+        }
+        const dialog = this.fuseService.open({
+            ...cancelar
         });
 
         dialog.afterClosed().subscribe((response) => {
@@ -95,6 +129,5 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     }
 
 
-
-
+    protected readonly CodigosEstadosSolicitudes = CodigosEstadosSolicitudes;
 }

@@ -20,3 +20,24 @@ export const guardar: FuseConfirmationConfig = {
         }
     }
 }
+
+export const cancelar: FuseConfirmationConfig = {
+    title: 'Guardar',
+    message: '¿Está seguro de rechazar el registro?',
+    icon: {
+        show: true,
+        name: 'heroicons_solid:question-mark-circle',
+        color: 'info',
+    },
+    actions: {
+        confirm: {
+            show: true,
+            label: 'Guardar',
+            color: 'primary'
+        },
+        cancel: {
+            show: true,
+            label: 'Cancelar',
+        }
+    }
+}
