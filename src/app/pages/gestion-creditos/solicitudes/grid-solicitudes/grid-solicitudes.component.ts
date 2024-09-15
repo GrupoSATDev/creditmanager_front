@@ -13,7 +13,7 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 import { FormSolicitudesComponent } from '../form-solicitudes/form-solicitudes.component';
 import { Estados } from '../../../../core/enums/estados';
 import { FormApproveComponent } from '../form-approve/form-approve.component';
-import { DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { Router } from '@angular/router';
@@ -33,7 +33,8 @@ import { Router } from '@angular/router';
         NgIf,
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        CurrencyPipe
     ],
   templateUrl: './grid-solicitudes.component.html',
   styleUrl: './grid-solicitudes.component.scss'
@@ -43,6 +44,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
     private datePipe = inject(DatePipe);
+    private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.APROBADA;
 
@@ -117,6 +119,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             map((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
