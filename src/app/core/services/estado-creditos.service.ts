@@ -6,18 +6,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CreditosService {
+export class EstadoCreditosService {
 
   constructor(
       private _http: HttpClient,
       private appSettings: AppSettingsService
   ) { }
 
-    getCreditos(param): Observable<any> {
-        return this._http.get(`${this.appSettings.creditos.url.base}/${param}`)
+    getEstadoCreditos(): Observable<any> {
+        return this._http.get(this.appSettings.estadoCreditos.url.base)
     }
 
-    getCredito(id): Observable<any> {
-        return this._http.get(`${this.appSettings.creditos.url.base}/${id}`)
-    }
 }

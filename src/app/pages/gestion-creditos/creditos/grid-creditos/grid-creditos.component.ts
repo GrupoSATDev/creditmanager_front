@@ -72,7 +72,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             action: (element) => {
                 console.log('Approve', element);
                 this.selectedData = element;
-                //this.router.navigate(['pages/gestion-creditos/solicitudes/estados', this.selectedData.id])
+                this.router.navigate(['pages/gestion-creditos/creditos/detalle', this.selectedData.id])
             }
         },
     ];
