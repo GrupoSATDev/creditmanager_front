@@ -7,10 +7,13 @@ import { MatInput } from '@angular/material/input';
 import { map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { CreditosService } from '../../../../core/services/creditos.service';
 import { Estados } from '../../../../core/enums/estados';
+import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
+import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -21,6 +24,10 @@ import { Estados } from '../../../../core/enums/estados';
         MatFormField,
         MatIcon,
         MatInput,
+        MatTab,
+        MatTabContent,
+        MatTabGroup,
+        NgIf,
     ],
     providers: [
         DatePipe
@@ -35,16 +42,27 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private router = inject(Router);
     private estadoDatosService: EstadosDatosService = inject(EstadosDatosService);
     private creditoService: CreditosService = inject(CreditosService);
+    private selectedTab: any = EstadosCreditos.EN_REVISION;
 
     data = [];
 
-    columns = ['Empleado','Cupo solicitado', 'Empresa', 'Estado', 'Fecha de solicitud'];
+    columns = ['Fecha de solicitud', 'Solicitante','Cupo solicitado', 'Empresa', 'Estado',];
+    columnsAprobadas = ['Fecha de aprobación', 'Solicitante','Cupo aprobado', 'Empresa', 'Estado',];
+
     columnPropertyMap = {
-        'Empleado': 'nombreTrabajador',
-        'Cupo solicitado': 'cupoConsumido',
+        'Fecha de solicitud': 'fechaCreacion',
+        'Solicitante': 'nombreTrabajador',
+        'Cupo solicitado': 'cupoSolicitado',
         'Empresa': 'nombreEmpresaMaestra',
         'Estado': 'nombreEstadoCredito',
-        'Fecha de solicitud': 'fechaCreacion',
+    };
+
+    columnPropertyAprobadas = {
+        'Fecha de aprobación': 'fechaCreacion',
+        'Solicitante': 'nombreTrabajador',
+        'Cupo aprobado': 'cupoAprobado',
+        'Empresa': 'nombreEmpresaMaestra',
+        'Estado': 'nombreEstadoCredito',
     };
 
     buttons: IButton[] = [
@@ -55,13 +73,24 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                 console.log('Approve', element);
                 this.selectedData = element;
                 //this.router.navigate(['pages/gestion-creditos/solicitudes/estados', this.selectedData.id])
-
             }
         },
     ];
 
-    getCreditos() {
-        this.subcription$ = this.creditoService.getCreditos().pipe(
+    tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+        console.log('tabChangeEvent => ', tabChangeEvent);
+        console.log('index => ', tabChangeEvent.index);
+        this.selectedTab =
+            tabChangeEvent.index == 0 ? EstadosCreditos.EN_REVISION :
+            tabChangeEvent.index == 1 ? EstadosCreditos.APROBADO :
+            tabChangeEvent.index == 2 ? EstadosCreditos.VENCIDO :
+            tabChangeEvent.index == 3 ? EstadosCreditos.BLOQUEADO : EstadosCreditos.EN_REVISION;
+            this.getCreditos(this.selectedTab);
+
+    }
+
+    getCreditos(params) {
+        this.subcription$ = this.creditoService.getCreditos(params).pipe(
             map((response) => {
                 response.data.forEach((items) => {
                     if (items.estado) {
@@ -80,8 +109,25 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                 return response;
             })
         ).subscribe((response) => {
-            this.data = response.data;
+            if (response) {
+                this.data = response.data;
+            }else {
+                this.data = [];
+            }
+        }, error => {
+            this.data = [];
         })
+    }
+
+    private listenGrid() {
+        const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
+
+        refreshData$.subscribe((state) => {
+            if (state) {
+                this.getCreditos(this.selectedTab);
+            }
+        })
+
     }
 
     ngOnDestroy(): void {
@@ -89,7 +135,8 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.getCreditos();
+        this.getCreditos(this.selectedTab);
+        this.listenGrid();
     }
 
 }

@@ -13,7 +13,7 @@ export class CreditosService {
       private appSettings: AppSettingsService
   ) { }
 
-    getCreditos(): Observable<any> {
-        return this._http.get(`${this.appSettings.creditos.url.base}/Abierto`)
+    getCreditos(param): Observable<any> {
+        return this._http.get(`${this.appSettings.creditos.url.base}/${param}`)
     }
 }

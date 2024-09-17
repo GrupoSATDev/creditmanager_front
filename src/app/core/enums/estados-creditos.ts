@@ -2,6 +2,7 @@ export enum EstadosCreditos {
     EN_PROCESO = 'EnProceso',
     BLOQUEADO = 'Bloqueado',
     VENCIDO = 'Vencido',
-    ABIERTO = 'Abierto',
+    EN_REVISION = 'EnRevision',
     CERRADO = 'Cerrado',
+    APROBADO = 'Aprobado',
 }
