@@ -20,4 +20,10 @@ export class CreditosService {
     getCredito(id): Observable<any> {
         return this._http.get(`${this.appSettings.creditos.url.base}/${id}`)
     }
+
+    putCredito(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.creditos.url.base}/${id}`, data)
+    }
 }

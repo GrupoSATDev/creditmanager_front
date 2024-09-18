@@ -6,3 +6,8 @@ export enum EstadosCreditos {
     CERRADO = 'Cerrado',
     APROBADO = 'Aprobado',
 }
+
+export enum CodigoEstadosCreditos {
+    APROBADO = 'e626ea69-e915-5462-be9a-905326714782',
+    RECHAZADA = ''
+}

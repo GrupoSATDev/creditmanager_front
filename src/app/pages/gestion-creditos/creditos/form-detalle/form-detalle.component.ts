@@ -8,19 +8,22 @@ import { CreditosService } from '../../../../core/services/creditos.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatAnchor, MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { TiposPagosService } from '../../../../core/services/tipos-pagos.service';
 import { Estados } from '../../../../core/enums/estados';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { MatOption } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
 import { TasasInteresService } from '../../../../core/services/tasas-interes.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { guardar } from '../../../../core/constant/dialogs';
+import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
 
 @Component({
   selector: 'app-form-detalle',
@@ -46,6 +49,13 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
         MatDatepickerInput,
         MatDatepickerToggle,
         MatSuffix,
+        ReactiveFormsModule,
+        JsonPipe,
+    ],
+    providers: [
+        { provide: DateAdapter, useClass: DateAdapterService },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        DatePipe
     ],
   templateUrl: './form-detalle.component.html',
   styleUrl: './form-detalle.component.scss'
@@ -64,19 +74,24 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     public subcription$: Subscription;
     public items: any;
     public detalleEmpleado: any;
+    private fb = inject(FormBuilder);
+    public form: FormGroup;
+    private datePipe = inject(DatePipe);
     data = [];
     capital = [];
     estadoCredito = [];
     tasas = [];
+    idCredito: string = '';
 
 
     ngOnInit(): void {
-        const id = this.activatedRoute.snapshot.paramMap.get('id');
-        this.getCredito(id);
+        this.idCredito = this.activatedRoute.snapshot.paramMap.get('id');
+        this.getCredito(this.idCredito);
         this.getTiposPagos();
         this.getCapital();
         this.getEstadoCredito();
         this.getTasas();
+        this.createForm();
     }
 
     getCredito(id) {
@@ -155,6 +170,54 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
             })
         ).subscribe((response) => {
             this.capital = response.data;
+        })
+    }
+
+    onSave() {
+        if (this.form.valid) {
+            const data = this.form.getRawValue();
+            const {fechaVencimiento, fechaCorte, cupoAprobado, ...form} = data;
+            let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, 'dd/MM/yyyy');
+            let fechaCorteTransform = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
+            const createData = {
+                fechaVencimiento: fechaVencimientoTransform,
+                fechaCorte: fechaCorteTransform,
+                idEstadoCredito: CodigoEstadosCreditos.APROBADO,
+                cupoAprobado: Number(cupoAprobado),
+                id: this.idCredito,
+                ...form
+            };
+            console.log(createData)
+
+            const dialog = this.fuseService.open({
+                ...guardar
+            });
+
+            dialog.afterClosed().subscribe((response) => {
+
+                if (response === 'confirmed') {
+                    this.creditoService.putCredito(createData).subscribe((res) => {
+                        this.estadosDatosService.stateGrid.next(true);
+                        this.toasService.toasAlertWarn({
+                            message: 'Registro creado con exito!',
+                            actionMessage: 'Cerrar',
+                            duration: 3000
+                        })
+                        this.router.navigate(['/pages/gestion-creditos/creditos']);
+                    })
+                }
+            })
+        }
+    }
+
+    createForm() {
+        this.form = this.fb.group({
+            cupoAprobado: [''],
+            idTipoPago: [''],
+            idCapitalInversion: [''],
+            idTasaInteres: [''],
+            fechaVencimiento: [''],
+            fechaCorte: [''],
         })
     }
 
