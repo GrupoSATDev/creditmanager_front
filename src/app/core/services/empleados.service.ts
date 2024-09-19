@@ -31,4 +31,9 @@ export class EmpleadosService {
         delete data.id;
         return this._http.put(`${this.appSettings.empleados.url.base}/${id}`, data)
     }
+
+    getEmpleadoParams(data): Observable<any> {
+        const {idTipoDoc, numDocumento} = data;
+      return this._http.get(`${this.appSettings.empleados.url.base}/Consultar?idTdocumento=${idTipoDoc}&numDocumento=${numDocumento}`)
+    }
 }
