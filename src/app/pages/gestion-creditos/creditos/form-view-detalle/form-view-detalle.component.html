@@ -14,7 +14,7 @@
                 <!-- Información del Cliente y Empresa -->
                 <div class="mb-4 flex justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-800">{{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}} {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}} </h3>
+                        <h3 class="text-xl font-semibold text-gray-800">{{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}} {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}} </h3>
                         <p class="text-gray-600 font-bold">Identificación:
                             <span class="text-gray-800 ">{{items.trabajador.numDoc}}</span>
                         </p>
@@ -39,17 +39,29 @@
                         <p class="text-gray-600 font-bold">Número de crédito:
                             <span class="text-gray-800 ">{{items.numCredito}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Monto aprobado:
-                            <span class="text-gray-800 ">{{items.cupoSolicitado | currency}}</span>
+                        <p class="text-gray-600 font-bold">Cupo aprobado:
+                            <span class="text-gray-800 ">{{items.cupoAprobado | currency}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Fecha de Solicitud:
-                            <span class="text-gray-800 ">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                        <p class="text-gray-600 font-bold">Tasa de interes:
+                            <span class="text-gray-800 ">{{items.porcTasaInteres }}%</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Fecha de aprobacion:
+                            <span class="text-gray-800 ">{{items.fechaAprobacion | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Fecha de vencimiento:
+                            <span class="text-gray-800 ">{{items.fechaVencimiento | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Cupo utilizado:
+                            <span class="text-gray-800 ">{{items.cupoDisponible | currency }}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Saldo Disponible:
+                            <span class="text-gray-800 ">{{items.cupoDisponible | currency }}</span>
                         </p>
                     </div>
                 </div>
                 <hr>
-                <p class="text-lg text-black font-bold mb-6">Movimiento</p>
-                <div class="mb-4">
+                <p class="text-lg text-black font-bold mb-6" *ngIf="data.length > 0">Movimientos</p>
+                <div class="mb-4" *ngIf="data.length > 0">
                     <app-custom-table
                         [columns]="columns"
                         [displayedColumns]="columns"
