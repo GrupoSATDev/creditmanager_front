@@ -21,6 +21,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/pages/gestion-creditos/creditos',
             },
             {
+                id: 'apps.gestion.detalle.consumo',
+                title: 'Consumo',
+                type: 'basic',
+                link: '/pages/gestion-creditos/detalle-consumo',
+            },
+            {
                 id: 'apps.gestion.tasas',
                 title: 'Tasas de interes',
                 type: 'basic',

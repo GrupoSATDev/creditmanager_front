@@ -1,0 +1,28 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+    <div
+        class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+    >
+        {{'Detalle consumo'}}
+    </div>
+
+    <mat-horizontal-stepper [linear]="true" #stepper>
+        <!-- Primer paso:  Consulta de empleado -->
+        <mat-step [stepControl]="" label="Consultar empleado">
+            <div class="flex flex-col items-center justify-center w-full h-full px-4">
+                <form action="">
+                    <mat-form-field class="w-full">
+                        <mat-label>Número de identificación</mat-label>
+                        <input  matInput placeholder="Ingrese identificación"/>
+                    </mat-form-field>
+                    <button mat-raised-button class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100">Consultar</button>
+                </form>
+
+            </div>
+        </mat-step>
+
+
+
+    </mat-horizontal-stepper>
+
+</div>
+
