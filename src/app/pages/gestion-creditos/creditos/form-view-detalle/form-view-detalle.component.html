@@ -1,6 +1,6 @@
 <div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
     <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
-        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl max-w-xl mx-auto overflow-hidden" >
+        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl mx-auto overflow-hidden" [style.width]="'90%'">
             <div class="bg-crediblue-50 px-6 py-4 flex items-center justify-between">
                 <div>
                     <a mat-button [routerLink]="['/pages/gestion-creditos/creditos']" class="flex items-center">
@@ -21,7 +21,7 @@
                         <p class="text-gray-600 font-bold">Empresa:
                             <span class="text-gray-800 ">{{items.nombreSubEmpresa}}</span>
                         </p>
-                        <p class="text-gray-600 font-semibold">Cargo:
+                        <p class="text-gray-600 font-bold">Cargo:
                             <span class="text-gray-800 ">{{items.trabajador.cargo}}</span>
                         </p>
                         <p class="text-gray-600 font-bold">Correo:
@@ -36,8 +36,10 @@
                     </div>
 
                     <div>
-                        <p class="text-gray-600 font-bold">Número de solicitud: #12345</p>
-                        <p class="text-gray-600 font-bold">Monto solicitado:
+                        <p class="text-gray-600 font-bold">Número de crédito:
+                            <span class="text-gray-800 ">{{items.numCredito}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Monto aprobado:
                             <span class="text-gray-800 ">{{items.cupoSolicitado | currency}}</span>
                         </p>
                         <p class="text-gray-600 font-bold">Fecha de Solicitud:
@@ -46,9 +48,14 @@
                     </div>
                 </div>
                 <hr>
-                <div>
-
-
+                <p class="text-lg text-black font-bold mb-6">Movimiento</p>
+                <div class="mb-4">
+                    <app-custom-table
+                        [columns]="columns"
+                        [displayedColumns]="columns"
+                        [columnPropertyMap]="columnPropertyMap"
+                        [data]="data"
+                    ></app-custom-table>
                 </div>
                 <!-- Acciónes -->
 

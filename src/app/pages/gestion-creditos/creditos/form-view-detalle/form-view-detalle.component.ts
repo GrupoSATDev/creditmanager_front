@@ -20,6 +20,7 @@ import { EstadoCreditosService } from '../../../../core/services/estado-creditos
 import { TasasInteresService } from '../../../../core/services/tasas-interes.service';
 import { Subscription } from 'rxjs';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -44,6 +45,7 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
         NgForOf,
         NgIf,
         RouterLink,
+        CustomTableComponent,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -69,6 +71,19 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     estadoCredito = [];
     tasas = [];
     idCredito: string = '';
+
+    columns = ['Fecha', 'Factura #','Detalle factura', 'Valor', 'Cantidad cuotas', 'Valor cuotas', 'Pago', 'Estado'];
+
+    columnPropertyMap = {
+        'Fecha': 'fechaCreacion',
+        'Factura #': 'numeroFactura ',
+        'Detalle factura': 'detalleCompra',
+        'Valor': 'montoConsumo',
+        'Cantidad cuotas': 'cantidadCuotas ',
+        'Valor cuotas': 'montoCuotas',
+        'Pago': 'montoCuotas',
+        'Estado': 'estadoDetalle',
+    };
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
