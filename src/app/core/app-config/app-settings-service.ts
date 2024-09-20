@@ -106,5 +106,11 @@ export class AppSettingsService {
         }
     }
 
+    public detalleConsumos = {
+        url: {
+            base: EndPoints.uriBase('DetalleConsumos')
+        }
+    }
+
 
 }

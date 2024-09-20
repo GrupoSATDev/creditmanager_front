@@ -1,7 +1,7 @@
 <div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
     <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
 
-        <div class="sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto overflow-hidden" [style.width]="'90%'" >
+        <div class="sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto overflow-hidden">
             <div
                 class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
             >
@@ -10,7 +10,7 @@
 
             <mat-horizontal-stepper [linear]="true" #stepper>
                 <!-- Primer paso:  Consulta de empleado -->
-                <mat-step [stepControl]="" label="Consultar empleado">
+                <mat-step [stepControl]="firstFormGroup" label="Consultar empleado">
                     <div class="flex flex-col items-center justify-center w-full h-full px-4">
                         <form [formGroup]="firstFormGroup">
                             <mat-form-field  class="w-full">
@@ -31,7 +31,7 @@
                                         [type]="alert.type" [@shake]="alert.type === 'error'">
                                 {{alert.message}}
                             </fuse-alert>
-                            <button (click)="onSearch()" mat-raised-button class="bg-crediblue-50 text-white px-6 py-2 rounded-md">Consultar</button>
+                            <button (click)="onSearch()" mat-raised-button class="bg-crediblue-50 text-white px-6 py-2 rounded-md w-full">Consultar</button>
                         </form>
 
                     </div>
@@ -39,14 +39,113 @@
 
                 <!-- Segundo Stepper: Información del Documento -->
                 <mat-step [stepControl]="secondFormGroup" label="Verifica información">
-
-                    <div class="flex justify-between">
-                        <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                        <button mat-button matStepperNext class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Siguiente</button>
+                    <div class="w-full h-full px-4">
+                        <form [formGroup]="secondFormGroup">
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Primer nombre</mat-label>
+                                    <input  matInput [formControlName]="'primerNombre'" [disabled]="true"/>
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Segundo nombre</mat-label>
+                                    <input  matInput [formControlName]="'segundoNombre'" [disabled]="true"/>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Primer apellido</mat-label>
+                                    <input  matInput [formControlName]="'primerApellido'" [disabled]="true"/>
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Segundo apellido</mat-label>
+                                    <input  matInput [formControlName]="'segundoApellido'" [disabled]="true"/>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Identificación</mat-label>
+                                    <input  matInput [formControlName]="'numDoc'" [disabled]="true" />
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Email</mat-label>
+                                    <input  matInput [formControlName]="'correo'" [disabled]="true" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row">
+                                <mat-form-field  class="w-full">
+                                    <mat-label>Créditos</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idCredito'"
+                                    >
+                                        <ng-container *ngFor="let item of creditos">
+                                            <mat-option [value]="item.id" >{{item.numCredito}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </form>
+                        <div class="flex justify-end gap-2.5">
+                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
+                            <button mat-button matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
+                        </div>
                     </div>
+
                 </mat-step>
 
+                <mat-step [stepControl]="thirdFormGroup" label="Finalizar">
+                    <div class="w-full h-full px-4">
+                        <form [formGroup]="thirdFormGroup">
+                            <div class="flex flex-row items-baseline gap-2.5">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Número de factura</mat-label>
+                                    <input  matInput [formControlName]="'numeroFactura'" />
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Observaciónes</mat-label>
+                                    <textarea matInput placeholder="Detalle" [formControlName]="'detalleCompra'"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field  class="w-full">
+                                    <mat-label>Departamento</mat-label>
+                                    <mat-select
+                                        #data
+                                        (selectionChange)="getMunicipios($event)"
+                                    >
+                                        <ng-container *ngIf="departamentos$ | async as departamentos">
+                                            <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field  class="w-full">
+                                    <mat-label>Ciudad</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idMunicipio'"
+                                    >
+                                        <ng-container *ngIf="municipios$ | async as municipios">
+                                            <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field class="w-full">
+                                    <mat-label>Valor cuotas</mat-label>
+                                    <input  matInput   [formControlName]="'montoConsumo'"  />
+                                </mat-form-field>
 
+                                <mat-form-field class="w-full">
+                                    <mat-label>Cantidad de cuotas</mat-label>
+                                    <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
+                                </mat-form-field>
+                            </div>
+                        </form>
+                        <div class="flex justify-end gap-2.5">
+                            <button (click)="onSave()" mat-button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Guardar</button>
+                        </div>
+                    </div>
+
+                </mat-step>
 
             </mat-horizontal-stepper>
 
