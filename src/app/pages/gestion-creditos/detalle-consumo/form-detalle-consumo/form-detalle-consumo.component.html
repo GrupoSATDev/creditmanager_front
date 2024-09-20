@@ -106,7 +106,7 @@
                                 <mat-form-field class="w-full">
                                     <mat-label>Valor $</mat-label>
                                     <input  matInput   [formControlName]="'montoConsumo'"  />
-                                        <mat-error *ngIf="(montoConsumo.touched && montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
+                                        <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
                                         <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
 
                                 </mat-form-field>

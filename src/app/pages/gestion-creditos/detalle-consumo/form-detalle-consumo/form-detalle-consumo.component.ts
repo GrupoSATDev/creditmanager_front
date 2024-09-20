@@ -111,7 +111,6 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         this.compareValor = creditos.cupoDisponible;
         this.thirdFormGroup.get('montoConsumo').setValidators(validateNumbers(this.compareValor))
         this.thirdFormGroup.get('montoConsumo').updateValueAndValidity()
-
     }
 
     compareWithConstants(control: AbstractControl): Observable<ValidationErrors | null> {
