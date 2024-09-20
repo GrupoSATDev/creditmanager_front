@@ -76,9 +76,10 @@
                                     <mat-label>Créditos</mat-label>
                                     <mat-select
                                         [formControlName]="'idCredito'"
+                                        (selectionChange)="selected($event)"
                                     >
                                         <ng-container *ngFor="let item of creditos">
-                                            <mat-option [value]="item.id" >{{item.numCredito}}</mat-option>
+                                            <mat-option [value]="item" >{{item.numCredito}}</mat-option>
                                         </ng-container>
                                     </mat-select>
                                 </mat-form-field>
@@ -86,13 +87,13 @@
                         </form>
                         <div class="flex justify-end gap-2.5">
                             <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button mat-button matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
+                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
                         </div>
                     </div>
 
                 </mat-step>
 
-                <mat-step [stepControl]="thirdFormGroup" label="Finalizar">
+                <mat-step [stepControl]="thirdFormGroup" label="Completar compra">
                     <div class="w-full h-full px-4">
                         <form [formGroup]="thirdFormGroup">
                             <div class="flex flex-row items-baseline gap-2.5">
@@ -100,9 +101,18 @@
                                     <mat-label>Número de factura</mat-label>
                                     <input  matInput [formControlName]="'numeroFactura'" />
                                 </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
-                                    <mat-label>Observaciónes</mat-label>
-                                    <textarea matInput placeholder="Detalle" [formControlName]="'detalleCompra'"></textarea>
+                                    <mat-label>Valor $</mat-label>
+                                    <input  matInput   [formControlName]="'montoConsumo'"  />
+                                        <mat-error *ngIf="(montoConsumo.touched && montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
+                                        <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
+
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Cantidad de cuotas</mat-label>
+                                    <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-row gap-2.5">
@@ -130,18 +140,13 @@
                             </div>
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
-                                    <mat-label>Valor cuotas</mat-label>
-                                    <input  matInput   [formControlName]="'montoConsumo'"  />
-                                </mat-form-field>
-
-                                <mat-form-field class="w-full">
-                                    <mat-label>Cantidad de cuotas</mat-label>
-                                    <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
+                                    <mat-label>Observaciónes</mat-label>
+                                    <textarea matInput placeholder="Detalle" [formControlName]="'detalleCompra'"></textarea>
                                 </mat-form-field>
                             </div>
                         </form>
                         <div class="flex justify-end gap-2.5">
-                            <button (click)="onSave()" mat-button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Guardar</button>
+                            <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="bg-crediblue-50 text-white py-2 px-4 rounded ">Guardar</button>
                         </div>
                     </div>
 

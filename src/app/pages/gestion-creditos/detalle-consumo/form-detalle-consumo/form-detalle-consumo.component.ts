@@ -1,7 +1,15 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule, ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
@@ -17,7 +25,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { FuseAlertComponent, FuseAlertType } from '../../../../../@fuse/components/alert';
 import { fuseAnimations } from '../../../../../@fuse/animations';
 import { LocacionService } from '../../../../core/services/locacion.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { Router } from '@angular/router';
@@ -46,6 +54,7 @@ import { Router } from '@angular/router';
         MatStepperPrevious,
         FuseAlertComponent,
         JsonPipe,
+        MatError,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -80,6 +89,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         message: ''
     };
 
+    compareValor: any;
+
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos();
     public creditos = [];
 
@@ -93,6 +104,35 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     getMunicipios(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
         this.municipios$ = this._locacionService.getMunicipio(id);
+    }
+
+    selected(matSelectChange: MatSelectChange) {
+        const creditos = matSelectChange.value;
+        this.compareValor = creditos.cupoDisponible;
+        this.thirdFormGroup.get('montoConsumo').setValidators(validateNumbers(this.compareValor))
+        this.thirdFormGroup.get('montoConsumo').updateValueAndValidity()
+
+    }
+
+    compareWithConstants(control: AbstractControl): Observable<ValidationErrors | null> {
+        const inputValue = control.value;
+        const idCredito = this.secondFormGroup.get('idCredito')?.value;
+
+        if (!idCredito || !idCredito.montoConsumo) {
+            console.error('No se encontró el objeto idCredito o montoConsumo');
+            return of(null);  // Retorna sin error si no encuentra el valor
+        }
+
+        console.log(inputValue);
+        console.log(idCredito.montoConsumo);
+        if (inputValue > idCredito.montoConsumo) {
+            return of({ notEqual: true });  // Error si el valor no es igual
+        }
+        return of(null);  // Sin errores si es igual
+    }
+
+    get montoConsumo() {
+        return this.thirdFormGroup.get('montoConsumo');
     }
 
     public onSearch() {
@@ -132,8 +172,10 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             const {montoConsumo, ...form} = this.thirdFormGroup.getRawValue();
             const { idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
+            console.log(idCredito)
+
             const createData = {
-                idCredito,
+                idCredito: idCredito.id,
                 idTrabajador,
                 montoConsumo: Number(montoConsumo),
                 ...form
@@ -175,17 +217,46 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             segundoApellido:  [{value: '', disabled: true}],
             idTrabajador: [''],
             correo: [{value: '', disabled: true}],
-            idCredito: ['']
+            idCredito: ['', Validators.required],
         });
 
         this.thirdFormGroup = this.fb.group({
-            cantidadCuotas: [''],
-            montoConsumo: [''],
-            numeroFactura: [''],
-            detalleCompra: [''],
-            idMunicipio: [''],
+            cantidadCuotas: ['', [Validators.required]],
+            montoConsumo: ['', [Validators.required] ],
+            numeroFactura: ['', Validators.required],
+            detalleCompra: ['', Validators.required],
+            idMunicipio: ['', Validators.required],
         })
+
+        /*this.thirdFormGroup.get('montoConsumo').valueChanges.subscribe((response) => {
+            this.thirdFormGroup.get('montoConsumo').updateValueAndValidity();
+        })*/
     }
 
     protected readonly focus = focus;
+}
+
+export function isTenAsync(control: AbstractControl):
+    Observable<ValidationErrors | null> {
+    const v: number = control.value;
+    if (v !== 10) {
+        // Emit an object with a validation error.
+        return of({ 'notTen': true, 'requiredValue': 10 });
+    }
+    // Emit null, to indicate no error occurred.
+    return of(null);
+}
+
+export function validateNumbers(valoraComparar: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+
+        const value = control.value;
+        console.log(valoraComparar)
+
+        if (value > valoraComparar) {
+            return {notEqual: true}
+        }
+        return null;
+
+    };
 }
