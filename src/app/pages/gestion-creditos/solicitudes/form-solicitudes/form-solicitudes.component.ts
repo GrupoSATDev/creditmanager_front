@@ -10,6 +10,8 @@ import { ToastAlertsService } from '../../../../core/services/toast-alerts.servi
 import { guardar } from '../../../../core/constant/dialogs';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { EmpleadosService } from '../../../../core/services/empleados.service';
+import { map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-solicitudes',
@@ -35,7 +37,9 @@ export class FormSolicitudesComponent implements OnInit{
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
     public toasService = inject(ToastAlertsService);
+    private empleadoService = inject(EmpleadosService);
     public _matData = inject(MAT_DIALOG_DATA);
+    public subcripstion$: Subscription;
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -49,7 +53,11 @@ export class FormSolicitudesComponent implements OnInit{
         });
 
         this.firstFormGroup = this.fb.group({
-            nombre: ['', Validators.required]
+            nombreCompleto: [{value: '', disabled: true}, Validators.required],
+            numDoc: [{value: '', disabled: true}, Validators.required],
+            direccion: [{value: '', disabled: true}, Validators.required],
+            idMunicipio: [{value: '', disabled: true}, Validators.required],
+            correo: [{value: '', disabled: true}, Validators.required],
         });
 
         this.secondFormGroup = this.fb.group({
@@ -62,6 +70,23 @@ export class FormSolicitudesComponent implements OnInit{
             const data = dialogData.data;
             this.form.patchValue(data);
         }
+        const id = 'c6d6b3a7-799f-42eb-8868-e069df989b11'
+        this.subcripstion$ = this.empleadoService.getEmpleado(id).pipe(
+            map((response) => {
+                response.data.nombreCompleto = response.data.primerNombre + " " + response.data.segundoNombre + " " + response.data.primerApellido + " " + response.data.segundoApellido
+                return response
+            })
+        ).subscribe((response) => {
+            const data = response.data;
+            const campos = {
+                nombreCompleto: response.data.nombreCompleto,
+                numDoc: response.data.numDoc,
+                direccion: response.data.direccion,
+                idMunicipio: response.data.nombreMunicipio,
+                correo: response.data.correo
+            }
+            this.firstFormGroup.patchValue(campos);
+        })
 
     }
 
