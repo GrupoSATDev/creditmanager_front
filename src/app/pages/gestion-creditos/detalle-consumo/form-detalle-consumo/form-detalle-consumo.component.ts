@@ -12,7 +12,7 @@ import {
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
@@ -25,7 +25,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { FuseAlertComponent, FuseAlertType } from '../../../../../@fuse/components/alert';
 import { fuseAnimations } from '../../../../../@fuse/animations';
 import { LocacionService } from '../../../../core/services/locacion.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { Router } from '@angular/router';
@@ -55,6 +55,8 @@ import { Router } from '@angular/router';
         FuseAlertComponent,
         JsonPipe,
         MatError,
+        CurrencyPipe,
+        DatePipe,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -83,6 +85,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public firstFormGroup: FormGroup;
     public secondFormGroup: FormGroup;
     public thirdFormGroup: FormGroup;
+    private subscription$: Subscription;
     showAlert: boolean = false;
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
@@ -93,6 +96,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos();
     public creditos = [];
+    public detaleConsumo: any;
 
     ngOnDestroy(): void {
     }
@@ -166,6 +170,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         })
     }
 
+
+
     onSave() {
         if (this.thirdFormGroup.valid) {
             const {montoConsumo, ...form} = this.thirdFormGroup.getRawValue();
@@ -189,17 +195,28 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                 if (response === 'confirmed') {
                     this.detalleConsumo.postDetalle(createData).subscribe((res) => {
                         console.log(res)
-                        this.estadosDatosService.stateGrid.next(true);
+                        // this.estadosDatosService.stateGrid.next(true);
                         this.toasService.toasAlertWarn({
                             message: 'Registro creado con exito!',
                             actionMessage: 'Cerrar',
                             duration: 3000
                         })
-                        this.router.navigate(['/pages/gestion-creditos/creditos/'])
+                        this.getResumenCompra(idTrabajador)
+                        //this.router.navigate(['/pages/gestion-creditos/creditos/'])
                     })
                 }
             })
         }
+    }
+
+    getResumenCompra(id) {
+        this.subscription$ = this.detalleConsumo.getResumen(id).subscribe((response) => {
+            if (response) {
+                console.log(response)
+                this.detaleConsumo = response.data;
+                this.stepper.next();
+            }
+        })
     }
 
     private createForm() {
@@ -226,10 +243,6 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             detalleCompra: ['', Validators.required],
             idMunicipio: ['', Validators.required],
         })
-
-        /*this.thirdFormGroup.get('montoConsumo').valueChanges.subscribe((response) => {
-            this.thirdFormGroup.get('montoConsumo').updateValueAndValidity();
-        })*/
     }
 
     protected readonly focus = focus;
