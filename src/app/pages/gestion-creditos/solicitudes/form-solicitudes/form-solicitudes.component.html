@@ -6,7 +6,7 @@
                 <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
                     <!-- Contenido de la información inicial -->
                     <h2 class="text-2xl font-bold mb-4">Terminos y condiciones</h2>
-                    <p class="mb-6">
+                    <p class="mb-6 text-left">
                         Se presentarán los términos y condiciones para acceder al crédito en la plataforma. En espera de los textos, por ahora se mantiene el lorem ipsu.
                     </p>
                     <button
@@ -61,13 +61,13 @@
                 <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
                     <!-- Contenido de la información inicial -->
                     <h2 class="text-2xl font-bold mb-4">Pasos a seguir</h2>
-                    <p class="mb-6">
+                    <p class="mb-6 text-left">
                        1. Al completar estos pasos nuestro equipo validará la información y aprobará o rechazará la solicitud, puedes ver el estado en cualquier momento.
                     </p>
-                    <p class="mb-6">
+                    <p class="mb-6 text-left">
                         2.	Si tu solicitud fue aprobada nuestro equipo se comunicará contigo para socializarte el cupo aprobado y los detalles de tu crédito.
                     </p>
-                    <p class="mb-6">
+                    <p class="mb-6 text-left">
                         3.	Si tu solicitud fue rechazada puedes comunicarte con nuestro equipo para obtener más información, podrás realizar una nueva solicitud dentro de XXX días.
                     </p>
                     <button
@@ -87,11 +87,11 @@
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="secondFormGroup" class="max-w-lg text-center">
                     <h2 class="text-2xl font-bold mb-4">Solicita tu cupo</h2>
-                    <p class="mb-6">
+                    <p class="mb-6 text-left">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
                     </p>
                     <mat-form-field class="w-full">
-                        <mat-label>Cupo</mat-label>
+                        <mat-label>Valor solicitado $</mat-label>
                         <input  matInput [formControlName]="'cupo'"/>
                     </mat-form-field>
                     <mat-form-field  class="w-full">
