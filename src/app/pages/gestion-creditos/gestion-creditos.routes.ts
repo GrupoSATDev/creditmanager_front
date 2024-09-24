@@ -23,6 +23,10 @@ export default [
             {
                 path: 'detalle-consumo',
                 loadChildren: () => import('./detalle-consumo/detalle-consumo.routes')
+            },
+            {
+                path: 'consumos',
+                loadChildren: () => import('./consumos/consumos.routes')
             }
         ]
     }
