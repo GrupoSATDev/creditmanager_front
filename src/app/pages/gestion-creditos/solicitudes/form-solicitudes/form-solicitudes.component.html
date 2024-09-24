@@ -48,7 +48,7 @@
 
                     <div class="flex flex-wrap justify-center gap-2.5">
                         <button mat-raised-button matStepperPrevious class="px-6 py-2 rounded-md">Anterior</button>
-                        <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100">Siguiente</button>
+                        <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-crediblue-50 text-white px-6 py-2 rounded-md">Siguiente</button>
                     </div>
 
                 </form>
@@ -74,7 +74,7 @@
                         mat-raised-button
                         matStepperNext
                         [disabled]="initialInfoForm.invalid"
-                        class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100"
+                        class="bg-crediblue-50 text-white px-6 py-2 rounded-md"
                     >
                         Siguiente
                     </button>
@@ -98,7 +98,9 @@
                         <mat-label>Observaciónes</mat-label>
                         <textarea matInput placeholder="observacion" [formControlName]="'observacion'"></textarea>
                     </mat-form-field>
-                    <button mat-raised-button [disabled]="secondFormGroup.invalid" class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100" (click)="onSave()">Finalizar</button>
+                    <button mat-raised-button [disabled]="secondFormGroup.invalid"
+                            [ngClass]="{'bg-crediblue-50' : secondFormGroup.valid,  'bg-credigray-100' : secondFormGroup.invalid }"
+                            class="text-white px-6 py-2 rounded-md " (click)="onSave()">Finalizar</button>
                 </form>
             </div>
 
