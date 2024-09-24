@@ -1,0 +1,10 @@
+.terminos-contenido {
+    max-height: 200px; /* Ajusta la altura según sea necesario */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    padding-right: 10px; /* Espacio para evitar que el texto quede pegado al scroll */
+    margin-bottom: 15px;
+}
+
+.check {
+    margin-left: -12px;
+}

@@ -1,22 +1,22 @@
 <div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
     <mat-horizontal-stepper [linear]="true" #stepper>
         <!-- Primer paso: Información inicial -->
-        <mat-step [stepControl]="initialInfoForm" label="Terminos y condiciones">
+        <mat-step label="Terminos y condiciones">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
-                <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
+                <form [formGroup]="initialInfoForm" class="max-w-lg">
                     <!-- Contenido de la información inicial -->
-                    <h2 class="text-2xl font-bold mb-4">Terminos y condiciones</h2>
-                    <p class="mb-6 text-left">
-                        Se presentarán los términos y condiciones para acceder al crédito en la plataforma. En espera de los textos, por ahora se mantiene el lorem ipsu.
-                    </p>
-                    <button
-                        mat-raised-button
-                        matStepperNext
-                        [disabled]="initialInfoForm.invalid"
-                        class="bg-blue-500 text-white px-6 py-2 rounded-md bg-credigray-100"
-                    >
-                        Siguiente
-                    </button>
+                    <app-terminos-condiciones (aceptacionCambiada)="onAceptarTerminos($event)">  </app-terminos-condiciones>
+                    <div class="text-center">
+                        <button
+                            mat-raised-button
+                            matStepperNext
+                            [disabled]="!aceptoTerminos"
+                            [ngClass]="{'bg-crediblue-50' : aceptoTerminos,  'bg-credigray-100' : !aceptoTerminos }"
+                            class="text-white px-6 py-2 rounded-md  mt-4"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                 </form>
             </div>
         </mat-step>

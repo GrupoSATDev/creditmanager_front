@@ -12,6 +12,8 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { map, Subscription } from 'rxjs';
+import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-form-solicitudes',
@@ -26,6 +28,8 @@ import { map, Subscription } from 'rxjs';
         MatStep,
         MatStepperPrevious,
         MatStepperNext,
+        TerminosCondicionesComponent,
+        NgClass,
     ],
   templateUrl: './form-solicitudes.component.html',
   styleUrl: './form-solicitudes.component.scss'
@@ -40,6 +44,7 @@ export class FormSolicitudesComponent implements OnInit{
     private empleadoService = inject(EmpleadosService);
     public _matData = inject(MAT_DIALOG_DATA);
     public subcripstion$: Subscription;
+    aceptoTerminos = false;
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -88,6 +93,10 @@ export class FormSolicitudesComponent implements OnInit{
             this.firstFormGroup.patchValue(campos);
         })
 
+    }
+
+    onAceptarTerminos(aceptado: boolean) {
+        this.aceptoTerminos = aceptado;
     }
 
     onSave() {
