@@ -22,16 +22,25 @@
                                         <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
                                     </ng-container>
                                 </mat-select>
+                                <mat-error *ngIf="firstFormGroup.get('idTipoDoc').dirty || firstFormGroup.get('idTipoDoc').touched  &&  (firstFormGroup.get('idTipoDoc').errors.required)">
+                                    El tipo de documento es requerido!.
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field class="w-full">
                                 <mat-label>Número de identificación</mat-label>
                                 <input  matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
+                                <mat-error *ngIf="firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched  &&  (firstFormGroup.get('numDocumento').errors.required)">
+                                    El número de identificación es requerido!.
+                                </mat-error>
                             </mat-form-field>
                             <fuse-alert class="mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false"
                                         [type]="alert.type" [@shake]="alert.type === 'error'">
                                 {{alert.message}}
                             </fuse-alert>
-                            <button (click)="onSearch()" mat-raised-button class="bg-crediblue-50 text-white px-6 py-2 rounded-md w-full">Consultar</button>
+                            <button (click)="onSearch()" [disabled]="firstFormGroup.invalid"
+                                    mat-raised-button
+                                    [ngClass]="{'bg-crediblue-50': firstFormGroup.valid, 'bg-credigray-100': firstFormGroup.invalid}"
+                                    class=" text-white px-6 py-2 rounded-md w-full">Consultar</button>
                         </form>
 
                     </div>
@@ -79,7 +88,7 @@
                                         (selectionChange)="selected($event)"
                                     >
                                         <ng-container *ngFor="let item of creditos">
-                                            <mat-option [value]="item" >{{item.numCredito}}</mat-option>
+                                            <mat-option [value]="item" >{{ item | formatoOptions }}</mat-option>
                                         </ng-container>
                                     </mat-select>
                                 </mat-form-field>
@@ -104,8 +113,8 @@
                             </div>
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
-                                    <mat-label>Valor $</mat-label>
-                                    <input  matInput   [formControlName]="'montoConsumo'"  />
+                                    <mat-label>Valor</mat-label>
+                                    <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  />
                                         <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
                                         <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
 
@@ -146,6 +155,7 @@
                             </div>
                         </form>
                         <div class="flex justify-end gap-2.5">
+                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
                             <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="bg-crediblue-50 text-white py-2 px-4 rounded ">Pagar</button>
                         </div>
                     </div>
@@ -201,7 +211,7 @@
 
                             <!-- Botones de acción -->
                             <div class="mt-6">
-                                <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
+                                <button class="w-full bg-crediblue-50 text-white py-2 px-4 rounded-lg">
                                     Recargar
                                 </button>
                             </div>

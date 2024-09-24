@@ -12,7 +12,7 @@ import {
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
@@ -29,6 +29,12 @@ import { Observable, of, Subscription } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { Router } from '@angular/router';
+import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-detalle-consumo',
@@ -42,6 +48,7 @@ import { Router } from '@angular/router';
         MatInput,
         MatLabel,
         MatButton,
+        MatError,
         MatStepperNext,
         AsyncPipe,
         MatOption,
@@ -57,11 +64,15 @@ import { Router } from '@angular/router';
         MatError,
         CurrencyPipe,
         DatePipe,
+        FormatoOptionsPipe,
+        NgClass,
+        NgxMaskDirective,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        DatePipe
+        DatePipe,
+        provideNgxMask(maskConfig)
     ],
   templateUrl: './form-detalle-consumo.component.html',
   styleUrl: './form-detalle-consumo.component.scss'
@@ -246,6 +257,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     }
 
     protected readonly focus = focus;
+    protected readonly FormatoOptionsPipe = FormatoOptionsPipe;
 }
 
 export function isTenAsync(control: AbstractControl):

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -13,7 +13,12 @@ import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angula
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { map, Subscription } from 'rxjs';
 import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-solicitudes',
@@ -30,9 +35,15 @@ import { NgClass } from '@angular/common';
         MatStepperNext,
         TerminosCondicionesComponent,
         NgClass,
+        NgIf,
+        MatError,
+        NgxMaskDirective,
     ],
-  templateUrl: './form-solicitudes.component.html',
-  styleUrl: './form-solicitudes.component.scss'
+    providers: [
+        provideNgxMask(maskConfig)
+    ],
+    templateUrl: './form-solicitudes.component.html',
+    styleUrl: './form-solicitudes.component.scss'
 })
 export class FormSolicitudesComponent implements OnInit{
     private fb = inject(FormBuilder);
@@ -45,6 +56,7 @@ export class FormSolicitudesComponent implements OnInit{
     public _matData = inject(MAT_DIALOG_DATA);
     public subcripstion$: Subscription;
     aceptoTerminos = false;
+    matDisabled = false;
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -54,7 +66,7 @@ export class FormSolicitudesComponent implements OnInit{
 
     ngOnInit(): void {
         this.initialInfoForm = this.fb.group({
-            // No es obligatorio tener validaciones aquí si solo es lectura
+            check: ['', Validators.required]
         });
 
         this.firstFormGroup = this.fb.group({
@@ -97,6 +109,11 @@ export class FormSolicitudesComponent implements OnInit{
 
     onAceptarTerminos(aceptado: boolean) {
         this.aceptoTerminos = aceptado;
+        if (aceptado) {
+            this.initialInfoForm.patchValue({check: true})
+        }else {
+            this.initialInfoForm.patchValue({check: ''})
+        }
     }
 
     onSave() {

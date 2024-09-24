@@ -1,7 +1,7 @@
 <div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
     <mat-horizontal-stepper [linear]="true" #stepper>
         <!-- Primer paso: Información inicial -->
-        <mat-step label="Terminos y condiciones">
+        <mat-step label="Terminos y condiciones" [stepControl]="initialInfoForm" [editable]="!matDisabled">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="initialInfoForm" class="max-w-lg">
                     <!-- Contenido de la información inicial -->
@@ -22,7 +22,7 @@
         </mat-step>
 
         <!-- Segundo paso: Formulario de captura -->
-        <mat-step [stepControl]="firstFormGroup" label="Verifica tu información">
+        <mat-step [stepControl]="firstFormGroup" label="Verifica tu información" [editable]="!matDisabled">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="firstFormGroup">
                     <mat-form-field class="w-full">
@@ -56,7 +56,7 @@
         </mat-step>
 
         <!-- Tercer paso: Otra información a leer -->
-        <mat-step label="Pasos a seguir">
+        <mat-step label="Pasos a seguir" [editable]="!matDisabled">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="initialInfoForm" class="max-w-lg text-center">
                     <!-- Contenido de la información inicial -->
@@ -83,20 +83,27 @@
         </mat-step>
 
         <!-- Cuarto paso: Segundo formulario -->
-        <mat-step [stepControl]="secondFormGroup" label="Solicita tu cupo">
+        <mat-step [stepControl]="secondFormGroup" label="Solicita tu cupo" [editable]="!matDisabled">
             <div class="flex flex-col items-center justify-center w-full h-full px-4">
                 <form [formGroup]="secondFormGroup" class="max-w-lg text-center">
                     <h2 class="text-2xl font-bold mb-4">Solicita tu cupo</h2>
                     <p class="mb-6 text-left">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur eveniet exercitationem expedita facere in, magnam magni molestiae mollitia natus obcaecati odit quibusdam quisquam sit soluta, sunt vel voluptatibus!
+                        Tu solicitud será revisada por nuestro equipo, en caso de ser aprobada, tu crédito quedará en estado <b>pendiente,</b> mientras validamos tu información financiera.
+
+                    </p>
+                    <p class="mb-6 text-left">
+                        Te invitamos a revisar constantemente tus solicitudes y créditos para conocer el estado en que se encuentran.
                     </p>
                     <mat-form-field class="w-full">
                         <mat-label>Digita el cupo que deseas solicitar</mat-label>
-                        <input  matInput [formControlName]="'cupo'"/>
+                        <input  matInput [formControlName]="'cupo'" [mask]="'separator.0'" thousandSeparator="." />
+                        <mat-error *ngIf="secondFormGroup.get('cupo').dirty || secondFormGroup.get('cupo').touched  &&  (secondFormGroup.get('cupo').errors.required)">
+                            Este campo es requerido!.
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field  class="w-full">
                         <mat-label>Observaciónes</mat-label>
-                        <textarea matInput placeholder="observacion" [formControlName]="'observacion'"></textarea>
+                        <textarea matInput placeholder="Observacion" [formControlName]="'observacion'"></textarea>
                     </mat-form-field>
                     <button mat-raised-button [disabled]="secondFormGroup.invalid"
                             [ngClass]="{'bg-crediblue-50' : secondFormGroup.valid,  'bg-credigray-100' : secondFormGroup.invalid }"
@@ -108,57 +115,3 @@
     </mat-horizontal-stepper>
 
 </div>
-
-
-<!--<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
-    <div class="">
-        &lt;!&ndash; Title &ndash;&gt;
-        <div
-            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
-        >
-            {{_matData.edit ? 'Actualizar solicitud' : 'Crear solicitud'}}
-        </div>
-
-        &lt;!&ndash; Sign Up form &ndash;&gt;
-        <form class="mt-8" [formGroup]="form">
-            &lt;!&ndash; Name field &ndash;&gt;
-            <mat-form-field class="w-full">
-                <mat-label>Cupo $</mat-label>
-                <input  matInput [formControlName]="'cupo'"/>
-            </mat-form-field>
-
-
-            <mat-form-field  class="w-full">
-                <mat-label>Observaciónes</mat-label>
-                <textarea matInput placeholder="observacion" [formControlName]="'observacion'"></textarea>
-            </mat-form-field>
-
-            <div class="flex flex-wrap justify-between ">
-                <button
-                    class="fuse-mat-button-large mt-6 bg-credigray-100"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="closeDialog()"
-                >
-
-                    <span> Cancelar </span>
-                </button>
-
-                <button
-                    class="fuse-mat-button-large mt-6 bg-crediblue-50"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="onSave()"
-                >
-
-                    <span> Guardar </span>
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-</div>-->
-
-
