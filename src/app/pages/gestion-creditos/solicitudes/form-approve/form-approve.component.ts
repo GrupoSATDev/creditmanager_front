@@ -69,14 +69,14 @@ export class FormApproveComponent implements OnInit, OnDestroy{
         dialog.afterClosed().subscribe((response) => {
             if (response === 'confirmed') {
                 this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
-                    if (response) {
-                        this.estadosDatosService.stateGrid.next(true);
+                    if (response.isExitoso) {
                         this.toasService.toasAlertWarn({
                             message: 'Registro creado con exito!',
                             actionMessage: 'Cerrar',
                             duration: 3000
                         })
                         this.router.navigate(['/pages/gestion-creditos/solicitudes']);
+                        this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
                     }
                 }, error => {
                     this.toasService.toasAlertWarn({
@@ -102,14 +102,14 @@ export class FormApproveComponent implements OnInit, OnDestroy{
         dialog.afterClosed().subscribe((response) => {
             if (response === 'confirmed') {
                 this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
-                    if (response) {
-                        this.estadosDatosService.stateGrid.next(true);
+                    if (response.isExitoso) {
                         this.toasService.toasAlertWarn({
                             message: 'Registro creado con exito!',
                             actionMessage: 'Cerrar',
                             duration: 3000
                         })
                         this.router.navigate(['/pages/gestion-creditos/solicitudes']);
+                        this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 1});
                     }
                 }, error => {
                     this.toasService.toasAlertWarn({
