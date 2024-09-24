@@ -17,6 +17,12 @@ export class DetalleConsumoService {
       return this._http.get(`${this.appSettings.detalleConsumos.url.base}/${param}`);
   }
 
+  getConsumo(id): Observable<any> {
+      return this._http.get(`${this.appSettings.detalleConsumos.url.base}/${id}`);
+  }
+
+
+
   postDetalle(data) : Observable<any> {
       return this._http.post(this.appSettings.detalleConsumos.url.base, data);
   }
