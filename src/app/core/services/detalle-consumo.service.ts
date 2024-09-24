@@ -13,8 +13,12 @@ export class DetalleConsumoService {
       private appSettings: AppSettingsService
   ) { }
 
+  getDetalle(param): Observable<any> {
+      return this._http.get(`${this.appSettings.detalleConsumos.url.base}/${param}`);
+  }
+
   postDetalle(data) : Observable<any> {
-      return this._http.post(this.appSettings.detalleConsumos.url.base, data)
+      return this._http.post(this.appSettings.detalleConsumos.url.base, data);
   }
 
   getResumen(id): Observable<any> {

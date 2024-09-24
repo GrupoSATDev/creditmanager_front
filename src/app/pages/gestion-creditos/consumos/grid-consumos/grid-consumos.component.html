@@ -1,1 +1,109 @@
-<p>grid-consumos works!</p>
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        <!-- Title -->
+        <div class="text-3xl font-semibold tracking-tight">Detalle consumos</div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+            <!-- Search -->
+            <mat-form-field
+                class="fuse-mat-dense fuse-mat-rounded min-w-64"
+                [subscriptSizing]="'dynamic'"
+            >
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:magnifying-glass'"
+                ></mat-icon>
+                <input
+                    matInput
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar'"
+                />
+            </mat-form-field>
+            <!-- Add product button -->
+        </div>
+
+    </div>
+
+    <!--Main-->
+    <div class="flex flex-auto overflow-hidden">
+        <!-- Products list -->
+        <div
+            class="flex flex-auto flex-col overflow-hidden sm:overflow-y-auto bg-gray-100"
+        >
+            <!-- Tabs -->
+            <mat-tab-group
+                class="sm:px-2"
+                mat-stretch-tabs="false"
+                [animationDuration]="'500'"
+                [(selectedIndex)]="tabIndex"
+                #tabGroup (selectedTabChange)="tabChanged($event)"
+            >
+                <mat-tab label="En revisión" >
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length">
+                            <app-custom-table
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
+                                [data]="data"
+                                [buttons]="buttons"
+                            ></app-custom-table>
+                        </ng-container>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Aprobados">
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length">
+                            <app-custom-table
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
+                                [data]="data"
+                                [buttons]="buttons"
+                            ></app-custom-table>
+                        </ng-container>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Pagados">
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length">
+                            <app-custom-table
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
+                                [data]="data"
+                                [buttons]="buttons"
+                            ></app-custom-table>
+                        </ng-container>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Rechazados">
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length">
+                            <app-custom-table
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
+                                [data]="data"
+                                [buttons]="buttons"
+                            ></app-custom-table>
+                        </ng-container>
+                    </ng-template>
+                </mat-tab>
+
+
+            </mat-tab-group>
+
+        </div>
+
+    </div>
+
+</div>
+
+
