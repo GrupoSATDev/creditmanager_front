@@ -108,7 +108,8 @@ export class FormSolicitudesComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.solicitudService.postSolicitudes(createData).subscribe((res) => {
                             console.log(res)
-                            this.estadosDatosService.stateGrid.next(true);
+                            console.log('Edicion')
+                            this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 2});
                             this.toasService.toasAlertWarn({
                                 message: 'Registro creado con exito!',
                                 actionMessage: 'Cerrar',
@@ -136,7 +137,8 @@ export class FormSolicitudesComponent implements OnInit{
 
                     if (response === 'confirmed') {
                         this.solicitudService.putSolicitudes(createData).subscribe((res) => {
-                            this.estadosDatosService.stateGrid.next(true);
+                            this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 2});
+                            console.log('Guardado')
                             this.toasService.toasAlertWarn({
                                 message: 'Registro actualizado con exito!',
                                 actionMessage: 'Cerrar',

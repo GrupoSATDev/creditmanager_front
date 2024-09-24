@@ -47,6 +47,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.APROBADA;
+    public tabIndex ;
 
     data = [];
 
@@ -135,10 +136,17 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     }
 
     private listenGrid() {
-        const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
+        const refreshData$ = this.estadoDatosService.stateGridSolicitudes.asObservable();
 
-        refreshData$.subscribe((state) => {
-            if (state) {
+        refreshData$.subscribe((states) => {
+            if (states.state) {
+                console.log('Si entro')
+                console.log(states)
+                this.selectedTab = states.tab == 0 ? EstadosSolicitudes.APROBADA :
+                                    states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
+                                    states.tab == 2 ? EstadosSolicitudes.PENDIENTE : EstadosSolicitudes.APROBADA;
+                this.tabIndex = states.tab;
+                console.log(this.tabIndex)
                 this.getSolicitudes(this.selectedTab);
             }
         })
@@ -148,6 +156,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         console.log('tabChangeEvent => ', tabChangeEvent);
         console.log('index => ', tabChangeEvent.index);
+        this.tabIndex = tabChangeEvent.index;
+        console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.APROBADA :
                            tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA :
                            tabChangeEvent.index == 2 ? EstadosSolicitudes.PENDIENTE : EstadosSolicitudes.APROBADA;

@@ -50,6 +50,7 @@
                 class="sm:px-2"
                 mat-stretch-tabs="false"
                 [animationDuration]="'500'"
+                [(selectedIndex)]="tabIndex"
                 #tabGroup (selectedTabChange)="tabChanged($event)"
             >
                 <mat-tab label="Aprobadas" >
