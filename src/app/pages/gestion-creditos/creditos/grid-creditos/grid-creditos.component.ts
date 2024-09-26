@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
-import { DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { CreditosService } from '../../../../core/services/creditos.service';
 import { Estados } from '../../../../core/enums/estados';
@@ -30,7 +30,8 @@ import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
         NgIf,
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        CurrencyPipe
     ],
   templateUrl: './grid-creditos.component.html',
   styleUrl: './grid-creditos.component.scss'
@@ -43,6 +44,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private estadoDatosService: EstadosDatosService = inject(EstadosDatosService);
     private creditoService: CreditosService = inject(CreditosService);
     private selectedTab: any = EstadosCreditos.EN_REVISION;
+    private currencyPipe = inject(CurrencyPipe);
 
     data = [];
 
@@ -58,7 +60,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     };
 
     columnPropertyAprobadas = {
-        'Fecha de aprobación': 'fechaCreacion',
+        'Fecha de aprobación': 'fechaAprobacion',
         'Solicitante': 'nombreTrabajador',
         'Cupo aprobado': 'cupoAprobado',
         'Empresa': 'nombreEmpresaMaestra',
@@ -117,6 +119,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             map((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
