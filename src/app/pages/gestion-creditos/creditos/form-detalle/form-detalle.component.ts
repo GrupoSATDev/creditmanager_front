@@ -24,6 +24,11 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-detalle',
@@ -51,11 +56,13 @@ import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
         MatSuffix,
         ReactiveFormsModule,
         JsonPipe,
+        NgxMaskDirective,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        DatePipe
+        DatePipe,
+        provideNgxMask(maskConfig)
     ],
   templateUrl: './form-detalle.component.html',
   styleUrl: './form-detalle.component.scss'
@@ -177,8 +184,8 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
         if (this.form.valid) {
             const data = this.form.getRawValue();
             const {fechaVencimiento, fechaCorte, cupoAprobado, ...form} = data;
-            let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, 'dd/MM/yyyy');
-            let fechaCorteTransform = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
+            let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+            let fechaCorteTransform = this.datePipe.transform(fechaCorte, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
             const createData = {
                 fechaVencimiento: fechaVencimientoTransform,
                 fechaCorte: fechaCorteTransform,
