@@ -65,7 +65,7 @@ export class FormConsumosComponent implements  OnInit{
         dialog.afterClosed().subscribe((response) => {
             if (response === 'confirmed') {
                 this.subcription$ = this.detalleConsumoService.patchConsumo(data).subscribe((response) => {
-
+                    if (response.isExitoso) {
                         this.toasService.toasAlertWarn({
                             message: 'Registro creado con exito!',
                             actionMessage: 'Cerrar',
@@ -73,6 +73,7 @@ export class FormConsumosComponent implements  OnInit{
                         })
                         this.router.navigate(['/pages/gestion-creditos/consumos']);
                         this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
+                    }
 
                 }, error => {
                     this.toasService.toasAlertWarn({

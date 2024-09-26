@@ -42,7 +42,7 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     private router = inject(Router);
     private estadoService: EstadosDatosService = inject(EstadosDatosService);
     private consumoService = inject(DetalleConsumoService);
-    private selectedTab: any = EstadoDetalleConsumo.APROBADA;
+    private selectedTab: any = EstadoDetalleConsumo.EN_REVISION;
     public tabIndex ;
 
     data = [];
