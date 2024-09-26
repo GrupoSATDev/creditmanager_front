@@ -63,7 +63,7 @@
                             <mat-select
                                 [formControlName]="'idCapitalInversion'"
                             >
-                                <mat-option [value]="item.id" *ngFor="let item of capital">{{item.detalleInversion}}</mat-option>
+                                <mat-option [value]="item.id" *ngFor="let item of capital">{{item.detalleInversion + ' - ' + item.rubroInversion}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field  class="w-full">

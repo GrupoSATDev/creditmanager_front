@@ -4,26 +4,26 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar documento' : 'Crear documento'}}
+            {{_matData.edit ? 'Actualizar' : 'Agregar'}}
         </div>
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
             <mat-form-field class="w-full">
-                <mat-label>Código</mat-label>
+                <mat-label>Abrebiatura</mat-label>
                 <input  matInput [formControlName]="'codigo'" />
             </mat-form-field>
 
             <mat-form-field class="w-full">
-                <mat-label>Nombre</mat-label>
+                <mat-label>Tipo de documento</mat-label>
                 <input  matInput [formControlName]="'nombre'" />
             </mat-form-field>
 
-            <div class="flex flex-wrap justify-between ">
+            <div class="flex flex-wrap justify-end gap-2.5">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
-                    mat-flat-button
+                    mat-raised-button
                     [color]="'primary'"
                     (click)="closeDialog()"
                 >
@@ -33,7 +33,7 @@
 
                 <button
                     class="fuse-mat-button-large mt-6 bg-crediblue-50"
-                    mat-flat-button
+                    mat-raised-button
                     [color]="'primary'"
                     (click)="onSave()"
                 >

@@ -4,29 +4,29 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar capital' : 'Crear capital'}}
+            {{_matData.edit ? 'Actualizar capital' : 'Agregar capital'}}
         </div>
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
             <mat-form-field class="w-full">
-                <mat-label>Nombre de inversor</mat-label>
+                <mat-label>Inversor</mat-label>
                 <input  matInput [formControlName]="'nombreInversor'"/>
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
-                <mat-label>Rubro de inversor</mat-label>
+                <mat-label>Rubro a invertir</mat-label>
                 <input  matInput [formControlName]="'rubroInversion'" />
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Detalle de inversión</mat-label>
+                <mat-label>Detalle de la inversión</mat-label>
                 <textarea matInput placeholder="Detalle" [formControlName]="'detalleInversion'"></textarea>
             </mat-form-field>
 
-            <div class="flex flex-wrap justify-between ">
+            <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button

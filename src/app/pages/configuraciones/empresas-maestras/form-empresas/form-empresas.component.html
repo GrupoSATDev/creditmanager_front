@@ -4,7 +4,7 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-           {{_matData.edit ? 'Actualizar empresa' : 'Crear empresa'}}
+           {{_matData.edit ? 'Actualizar empresa' : 'Agregar empresa'}}
         </div>
 
         <!-- Sign Up form -->
@@ -40,7 +40,7 @@
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Departamentos</mat-label>
+                <mat-label>Departamento</mat-label>
                     <mat-select
                         #data
                         (selectionChange)="getMunicipios($event)"
@@ -70,7 +70,7 @@
                 />
             </mat-form-field>
             <!-- Submit button -->
-            <div class="flex flex-wrap justify-between ">
+            <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button

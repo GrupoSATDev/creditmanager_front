@@ -94,6 +94,9 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'gestion-empleados', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes')
+            },
+            {
+                path: 'gestions-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes')
             }
         ]
     }

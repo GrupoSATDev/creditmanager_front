@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { TasasInteresService } from '../../../../core/services/tasas-interes.service';
 import { guardar } from '../../../../core/constant/dialogs';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-form-tasas',
@@ -19,6 +20,10 @@ import { guardar } from '../../../../core/constant/dialogs';
         MatInput,
         MatLabel,
         ReactiveFormsModule,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatSuffix,
     ],
   templateUrl: './form-tasas.component.html',
   styleUrl: './form-tasas.component.scss'

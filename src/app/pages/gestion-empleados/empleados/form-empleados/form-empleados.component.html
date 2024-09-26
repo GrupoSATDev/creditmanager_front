@@ -5,7 +5,7 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar empleado' : 'Crear empleado'}}
+            {{_matData.edit ? 'Actualizar empleado' : 'Agregar empleado'}}
         </div>
 
         <!-- Sign Up form -->
@@ -46,140 +46,174 @@
                 </ng-template>
             </div>
 
-            <div class="flex gap-2.5">
-                <!-- Name field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Primer nombre</mat-label>
-                    <input  matInput [formControlName]="'primerNombre'"/>
-                </mat-form-field>
+            <div>
+                <p class="font-bold mb-4 text-2xl">Información general</p>
+                <div class="flex gap-2.5">
+                    <!-- Name field -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Primer nombre</mat-label>
+                        <input  matInput [formControlName]="'primerNombre'"/>
+                    </mat-form-field>
 
-                <!-- Name field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Segundo nombre</mat-label>
-                    <input  matInput [formControlName]="'segundoNombre'" />
-                </mat-form-field>
+                    <!-- Name field -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Segundo nombre</mat-label>
+                        <input  matInput [formControlName]="'segundoNombre'" />
+                    </mat-form-field>
 
-            </div>
+                </div>
 
-            <div class="flex gap-2.5">
-                <mat-form-field  class="w-full">
-                    <mat-label>Primer apellido</mat-label>
-                    <input  matInput [formControlName]="'primerApellido'" />
-                </mat-form-field>
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Primer apellido</mat-label>
+                        <input  matInput [formControlName]="'primerApellido'" />
+                    </mat-form-field>
 
-                <mat-form-field  class="w-full">
-                    <mat-label>Segundo apellido</mat-label>
-                    <input  matInput [formControlName]="'segundoApellido'" />
-                </mat-form-field>
-            </div>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Segundo apellido</mat-label>
+                        <input  matInput [formControlName]="'segundoApellido'" />
+                    </mat-form-field>
+                </div>
 
-            <div class="flex gap-2.5">
-                <mat-form-field  class="w-full">
-                    <mat-label>Tipo de documento</mat-label>
-                    <mat-select
-                        [formControlName]="'idTipoDoc'"
-                    >
-                        <ng-container *ngIf="tiposDocumentos$ | async as documentos">
-                            <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Tipo de documento</mat-label>
+                        <mat-select
+                            [formControlName]="'idTipoDoc'"
+                        >
+                            <ng-container *ngIf="tiposDocumentos$ | async as documentos">
+                                <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
 
-                <mat-form-field  class="w-full">
-                    <mat-label>Número de identificación</mat-label>
-                    <input  matInput [formControlName]="'numDoc'" />
-                </mat-form-field>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Número de identificación</mat-label>
+                        <input  matInput [formControlName]="'numDoc'" />
+                    </mat-form-field>
 
-            </div>
+                </div>
 
-            <div class="flex gap-2.5">
+                <div class="flex gap-2.5">
 
-                <mat-form-field  class="w-full">
-                    <mat-label>Género</mat-label>
-                    <mat-select
-                        [formControlName]="'idGenero'"
-                    >
-                        <ng-container *ngIf="generos$ | async as generos">
-                            <mat-option [value]="item.id" *ngFor="let item of generos.data">{{item.nombre}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Género</mat-label>
+                        <mat-select
+                            [formControlName]="'idGenero'"
+                        >
+                            <ng-container *ngIf="generos$ | async as generos">
+                                <mat-option [value]="item.id" *ngFor="let item of generos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
 
-                <mat-form-field  class="w-full">
-                    <mat-label>Fecha de nacimiento</mat-label>
-                    <input matInput [matDatepicker]="picker"  [formControlName]="'fechaNacimiento'">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-
-            <div class="flex gap-2.5">
-                <mat-form-field  class="w-full">
-                    <mat-label>Departamento</mat-label>
-                    <mat-select
-                        #data
-                        (selectionChange)="getMunicipios($event)"
-                        [formControlName]="'idDepartamento'"
-                    >
-                        <ng-container *ngIf="departamentos$ | async as departamentos">
-                            <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field  class="w-full">
-                    <mat-label>Ciudad</mat-label>
-                    <mat-select [formControlName]="'idMunicipio'">
-                        <ng-container *ngIf="municipios$ | async as municipios">
-                            <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="flex gap-2.5">
-
-                <mat-form-field  class="w-full">
-                    <mat-label>Dirección</mat-label>
-                    <input  matInput [formControlName]="'direccion'" />
-                </mat-form-field>
-
-                <mat-form-field  class="w-full">
-                    <mat-label>Celular</mat-label>
-                    <input  matInput [formControlName]="'telefono'" />
-                </mat-form-field>
-            </div>
-
-            <div class="flex gap-2.5">
-
-                <mat-form-field  class="w-full">
-                    <mat-label>Teléfono</mat-label>
-                    <input  matInput [formControlName]="'telefono2'" />
-                </mat-form-field>
-
-                <mat-form-field  class="w-full">
-                    <mat-label>Email</mat-label>
-                    <input  matInput [formControlName]="'correo'" />
-                </mat-form-field>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Fecha de nacimiento</mat-label>
+                        <input matInput [matDatepicker]="picker"  [formControlName]="'fechaNacimiento'">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
 
             </div>
 
-            <div class="flex gap-2.5">
-                <mat-form-field  class="w-full">
-                    <mat-label>Cargo</mat-label>
-                    <input  matInput [formControlName]="'cargo'" />
-                </mat-form-field>
+            <div>
+                <p class="font-bold mb-4 text-2xl">Información demográfica</p>
 
-                <mat-form-field  class="w-full">
-                    <mat-label>Empresa</mat-label>
-                    <mat-select [formControlName]="'idSubEmpresa'">
-                        <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
-                            <mat-option [value]="item.id" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Departamento</mat-label>
+                        <mat-select
+                            #data
+                            (selectionChange)="getMunicipios($event)"
+                            [formControlName]="'idDepartamento'"
+                        >
+                            <ng-container *ngIf="departamentos$ | async as departamentos">
+                                <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Ciudad</mat-label>
+                        <mat-select [formControlName]="'idMunicipio'">
+                            <ng-container *ngIf="municipios$ | async as municipios">
+                                <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Dirección</mat-label>
+                        <input  matInput [formControlName]="'direccion'" />
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Celular</mat-label>
+                        <input  matInput [formControlName]="'telefono'" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Teléfono</mat-label>
+                        <input  matInput [formControlName]="'telefono2'" />
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input  matInput [formControlName]="'correo'" />
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Empresa</mat-label>
+                        <mat-select [formControlName]="'idSubEmpresa'">
+                            <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
+                                <mat-option [value]="item.id" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Cargo</mat-label>
+                        <input  matInput [formControlName]="'cargo'" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Inicio de contrato</mat-label>
+                        <input matInput [matDatepicker]="picker" >
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Fin de contrato</mat-label>
+                        <input matInput [matDatepicker]="picker"  >
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Salario devengado</mat-label>
+                        <input  matInput  />
+                    </mat-form-field>
+                </div>
 
             </div>
+
+
 
 
             <div class="flex flex-wrap justify-end gap-2.5">

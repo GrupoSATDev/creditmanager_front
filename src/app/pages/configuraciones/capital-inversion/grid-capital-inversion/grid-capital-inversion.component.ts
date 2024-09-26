@@ -31,10 +31,10 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Nombre de inversor', 'Rubro de inversión', 'Detalle de inversión'];
+    columns = ['Inversor', 'Rubro', 'Detalle de inversión'];
     columnPropertyMap = {
-        'Nombre de inversor': 'nombreInversor',
-        'Rubro de inversión': 'rubroInversion',
+        'Inversor': 'nombreInversor',
+        'Rubro': 'rubroInversion',
         'Detalle de inversión': 'detalleInversion',
     };
 

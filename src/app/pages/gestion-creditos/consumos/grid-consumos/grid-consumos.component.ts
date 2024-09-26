@@ -80,8 +80,8 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
                 console.log(states)
                 this.selectedTab = states.tab == 0 ? EstadoDetalleConsumo.EN_REVISION :
                                    states.tab == 1 ? EstadoDetalleConsumo.APROBADA :
-                                   states.tab == 2 ? EstadoDetalleConsumo.PAGADO :
-                                   states.tab == 3 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
+                                   //states.tab == 2 ? EstadoDetalleConsumo.PAGADO :
+                                   states.tab == 2 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
                 this.tabIndex = states.tab;
                 console.log(this.tabIndex)
                 this.getDetalle(this.selectedTab);
@@ -97,8 +97,8 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
         console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadoDetalleConsumo.EN_REVISION :
                            tabChangeEvent.index == 1 ? EstadoDetalleConsumo.APROBADA :
-                           tabChangeEvent.index == 2 ? EstadoDetalleConsumo.PAGADO :
-                           tabChangeEvent.index == 3 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
+                           //tabChangeEvent.index == 2 ? EstadoDetalleConsumo.PAGADO :
+                           tabChangeEvent.index == 2 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
         this.getDetalle(this.selectedTab);
 
     }

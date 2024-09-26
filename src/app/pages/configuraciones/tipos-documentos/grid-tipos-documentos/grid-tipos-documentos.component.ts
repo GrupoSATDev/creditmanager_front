@@ -31,11 +31,11 @@ export class GridTiposDocumentosComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Estado', 'Código', 'Nombre documento'];
+    columns = ['Estado', 'Abreviatura', 'Tipo de documento'];
     columnPropertyMap = {
         'Estado': 'estado',
-        'Código': 'codigo',
-        'Nombre documento': 'nombre',
+        'Abreviatura': 'codigo',
+        'Tipo de documento': 'nombre',
     };
 
     buttons: IButton[] = [

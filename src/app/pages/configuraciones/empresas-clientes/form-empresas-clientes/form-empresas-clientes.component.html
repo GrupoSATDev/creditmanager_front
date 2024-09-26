@@ -4,7 +4,7 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar empresa cliente' : 'Crear empresa cliente'}}
+            {{_matData.edit ? 'Actualizar empresa' : 'Agregar empresa'}}
         </div>
 
         <!-- Sign Up form -->
@@ -70,7 +70,7 @@
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Tipos de empresas</mat-label>
+                <mat-label>Tipos de empresa</mat-label>
                 <mat-select [formControlName]="'idTipoEmpresa'">
                     <ng-container *ngIf="tiposEmpresas$ | async as tipos">
                         <mat-option [value]="tipo.id" *ngFor="let tipo of tipos.data">{{tipo.nombre}}</mat-option>
@@ -78,7 +78,26 @@
                 </mat-select>
             </mat-form-field>
 
-            <div class="flex flex-wrap justify-between ">
+            <mat-form-field  class="w-full">
+                <mat-label>Subscripción</mat-label>
+                <mat-select>
+                     <mat-option [value]="tipo.id" *ngFor="let tipo of [1,2,3]">Valor por definir</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Valor subscripción</mat-label>
+                <input
+                    matInput />
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Porcentaje cobro</mat-label>
+                <input
+                    matInput />
+            </mat-form-field>
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button

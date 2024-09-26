@@ -4,7 +4,7 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar tasa' : 'Crear tasa'}}
+            {{_matData.edit ? 'Actualizar tasa' : 'Agregar tasa'}}
         </div>
 
         <!-- Sign Up form -->
@@ -15,8 +15,21 @@
                 <input  matInput [formControlName]="'porcentaje'"/>
             </mat-form-field>
 
+            <mat-form-field  class="w-full">
+                <mat-label>Vigencia</mat-label>
+                <input matInput [matDatepicker]="picker" >
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
 
-            <div class="flex flex-wrap justify-between ">
+            <mat-form-field class="w-full">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput placeholder="Detalle"></textarea>
+            </mat-form-field>
+
+
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button

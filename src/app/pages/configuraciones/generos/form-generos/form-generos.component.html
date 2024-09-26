@@ -4,7 +4,7 @@
         <div
             class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
         >
-            {{_matData.edit ? 'Actualizar género' : 'Crear género'}}
+            {{_matData.edit ? 'Actualizar género' : 'Agregar género'}}
         </div>
 
         <!-- Sign Up form -->
@@ -15,7 +15,7 @@
                 <input  matInput [formControlName]="'nombre'"/>
             </mat-form-field>
 
-            <div class="flex flex-wrap justify-between ">
+            <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
                     class="fuse-mat-button-large mt-6 bg-credigray-100"
                     mat-flat-button
