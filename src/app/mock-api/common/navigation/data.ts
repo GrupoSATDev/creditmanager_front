@@ -48,6 +48,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
+        id: 'apps.gestion-cobros',
+        title: 'Gestión de cobros',
+        type: 'collapsable',
+        icon: 'request_quote',
+        children: [
+            {
+                id: 'apps.gestion.cobros',
+                title: 'Cobro empleados',
+                type: 'basic',
+                link: '/pages/gestion-cobros/cobros',
+            },
+        ],
+    },
+    {
         id: 'apps.gestion-empleados',
         title: 'Gestión de empleados',
         type: 'collapsable',
@@ -75,7 +89,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'apps.empresas.clientes',
-                title: 'Empresas clientes',
+                title: 'Clientes - Aliados',
                 type: 'basic',
                 link: '/pages/configuracion/empresas-clientes',
             },

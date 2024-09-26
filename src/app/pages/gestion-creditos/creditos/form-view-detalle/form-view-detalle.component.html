@@ -66,21 +66,28 @@
                         <ng-container *ngFor="let item of items.detalleConsumos">
                             <fuse-card
                                 class="flex-col md:max-w-none ng-star-inserted ng-tns-c2638821912-10 p-4 rounded-2xl shadow-lg w-1/3"
-                                [ngClass]="{
+
+                            >
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-gray-800 font-semibold">{{item.nombreSubEmpresa }}</p>
+                                    <p class="text-gray-800 font-semibold">{{item.fechaCreacion | date: 'dd/MM/yyyy' }}</p>
+                                </div>
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-gray-800 font-semibold">Factura: {{item.numeroFactura }}</p>
+                                    <p class="text-gray-800 font-bold">Valor: {{item.montoConsumo | currency }}</p>
+                                </div>
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-gray-800 font-semibold">Cuotas: {{item.cantidadCuotas}}</p>
+                                    <p class="text-gray-800 font-semibold">{{item.nombreEstadoCredito}}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="h-2.5 rounded-full ml-auto mt-auto"  [ngClass]="{
                                            'bg-green-600':  item.idEstadoCredito == CodigosDetalleConsumo.APROBADA,
                                            'bg-yellow-600': item.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION,
                                            'bg-red-600': item.idEstadoCredito == CodigosDetalleConsumo.RECHAZADA,
-                                           }"
-                            >
-                                <div class="flex flex-row justify-between">
-                                    <p class="text-white font-semibold">{{item.nombreSubEmpresa }}</p>
-                                    <p class="text-white font-semibold">{{item.fechaCreacion | date: 'dd/MM/yyyy' }}</p>
+                                           }">
+                                    </p>
                                 </div>
-                                <div class="flex flex-row justify-between">
-                                    <p class="text-white font-semibold">Factura: {{item.numeroFactura }}</p>
-                                    <p class="text-white font-bold">Valor: {{item.montoConsumo | currency }}</p>
-                                </div>
-                                <p class="text-white font-semibold">Cuotas: {{item.cantidadCuotas}}</p>
                             </fuse-card>
                         </ng-container>
                     </div>
