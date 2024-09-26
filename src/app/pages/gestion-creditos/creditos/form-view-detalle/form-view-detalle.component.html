@@ -60,14 +60,24 @@
                     </div>
                 </div>
                 <hr>
-                <p class="text-lg text-black font-bold mb-6" *ngIf="data.length > 0">Movimientos</p>
-                <div class="mb-4" *ngIf="data.length > 0">
-                    <app-custom-table
-                        [columns]="columns"
-                        [displayedColumns]="columns"
-                        [columnPropertyMap]="columnPropertyMap"
-                        [data]="data"
-                    ></app-custom-table>
+                <p class="text-lg text-black font-bold mb-6" *ngIf="items.detalleConsumos">Movimientos</p>
+                <div class="mb-4" *ngIf="items.detalleConsumos">
+                    <div class="flex flex-wrap gap-2.5 justify-center">
+                        <ng-container *ngFor="let item of items.detalleConsumos">
+                            <fuse-card
+                                class="max-w-sm flex-col p-8 sm:px-10 sm:py-12 md:max-w-none rounded-2xl shadow-lg bg-re"
+                                [ngClass]="{
+                                           'bg-green-600':  item.idEstadoCredito == CodigosDetalleConsumo.APROBADA,
+                                           'bg-yellow-600': item.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION,
+                                           'bg-red-600': item.idEstadoCredito == CodigosDetalleConsumo.RECHAZADA,
+                                           }"
+                            >
+                                <p class="text-white font-semibold">{{item.numeroFactura }}</p>
+                                <p class="text-white font-bold">{{item.montoConsumo | currency }}</p>
+                                <p class="text-white font-semibold">{{item.cantidadCuotas}}</p>
+                            </fuse-card>
+                        </ng-container>
+                    </div>
                 </div>
                 <!-- Acciónes -->
 

@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatAnchor, MatButton } from '@angular/material/button';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -21,6 +21,8 @@ import { TasasInteresService } from '../../../../core/services/tasas-interes.ser
 import { Subscription } from 'rxjs';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { FuseCardComponent } from '../../../../../@fuse/components/card';
+import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -46,6 +48,8 @@ import { CustomTableComponent } from '../../../shared/custom-table/custom-table.
         NgIf,
         RouterLink,
         CustomTableComponent,
+        FuseCardComponent,
+        NgClass,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -72,19 +76,6 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     tasas = [];
     idCredito: string = '';
 
-    columns = ['Fecha', 'Factura #','Detalle factura', 'Valor', 'Cantidad cuotas', 'Valor cuotas', 'Pago', 'Estado'];
-
-    columnPropertyMap = {
-        'Fecha': 'fechaCreacion',
-        'Factura #': 'numeroFactura ',
-        'Detalle factura': 'detalleCompra',
-        'Valor': 'montoConsumo',
-        'Cantidad cuotas': 'cantidadCuotas ',
-        'Valor cuotas': 'montoCuotas',
-        'Pago': 'montoCuotas',
-        'Estado': 'estadoDetalle',
-    };
-
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
     }
@@ -97,8 +88,8 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
-            this.detalleEmpleado = response.data;
         })
     }
 
+    protected readonly CodigosDetalleConsumo = CodigosDetalleConsumo;
 }
