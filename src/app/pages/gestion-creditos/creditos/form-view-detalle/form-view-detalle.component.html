@@ -65,16 +65,22 @@
                     <div class="flex flex-wrap gap-2.5 justify-center">
                         <ng-container *ngFor="let item of items.detalleConsumos">
                             <fuse-card
-                                class="max-w-sm flex-col p-8 sm:px-10 sm:py-12 md:max-w-none rounded-2xl shadow-lg bg-re"
+                                class="flex-col md:max-w-none ng-star-inserted ng-tns-c2638821912-10 p-4 rounded-2xl shadow-lg w-1/3"
                                 [ngClass]="{
                                            'bg-green-600':  item.idEstadoCredito == CodigosDetalleConsumo.APROBADA,
                                            'bg-yellow-600': item.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION,
                                            'bg-red-600': item.idEstadoCredito == CodigosDetalleConsumo.RECHAZADA,
                                            }"
                             >
-                                <p class="text-white font-semibold">{{item.numeroFactura }}</p>
-                                <p class="text-white font-bold">{{item.montoConsumo | currency }}</p>
-                                <p class="text-white font-semibold">{{item.cantidadCuotas}}</p>
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-white font-semibold">{{item.nombreSubEmpresa }}</p>
+                                    <p class="text-white font-semibold">{{item.fechaCreacion | date: 'dd/MM/yyyy' }}</p>
+                                </div>
+                                <div class="flex flex-row justify-between">
+                                    <p class="text-white font-semibold">Factura: {{item.numeroFactura }}</p>
+                                    <p class="text-white font-bold">Valor: {{item.montoConsumo | currency }}</p>
+                                </div>
+                                <p class="text-white font-semibold">Cuotas: {{item.cantidadCuotas}}</p>
                             </fuse-card>
                         </ng-container>
                     </div>
