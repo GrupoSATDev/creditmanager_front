@@ -8,10 +8,10 @@
         <div class="text-3xl font-semibold tracking-tight">Cobro Trabajadores</div>
 
         <!-- Actions -->
-        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0 w-1/2 gap-2.5">
             <!-- Search -->
             <mat-form-field
-                class="fuse-mat-dense rounded-lg min-w-64"
+                class="fuse-mat-dense rounded-lg w-1/2"
                 [subscriptSizing]="'dynamic'"
             >
                 <mat-icon
@@ -26,14 +26,13 @@
                 />
             </mat-form-field>
             <!-- Add product button -->
-            <button
-                class="ml-4 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
-                mat-flat-button
-                [color]="'primary'"
-            >
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Agregar</span>
-            </button>
+            <mat-form-field  class="w-1/2">
+                <mat-label>Estados</mat-label>
+                <mat-select
+                >
+                    <mat-option [value]="item.id" *ngFor="let item of [1,2,3]">Estado</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
 
     </div>

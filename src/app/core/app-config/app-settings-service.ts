@@ -112,5 +112,11 @@ export class AppSettingsService {
         }
     }
 
+    public cobroTrabajadores = {
+        url: {
+            base: EndPoints.uriBase('CobroTrabajadores')
+        }
+    }
+
 
 }
