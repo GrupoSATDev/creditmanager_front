@@ -11,11 +11,11 @@
         <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
             <!-- Search -->
             <mat-form-field
-                class="fuse-mat-dense fuse-mat-rounded min-w-64"
+                class="fuse-mat-dense rounded-lg d min-w-64"
                 [subscriptSizing]="'dynamic'"
             >
                 <mat-icon
-                    class="icon-size-5"
+                    class="icon-size-5 "
                     matPrefix
                     [svgIcon]="'heroicons_solid:magnifying-glass'"
                 ></mat-icon>
@@ -27,7 +27,7 @@
             </mat-form-field>
             <!-- Add product button -->
             <button
-                class="ml-4 bg-crediblue-50"
+                class="ml-4 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                 mat-flat-button
                 [color]="'primary'"
                 (click)="onNew()"
