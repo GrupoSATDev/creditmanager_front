@@ -17,4 +17,8 @@ export class EstadoCreditosService {
         return this._http.get(this.appSettings.estadoCreditos.url.base)
     }
 
+    getEstadoCobros(): Observable<any> {
+      return this._http.get(this.appSettings.estadoCreditos.url.baseCobros)
+    }
+
 }

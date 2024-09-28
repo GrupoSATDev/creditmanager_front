@@ -29,8 +29,9 @@
             <mat-form-field  class="w-1/2">
                 <mat-label>Estados</mat-label>
                 <mat-select
+                    [formControl]="estados"
                 >
-                    <mat-option [value]="item.id" *ngFor="let item of [1,2,3]">Estado</mat-option>
+                    <mat-option [value]="item.id" *ngFor="let item of estadpCreditos">{{item.nombre}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>

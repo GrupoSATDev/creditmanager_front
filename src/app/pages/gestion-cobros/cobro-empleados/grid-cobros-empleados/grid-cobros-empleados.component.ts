@@ -14,6 +14,8 @@ import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabaj
 import { Estados } from '../../../../core/enums/estados';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-grid-cobros-empleados',
@@ -28,6 +30,7 @@ import { MatSelect } from '@angular/material/select';
         MatOption,
         MatSelect,
         NgForOf,
+        ReactiveFormsModule,
     ],
     providers: [
         DatePipe,
@@ -42,10 +45,16 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     private estadoDatosService: EstadosDatosService = inject(EstadosDatosService);
     private currencyPipe = inject(CurrencyPipe);
     private cobroTrabadorService = inject(CobroTrabajadoresService);
+    private estadoCreditosService = inject(EstadoCreditosService);
+    private fb = inject(FormBuilder);
+    estados = new FormControl([''])
+
+
 
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
+    public estadpCreditos = [];
 
 
     data = [];
@@ -74,6 +83,12 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
         private _matDialog: MatDialog,
 
     ) {
+    }
+
+    getEstadoCreditos() {
+        this.subcription$ = this.estadoCreditosService.getEstadoCobros().subscribe((response) => {
+            this.estadpCreditos = response.data;
+        })
     }
 
     getCobros() {
@@ -116,6 +131,13 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
                 this.getCobros();
             }
         })
+
+        const selected$ = this.estados;
+        selected$.valueChanges.subscribe((response) =>{
+            if (response) {
+                console.log(response)
+            }
+        })
     }
 
     ngOnDestroy(): void {
@@ -124,6 +146,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.getCobros();
+        this.getEstadoCreditos()
         this.listenGrid();
     }
 
