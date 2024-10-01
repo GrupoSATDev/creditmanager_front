@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { Observable, Subscription } from 'rxjs';
 import { MatAnchor, MatButton } from '@angular/material/button';
@@ -13,6 +13,7 @@ import { MatIcon } from '@angular/material/icon';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { cancelar, guardar } from '../../../../core/constant/dialogs';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { DialogConfirmSolicitudComponent } from '../dialog-confirm-solicitud/dialog-confirm-solicitud.component';
 
 @Component({
   selector: 'app-form-approve',
@@ -43,6 +44,7 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public items: any;
     public detalleEmpleado: any;
+    public _matDialog = inject(MatDialog);
 
     ngOnInit(): void {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -62,32 +64,15 @@ export class FormApproveComponent implements OnInit, OnDestroy{
             idEstado: CodigosEstadosSolicitudes.APROBADA,
             id: this.detalleEmpleado.id
         }
-        const dialog = this.fuseService.open({
-            ...guardar
-        });
-
-        dialog.afterClosed().subscribe((response) => {
-            if (response === 'confirmed') {
-                this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
-                    if (response.isExitoso) {
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
-                        })
-                        this.router.navigate(['/pages/gestion-creditos/solicitudes']);
-                        this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
-                    }
-                }, error => {
-                    this.toasService.toasAlertWarn({
-                        message: 'Ha ocurrido un error!!!!',
-                        actionMessage: 'Cerrar',
-                        duration: 3000
-                    })
-                })
-            }
+        this._matDialog.open(DialogConfirmSolicitudComponent, {
+            autoFocus: true,
+            data: {
+                data: data,
+                aprobado: true
+            },
+            width: '30%',
+            disableClose: true
         })
-
     }
 
     onReject() {
@@ -95,30 +80,13 @@ export class FormApproveComponent implements OnInit, OnDestroy{
             idEstado: CodigosEstadosSolicitudes.RECHAZADA,
             id: this.detalleEmpleado.id
         }
-        const dialog = this.fuseService.open({
-            ...cancelar
-        });
-
-        dialog.afterClosed().subscribe((response) => {
-            if (response === 'confirmed') {
-                this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
-                    if (response.isExitoso) {
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
-                        })
-                        this.router.navigate(['/pages/gestion-creditos/solicitudes']);
-                        this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 1});
-                    }
-                }, error => {
-                    this.toasService.toasAlertWarn({
-                        message: 'Ha ocurrido un error!!!!',
-                        actionMessage: 'Cerrar',
-                        duration: 3000
-                    })
-                })
-            }
+        this._matDialog.open(DialogConfirmSolicitudComponent, {
+            autoFocus: true,
+            data: {
+                data: data,
+            },
+            width: '30%',
+            disableClose: true
         })
 
     }
