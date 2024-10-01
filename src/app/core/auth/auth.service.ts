@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
 import { user } from '../../mock-api/common/user/data';
 
@@ -63,6 +63,32 @@ export class AuthService {
 
         //return this._httpClient.post('api/auth/sign-in', credentials).pipe(
         return this._httpClient.post(this._appSettings.auth.url.base, credentials).pipe(
+            map((response: any) => {
+                const dataUser = {
+                    id: Math.random().toString(),
+                    name: response.data.nombre,
+                    email: response.data.correo,
+                    avatar: 'images/avatars/avatar-user.png',
+                    status: 'online'
+                }
+                response.tokenType = 'bearer',
+                response.user = {
+                    ...dataUser
+                }
+                delete response.data;
+               /* {
+                    "user": {
+                        "name": "Brian Hughes",
+                        "email": "hughes.brian@company.com",
+                        "avatar": "images/avatars/brian-hughes.jpg",
+                        "status": "online"
+                    },
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjc0MTAzODMsImlzcyI6IkZ1c2UiLCJleHAiOjE3MjgwMTUxODN9.NbafzoPOj3wrDaEBxDUvqcn47KN6CNyu3kpCm88rw7M",
+                    "tokenType": "bearer"
+                }*/
+                return response;
+
+            }),
             switchMap((response: any) => {
                 console.log(response)
                 // Store the access token in the local storage
@@ -73,15 +99,9 @@ export class AuthService {
                 this._authenticated = true;
 
                 // Store the user on the user service
-                const dataUser = {
-                    id: Math.random().toString(),
-                    name: response.data.nombre,
-                    email: response.data.correo,
-                    avatar: 'images/avatars/avatar-user.png',
-                    status: 'online'
-                }
-                this._userService.user = dataUser;
-                //this._userService.user = response.user;
+
+                //this._userService.user = dataUser;
+                this._userService.user = response.user;
                 //this._userService.user = user;
 
                 // Return a new observable with the response
@@ -183,11 +203,13 @@ export class AuthService {
         }
 
         // Check the access token expire date
-        if (AuthUtils.isTokenExpired(this.accessToken)) {
-            return of(false);
-        }
+        //if (AuthUtils.isTokenExpired(this.accessToken)) {
+          //  return of(false);
+        //}
 
         // If the access token exists, and it didn't expire, sign in using it
-        return this.signInUsingToken();
+        //return this.signInUsingToken();
+        return of(true);
+
     }
 }
