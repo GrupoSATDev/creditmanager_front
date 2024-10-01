@@ -75,7 +75,7 @@
         >
             <!-- Cancel -->
             @if (data.actions.cancel.show) {
-                <button mat-stroked-button [matDialogClose]="'cancelled'">
+                <button mat-stroked-button [matDialogClose]="'cancelled'" class="text-white bg-credigray-100 rounded-lg">
                     {{ data.actions.cancel.label }}
                 </button>
             }
@@ -86,6 +86,8 @@
                     mat-flat-button
                     [color]="data.actions.confirm.color"
                     [matDialogClose]="'confirmed'"
+                    [ngClass]="data.actions.confirm.color"
+                    class="text-white rounded-lg"
                 >
                     {{ data.actions.confirm.label }}
                 </button>

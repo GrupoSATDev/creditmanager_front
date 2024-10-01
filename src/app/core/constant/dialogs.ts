@@ -12,7 +12,7 @@ export const guardar: FuseConfirmationConfig = {
         confirm: {
             show: true,
             label: 'Guardar',
-            color: 'primary'
+            color: 'bg-crediblue-50'
         },
         cancel: {
             show: true,

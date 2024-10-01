@@ -18,7 +18,7 @@ export interface FuseConfirmationConfig {
         confirm?: {
             show?: boolean;
             label?: string;
-            color?: 'primary' | 'accent' | 'warn';
+            color?: 'primary' | 'accent' | 'warn' | 'bg-crediblue-50' | 'bg-credigray';
         };
         cancel?: {
             show?: boolean;
