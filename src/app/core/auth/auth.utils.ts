@@ -18,8 +18,6 @@ export class AuthUtils {
      */
     static isTokenExpired(token: string, offsetSeconds?: number): boolean {
         // Return if there is no token
-        console.log(token)
-        console.log(offsetSeconds)
         if (!token || token === '') {
             return true;
         }
@@ -33,8 +31,6 @@ export class AuthUtils {
             return true;
         }
 
-        console.log(date.valueOf())
-        console.log(new Date().valueOf())
 
         // Check if the token is expired
         return !(date.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
@@ -173,11 +169,9 @@ export class AuthUtils {
         // Get the decoded token
 
         const decodedToken = this._decodeToken(token);
-        console.log(token)
         //decodedToken.iss = "Fuse";
         decodedToken.iat = new Date(decodedToken.iat);
         decodedToken.iat = Math.floor(decodedToken.iat.getTime() / 10000);
-        console.log(decodedToken)
 
         // Return if the decodedToken doesn't have an 'exp' field
         //debugger
@@ -188,10 +182,7 @@ export class AuthUtils {
         // Convert the expiration date
         const date = new Date(0);
         date.setUTCSeconds(decodedToken.exp);
-        console.log(date)
         date.setUTCSeconds(decodedToken.exp);
-        console.log( date.setUTCSeconds(decodedToken.exp))
-        console.log( date)
 
         return date;
     }
