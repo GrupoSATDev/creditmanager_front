@@ -101,8 +101,6 @@ export class FormEmpleadosComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            //this.form.patchValue(data);
-            console.log(data)
             const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
             const fecha = new Date(fechaNacimiento)
             const fechaInicioAntes = new Date(fechaInicioContrato)
@@ -112,11 +110,10 @@ export class FormEmpleadosComponent implements OnInit{
                 fechaNacimiento: fecha,
                 fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
                 fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
+                idDepartamento,
                 ...form
             })
             console.log(this.form.getRawValue())
-            //this.riesgos$ = this.riesgosServices.getRiesgo(idNivelRiesgo);
-            //this.bancos$ = this.bancosServices.getBanco(idBanco);
             this.image = `data:image/png;base64,  ${data.foto}`;
         }
     }
@@ -149,7 +146,7 @@ export class FormEmpleadosComponent implements OnInit{
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, `dd/MM/yyyy`);
+                let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
@@ -158,6 +155,7 @@ export class FormEmpleadosComponent implements OnInit{
                     fechaFinContrato: fin,
                     ...form
                 }
+                console.log(createData)
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -182,7 +180,7 @@ export class FormEmpleadosComponent implements OnInit{
             }else {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, `dd/MM/yyyy`);
+                let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
