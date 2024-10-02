@@ -54,7 +54,7 @@
                         (click)="twoStepToggle.toggle()"
                     >
                         <div class="font-medium leading-6">
-                            Estado empleado
+                            Estado {{form.get('estado').value ? 'Activo' : 'Inactivo'}}
                         </div>
                     </div>
                     <mat-slide-toggle
