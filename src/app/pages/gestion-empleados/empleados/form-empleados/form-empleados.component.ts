@@ -145,7 +145,7 @@ export class FormEmpleadosComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -153,6 +153,7 @@ export class FormEmpleadosComponent implements OnInit{
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
                     fechaFinContrato: fin,
+                    estado: true,
                     ...form
                 }
                 console.log(createData)
@@ -179,7 +180,7 @@ export class FormEmpleadosComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -187,6 +188,7 @@ export class FormEmpleadosComponent implements OnInit{
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
                     fechaFinContrato: fin,
+                    estado: true,
                     ...form
                 }
 
@@ -246,6 +248,7 @@ export class FormEmpleadosComponent implements OnInit{
             foto: [''],
             firma: [''],
             idSubEmpresa: [''],
+            estado: ['true']
         })
     }
 
