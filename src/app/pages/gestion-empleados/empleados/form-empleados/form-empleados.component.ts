@@ -25,6 +25,7 @@ import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tiposCuentas } from '../../../../core/constant/tiposCuentas';
 import { NivelRiesgoService } from '../../../../core/services/nivel-riesgo.service';
 import { BancosService } from '../../../../core/services/bancos.service';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -52,6 +53,7 @@ const maskConfig: Partial<IConfig> = {
         MatIcon,
         JsonPipe,
         NgxMaskDirective,
+        MatSlideToggle,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -101,7 +103,7 @@ export class FormEmpleadosComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
+            const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
             const fecha = new Date(fechaNacimiento)
             const fechaInicioAntes = new Date(fechaInicioContrato)
             const fechaFinAntes = new Date(fechaFinContrato)
@@ -111,6 +113,7 @@ export class FormEmpleadosComponent implements OnInit{
                 fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
                 fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
                 idDepartamento,
+                estado: estado == 'Activo' ? true : false,
                 ...form
             })
             console.log(this.form.getRawValue())
@@ -145,15 +148,14 @@ export class FormEmpleadosComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-                let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                //let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
-                    fechaFinContrato: fin,
-                    estado: true,
+                    fechaFinContrato: '0001-01-01T00:00:00+00:00',
                     ...form
                 }
                 console.log(createData)
@@ -180,7 +182,7 @@ export class FormEmpleadosComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -188,7 +190,6 @@ export class FormEmpleadosComponent implements OnInit{
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
                     fechaFinContrato: fin,
-                    estado: true,
                     ...form
                 }
 

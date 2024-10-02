@@ -48,6 +48,23 @@
 
             <div>
                 <p class="font-bold mb-4 text-2xl">Información general</p>
+                <div class="flex mb-4">
+                    <div
+                        class="fcursor-pointer"
+                        (click)="twoStepToggle.toggle()"
+                    >
+                        <div class="font-medium leading-6">
+                            Estado empleado
+                        </div>
+                    </div>
+                    <mat-slide-toggle
+                        class="ml-4"
+                        [color]="'primary'"
+                        [formControlName]="'estado'"
+                        #twoStepToggle
+                    >
+                    </mat-slide-toggle>
+                </div>
                 <div class="flex gap-2.5">
                     <!-- Name field -->
                     <mat-form-field class="w-full">
@@ -194,13 +211,14 @@
                         <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
                         <mat-datepicker #inicio></mat-datepicker>
                     </mat-form-field>
-
-                    <mat-form-field  class="w-full">
-                        <mat-label>Fin de contrato</mat-label>
-                        <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'">
-                        <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
-                        <mat-datepicker #fin></mat-datepicker>
-                    </mat-form-field>
+                    <ng-container *ngIf="form.get('estado').value == false">
+                        <mat-form-field  class="w-full">
+                            <mat-label>Fin de contrato</mat-label>
+                            <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'">
+                            <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
+                            <mat-datepicker #fin></mat-datepicker>
+                        </mat-form-field>
+                    </ng-container>
 
                 </div>
 
