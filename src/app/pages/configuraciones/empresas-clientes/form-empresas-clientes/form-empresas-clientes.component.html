@@ -63,13 +63,6 @@
             </mat-form-field>
 
             <mat-form-field  class="w-full">
-                <mat-label>Fecha de corte</mat-label>
-                <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCorte'">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field  class="w-full">
                 <mat-label>Tipos de empresa</mat-label>
                 <mat-select [formControlName]="'idTipoEmpresa'">
                     <ng-container *ngIf="tiposEmpresas$ | async as tipos">
@@ -80,21 +73,30 @@
 
             <mat-form-field  class="w-full">
                 <mat-label>Subscripción</mat-label>
-                <mat-select>
-                     <mat-option [value]="tipo.id" *ngFor="let tipo of [1,2,3]">Valor por definir</mat-option>
+                <mat-select [formControlName]="'idSuscripcion'">
+                    <ng-container *ngIf="subcripciones$ | async as subscripciones">
+                        <mat-option [value]="item.id" *ngFor="let item of subscripciones.data">{{item.nombre}}</mat-option>
+                    </ng-container>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field class="w-full">
                 <mat-label>Valor subscripción</mat-label>
                 <input
-                    matInput />
+                    matInput [formControlName]="'valorSuscripcion'" mask="separator.0" thousandSeparator="." />
             </mat-form-field>
 
             <mat-form-field class="w-full">
                 <mat-label>Porcentaje cobro</mat-label>
                 <input
-                    matInput />
+                    matInput [formControlName]="'porcCobro'"  />
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Fecha de cobro</mat-label>
+                <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
             <div class="flex flex-wrap justify-end gap-2.5 ">

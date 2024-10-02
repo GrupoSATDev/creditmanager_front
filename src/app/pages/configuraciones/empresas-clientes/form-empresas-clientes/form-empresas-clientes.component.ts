@@ -19,6 +19,12 @@ import { EmpresasClientesService } from '../../../../core/services/empresas-clie
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { CUSTOM_DATE_FORMATS } from '../../../../core/constant/custom-date-format';
+import { SubscripcionService } from '../../../../core/services/subscripcion.service';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-empresas-clientes',
@@ -38,12 +44,14 @@ import { CUSTOM_DATE_FORMATS } from '../../../../core/constant/custom-date-forma
         MatDatepickerInput,
         MatDatepickerToggle,
         MatDatepicker,
-        MatFormFieldModule
+        MatFormFieldModule,
+        NgxMaskDirective,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        DatePipe
+        DatePipe,
+        provideNgxMask(maskConfig)
     ],
   templateUrl: './form-empresas-clientes.component.html',
   styleUrl: './form-empresas-clientes.component.scss'
@@ -60,11 +68,13 @@ export class FormEmpresasClientesComponent implements OnInit{
     public toasService = inject(ToastAlertsService);
     public tiposEmpresaService= inject(TiposEmpresasService);
     public empresaClienteService = inject(EmpresasClientesService);
+    public subcripciones = inject(SubscripcionService);
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public empresas$ = this.empresasService.getEmpresas();
     public municipios$: Observable<any>;
     public tiposEmpresas$ = this.tiposEmpresaService.getTiposEmpresas();
+    public subcripciones$ = this.subcripciones.getSubcripciones();
     public _matData = inject(MAT_DIALOG_DATA);
     private datePipe = inject(DatePipe);
 
@@ -91,10 +101,10 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, idEmpresa, fechaCorte, ...form} = data;
-                let fecha = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
+                const {idDepartamento, idEmpresa, fechaCobro, ...form} = data;
+                let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
-                    fechaCorte: fecha,
+                    fechaCobro: fecha,
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -120,10 +130,10 @@ export class FormEmpresasClientesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaCorte,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaCorte, 'dd/MM/yyyy');
+                const {idDepartamento, fechaCobro, estado, ...form} = data;
+                let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
-                    fechaCorte: fecha,
+                    fechaCobro: fecha,
                     ...form
                 }
 
@@ -165,6 +175,10 @@ export class FormEmpresasClientesComponent implements OnInit{
             idTipoEmpresa: [''],
             idMunicipio: [''],
             fechaCorte: [''],
+            idSuscripcion: [''],
+            valorSuscripcion: [''],
+            porcCobro: [''],
+            fechaCobro: [''],
             estado: [true],
         })
     }

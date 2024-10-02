@@ -119,5 +119,11 @@ export class AppSettingsService {
         }
     }
 
+    public subcripciones = {
+        url: {
+            base: EndPoints.uriBase('Suscripciones')
+        }
+    }
+
 
 }
