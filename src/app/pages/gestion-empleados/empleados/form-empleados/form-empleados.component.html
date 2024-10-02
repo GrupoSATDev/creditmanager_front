@@ -190,25 +190,67 @@
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Inicio de contrato</mat-label>
-                        <input matInput [matDatepicker]="picker" >
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <input matInput [matDatepicker]="inicio" [formControlName]="'fechaInicioContrato'">
+                        <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
+                        <mat-datepicker #inicio></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field  class="w-full">
                         <mat-label>Fin de contrato</mat-label>
-                        <input matInput [matDatepicker]="picker"  >
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'">
+                        <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
+                        <mat-datepicker #fin></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full" >
+                        <mat-label>Salario devengado</mat-label>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'"/>
+                    </mat-form-field>
+
+
+                    <mat-form-field  class="w-full" >
+                        <mat-label>Número de cuenta bancaria</mat-label>
+                        <input  matInput  [formControlName]="'numCuentaBancaria'"/>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex gap-2.5">
+                    <mat-form-field  class="w-full">
+                        <mat-label>Tipo de cuenta</mat-label>
+                        <mat-select [formControlName]="'idTipoCuenta'">
+                            <mat-option [value]="item.id" *ngFor="let item of tiposCuentas">{{item.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Bancos</mat-label>
+                        <mat-select [formControlName]="'idBanco'">
+                            <ng-container *ngIf="bancos$ | async as bancos">
+                                <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
                     </mat-form-field>
 
                 </div>
 
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
-                        <mat-label>Salario devengado</mat-label>
-                        <input  matInput  />
+                        <mat-label>Nivel de riesgos</mat-label>
+                        <mat-select [formControlName]="'idNivelRiesgo'">
+                            <ng-container *ngIf="riesgos$ | async as riesgos">
+                                <mat-option [value]="item.id" *ngFor="let item of riesgos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
                     </mat-form-field>
+
+                    <mat-form-field  class="w-full">
+                        <mat-label>Capacidad de endeudamiento</mat-label>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'capacidadEndeudamiento'"/>
+                    </mat-form-field>
+
                 </div>
 
             </div>

@@ -125,5 +125,17 @@ export class AppSettingsService {
         }
     }
 
+    public riesgos = {
+        url: {
+            base: EndPoints.uriBase('NivelesRiesgos')
+        }
+    }
+
+    public bancos = {
+        url: {
+            base: EndPoints.uriBase('Bancos')
+        }
+    }
+
 
 }

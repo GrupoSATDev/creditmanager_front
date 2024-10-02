@@ -21,6 +21,15 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { CargosService } from '../../../../core/services/cargos.service';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { tiposCuentas } from '../../../../core/constant/tiposCuentas';
+import { NivelRiesgoService } from '../../../../core/services/nivel-riesgo.service';
+import { BancosService } from '../../../../core/services/bancos.service';
+
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-empleados',
@@ -42,11 +51,13 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
         MatSuffix,
         MatIcon,
         JsonPipe,
+        NgxMaskDirective,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        DatePipe
+        DatePipe,
+        provideNgxMask(maskConfig)
     ],
   templateUrl: './form-empleados.component.html',
   styleUrl: './form-empleados.component.scss'
@@ -65,6 +76,8 @@ export class FormEmpleadosComponent implements OnInit{
     private datePipe = inject(DatePipe);
     private empleadosServices = inject(EmpleadosService)
     private cargosServices = inject(CargosService)
+    private riesgosServices = inject(NivelRiesgoService)
+    private bancosServices = inject(BancosService)
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
@@ -72,8 +85,11 @@ export class FormEmpleadosComponent implements OnInit{
     public generos$ = this.generoService.getGeneros();
     public empresasClientes$ = this.empresaClienteService.getEmpresas();
     public cargos$ = this.cargosServices.getCargos();
+    public riesgos$ = this.riesgosServices.getRiesgos();
+    public bancos$ = this.bancosServices.getBancos();
     public _matData = inject(MAT_DIALOG_DATA);
     public image: any;
+    public tiposCuentas = tiposCuentas;
 
     profile: any = {
         avatar: '',
@@ -85,11 +101,22 @@ export class FormEmpleadosComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.form.patchValue(data);
-            const {idDepartamento, fechaNacimiento} = data;
+            //this.form.patchValue(data);
+            console.log(data)
+            const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
             const fecha = new Date(fechaNacimiento)
-            this.form.patchValue({fechaNacimiento: fecha})
+            const fechaInicioAntes = new Date(fechaInicioContrato)
+            const fechaFinAntes = new Date(fechaFinContrato)
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+            this.form.patchValue({
+                fechaNacimiento: fecha,
+                fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
+                fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
+                ...form
+            })
+            console.log(this.form.getRawValue())
+            //this.riesgos$ = this.riesgosServices.getRiesgo(idNivelRiesgo);
+            //this.bancos$ = this.bancosServices.getBanco(idBanco);
             this.image = `data:image/png;base64,  ${data.foto}`;
         }
     }
@@ -121,10 +148,14 @@ export class FormEmpleadosComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, 'dd/MM/yyyy');
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                let fecha = this.datePipe.transform(fechaNacimiento, `dd/MM/yyyy`);
+                let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaNacimiento: fecha,
+                    fechaInicioContrato: inicio,
+                    fechaFinContrato: fin,
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -150,10 +181,14 @@ export class FormEmpleadosComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, 'dd/MM/yyyy');
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                let fecha = this.datePipe.transform(fechaNacimiento, `dd/MM/yyyy`);
+                let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaNacimiento: fecha,
+                    fechaInicioContrato: inicio,
+                    fechaFinContrato: fin,
                     ...form
                 }
 
@@ -202,6 +237,14 @@ export class FormEmpleadosComponent implements OnInit{
             correo: [''],
             cargo: [''],
             fechaNacimiento: [''],
+            fechaInicioContrato: [''],
+            fechaFinContrato: ['null'],
+            numCuentaBancaria: [''],
+            salarioDevengado: [''],
+            capacidadEndeudamiento: [''],
+            idNivelRiesgo: [''],
+            idBanco: [''],
+            idTipoCuenta: [''],
             foto: [''],
             firma: [''],
             idSubEmpresa: [''],
