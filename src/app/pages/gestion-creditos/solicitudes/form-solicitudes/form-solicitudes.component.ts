@@ -129,9 +129,10 @@ export class FormSolicitudesComponent implements OnInit{
         if (this.secondFormGroup.valid) {
             if (!this._matData.edit) {
                 const data = this.secondFormGroup.getRawValue();
-                const {cupo,  ...form} = data;
+                const {cupo, cantCuotas,  ...form} = data;
                 const createData = {
                     cupo: Number(cupo),
+                    cantCuotas: Number(cantCuotas),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -151,6 +152,12 @@ export class FormSolicitudesComponent implements OnInit{
                                 duration: 3000
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.toasService.toasAlertWarn({
+                                message: error.error.errorMenssages[0],
+                                actionMessage: 'Cerrar',
+                                duration: 6000
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -158,9 +165,10 @@ export class FormSolicitudesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {cupo,  ...form} = data;
+                const {cupo, cantCuotas,  ...form} = data;
                 const createData = {
                     cupo: Number(cupo),
+                    cantCuotas: Number(cantCuotas),
                     ...form
                 }
 

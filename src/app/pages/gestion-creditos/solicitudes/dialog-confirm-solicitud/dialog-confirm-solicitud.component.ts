@@ -10,7 +10,7 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 
 @Component({
@@ -44,23 +44,46 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
 
     onSave() {
         let data = {}
+        let putData = {
+
+        }
         if (this._matData.data.idEstado == CodigosEstadosSolicitudes.APROBADA) {
+            putData = {
+                id: this._matData.data.id,
+                cupo: this._matData.data.cupo,
+                idTipoSolicitud: this._matData.data.idTipoSolicitud,
+                observacion: this._matData.data.observacion,
+                observaciónAprueba: this.inputValue.value,
+                observacionRechazo: ''
+            }
             data = {
-                ObservaciónAprueba: this.inputValue.value,
-                ...this._matData.data
+                id: this._matData.data.id,
+                idEstado: this._matData.data.idEstado,
             }
         }else {
+            putData = {
+                id: this._matData.data.id,
+                cupo: this._matData.data.cupo,
+                idTipoSolicitud: this._matData.data.idTipoSolicitud,
+                observacion: this._matData.data.observacion,
+                observacionRechazo: this.inputValue.value,
+                observaciónAprueba: ''
+            }
             data = {
-                ObservacionRechazo: this.inputValue.value,
-                ...this._matData.data
+                id: this._matData.data.id,
+                idEstado: this._matData.data.idEstado,
             }
         }
 
-        this.subcription$ = this.solicitudService.patchSolicitud(data).subscribe((response) => {
+        this.subcription$ = this.solicitudService.patchSolicitud(data).pipe(
+            switchMap((response) => {
+                return this.solicitudService.putSolicitudes(putData)
+            })
+        ).subscribe((response) => {
             this.toasService.toasAlertWarn({
                 message: 'Registro creado con exito!',
                 actionMessage: 'Cerrar',
-                duration: 3000
+                duration: 4000
             })
             this.router.navigate(['/pages/gestion-creditos/solicitudes']);
             this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
@@ -69,7 +92,7 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
             this.toasService.toasAlertWarn({
                 message: 'Ha ocurrido un error!!!!',
                 actionMessage: 'Cerrar',
-                duration: 3000
+                duration: 4000
             })
         });
 

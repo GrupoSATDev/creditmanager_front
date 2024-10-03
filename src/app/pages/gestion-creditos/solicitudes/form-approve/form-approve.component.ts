@@ -54,6 +54,7 @@ export class FormApproveComponent implements OnInit, OnDestroy{
 
     getSolicitud(id) {
         this.subcription$ = this.solicitudService.getSolicitud(id).subscribe((response) => {
+            console.log(response.data)
             this.items = response.data;
             this.detalleEmpleado = response.data;
         })
@@ -62,7 +63,10 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     onSave() {
         const data  = {
             idEstado: CodigosEstadosSolicitudes.APROBADA,
-            id: this.detalleEmpleado.id
+            id: this.detalleEmpleado.id,
+            cupo: this.detalleEmpleado.cupo,
+            observacion: this.detalleEmpleado.observacion,
+            idTipoSolicitud: this.detalleEmpleado.idTipoSolicitud
         }
         this._matDialog.open(DialogConfirmSolicitudComponent, {
             autoFocus: true,
@@ -78,7 +82,10 @@ export class FormApproveComponent implements OnInit, OnDestroy{
     onReject() {
         const data  = {
             idEstado: CodigosEstadosSolicitudes.RECHAZADA,
-            id: this.detalleEmpleado.id
+            id: this.detalleEmpleado.id,
+            cupo: this.detalleEmpleado.cupo,
+            observacion: this.detalleEmpleado.observacion,
+            idTipoSolicitud: this.detalleEmpleado.idTipoSolicitud
         }
         this._matDialog.open(DialogConfirmSolicitudComponent, {
             autoFocus: true,

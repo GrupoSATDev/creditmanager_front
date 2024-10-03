@@ -225,6 +225,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
             idTasaInteres: [''],
             fechaVencimiento: [''],
             fechaCorte: [''],
+            cantCuotas: [''],
         })
     }
 
