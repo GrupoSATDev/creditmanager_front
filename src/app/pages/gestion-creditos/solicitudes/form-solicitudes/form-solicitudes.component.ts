@@ -129,10 +129,9 @@ export class FormSolicitudesComponent implements OnInit{
         if (this.secondFormGroup.valid) {
             if (!this._matData.edit) {
                 const data = this.secondFormGroup.getRawValue();
-                const {cupo, cantCuotas,  ...form} = data;
+                const {cupo, ...form} = data;
                 const createData = {
                     cupo: Number(cupo),
-                    cantCuotas: Number(cantCuotas),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -165,10 +164,9 @@ export class FormSolicitudesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {cupo, cantCuotas,  ...form} = data;
+                const {cupo,  ...form} = data;
                 const createData = {
                     cupo: Number(cupo),
-                    cantCuotas: Number(cantCuotas),
                     ...form
                 }
 
