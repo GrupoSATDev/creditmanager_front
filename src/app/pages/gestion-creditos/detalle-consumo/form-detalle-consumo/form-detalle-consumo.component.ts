@@ -31,6 +31,8 @@ import { DetalleConsumoService } from '../../../../core/services/detalle-consumo
 import { Router } from '@angular/router';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { TipoConsumosService } from '../../../../core/services/tipo-consumos.service';
+import { CuentasBancariasService } from '../../../../core/services/cuentas-bancarias.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -83,6 +85,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public estadosDatosService = inject(EstadosDatosService);
     public toasService = inject(ToastAlertsService);
     private empleadosServices = inject(EmpleadosService)
+    private tipoConsumosService = inject(TipoConsumosService)
+    private cuentasServices = inject(CuentasBancariasService)
     private datePipe = inject(DatePipe);
     private router = inject(Router);
 
@@ -91,6 +95,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     private detalleConsumo = inject(DetalleConsumoService);
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
+    public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos();
+    public cuentas$ = this.cuentasServices.getCuentas();
     @ViewChild('stepper') stepper!: MatStepper;
 
     public firstFormGroup: FormGroup;
@@ -253,6 +259,9 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             numeroFactura: ['', Validators.required],
             detalleCompra: ['', Validators.required],
             idMunicipio: ['', Validators.required],
+            idTipoConsumo: ['', Validators.required],
+            idCuentaBancaria: ['', Validators.required],
+            cuentaDestino: ['', Validators.required],
         })
     }
 

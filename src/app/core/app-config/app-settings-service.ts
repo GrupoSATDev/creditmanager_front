@@ -137,5 +137,17 @@ export class AppSettingsService {
         }
     }
 
+    public cuentasBancarias = {
+        url: {
+            base: EndPoints.uriBase('CuentasBancarias')
+        }
+    }
+
+    public tipoConsumos = {
+        url: {
+            base: EndPoints.uriBase('TipoConsumos')
+        }
+    }
+
 
 }

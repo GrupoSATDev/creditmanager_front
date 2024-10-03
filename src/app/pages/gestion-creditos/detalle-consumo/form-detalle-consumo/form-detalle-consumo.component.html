@@ -110,6 +110,18 @@
                                     <mat-label>Número de factura</mat-label>
                                     <input  matInput [formControlName]="'numeroFactura'" />
                                 </mat-form-field>
+
+                                <mat-form-field  class="w-full">
+                                    <mat-label>Tipo consumo</mat-label>
+                                    <mat-select
+                                        #data
+                                        [formControlName]="'numeroFactura'"
+                                    >
+                                        <ng-container *ngIf="tipoConsumo$ | async as tipoConsumos">
+                                            <mat-option [value]="consumo.id" *ngFor="let consumo of tipoConsumos.data">{{consumo.nombre}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
                             </div>
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
@@ -122,6 +134,23 @@
                                 <mat-form-field class="w-full">
                                     <mat-label>Cantidad de cuotas</mat-label>
                                     <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-row gap-2.5">
+                                <mat-form-field  class="w-full">
+                                    <mat-label>Cuentas bancarias</mat-label>
+                                    <mat-select
+                                        #data
+                                        [formControlName]="'idCuentaBancaria'"
+                                    >
+                                        <ng-container *ngIf="cuentas$ | async as cuentas">
+                                            <mat-option [value]="cuenta.id" *ngFor="let cuenta of cuentas.data">{{cuenta.nombre}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Número de cuenta destino</mat-label>
+                                    <input  matInput type="text" [min]="1" [max]="12" mask="0000-0000-0000" [showMaskTyped]="true" [formControlName]="'cuentaDestino'"  />
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-row gap-2.5">
