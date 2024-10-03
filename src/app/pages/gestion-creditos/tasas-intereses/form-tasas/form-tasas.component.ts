@@ -10,6 +10,10 @@ import { ToastAlertsService } from '../../../../core/services/toast-alerts.servi
 import { TasasInteresService } from '../../../../core/services/tasas-interes.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { DatePipe } from '@angular/common';
+import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-form-tasas',
@@ -26,7 +30,12 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
         MatSuffix,
     ],
   templateUrl: './form-tasas.component.html',
-  styleUrl: './form-tasas.component.scss'
+  styleUrl: './form-tasas.component.scss',
+    providers: [
+        { provide: DateAdapter, useClass: DateAdapterService },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        DatePipe,
+    ],
 })
 export class FormTasasComponent implements OnInit{
     private fb = inject(FormBuilder);
@@ -36,6 +45,7 @@ export class FormTasasComponent implements OnInit{
     public estadosDatosService = inject(EstadosDatosService);
     public toasService = inject(ToastAlertsService);
     public _matData = inject(MAT_DIALOG_DATA);
+    private datePipe = inject(DatePipe);
 
     private tasasService = inject(TasasInteresService);
 
@@ -53,9 +63,12 @@ export class FormTasasComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {porcentaje,  ...form} = data;
+                const {porcentaje, vigencia, ...form} = data;
+                let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
+                    vigencia: fecha,
                     porcentaje: Number(porcentaje),
+                    ...form
                 }
                 const dialog = this.fuseService.open({
                     ...guardar
@@ -80,9 +93,12 @@ export class FormTasasComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {porcentaje, } = data;
+                const {porcentaje, vigencia, ...form} = data;
+                let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
+                    vigencia: fecha,
                     porcentaje: Number(porcentaje),
+                    ...form
                 }
 
                 const dialog = this.fuseService.open({
@@ -115,6 +131,8 @@ export class FormTasasComponent implements OnInit{
         this.form = this.fb.group({
             id: [null],
             porcentaje: [''],
+            vigencia: [''],
+            nombre: [''],
         })
     }
 

@@ -47,7 +47,7 @@
                     </mat-form-field>
 
                     <div class="flex flex-wrap justify-center gap-2.5">
-                        <button mat-raised-button matStepperPrevious class="px-6 py-2 rounded-md">Anterior</button>
+                        <button mat-raised-button matStepperPrevious  class="bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold">Anterior</button>
                         <button mat-raised-button matStepperNext [disabled]="firstFormGroup.invalid" class="bg-crediblue-50 text-white px-6 py-2 rounded-md">Siguiente</button>
                     </div>
 
@@ -94,6 +94,15 @@
                     <p class="mb-6 text-left">
                         Te invitamos a revisar constantemente tus solicitudes y créditos para conocer el estado en que se encuentran.
                     </p>
+                    <mat-form-field  class="w-full">
+                        <mat-label>Tipo de solicitud</mat-label>
+                        <mat-select [formControlName]="'idTipoSolicitud'">
+                            <mat-option [value]="item.id" *ngFor="let item of tipoSolicitud">{{item.nombre}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="secondFormGroup.get('idTipoSolicitud').dirty || secondFormGroup.get('idTipoSolicitud').touched  &&  (secondFormGroup.get('idTipoSolicitud').errors.required)">
+                            Este campo es requerido!.
+                        </mat-error>
+                    </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Digita el cupo que deseas solicitar</mat-label>
                         <input  matInput [formControlName]="'cupo'" [mask]="'separator.0'" thousandSeparator="." />

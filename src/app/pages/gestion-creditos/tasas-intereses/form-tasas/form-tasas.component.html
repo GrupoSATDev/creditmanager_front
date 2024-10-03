@@ -11,21 +11,22 @@
         <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
             <mat-form-field class="w-full">
+                <mat-label>Nombre</mat-label>
+                <input  matInput [formControlName]="'nombre'"/>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
                 <mat-label>Porcentaje %</mat-label>
                 <input  matInput [formControlName]="'porcentaje'"/>
             </mat-form-field>
 
             <mat-form-field  class="w-full">
                 <mat-label>Vigencia</mat-label>
-                <input matInput [matDatepicker]="picker" >
+                <input matInput [matDatepicker]="picker" [formControlName]="'vigencia'" />
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field class="w-full">
-                <mat-label>Observaciones</mat-label>
-                <textarea matInput placeholder="Detalle"></textarea>
-            </mat-form-field>
 
 
 

@@ -13,8 +13,11 @@ import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angula
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { map, Subscription } from 'rxjs';
 import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
-import { NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
+import { tiposSolicitudes } from '../../../../core/constant/tiposSolicitud';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -38,6 +41,10 @@ const maskConfig: Partial<IConfig> = {
         NgIf,
         MatError,
         NgxMaskDirective,
+        AsyncPipe,
+        MatOption,
+        MatSelect,
+        NgForOf,
     ],
     providers: [
         provideNgxMask(maskConfig)
@@ -57,6 +64,7 @@ export class FormSolicitudesComponent implements OnInit{
     public subcripstion$: Subscription;
     aceptoTerminos = false;
     matDisabled = false;
+    tipoSolicitud = tiposSolicitudes
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -80,6 +88,7 @@ export class FormSolicitudesComponent implements OnInit{
         this.secondFormGroup = this.fb.group({
             cupo: ['', [Validators.required]],
             observacion: [''],
+            idTipoSolicitud: ['', [Validators.required]],
         });
         this.createForm();
         const dialogData = this._matData;
