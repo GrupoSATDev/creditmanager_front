@@ -169,9 +169,11 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     segundoApellido:  response.data.segundoApellido,
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
+                    idCredito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
+
                 setTimeout(() => {
                     this.stepper.next();
                 }, 1200)
@@ -243,25 +245,20 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         });
 
         this.secondFormGroup = this.fb.group({
-            numDoc: [{value: '', disabled: true}],
-            primerNombre: [{value: '', disabled: true}],
-            segundoNombre:  [{value: '', disabled: true}],
-            primerApellido:  [{value: '', disabled: true}],
-            segundoApellido:  [{value: '', disabled: true}],
+            numDoc: ['', Validators.required],
+            primerNombre: ['', Validators.required],
+            segundoNombre:  ['', Validators.required],
+            primerApellido:  ['', Validators.required],
+            segundoApellido:  ['', Validators.required],
             idTrabajador: [''],
-            correo: [{value: '', disabled: true}],
+            correo: ['', Validators.required],
             idCredito: ['', Validators.required],
         });
 
         this.thirdFormGroup = this.fb.group({
-            cantidadCuotas: ['', [Validators.required]],
             montoConsumo: ['', [Validators.required] ],
             numeroFactura: ['', Validators.required],
-            detalleCompra: ['', Validators.required],
-            idMunicipio: ['', Validators.required],
             idTipoConsumo: ['', Validators.required],
-            idCuentaBancaria: ['', Validators.required],
-            cuentaDestino: ['', Validators.required],
         })
     }
 

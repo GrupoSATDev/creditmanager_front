@@ -30,7 +30,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'apps.gestion.detalle.dembolso',
                 title: 'Desembolso',
                 type: 'basic',
-                link: '/pages/gestion-creditos/desembolso',
+                link: '/pages/gestion-creditos/desembolsos',
             },
             {
                 id: 'apps.gestion.detalles.consumos',

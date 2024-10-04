@@ -48,53 +48,46 @@
 
                 <!-- Segundo Stepper: Información del Documento -->
                 <mat-step [stepControl]="secondFormGroup" label="Verificar información">
-                    <div class="w-full h-full px-4">
+                    <div class="w-full h-full px-4 shadow-lg">
                         <form [formGroup]="secondFormGroup">
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
                                     <mat-label>Primer nombre</mat-label>
-                                    <input  matInput [formControlName]="'primerNombre'" [disabled]="true"/>
+                                    <input  matInput [formControlName]="'primerNombre'" [readonly]="true"/>
                                 </mat-form-field>
                                 <mat-form-field class="w-full">
                                     <mat-label>Segundo nombre</mat-label>
-                                    <input  matInput [formControlName]="'segundoNombre'" [disabled]="true"/>
+                                    <input  matInput [formControlName]="'segundoNombre'" [readonly]="true"/>
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
                                     <mat-label>Primer apellido</mat-label>
-                                    <input  matInput [formControlName]="'primerApellido'" [disabled]="true"/>
+                                    <input  matInput [formControlName]="'primerApellido'" [readonly]="true"/>
                                 </mat-form-field>
                                 <mat-form-field class="w-full">
                                     <mat-label>Segundo apellido</mat-label>
-                                    <input  matInput [formControlName]="'segundoApellido'" [disabled]="true"/>
+                                    <input  matInput [formControlName]="'segundoApellido'" [readonly]="true"/>
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-row gap-2.5">
                                 <mat-form-field class="w-full">
                                     <mat-label>Identificación</mat-label>
-                                    <input  matInput [formControlName]="'numDoc'" [disabled]="true" />
+                                    <input  matInput [formControlName]="'numDoc'" [readonly]="true" />
                                 </mat-form-field>
                                 <mat-form-field class="w-full">
                                     <mat-label>Email</mat-label>
-                                    <input  matInput [formControlName]="'correo'" [disabled]="true" />
+                                    <input  matInput [formControlName]="'correo'" [readonly]="true" />
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-row">
-                                <mat-form-field  class="w-full">
-                                    <mat-label>Créditos</mat-label>
-                                    <mat-select
-                                        [formControlName]="'idCredito'"
-                                        (selectionChange)="selected($event)"
-                                    >
-                                        <ng-container *ngFor="let item of creditos">
-                                            <mat-option [value]="item" >{{ item | formatoOptions }}</mat-option>
-                                        </ng-container>
-                                    </mat-select>
+                                <mat-form-field class="w-full">
+                                    <mat-label>Crédito</mat-label>
+                                    <input  matInput [formControlName]="'idCredito'" [readonly]="true" />
                                 </mat-form-field>
                             </div>
                         </form>
-                        <div class="flex justify-end gap-2.5">
+                        <div class="flex justify-end gap-2.5 py-3">
                             <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
                             <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
                         </div>
@@ -103,19 +96,20 @@
                 </mat-step>
 
                 <mat-step [stepControl]="thirdFormGroup" label="Completar compra">
-                    <div class="w-full h-full px-4">
+                    <div class="h-full mx-auto px-4 w-1/2 shadow-lg">
                         <form [formGroup]="thirdFormGroup">
                             <div class="flex flex-row items-baseline gap-2.5">
                                 <mat-form-field class="w-full">
                                     <mat-label>Número de factura</mat-label>
                                     <input  matInput [formControlName]="'numeroFactura'" />
                                 </mat-form-field>
-
+                            </div>
+                            <div class="flex flex-row items-baseline gap-2.5">
                                 <mat-form-field  class="w-full">
                                     <mat-label>Tipo consumo</mat-label>
                                     <mat-select
                                         #data
-                                        [formControlName]="'numeroFactura'"
+                                        [formControlName]="'idTipoConsumo'"
                                     >
                                         <ng-container *ngIf="tipoConsumo$ | async as tipoConsumos">
                                             <mat-option [value]="consumo.id" *ngFor="let consumo of tipoConsumos.data">{{consumo.nombre}}</mat-option>
@@ -131,59 +125,13 @@
                                         <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
 
                                 </mat-form-field>
-                                <mat-form-field class="w-full">
+                               <!-- <mat-form-field class="w-full">
                                     <mat-label>Cantidad de cuotas</mat-label>
                                     <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field  class="w-full">
-                                    <mat-label>Cuentas bancarias</mat-label>
-                                    <mat-select
-                                        #data
-                                        [formControlName]="'idCuentaBancaria'"
-                                    >
-                                        <ng-container *ngIf="cuentas$ | async as cuentas">
-                                            <mat-option [value]="cuenta.id" *ngFor="let cuenta of cuentas.data">{{cuenta.nombre}}</mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="w-full">
-                                    <mat-label>Número de cuenta destino</mat-label>
-                                    <input  matInput type="text" [min]="1" [max]="12" mask="0000-0000-0000" [showMaskTyped]="true" [formControlName]="'cuentaDestino'"  />
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field  class="w-full">
-                                    <mat-label>Departamento</mat-label>
-                                    <mat-select
-                                        #data
-                                        (selectionChange)="getMunicipios($event)"
-                                    >
-                                        <ng-container *ngIf="departamentos$ | async as departamentos">
-                                            <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field  class="w-full">
-                                    <mat-label>Ciudad</mat-label>
-                                    <mat-select
-                                        [formControlName]="'idMunicipio'"
-                                    >
-                                        <ng-container *ngIf="municipios$ | async as municipios">
-                                            <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field class="w-full">
-                                    <mat-label>Detalle compra</mat-label>
-                                    <textarea matInput placeholder="Detalle" [formControlName]="'detalleCompra'"></textarea>
-                                </mat-form-field>
+                                </mat-form-field>-->
                             </div>
                         </form>
-                        <div class="flex justify-end gap-2.5">
+                        <div class="flex justify-end gap-2.5 py-4">
                             <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
                             <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="bg-crediblue-50 text-white py-2 px-4 rounded ">Pagar</button>
                         </div>
