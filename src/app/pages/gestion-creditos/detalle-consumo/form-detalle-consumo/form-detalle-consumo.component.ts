@@ -169,7 +169,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     segundoApellido:  response.data.segundoApellido,
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
-                    idCredito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible
+                    credito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible,
+                    idCredito: response.data.creditos[0].id
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
@@ -196,15 +197,12 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             const {montoConsumo, ...form} = this.thirdFormGroup.getRawValue();
             const { idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
-            console.log(idCredito)
-
             const createData = {
-                idCredito: idCredito.id,
+                idCredito: idCredito,
                 idTrabajador,
                 montoConsumo: Number(montoConsumo),
                 ...form
             }
-            console.log(createData)
 
             const dialog = this.fuseService.open({
                 ...guardar
@@ -252,6 +250,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             segundoApellido:  ['', Validators.required],
             idTrabajador: [''],
             correo: ['', Validators.required],
+            credito: ['', Validators.required],
             idCredito: ['', Validators.required],
         });
 
