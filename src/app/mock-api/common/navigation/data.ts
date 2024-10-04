@@ -27,6 +27,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/pages/gestion-creditos/detalle-consumo',
             },
             {
+                id: 'apps.gestion.detalle.dembolso',
+                title: 'Desembolso',
+                type: 'basic',
+                link: '/pages/gestion-creditos/desembolso',
+            },
+            {
                 id: 'apps.gestion.detalles.consumos',
                 title: 'Detalle consumo',
                 type: 'basic',
@@ -116,6 +122,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Géneros',
                 type: 'basic',
                 link: '/pages/configuracion/generos',
+            },
+        ],
+    },
+    {
+        id: 'apps.cuentas',
+        title: 'Gestión bancos',
+        type: 'collapsable',
+        icon: 'account_balance',
+        children: [
+            {
+                id: 'apps.cuentas.bancarias',
+                title: 'Cuentas bancarias',
+                type: 'basic',
+                link: '/pages/gestion-bancos/cuentas',
             },
         ],
     },

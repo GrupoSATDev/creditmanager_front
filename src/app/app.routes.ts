@@ -97,7 +97,10 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'gestion-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes')
-            }
+            },
+            {
+                path: 'gestion-bancos', loadChildren: () => import('app/pages/gestion-bancos/gestion-bancos.routes')
+            },
         ]
     }
 ];

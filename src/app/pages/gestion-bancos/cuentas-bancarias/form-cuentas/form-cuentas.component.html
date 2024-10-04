@@ -1,0 +1,71 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar cuenta' : 'Agregar cuenta'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+            <!-- Name field -->
+            <mat-form-field  class="w-full">
+                <mat-label>Tipo de cuenta</mat-label>
+                <mat-select
+                    [formControlName]="'idTipoCuenta'"
+                >
+                    <mat-option [value]="item.id" *ngFor="let item of tipoCuentas">{{item.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Name field -->
+            <mat-form-field  class="w-full">
+                <mat-label>Banco</mat-label>
+                <mat-select
+                    [formControlName]="'idBanco'"
+                >
+                    <ng-container *ngIf="bancos$ | async as bancos">
+                        <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Número de cuenta</mat-label>
+                <input  matInput   [formControlName]="'numeroCuenta'"  />
+            </mat-form-field>
+
+            <mat-form-field  class="w-full">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput placeholder="Detalle" [formControlName]="'descripcion'"></textarea>
+            </mat-form-field>
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
+                <button
+                    class="fuse-mat-button-large mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="fuse-mat-button-large mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
