@@ -91,18 +91,6 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         })
     }
 
-    onApprove() {
-        this._matDialog.open(FormApproveComponent, {
-            autoFocus: false,
-            data: {
-                data: this.selectedData
-            },
-            maxHeight: '90vh',
-            width: '50%',
-            maxWidth: '100%',
-        })
-    }
-
     getSolicitudes(param): void {
 
         this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(

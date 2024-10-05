@@ -18,6 +18,8 @@ import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } 
 import { tiposSolicitudes } from '../../../../core/constant/tiposSolicitud';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { SwalService } from '../../../../core/services/swal.service';
+import { TipoSolicitudesService } from '../../../../core/services/tipo-solicitudes.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -64,7 +66,9 @@ export class FormSolicitudesComponent implements OnInit{
     public subcripstion$: Subscription;
     aceptoTerminos = false;
     matDisabled = false;
-    tipoSolicitud = tiposSolicitudes
+    private swalService = inject(SwalService);
+    private tipoSolicitudService = inject(TipoSolicitudesService)
+    tipoSolicitud$ = this.tipoSolicitudService.getTipos();
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -73,29 +77,8 @@ export class FormSolicitudesComponent implements OnInit{
     private solicitudService: SolicitudesService = inject(SolicitudesService)
 
     ngOnInit(): void {
-        this.initialInfoForm = this.fb.group({
-            check: ['', Validators.required]
-        });
-
-        this.firstFormGroup = this.fb.group({
-            nombreCompleto: [{value: '', disabled: true}, Validators.required],
-            numDoc: [{value: '', disabled: true}, Validators.required],
-            direccion: [{value: '', disabled: true}, Validators.required],
-            idMunicipio: [{value: '', disabled: true}, Validators.required],
-            correo: [{value: '', disabled: true}, Validators.required],
-        });
-
-        this.secondFormGroup = this.fb.group({
-            cupo: ['', [Validators.required]],
-            observacion: [''],
-            idTipoSolicitud: ['', [Validators.required]],
-        });
         this.createForm();
-        const dialogData = this._matData;
-        if (dialogData.edit) {
-            const data = dialogData.data;
-            this.form.patchValue(data);
-        }
+
         const id = 'c6d6b3a7-799f-42eb-8868-e069df989b11'
         this.subcripstion$ = this.empleadoService.getEmpleado(id).pipe(
             map((response) => {
@@ -145,64 +128,45 @@ export class FormSolicitudesComponent implements OnInit{
                             console.log(res)
                             console.log('Edicion')
                             this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 2});
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
                         }, error => {
-                            this.toasService.toasAlertWarn({
-                                message: error.error.errorMenssages[0],
-                                actionMessage: 'Cerrar',
-                                duration: 6000
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: error.error.errorMenssages[0],
+                                timer: 6000,
                             })
                         })
                     }else {
                         this.closeDialog();
                     }
-                })
-            }else {
-                const data = this.form.getRawValue();
-                const {cupo,  ...form} = data;
-                const createData = {
-                    cupo: Number(cupo),
-                    ...form
-                }
-
-                const dialog = this.fuseService.open({
-                    ...guardar
                 });
-
-                dialog.afterClosed().subscribe((response) => {
-
-                    if (response === 'confirmed') {
-                        this.solicitudService.putSolicitudes(createData).subscribe((res) => {
-                            this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 2});
-                            console.log('Guardado')
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
-                            })
-                            this.closeDialog();
-                        })
-                    }else {
-                        this.closeDialog();
-                    }
-                })
-
             }
-
         }
     }
 
     private createForm() {
-        this.form = this.fb.group({
-            id: [null],
-            cupo: [''],
+        this.initialInfoForm = this.fb.group({
+            check: ['', Validators.required]
+        });
+
+        this.firstFormGroup = this.fb.group({
+            nombreCompleto: [{value: '', disabled: true}, Validators.required],
+            numDoc: [{value: '', disabled: true}, Validators.required],
+            direccion: [{value: '', disabled: true}, Validators.required],
+            idMunicipio: [{value: '', disabled: true}, Validators.required],
+            correo: [{value: '', disabled: true}, Validators.required],
+        });
+
+        this.secondFormGroup = this.fb.group({
+            cupo: ['', [Validators.required]],
             observacion: [''],
-        })
+            idTipoSolicitud: ['', [Validators.required]],
+        });
     }
 
     closeDialog() {

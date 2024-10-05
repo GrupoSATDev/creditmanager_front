@@ -12,6 +12,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { SwalService } from '../../../../core/services/swal.service';
 
 @Component({
   selector: 'app-dialog-confirm-solicitud',
@@ -41,6 +42,7 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
     private dialogRef = inject(MatDialogRef<DialogConfirmSolicitudComponent>);
     private router = inject(Router);
     public subcription$: Subscription;
+    private swalService = inject(SwalService);
 
     onSave() {
         let data = {}
@@ -80,19 +82,19 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
                 return this.solicitudService.putSolicitudes(putData)
             })
         ).subscribe((response) => {
-            this.toasService.toasAlertWarn({
-                message: 'Registro creado con exito!',
-                actionMessage: 'Cerrar',
-                duration: 4000
+            this.swalService.ToastAler({
+                icon: 'success',
+                title: 'Registro creado con exito!',
+                timer: 4000,
             })
             this.router.navigate(['/pages/gestion-creditos/solicitudes']);
             this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
             this.close();
         } , error => {
-            this.toasService.toasAlertWarn({
-                message: 'Ha ocurrido un error!!!!',
-                actionMessage: 'Cerrar',
-                duration: 4000
+            this.swalService.ToastAler({
+                icon: 'error',
+                title: 'Ha ocurrido un error al crear el registro!',
+                timer: 4000,
             })
         });
 

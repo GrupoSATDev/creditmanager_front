@@ -97,7 +97,9 @@
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de solicitud</mat-label>
                         <mat-select [formControlName]="'idTipoSolicitud'">
-                            <mat-option [value]="item.id" *ngFor="let item of tipoSolicitud">{{item.nombre}}</mat-option>
+                            <ng-container *ngIf="tipoSolicitud$ | async as tipoSolicitud">
+                                <mat-option [value]="item.id" *ngFor="let item of tipoSolicitud.data">{{item.nombre}}</mat-option>
+                            </ng-container>
                         </mat-select>
                         <mat-error *ngIf="secondFormGroup.get('idTipoSolicitud').dirty || secondFormGroup.get('idTipoSolicitud').touched  &&  (secondFormGroup.get('idTipoSolicitud').errors.required)">
                             Este campo es requerido!.

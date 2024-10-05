@@ -157,5 +157,11 @@ export class AppSettingsService {
         }
     }
 
+   public tipoSolicitudes = {
+        url: {
+            base: EndPoints.uriBase('TipoSolicitudes')
+        }
+    }
+
 
 }

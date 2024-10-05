@@ -34,6 +34,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { DesembolsosService } from '../../../../core/services/desembolsos.service';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -98,6 +99,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     public cuentas: any = []
     public tipoCuentas$ = this.tipoCuentaService.getTipoCuentas();
     private desembolsoService = inject(DesembolsosService);
+    private swalService = inject(SwalService);
     @ViewChild('stepper') stepper!: MatStepper;
 
     public firstFormGroup: FormGroup;
@@ -236,14 +238,18 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                 if (response === 'confirmed') {
                     this.desembolsoService.postDesembolso(createData).subscribe((res) => {
                         console.log(res)
-                        // this.estadosDatosService.stateGrid.next(true);
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
                         })
-                        this.getResumenCompra(idTrabajador)
-                        //this.router.navigate(['/pages/gestion-creditos/creditos/'])
+                        this.getResumenCompra(idTrabajador);
+                    }, error => {
+                        this.swalService.ToastAler({
+                            icon: 'error',
+                            title: 'Ha ocurrido un error al crear el registro!',
+                            timer: 4000,
+                        })
                     })
                 }
             })

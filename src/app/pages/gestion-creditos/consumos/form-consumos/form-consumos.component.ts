@@ -12,6 +12,7 @@ import { MatAnchor, MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { guardar } from '../../../../core/constant/dialogs';
+import { SwalService } from '../../../../core/services/swal.service';
 
 @Component({
   selector: 'app-form-consumos',
@@ -36,6 +37,7 @@ export class FormConsumosComponent implements  OnInit{
     public detalleConsumoService = inject(DetalleConsumoService);
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
+    private swalService = inject(SwalService);
     idCredito: string = '';
     public detalle: any;
     public subcription$: Subscription;
@@ -66,20 +68,20 @@ export class FormConsumosComponent implements  OnInit{
             if (response === 'confirmed') {
                 this.subcription$ = this.detalleConsumoService.patchConsumo(data).subscribe((response) => {
                     if (response.isExitoso) {
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
                         })
                         this.router.navigate(['/pages/gestion-creditos/consumos']);
                         this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
                     }
 
                 }, error => {
-                    this.toasService.toasAlertWarn({
-                        message: 'Ha ocurrido un error!!!!',
-                        actionMessage: 'Cerrar',
-                        duration: 3000
+                    this.swalService.ToastAler({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error al crear el registro!',
+                        timer: 4000,
                     })
                 })
             }

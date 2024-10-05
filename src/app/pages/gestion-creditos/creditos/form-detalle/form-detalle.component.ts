@@ -25,6 +25,7 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
 import { guardar } from '../../../../core/constant/dialogs';
 import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -84,6 +85,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     private fb = inject(FormBuilder);
     public form: FormGroup;
     private datePipe = inject(DatePipe);
+    private swalService = inject(SwalService);
     data = [];
     capital = [];
     estadoCredito = [];
@@ -205,12 +207,18 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
                 if (response === 'confirmed') {
                     this.creditoService.putCredito(createData).subscribe((res) => {
                         this.estadosDatosService.stateGrid.next(true);
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
                         })
                         this.router.navigate(['/pages/gestion-creditos/creditos']);
+                    }, error => {
+                        this.swalService.ToastAler({
+                            icon: 'error',
+                            title: 'Ha ocurrido un error al crear el registro!',
+                            timer: 4000,
+                        })
                     })
                 }
             })

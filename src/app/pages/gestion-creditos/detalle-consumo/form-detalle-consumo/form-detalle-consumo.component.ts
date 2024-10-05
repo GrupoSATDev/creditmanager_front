@@ -33,6 +33,7 @@ import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe'
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TipoConsumosService } from '../../../../core/services/tipo-consumos.service';
 import { CuentasBancariasService } from '../../../../core/services/cuentas-bancarias.service';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -97,6 +98,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public municipios$: Observable<any>;
     public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos();
     public cuentas$ = this.cuentasServices.getCuentas();
+    private swalService = inject(SwalService);
     @ViewChild('stepper') stepper!: MatStepper;
 
     public firstFormGroup: FormGroup;
@@ -213,13 +215,19 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     this.detalleConsumo.postDetalle(createData).subscribe((res) => {
                         console.log(res)
                         // this.estadosDatosService.stateGrid.next(true);
-                        this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
-                            actionMessage: 'Cerrar',
-                            duration: 3000
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro creado con exito!',
+                            timer: 4000,
                         })
                         this.getResumenCompra(idTrabajador)
                         //this.router.navigate(['/pages/gestion-creditos/creditos/'])
+                    }, error => {
+                        this.swalService.ToastAler({
+                            icon: 'error',
+                            title: 'Ha ocurrido un error al crear el registro!',
+                            timer: 4000,
+                        })
                     })
                 }
             })
