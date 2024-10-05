@@ -4,10 +4,10 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
-import { CurrencyPipe, DatePipe, NgForOf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabajadores.service';
@@ -15,7 +15,7 @@ import { Estados } from '../../../../core/enums/estados';
 import { MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-grid-cobros-empleados',
@@ -30,8 +30,9 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
         MatOption,
         MatSelect,
         NgForOf,
+        NgIf,
+        AsyncPipe,
         ReactiveFormsModule,
-        FormsModule,
     ],
     providers: [
         DatePipe,
@@ -48,14 +49,20 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     private cobroTrabadorService = inject(CobroTrabajadoresService);
     private estadoCreditosService = inject(EstadoCreditosService);
     private fb = inject(FormBuilder);
-    estados: FormControl = new FormControl('e626ea69-e995-4462-be2a-905326714782')
-
-
+    estados = new FormControl([''])
 
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
-    public estadpCreditos = [];
+    public estadoCreditos$ = this.estadoCreditosService.getEstadoCobros().pipe(
+        tap((response) => {
+            const selectedValue = response.data;
+            if (selectedValue) {
+                this.estados.setValue(selectedValue[1].id);
+                this.cobros(selectedValue[1].id);
+            }
+        })
+    )
 
 
     data = [];
@@ -87,15 +94,12 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     ) {
     }
 
-    getEstadoCreditos() {
-        this.subcription$ = this.estadoCreditosService.getEstadoCobros().subscribe((response) => {
-            this.estadpCreditos = response.data;
-        })
-    }
-
     onSelect(estado: MatSelectChange) {
         const id = estado.value;
+        this.cobros(id);
+    }
 
+    private cobros(id) {
         this.subcription$ = this.cobroTrabadorService.getCobrosGrid(id).pipe(
             map((response) => {
                 response.data.forEach((items) => {
@@ -125,8 +129,6 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
         }, error => {
             this.data = [];
         })
-
-
     }
 
     getCobros() {
@@ -176,11 +178,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit(): void {
-        //this.getCobros();
-        this.getEstadoCreditos()
         this.listenGrid();
-
-
     }
 
 

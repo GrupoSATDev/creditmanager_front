@@ -29,7 +29,7 @@ import { CuentasBancariasService } from '../../../../core/services/cuentas-banca
 import { Router } from '@angular/router';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
@@ -92,9 +92,6 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     private fb = inject(FormBuilder);
     private _locacionService = inject(LocacionService);
     private detalleConsumo = inject(DetalleConsumoService);
-    public departamentos$ = this._locacionService.getDepartamentos();
-    public municipios$: Observable<any>;
-    public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos();
     //public cuentas$ = this.cuentasServices.getCuentas();
     public cuentas: any = []
     public tipoCuentas$ = this.tipoCuentaService.getTipoCuentas();
@@ -114,7 +111,14 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
     compareValor: any;
 
-    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos();
+    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        tap((response) => {
+            const valorDefecto  = response.data[3];
+            if (valorDefecto) {
+                this.firstFormGroup.get('idTipoDoc').setValue(valorDefecto.id)
+            }
+        })
+    )
     public creditos = [];
     public detaleConsumo: any;
 
@@ -268,7 +272,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
     private createForm() {
         this.firstFormGroup = this.fb.group({
-            idTipoDoc: ['', Validators.required],
+            idTipoDoc: [''],
             numDocumento: ['', Validators.required]
         });
 

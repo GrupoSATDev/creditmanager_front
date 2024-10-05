@@ -32,7 +32,9 @@
                     [formControl]="estados"
                     (selectionChange)="onSelect($event)"
                 >
-                    <mat-option [value]="item.id" *ngFor="let item of estadpCreditos">{{item.nombre}}</mat-option>
+                    <ng-container *ngIf="estadoCreditos$ | async as estadoCreditos">
+                        <mat-option [value]="item.id" *ngFor="let item of estadoCreditos.data">{{item.nombre}}</mat-option>
+                    </ng-container>
                 </mat-select>
             </mat-form-field>
         </div>
