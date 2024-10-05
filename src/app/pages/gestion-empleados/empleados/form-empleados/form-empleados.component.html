@@ -69,13 +69,13 @@
                     <!-- Name field -->
                     <mat-form-field class="w-full">
                         <mat-label>Primer nombre</mat-label>
-                        <input  matInput [formControlName]="'primerNombre'"/>
+                        <input  matInput [formControlName]="'primerNombre'" placeholder="Primer nombre"/>
                     </mat-form-field>
 
                     <!-- Name field -->
                     <mat-form-field class="w-full">
                         <mat-label>Segundo nombre</mat-label>
-                        <input  matInput [formControlName]="'segundoNombre'" />
+                        <input  matInput [formControlName]="'segundoNombre'" placeholder="Segundo nombre" />
                     </mat-form-field>
 
                 </div>
@@ -83,12 +83,12 @@
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Primer apellido</mat-label>
-                        <input  matInput [formControlName]="'primerApellido'" />
+                        <input  matInput [formControlName]="'primerApellido'" placeholder="Primer apellido" />
                     </mat-form-field>
 
                     <mat-form-field  class="w-full">
                         <mat-label>Segundo apellido</mat-label>
-                        <input  matInput [formControlName]="'segundoApellido'" />
+                        <input  matInput [formControlName]="'segundoApellido'" placeholder="Segundo apellido" />
                     </mat-form-field>
                 </div>
 
@@ -97,6 +97,7 @@
                         <mat-label>Tipo de documento</mat-label>
                         <mat-select
                             [formControlName]="'idTipoDoc'"
+                            placeholder="Tipo de documento"
                         >
                             <ng-container *ngIf="tiposDocumentos$ | async as documentos">
                                 <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
@@ -106,7 +107,7 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Número de identificación</mat-label>
-                        <input  matInput [formControlName]="'numDoc'" />
+                        <input  matInput [formControlName]="'numDoc'" placeholder="Número de identificación" />
                     </mat-form-field>
 
                 </div>
@@ -117,6 +118,7 @@
                         <mat-label>Género</mat-label>
                         <mat-select
                             [formControlName]="'idGenero'"
+                            placeholder="Género"
                         >
                             <ng-container *ngIf="generos$ | async as generos">
                                 <mat-option [value]="item.id" *ngFor="let item of generos.data">{{item.nombre}}</mat-option>
@@ -144,6 +146,7 @@
                             #data
                             (selectionChange)="getMunicipios($event)"
                             [formControlName]="'idDepartamento'"
+                            placeholder="Departamento"
                         >
                             <ng-container *ngIf="departamentos$ | async as departamentos">
                                 <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
@@ -153,7 +156,7 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Ciudad</mat-label>
-                        <mat-select [formControlName]="'idMunicipio'">
+                        <mat-select [formControlName]="'idMunicipio'" placeholder="Ciudad">
                             <ng-container *ngIf="municipios$ | async as municipios">
                                 <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
                             </ng-container>
@@ -165,12 +168,12 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Dirección</mat-label>
-                        <input  matInput [formControlName]="'direccion'" />
+                        <input  matInput [formControlName]="'direccion'" placeholder="Dirección" />
                     </mat-form-field>
 
                     <mat-form-field  class="w-full">
                         <mat-label>Celular</mat-label>
-                        <input  matInput [formControlName]="'telefono'" />
+                        <input  matInput [formControlName]="'telefono'" placeholder="Celular"/>
                     </mat-form-field>
                 </div>
 
@@ -178,12 +181,12 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Teléfono</mat-label>
-                        <input  matInput [formControlName]="'telefono2'" />
+                        <input  matInput [formControlName]="'telefono2'" placeholder="Teléfono" />
                     </mat-form-field>
 
                     <mat-form-field  class="w-full">
                         <mat-label>Email</mat-label>
-                        <input  matInput [formControlName]="'correo'" />
+                        <input  matInput [formControlName]="'correo'" placeholder="Correo electronico" />
                     </mat-form-field>
 
                 </div>
@@ -191,7 +194,7 @@
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Empresa</mat-label>
-                        <mat-select [formControlName]="'idSubEmpresa'">
+                        <mat-select [formControlName]="'idSubEmpresa'" placeholder="Empresa">
                             <ng-container *ngIf="empresasClientes$ | async as empresasClientes">
                                 <mat-option [value]="item.id" *ngFor="let item of empresasClientes.data">{{item.razonSocial}}</mat-option>
                             </ng-container>
@@ -200,7 +203,7 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Cargo</mat-label>
-                        <input  matInput [formControlName]="'cargo'" />
+                        <input  matInput [formControlName]="'cargo'" placeholder="Cargo" />
                     </mat-form-field>
                 </div>
 
@@ -225,27 +228,27 @@
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full" >
                         <mat-label>Salario devengado</mat-label>
-                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'"/>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'" placeholder="Salario devengdado" />
                     </mat-form-field>
 
 
                     <mat-form-field  class="w-full" >
                         <mat-label>Número de cuenta bancaria</mat-label>
-                        <input  matInput  [formControlName]="'numCuentaBancaria'"/>
+                        <input  matInput  [formControlName]="'numCuentaBancaria'" placeholder="Número de cuenta"/>
                     </mat-form-field>
                 </div>
 
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de cuenta</mat-label>
-                        <mat-select [formControlName]="'idTipoCuenta'">
+                        <mat-select [formControlName]="'idTipoCuenta'" placeholder="Tipo de cuenta">
                             <mat-option [value]="item.id" *ngFor="let item of tiposCuentas">{{item.nombre}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field  class="w-full">
                         <mat-label>Bancos</mat-label>
-                        <mat-select [formControlName]="'idBanco'">
+                        <mat-select [formControlName]="'idBanco'" placeholder="Bancos">
                             <ng-container *ngIf="bancos$ | async as bancos">
                                 <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
                             </ng-container>
@@ -256,8 +259,8 @@
 
                 <div class="flex gap-2.5">
                     <mat-form-field  class="w-full">
-                        <mat-label>Nivel de riesgos</mat-label>
-                        <mat-select [formControlName]="'idNivelRiesgo'">
+                        <mat-label>Nivel de riesgo</mat-label>
+                        <mat-select [formControlName]="'idNivelRiesgo'" placeholder="Nivel de riesgo">
                             <ng-container *ngIf="riesgos$ | async as riesgos">
                                 <mat-option [value]="item.id" *ngFor="let item of riesgos.data">{{item.nombre}}</mat-option>
                             </ng-container>
@@ -266,15 +269,12 @@
 
                     <mat-form-field  class="w-full">
                         <mat-label>Capacidad de endeudamiento</mat-label>
-                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'capacidadEndeudamiento'"/>
+                        <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'capacidadEndeudamiento'" placeholder="Capacidad de endeudamiento"/>
                     </mat-form-field>
 
                 </div>
 
             </div>
-
-
-
 
             <div class="flex flex-wrap justify-end gap-2.5">
                 <button

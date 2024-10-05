@@ -26,6 +26,7 @@ import { tiposCuentas } from '../../../../core/constant/tiposCuentas';
 import { NivelRiesgoService } from '../../../../core/services/nivel-riesgo.service';
 import { BancosService } from '../../../../core/services/bancos.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { SwalService } from '../../../../core/services/swal.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -80,6 +81,7 @@ export class FormEmpleadosComponent implements OnInit{
     private cargosServices = inject(CargosService)
     private riesgosServices = inject(NivelRiesgoService)
     private bancosServices = inject(BancosService)
+    private swalService = inject(SwalService);
 
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
@@ -126,10 +128,10 @@ export class FormEmpleadosComponent implements OnInit{
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
-            // Crear un reader para mostrar la imagen cargada
+
             const reader = new FileReader();
             reader.onload = () => {
-                // Settear la imagen cargada en el control de formulario 'foto'
+
                 const image = reader.result as string;
                 this.image = image;
                 const valueImage = image.split(',')[1]
@@ -169,12 +171,18 @@ export class FormEmpleadosComponent implements OnInit{
                         this.empleadosServices.postEmpleados(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -202,12 +210,18 @@ export class FormEmpleadosComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.empleadosServices.putEmpleados(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();

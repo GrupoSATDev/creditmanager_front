@@ -14,6 +14,8 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { DatePipe } from '@angular/common';
 import { provideNgxMask } from 'ngx-mask';
+import { SwalService } from '../../../../core/services/swal.service';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-form-tasas',
@@ -28,6 +30,7 @@ import { provideNgxMask } from 'ngx-mask';
         MatDatepickerInput,
         MatDatepickerToggle,
         MatSuffix,
+        MatSlideToggle,
     ],
   templateUrl: './form-tasas.component.html',
   styleUrl: './form-tasas.component.scss',
@@ -48,13 +51,18 @@ export class FormTasasComponent implements OnInit{
     private datePipe = inject(DatePipe);
 
     private tasasService = inject(TasasInteresService);
+    private swalService = inject(SwalService);
 
     ngOnInit(): void {
         this.createForm();
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.form.patchValue(data);
+            const {estado, ...form} = data;
+            this.form.patchValue({
+                estado: estado == 'Activo' ? true : false,
+                ...form
+            });
         }
 
     }
@@ -80,12 +88,18 @@ export class FormTasasComponent implements OnInit{
                         this.tasasService.postTasas(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -110,12 +124,18 @@ export class FormTasasComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.tasasService.putTasas(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -133,6 +153,7 @@ export class FormTasasComponent implements OnInit{
             porcentaje: [''],
             vigencia: [''],
             nombre: [''],
+            estado: ['true'],
         })
     }
 

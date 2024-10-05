@@ -32,9 +32,10 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Estado', 'Porcentaje %'];
+    columns = ['Estado', 'Nombre', 'Porcentaje %'];
     columnPropertyMap = {
         'Estado': 'estado',
+        'Nombre': 'nombre',
         'Porcentaje %': 'porcentaje',
     };
 
@@ -65,6 +66,7 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
             },
             maxHeight: '90vh',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 
@@ -77,6 +79,7 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
             },
             maxHeight: '90vh',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 

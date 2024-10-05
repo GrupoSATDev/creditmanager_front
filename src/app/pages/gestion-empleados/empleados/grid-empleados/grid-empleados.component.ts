@@ -69,6 +69,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
             maxHeight: '90vh',
             width: '50%',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 
@@ -82,6 +83,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
             maxHeight: '90vh',
             width: '50%',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 
