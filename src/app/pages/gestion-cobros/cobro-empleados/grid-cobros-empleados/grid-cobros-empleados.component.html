@@ -30,6 +30,7 @@
                 <mat-label>Estados</mat-label>
                 <mat-select
                     [formControl]="estados"
+                    (selectionChange)="onSelect($event)"
                 >
                     <mat-option [value]="item.id" *ngFor="let item of estadpCreditos">{{item.nombre}}</mat-option>
                 </mat-select>

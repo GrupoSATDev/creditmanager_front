@@ -116,7 +116,8 @@ export class AppSettingsService {
 
     public cobroTrabajadores = {
         url: {
-            base: EndPoints.uriBase('CobroTrabajadores')
+            base: EndPoints.uriBase('CobroTrabajadores'),
+            baseTabla: EndPoints.uriBase('CobroTrabajadores/Tabla'),
         }
     }
 

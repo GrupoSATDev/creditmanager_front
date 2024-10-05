@@ -13,9 +13,9 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabajadores.service';
 import { Estados } from '../../../../core/enums/estados';
 import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-grid-cobros-empleados',
@@ -31,6 +31,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
         MatSelect,
         NgForOf,
         ReactiveFormsModule,
+        FormsModule,
     ],
     providers: [
         DatePipe,
@@ -47,7 +48,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     private cobroTrabadorService = inject(CobroTrabajadoresService);
     private estadoCreditosService = inject(EstadoCreditosService);
     private fb = inject(FormBuilder);
-    estados = new FormControl([''])
+    estados: FormControl = new FormControl('e626ea69-e995-4462-be2a-905326714782')
 
 
 
@@ -59,12 +60,12 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Fecha cuota', 'Valor cuota', 'Valor pagado', 'Estado'];
+    columns = ['Nombre completo', 'Deuda total', 'Empresa', 'Estado'];
 
     columnPropertyMap = {
-        'Fecha cuota': 'fechaCobro',
-        'Valor cuota': 'valorPendiente',
-        'Valor pagado': 'valorPago',
+        'Nombre completo': 'nombreTrabajador',
+        'Deuda total': 'deudaTotal',
+        'Empresa': 'nombreSubEmpresa',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -89,6 +90,42 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
         this.subcription$ = this.estadoCreditosService.getEstadoCobros().subscribe((response) => {
             this.estadpCreditos = response.data;
         })
+    }
+
+    onSelect(estado: MatSelectChange) {
+        const id = estado.value;
+
+        this.subcription$ = this.cobroTrabadorService.getCobrosGrid(id).pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                    }else {
+                        items.estado = Estados.INACTIVO;
+                    }
+                })
+                return response;
+
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    //items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+                    items.deudaTotal = this.currencyPipe.transform(items.deudaTotal, 'USD', 'symbol', '1.2-2');
+                    //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
+                })
+                return response;
+            })
+        ).subscribe((response) => {
+            if (response) {
+                this.data = response.data;
+            }else {
+                this.data = [];
+            }
+        }, error => {
+            this.data = [];
+        })
+
+
     }
 
     getCobros() {
@@ -128,14 +165,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
         const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
         refreshData$.subscribe((state) => {
             if (state) {
-                this.getCobros();
-            }
-        })
-
-        const selected$ = this.estados;
-        selected$.valueChanges.subscribe((response) =>{
-            if (response) {
-                console.log(response)
+                //this.getCobros();
             }
         })
     }
@@ -145,9 +175,11 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit(): void {
-        this.getCobros();
+        //this.getCobros();
         this.getEstadoCreditos()
         this.listenGrid();
+
+
     }
 
 
