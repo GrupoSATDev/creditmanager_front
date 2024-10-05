@@ -144,7 +144,9 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
                 console.log(states)
                 this.selectedTab = states.tab == 0 ? EstadosSolicitudes.APROBADA :
                                     states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
-                                    states.tab == 2 ? EstadosSolicitudes.PENDIENTE : EstadosSolicitudes.APROBADA;
+                                    states.tab == 2 ? EstadosSolicitudes.PENDIENTE :
+                                    states.tab == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
+                                    EstadosSolicitudes.APROBADA;
                 this.tabIndex = states.tab;
                 console.log(this.tabIndex)
                 this.getSolicitudes(this.selectedTab);
@@ -160,7 +162,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.APROBADA :
                            tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.PENDIENTE : EstadosSolicitudes.APROBADA;
+                           tabChangeEvent.index == 2 ? EstadosSolicitudes.PENDIENTE :
+                           tabChangeEvent.index == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :  EstadosSolicitudes.APROBADA;
         this.getSolicitudes(this.selectedTab)
     }
 

@@ -91,6 +91,19 @@
                         </ng-container>
                     </ng-template>
                 </mat-tab>
+                <mat-tab label="Pendiente desembolso">
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length">
+                            <app-custom-table
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
+                                [data]="data"
+                                [buttons]="buttons"
+                            ></app-custom-table>
+                        </ng-container>
+                    </ng-template>
+                </mat-tab>
 
 
             </mat-tab-group>

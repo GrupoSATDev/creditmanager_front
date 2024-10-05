@@ -1,5 +1,5 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { AsyncPipe, CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import {
     AbstractControl,
@@ -32,6 +32,8 @@ import { DetalleConsumoService } from '../../../../core/services/detalle-consumo
 import { Observable, of, Subscription } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
+import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
+import { DesembolsosService } from '../../../../core/services/desembolsos.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -63,6 +65,7 @@ const maskConfig: Partial<IConfig> = {
         NgxMaskDirective,
         ReactiveFormsModule,
         NgClass,
+        JsonPipe,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -73,7 +76,7 @@ const maskConfig: Partial<IConfig> = {
   templateUrl: './form-desembolso.component.html',
   styleUrl: './form-desembolso.component.scss'
 })
-export class FormDesembolsoComponent {
+export class FormDesembolsoComponent implements OnInit, OnDestroy{
     private tiposDocumentosService = inject(TiposDocumentosService);
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
@@ -81,6 +84,7 @@ export class FormDesembolsoComponent {
     private empleadosServices = inject(EmpleadosService)
     private tipoConsumosService = inject(TipoConsumosService)
     private cuentasServices = inject(CuentasBancariasService)
+    private tipoCuentaService = inject(TipoCuentasService)
     private datePipe = inject(DatePipe);
     private router = inject(Router);
 
@@ -90,7 +94,10 @@ export class FormDesembolsoComponent {
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
     public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos();
-    public cuentas$ = this.cuentasServices.getCuentas();
+    //public cuentas$ = this.cuentasServices.getCuentas();
+    public cuentas: any = []
+    public tipoCuentas$ = this.tipoCuentaService.getTipoCuentas();
+    private desembolsoService = inject(DesembolsosService);
     @ViewChild('stepper') stepper!: MatStepper;
 
     public firstFormGroup: FormGroup;
@@ -114,11 +121,13 @@ export class FormDesembolsoComponent {
 
     ngOnInit(): void {
         this.createForm();
+        this.getCuentas();
     }
 
-    getMunicipios(matSelectChange: MatSelectChange) {
-        const id = matSelectChange.value;
-        this.municipios$ = this._locacionService.getMunicipio(id);
+    private getCuentas() {
+        this.subscription$ = this.cuentasServices.getCuentas().subscribe((response) => {
+            this.cuentas = response.data;
+        })
     }
 
     selected(matSelectChange: MatSelectChange) {
@@ -163,9 +172,20 @@ export class FormDesembolsoComponent {
                     segundoApellido:  response.data.segundoApellido,
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
-                    idCredito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible
+                    credito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible,
+                    idCredito: response.data.creditos[0].id,
+                    numCuentaBancaria: response.data.numCuentaBancaria,
+                    idTipoCuenta: response.data.idTipoCuenta,
                 }
                 this.secondFormGroup.patchValue(campos);
+
+                console.log(campos)
+                console.log(this.thirdFormGroup.getRawValue())
+
+                this.thirdFormGroup.patchValue({
+                    idCuentaBancaria: campos.idTipoCuenta,
+                    cuentaDestino: campos.numCuentaBancaria,
+                })
                 this.creditos = response.data.creditos;
 
                 setTimeout(() => {
@@ -187,15 +207,23 @@ export class FormDesembolsoComponent {
 
     onSave() {
         if (this.thirdFormGroup.valid) {
-            const {montoConsumo, ...form} = this.thirdFormGroup.getRawValue();
+            const {montoConsumo, idCuentaBancaria,  ...form} = this.thirdFormGroup.getRawValue();
             const { idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
             console.log(idCredito)
+            const cuenta = this.cuentas;
+            const resultadoCuenta = cuenta.filter((cuenta) => {
+                if (cuenta.idTipoCuenta == idCuentaBancaria) {
+                    return cuenta.id;
+                }
+            })
+            console.log(resultadoCuenta[0].id)
 
             const createData = {
-                idCredito: idCredito.id,
+                idCredito: idCredito,
                 idTrabajador,
                 montoConsumo: Number(montoConsumo),
+                idCuentaBancaria: resultadoCuenta[0].id,
                 ...form
             }
             console.log(createData)
@@ -206,7 +234,7 @@ export class FormDesembolsoComponent {
 
             dialog.afterClosed().subscribe((response) => {
                 if (response === 'confirmed') {
-                    this.detalleConsumo.postDetalle(createData).subscribe((res) => {
+                    this.desembolsoService.postDesembolso(createData).subscribe((res) => {
                         console.log(res)
                         // this.estadosDatosService.stateGrid.next(true);
                         this.toasService.toasAlertWarn({
@@ -246,18 +274,18 @@ export class FormDesembolsoComponent {
             segundoApellido:  ['', Validators.required],
             idTrabajador: [''],
             correo: ['', Validators.required],
+            credito: ['', Validators.required],
             idCredito: ['', Validators.required],
+            numCuentaBancaria: [''],
+            idTipoCuenta: ['']
         });
 
         this.thirdFormGroup = this.fb.group({
-            cantidadCuotas: ['', [Validators.required]],
             montoConsumo: ['', [Validators.required] ],
             numeroFactura: ['', Validators.required],
-            detalleCompra: ['', Validators.required],
-            idMunicipio: ['', Validators.required],
-            idTipoConsumo: ['', Validators.required],
             idCuentaBancaria: ['', Validators.required],
             cuentaDestino: ['', Validators.required],
+            idCuenta: ['']
         })
     }
 
