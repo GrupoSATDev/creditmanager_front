@@ -5,7 +5,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmpresasMaestrasService } from '../../../../core/services/empresas-maestras.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -45,13 +45,33 @@ export class FormEmpresasComponent implements OnInit{
     public estadosDatosService = inject(EstadosDatosService);
     public toasService = inject(ToastAlertsService);
 
-    public departamentos$ = this._locacionService.getDepartamentos();
+    public departamentos$ = this._locacionService.getDepartamentos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.form.get('idDepartamento').setValue(valorSelected[0].id)
+                const idDepto = this.form.get('idDepartamento').value;
+                this.getMunicipios(idDepto);
+            }
+        })
+    );
     public municipios$: Observable<any>;
     public _matData = inject(MAT_DIALOG_DATA);
 
-    getMunicipios(matSelectChange: MatSelectChange) {
+    onSelected(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
-        this.municipios$ = this._locacionService.getMunicipio(id);
+        this.getMunicipios(id);
+    }
+
+    getMunicipios(id) {
+        this.municipios$ = this._locacionService.getMunicipio(id).pipe(
+            tap((response) => {
+                const valorSelected = response.data;
+                if (valorSelected) {
+                    this.form.get('idMunicipio').setValue(valorSelected[0].id)
+                }
+            })
+        )
     }
 
     ngOnInit(): void {

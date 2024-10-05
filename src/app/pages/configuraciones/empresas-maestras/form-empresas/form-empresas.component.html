@@ -51,7 +51,7 @@
                     <mat-label>Departamento</mat-label>
                         <mat-select
                             #data
-                            (selectionChange)="getMunicipios($event)"
+                            (selectionChange)="onSelected($event)"
                             [formControlName]="'idDepartamento'"
                         >
                             <ng-container *ngIf="departamentos$ | async as departamentos">
