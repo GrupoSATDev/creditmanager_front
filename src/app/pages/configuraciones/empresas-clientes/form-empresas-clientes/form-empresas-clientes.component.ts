@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { TiposEmpresasService } from '../../../../core/services/tipos-empresas.service';
@@ -71,18 +71,57 @@ export class FormEmpresasClientesComponent implements OnInit{
     public empresaClienteService = inject(EmpresasClientesService);
     public subcripciones = inject(SubscripcionService);
 
-    public departamentos$ = this._locacionService.getDepartamentos();
+    public departamentos$ = this._locacionService.getDepartamentos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idDepartamento').setValue(valorSelected[0].id)
+                const idDepto = this.form.get('idDepartamento').value;
+                this.getMunicipios(idDepto);
+            }
+        })
+    );
+
     public empresas$ = this.empresasService.getEmpresas();
     public municipios$: Observable<any>;
-    public tiposEmpresas$ = this.tiposEmpresaService.getTiposEmpresas();
-    public subcripciones$ = this.subcripciones.getSubcripciones();
+    public tiposEmpresas$ = this.tiposEmpresaService.getTiposEmpresas().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoEmpresa').setValue(valorSelected[0].id)
+            }
+        })
+    )
+    public subcripciones$ = this.subcripciones.getSubcripciones().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idSuscripcion').setValue(valorSelected[0].id)
+            }
+        })
+    )
     public _matData = inject(MAT_DIALOG_DATA);
     private datePipe = inject(DatePipe);
     private swalService = inject(SwalService);
 
-    getMunicipios(matSelectChange: MatSelectChange) {
+    onSelected(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
-        this.municipios$ = this._locacionService.getMunicipio(id);
+        this.getMunicipios(id);
+    }
+
+    getMunicipios(id) {
+        this.municipios$ = this._locacionService.getMunicipio(id).pipe(
+            tap((response) => {
+                const valorSelected = response.data;
+                const dialogData = this._matData;
+                if (valorSelected && !dialogData.edit) {
+                    this.form.get('idMunicipio').setValue(valorSelected[0].id)
+                }
+            })
+        )
     }
 
     ngOnInit(): void {

@@ -48,7 +48,8 @@ export class FormEmpresasComponent implements OnInit{
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
         tap((response) => {
             const valorSelected = response.data;
-            if (valorSelected) {
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
                 this.form.get('idDepartamento').setValue(valorSelected[0].id)
                 const idDepto = this.form.get('idDepartamento').value;
                 this.getMunicipios(idDepto);
@@ -67,7 +68,8 @@ export class FormEmpresasComponent implements OnInit{
         this.municipios$ = this._locacionService.getMunicipio(id).pipe(
             tap((response) => {
                 const valorSelected = response.data;
-                if (valorSelected) {
+                const dialogData = this._matData;
+                if (valorSelected && !dialogData.edit) {
                     this.form.get('idMunicipio').setValue(valorSelected[0].id)
                 }
             })
