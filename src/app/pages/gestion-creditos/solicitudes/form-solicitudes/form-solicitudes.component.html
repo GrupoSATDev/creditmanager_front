@@ -36,23 +36,23 @@
                 <form [formGroup]="firstFormGroup">
                     <mat-form-field class="w-full">
                         <mat-label>Nombre de completo</mat-label>
-                        <input  matInput [formControlName]="'nombreCompleto'"/>
+                        <input  matInput [formControlName]="'nombreCompleto'" [readonly]="true"/>
                     </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Identificación</mat-label>
-                        <input  matInput [formControlName]="'numDoc'"/>
+                        <input  matInput [formControlName]="'numDoc'" [readonly]="true"/>
                     </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Dirección</mat-label>
-                        <input  matInput [formControlName]="'direccion'"/>
+                        <input  matInput [formControlName]="'direccion'" [readonly]="true"/>
                     </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Email</mat-label>
-                        <input  matInput [formControlName]="'correo'"/>
+                        <input  matInput [formControlName]="'correo'" [readonly]="true"/>
                     </mat-form-field>
                      <mat-form-field class="w-full">
                         <mat-label>Ciudad</mat-label>
-                        <input  matInput [formControlName]="'idMunicipio'"/>
+                        <input  matInput [formControlName]="'idMunicipio'" [readonly]="true"/>
                     </mat-form-field>
 
                     <div class="flex flex-wrap justify-center gap-2.5">
@@ -122,9 +122,6 @@
                                 <mat-option [value]="item.id" *ngFor="let item of tipoSolicitud.data">{{item.nombre}}</mat-option>
                             </ng-container>
                         </mat-select>
-                        <mat-error *ngIf="secondFormGroup.get('idTipoSolicitud').dirty || secondFormGroup.get('idTipoSolicitud').touched  &&  (secondFormGroup.get('idTipoSolicitud').errors.required)">
-                            Este campo es requerido!.
-                        </mat-error>
                     </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Digita el cupo que deseas solicitar</mat-label>

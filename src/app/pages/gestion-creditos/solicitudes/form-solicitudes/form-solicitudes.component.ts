@@ -11,9 +11,9 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
-import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
@@ -46,6 +46,7 @@ const maskConfig: Partial<IConfig> = {
         MatOption,
         MatSelect,
         NgForOf,
+        JsonPipe,
     ],
     providers: [
         provideNgxMask(maskConfig)
@@ -67,7 +68,14 @@ export class FormSolicitudesComponent implements OnInit{
     matDisabled = false;
     private swalService = inject(SwalService);
     private tipoSolicitudService = inject(TipoSolicitudesService)
-    tipoSolicitud$ = this.tipoSolicitudService.getTipos();
+    tipoSolicitud$ = this.tipoSolicitudService.getTipos().pipe(
+        tap((opciones) => {
+            const valorDefecto  = opciones.data[0];
+            if (valorDefecto) {
+                this.secondFormGroup.get('idTipoSolicitud').setValue(valorDefecto.id)
+            }
+        })
+    )
 
     initialInfoForm!: FormGroup;
     firstFormGroup!: FormGroup;
@@ -95,6 +103,8 @@ export class FormSolicitudesComponent implements OnInit{
             }
             this.firstFormGroup.patchValue(campos);
         })
+
+        this.listenForm();
 
     }
 
@@ -148,23 +158,29 @@ export class FormSolicitudesComponent implements OnInit{
         }
     }
 
+    private listenForm() {
+        /*this.secondFormGroup.get('idTipoSolicitud').valueChanges.subscribe((campo) => {
+            console.log(campo)
+        })*/
+    }
+
     private createForm() {
         this.initialInfoForm = this.fb.group({
             check: ['', Validators.required]
         });
 
         this.firstFormGroup = this.fb.group({
-            nombreCompleto: [{value: '', disabled: true}, Validators.required],
-            numDoc: [{value: '', disabled: true}, Validators.required],
-            direccion: [{value: '', disabled: true}, Validators.required],
-            idMunicipio: [{value: '', disabled: true}, Validators.required],
-            correo: [{value: '', disabled: true}, Validators.required],
+            nombreCompleto: ['', [Validators.required]],
+            numDoc: ['', [Validators.required]],
+            direccion: ['', [Validators.required]],
+            idMunicipio: ['', [Validators.required]],
+            correo: ['', [Validators.required]],
         });
 
         this.secondFormGroup = this.fb.group({
             cupo: ['', [Validators.required]],
             observacion: [''],
-            idTipoSolicitud: ['', [Validators.required]],
+            idTipoSolicitud: [''],
         });
     }
 
