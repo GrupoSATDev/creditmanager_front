@@ -25,7 +25,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { FuseAlertComponent, FuseAlertType } from '../../../../../@fuse/components/alert';
 import { fuseAnimations } from '../../../../../@fuse/animations';
 import { LocacionService } from '../../../../core/services/locacion.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { Router } from '@angular/router';
@@ -96,7 +96,14 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     private detalleConsumo = inject(DetalleConsumoService);
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
-    public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos();
+    public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos().pipe(
+        tap((response) => {
+            const valorDefecto  = response.data[0];
+            if (valorDefecto) {
+                this.thirdFormGroup.get('idTipoConsumo').setValue(valorDefecto.id)
+            }
+        })
+    )
     public cuentas$ = this.cuentasServices.getCuentas();
     private swalService = inject(SwalService);
     @ViewChild('stepper') stepper!: MatStepper;
@@ -113,7 +120,14 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     compareValor: any;
 
-    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos();
+    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        tap((response) => {
+            const valorDefecto  = response.data[3];
+            if (valorDefecto) {
+                this.firstFormGroup.get('idTipoDoc').setValue(valorDefecto.id)
+            }
+        })
+    );
     public creditos = [];
     public detaleConsumo: any;
 
@@ -160,7 +174,6 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public onSearch() {
         const data = this.firstFormGroup.getRawValue();
         this.empleadosServices.getEmpleadoParams(data).subscribe((response) => {
-            console.log(response);
             if (response) {
                 this.showAlert = false;
                 const campos = {
@@ -246,7 +259,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     private createForm() {
         this.firstFormGroup = this.fb.group({
-            idTipoDoc: ['', Validators.required],
+            idTipoDoc: [''],
             numDocumento: ['', Validators.required]
         });
 

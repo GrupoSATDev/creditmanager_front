@@ -22,9 +22,6 @@
                                         <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
                                     </ng-container>
                                 </mat-select>
-                                <mat-error *ngIf="firstFormGroup.get('idTipoDoc').dirty || firstFormGroup.get('idTipoDoc').touched  &&  (firstFormGroup.get('idTipoDoc').errors.required)">
-                                    El tipo de documento es requerido!.
-                                </mat-error>
                             </mat-form-field>
                             <mat-form-field class="w-full">
                                 <mat-label>Número de identificación</mat-label>
