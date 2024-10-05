@@ -135,7 +135,7 @@ export class FormSolicitudesComponent implements OnInit{
                             this.closeDialog();
                         }, error => {
                             this.swalService.ToastAler({
-                                icon: 'error',
+                                icon: 'info',
                                 title: error.error.errorMenssages[0],
                                 timer: 6000,
                             })
