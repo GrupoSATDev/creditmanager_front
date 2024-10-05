@@ -65,6 +65,7 @@ export class GridTiposDocumentosComponent implements OnInit, OnDestroy{
             },
             maxHeight: '90vh',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 
@@ -77,6 +78,7 @@ export class GridTiposDocumentosComponent implements OnInit, OnDestroy{
             },
             maxHeight: '90vh',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 

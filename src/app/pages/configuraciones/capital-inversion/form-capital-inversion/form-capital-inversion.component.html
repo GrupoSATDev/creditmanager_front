@@ -12,18 +12,18 @@
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Inversor</mat-label>
-                <input  matInput [formControlName]="'nombreInversor'"/>
+                <input  matInput [formControlName]="'nombreInversor'" placeholder="Inversor"/>
             </mat-form-field>
 
             <!-- Name field -->
             <mat-form-field class="w-full">
                 <mat-label>Rubro a invertir</mat-label>
-                <input  matInput [formControlName]="'rubroInversion'" />
+                <input  matInput [formControlName]="'rubroInversion'" placeholder="Valor" [mask]="'separator.0'" thousandSeparator="."  />
             </mat-form-field>
 
             <mat-form-field  class="w-full">
                 <mat-label>Detalle de la inversión</mat-label>
-                <textarea matInput placeholder="Detalle" [formControlName]="'detalleInversion'"></textarea>
+                <textarea matInput placeholder="Detalle inversión" [formControlName]="'detalleInversion'"></textarea>
             </mat-form-field>
 
             <div class="flex flex-wrap justify-end gap-2.5 ">

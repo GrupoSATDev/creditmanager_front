@@ -21,6 +21,7 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
 import { CUSTOM_DATE_FORMATS } from '../../../../core/constant/custom-date-format';
 import { SubscripcionService } from '../../../../core/services/subscripcion.service';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -77,6 +78,7 @@ export class FormEmpresasClientesComponent implements OnInit{
     public subcripciones$ = this.subcripciones.getSubcripciones();
     public _matData = inject(MAT_DIALOG_DATA);
     private datePipe = inject(DatePipe);
+    private swalService = inject(SwalService);
 
     getMunicipios(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
@@ -117,12 +119,18 @@ export class FormEmpresasClientesComponent implements OnInit{
                         this.empresaClienteService.postEmpresaCliente(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -146,12 +154,18 @@ export class FormEmpresasClientesComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.empresaClienteService.putEmpresaCliente(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();

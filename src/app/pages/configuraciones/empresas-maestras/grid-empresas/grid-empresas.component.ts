@@ -79,7 +79,9 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
                 edit: false,
             },
             maxHeight: '90vh',
+            width: '50%',
             maxWidth: '100%',
+            disableClose: true
         });
     }
 
@@ -91,7 +93,9 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
                 data: this.selectedData
             },
             maxHeight: '90vh',
+            width: '50%',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 

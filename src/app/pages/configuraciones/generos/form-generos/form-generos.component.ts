@@ -9,6 +9,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { GenerosService } from '../../../../core/services/generos.service';
+import { SwalService } from '../../../../core/services/swal.service';
 
 @Component({
   selector: 'app-form-generos',
@@ -32,6 +33,7 @@ export class FormGenerosComponent implements OnInit{
     public estadosDatosService = inject(EstadosDatosService);
     public toasService = inject(ToastAlertsService);
     public _matData = inject(MAT_DIALOG_DATA);
+    private swalService = inject(SwalService);
 
     ngOnInit(): void {
         this.createForm();
@@ -57,12 +59,18 @@ export class FormGenerosComponent implements OnInit{
                         this.generoService.postGeneros(data).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -81,12 +89,18 @@ export class FormGenerosComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.generoService.putGeneros(data).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();

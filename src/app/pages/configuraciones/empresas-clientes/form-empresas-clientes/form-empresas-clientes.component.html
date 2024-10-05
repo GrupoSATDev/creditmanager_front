@@ -1,4 +1,4 @@
-<div class="w-full sm:bg-card sm:rounded-2xl sm:w-96 max-w-96 sm:mx-0 mx-auto" >
+<div class="w-full sm:bg-card sm:rounded-2xl  sm:mx-0 mx-auto" >
     <div class="">
         <!-- Title -->
         <div
@@ -9,95 +9,113 @@
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Nit</mat-label>
-                <input  matInput [formControlName]="'nit'"/>
-            </mat-form-field>
+            <div class="flex mb-4 gap-2">
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Nit</mat-label>
+                    <input  matInput [formControlName]="'nit'" placeholder="Nit"/>
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Razón social</mat-label>
-                <input  matInput [formControlName]="'razonSocial'" />
-            </mat-form-field>
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Razón social</mat-label>
+                    <input  matInput [formControlName]="'razonSocial'" placeholder="Razón social" />
+                </mat-form-field>
+            </div>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Correo</mat-label>
-                <input  matInput  [formControlName]="'correo'" />
-            </mat-form-field>
+            <div class="flex mb-4 gap-2">
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Correo</mat-label>
+                    <input  matInput  [formControlName]="'correo'" placeholder="Correo electronico" />
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Teléfono</mat-label>
-                <input  matInput     [formControlName]="'telefono'" />
-            </mat-form-field>
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Teléfono</mat-label>
+                    <input  matInput     [formControlName]="'telefono'" placeholder="Teléfono" />
+                </mat-form-field>
+            </div>
 
+            <div class="flex mb-4 gap-2">
 
-            <mat-form-field  class="w-full">
-                <mat-label>Departamento</mat-label>
-                <mat-select
-                    #data
-                    (selectionChange)="getMunicipios($event)"
-                    [formControlName]="'idDepartamento'"
-                >
-                    <ng-container *ngIf="departamentos$ | async as departamentos">
-                        <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
+                <mat-form-field  class="w-full">
+                    <mat-label>Departamento</mat-label>
+                    <mat-select
+                        #data
+                        (selectionChange)="getMunicipios($event)"
+                        [formControlName]="'idDepartamento'"
+                        placeholder="Departamento"
+                    >
+                        <ng-container *ngIf="departamentos$ | async as departamentos">
+                            <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Ciudad</mat-label>
-                <mat-select [formControlName]="'idMunicipio'">
-                    <ng-container *ngIf="municipios$ | async as municipios">
-                        <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
+                <mat-form-field  class="w-full">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select [formControlName]="'idMunicipio'" placeholder="Ciudad">
+                        <ng-container *ngIf="municipios$ | async as municipios">
+                            <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-            <mat-form-field class="w-full">
-                <mat-label>Dirección</mat-label>
-                <input
-                    matInput [formControlName]="'direccion'" />
-            </mat-form-field>
+            <div class="flex mb-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Dirección</mat-label>
+                    <input
+                        matInput [formControlName]="'direccion'" placeholder="Dirección"/>
+                </mat-form-field>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Tipos de empresa</mat-label>
-                <mat-select [formControlName]="'idTipoEmpresa'">
-                    <ng-container *ngIf="tiposEmpresas$ | async as tipos">
-                        <mat-option [value]="tipo.id" *ngFor="let tipo of tipos.data">{{tipo.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
+            </div>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Subscripción</mat-label>
-                <mat-select [formControlName]="'idSuscripcion'">
-                    <ng-container *ngIf="subcripciones$ | async as subscripciones">
-                        <mat-option [value]="item.id" *ngFor="let item of subscripciones.data">{{item.nombre}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
+            <div class="flex mb-4 gap-2">
+                <mat-form-field  class="w-full">
+                    <mat-label>Tipo de empresa</mat-label>
+                    <mat-select [formControlName]="'idTipoEmpresa'" placeholder="Tipo de empresa">
+                        <ng-container *ngIf="tiposEmpresas$ | async as tipos">
+                            <mat-option [value]="tipo.id" *ngFor="let tipo of tipos.data">{{tipo.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field class="w-full">
-                <mat-label>Valor subscripción</mat-label>
-                <input
-                    matInput [formControlName]="'valorSuscripcion'" mask="separator.0" thousandSeparator="." />
-            </mat-form-field>
+                <mat-form-field  class="w-full">
+                    <mat-label>Subscripción</mat-label>
+                    <mat-select [formControlName]="'idSuscripcion'" placeholder="Subscripción">
+                        <ng-container *ngIf="subcripciones$ | async as subscripciones">
+                            <mat-option [value]="item.id" *ngFor="let item of subscripciones.data">{{item.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field class="w-full">
-                <mat-label>Porcentaje cobro</mat-label>
-                <input
-                    matInput [formControlName]="'porcCobro'"  />
-            </mat-form-field>
+            </div>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Fecha de cobro</mat-label>
-                <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            <div class="flex mb-4 gap-2">
+                <mat-form-field class="w-full">
+                    <mat-label>Valor subscripción</mat-label>
+                    <input
+                        matInput [formControlName]="'valorSuscripcion'" mask="separator.0" thousandSeparator="." placeholder="Valor subcripción" />
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Porcentaje cobro</mat-label>
+                    <input
+                        matInput [formControlName]="'porcCobro'"  placeholder="Porcentaje %" />
+                </mat-form-field>
+            </div>
+
+            <div class="flex mb-4">
+                <mat-form-field  class="w-full">
+                    <mat-label>Fecha de cobro</mat-label>
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
 
             <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button

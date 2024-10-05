@@ -9,6 +9,11 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
+import { SwalService } from '../../../../core/services/swal.service';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-capital-inversion',
@@ -19,9 +24,13 @@ import { CapitalInversionService } from '../../../../core/services/capital-inver
         MatInput,
         MatLabel,
         ReactiveFormsModule,
+        NgxMaskDirective,
     ],
   templateUrl: './form-capital-inversion.component.html',
-  styleUrl: './form-capital-inversion.component.scss'
+  styleUrl: './form-capital-inversion.component.scss',
+  providers: [
+        provideNgxMask(maskConfig)
+  ],
 })
 export class FormCapitalInversionComponent implements OnInit{
     private fb = inject(FormBuilder);
@@ -32,6 +41,7 @@ export class FormCapitalInversionComponent implements OnInit{
     public toasService = inject(ToastAlertsService);
     private capitalService = inject(CapitalInversionService);
     public _matData = inject(MAT_DIALOG_DATA);
+    private swalService = inject(SwalService);
 
     ngOnInit(): void {
         this.createForm();
@@ -62,12 +72,18 @@ export class FormCapitalInversionComponent implements OnInit{
                         this.capitalService.postCapitales(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -90,12 +106,18 @@ export class FormCapitalInversionComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.capitalService.putCapitales(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();

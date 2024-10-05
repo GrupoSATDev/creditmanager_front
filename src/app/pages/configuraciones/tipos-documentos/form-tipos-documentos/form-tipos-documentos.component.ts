@@ -9,6 +9,7 @@ import { ToastAlertsService } from '../../../../core/services/toast-alerts.servi
 import { guardar } from '../../../../core/constant/dialogs';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { SwalService } from '../../../../core/services/swal.service';
 
 @Component({
   selector: 'app-form-tipos-documentos',
@@ -32,6 +33,7 @@ export class FormTiposDocumentosComponent implements  OnInit{
     public estadosDatosService = inject(EstadosDatosService);
     public tiposDocumentoService = inject(TiposDocumentosService);
     public _matData = inject(MAT_DIALOG_DATA);
+    private swalService = inject(SwalService);
 
     ngOnInit(): void {
         this.createForm();
@@ -56,12 +58,18 @@ export class FormTiposDocumentosComponent implements  OnInit{
                     if (response === 'confirmed') {
                         this.tiposDocumentoService.postDocumentos(data).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro creado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al crear el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
@@ -78,12 +86,18 @@ export class FormTiposDocumentosComponent implements  OnInit{
                     if (response === 'confirmed') {
                         this.tiposDocumentoService.putDocumentos(data).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro actualizado con exito!',
+                                timer: 4000,
                             })
                             this.closeDialog();
+                        }, error => {
+                            this.swalService.ToastAler({
+                                icon: 'error',
+                                title: 'Ha ocurrido un error al actualizar el registro!',
+                                timer: 4000,
+                            })
                         })
                     }else {
                         this.closeDialog();
