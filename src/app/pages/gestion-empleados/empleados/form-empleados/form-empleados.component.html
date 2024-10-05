@@ -242,7 +242,9 @@
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de cuenta</mat-label>
                         <mat-select [formControlName]="'idTipoCuenta'" placeholder="Tipo de cuenta">
-                            <mat-option [value]="item.id" *ngFor="let item of tiposCuentas">{{item.nombre}}</mat-option>
+                            <ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
+                                <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
+                            </ng-container>
                         </mat-select>
                     </mat-form-field>
 

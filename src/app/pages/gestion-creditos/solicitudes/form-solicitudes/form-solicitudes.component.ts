@@ -15,7 +15,6 @@ import { map, Subscription } from 'rxjs';
 import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
 import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
-import { tiposSolicitudes } from '../../../../core/constant/tiposSolicitud';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { SwalService } from '../../../../core/services/swal.service';

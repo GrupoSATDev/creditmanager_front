@@ -15,7 +15,9 @@
                 <mat-select
                     [formControlName]="'idTipoCuenta'"
                 >
-                    <mat-option [value]="item.id" *ngFor="let item of tipoCuentas">{{item.nombre}}</mat-option>
+                    <ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
+                        <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
+                    </ng-container>
                 </mat-select>
             </mat-form-field>
 

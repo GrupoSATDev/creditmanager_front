@@ -7,7 +7,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
-import { tiposCuentas } from '../../../../core/constant/tiposCuentas';
 import { BancosService } from '../../../../core/services/bancos.service';
 import { Observable } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
@@ -16,6 +15,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -54,7 +54,8 @@ export class FormCuentasComponent implements OnInit{
     public toasService = inject(ToastAlertsService);
     public bancosService = inject(BancosService);
     private cuentasBancariasService = inject(CuentasBancariasService);
-    public tipoCuentas  = tiposCuentas;
+    private tipoCuentasService = inject(TipoCuentasService);
+    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas();
     public _matData = inject(MAT_DIALOG_DATA);
     public bancos$: Observable<any> = this.bancosService.getBancos();
 

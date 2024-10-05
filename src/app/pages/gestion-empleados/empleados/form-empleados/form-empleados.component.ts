@@ -22,11 +22,11 @@ import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { CargosService } from '../../../../core/services/cargos.service';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { tiposCuentas } from '../../../../core/constant/tiposCuentas';
 import { NivelRiesgoService } from '../../../../core/services/nivel-riesgo.service';
 import { BancosService } from '../../../../core/services/bancos.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { SwalService } from '../../../../core/services/swal.service';
+import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -93,7 +93,8 @@ export class FormEmpleadosComponent implements OnInit{
     public bancos$ = this.bancosServices.getBancos();
     public _matData = inject(MAT_DIALOG_DATA);
     public image: any;
-    public tiposCuentas = tiposCuentas;
+    private tipoCuentasService = inject(TipoCuentasService);
+    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas();
 
     profile: any = {
         avatar: '',
