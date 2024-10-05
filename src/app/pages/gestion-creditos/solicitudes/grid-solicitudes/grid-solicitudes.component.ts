@@ -88,6 +88,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             },
             maxHeight: '90vh',
             maxWidth: '100%',
+            disableClose: true
         })
     }
 

@@ -8,11 +8,20 @@
                     <app-terminos-condiciones (aceptacionCambiada)="onAceptarTerminos($event)">  </app-terminos-condiciones>
                     <div class="text-center">
                         <button
+                            class="bg-crediorange-100 mt-4 rounded-lg transition duration-200 text-white font-semibold "
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="closeDialog()"
+                        >
+
+                            <span> Cancelar </span>
+                        </button>
+                        <button
                             mat-raised-button
                             matStepperNext
                             [disabled]="!aceptoTerminos"
                             [ngClass]="{'bg-crediblue-50' : aceptoTerminos,  'bg-credigray-100' : !aceptoTerminos }"
-                            class="text-white px-6 py-2 rounded-md  mt-4"
+                            class="text-white px-6 py-2 rounded-md  mt-4 ml-2"
                         >
                             Siguiente
                         </button>
@@ -70,14 +79,26 @@
                     <p class="mb-6 text-left">
                         3.	Si tu solicitud fue rechazada puedes comunicarte con nuestro equipo para obtener más información, podrás realizar una nueva solicitud dentro de XXX días.
                     </p>
-                    <button
-                        mat-raised-button
-                        matStepperNext
-                        [disabled]="initialInfoForm.invalid"
-                        class="bg-crediblue-50 text-white px-6 py-2 rounded-md"
-                    >
-                        Siguiente
-                    </button>
+                    <div>
+                        <button
+                            class="bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="closeDialog()"
+                        >
+
+                            <span> Cancelar </span>
+                        </button>
+                        <button
+                            mat-raised-button
+                            matStepperNext
+                            [disabled]="initialInfoForm.invalid"
+                            class="bg-crediblue-50 text-white px-6 py-2 rounded-md ml-2"
+                        >
+                            Siguiente
+                        </button>
+
+                    </div>
                 </form>
             </div>
         </mat-step>
@@ -96,7 +117,7 @@
                     </p>
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de solicitud</mat-label>
-                        <mat-select [formControlName]="'idTipoSolicitud'">
+                        <mat-select [formControlName]="'idTipoSolicitud'" placeholder="Tipo de solicitud">
                             <ng-container *ngIf="tipoSolicitud$ | async as tipoSolicitud">
                                 <mat-option [value]="item.id" *ngFor="let item of tipoSolicitud.data">{{item.nombre}}</mat-option>
                             </ng-container>
@@ -107,18 +128,34 @@
                     </mat-form-field>
                     <mat-form-field class="w-full">
                         <mat-label>Digita el cupo que deseas solicitar</mat-label>
-                        <input  matInput [formControlName]="'cupo'" [mask]="'separator.0'" thousandSeparator="." />
+                        <input  matInput [formControlName]="'cupo'" [mask]="'separator.0'" thousandSeparator="." placeholder="Cupo solicitado" />
                         <mat-error *ngIf="secondFormGroup.get('cupo').dirty || secondFormGroup.get('cupo').touched  &&  (secondFormGroup.get('cupo').errors.required)">
                             Este campo es requerido!.
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field  class="w-full">
                         <mat-label>Observaciónes</mat-label>
-                        <textarea matInput placeholder="Observacion" [formControlName]="'observacion'"></textarea>
+                        <textarea matInput placeholder="Observaciones" [formControlName]="'observacion'"></textarea>
                     </mat-form-field>
-                    <button mat-raised-button [disabled]="secondFormGroup.invalid"
-                            [ngClass]="{'bg-crediblue-50' : secondFormGroup.valid,  'bg-credigray-100' : secondFormGroup.invalid }"
-                            class="text-white px-6 py-2 rounded-md " (click)="onSave()">Finalizar</button>
+                    <div>
+                        <button
+                            class="bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="closeDialog()"
+                        >
+
+                            <span> Cancelar </span>
+                        </button>
+
+                        <button mat-raised-button [disabled]="secondFormGroup.invalid"
+                                [ngClass]="{'bg-crediblue-50' : secondFormGroup.valid,  'bg-credigray-100' : secondFormGroup.invalid }"
+                                class="text-white px-6 py-2 rounded-md ml-2"
+                                (click)="onSave()"
+                        >Finalizar
+                        </button>
+
+                    </div>
                 </form>
             </div>
 
