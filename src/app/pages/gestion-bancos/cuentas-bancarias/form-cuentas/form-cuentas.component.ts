@@ -8,7 +8,7 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
 import { BancosService } from '../../../../core/services/bancos.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { CuentasBancariasService } from '../../../../core/services/cuentas-bancarias.service';
 import { MatOption } from '@angular/material/core';
@@ -55,9 +55,27 @@ export class FormCuentasComponent implements OnInit{
     public bancosService = inject(BancosService);
     private cuentasBancariasService = inject(CuentasBancariasService);
     private tipoCuentasService = inject(TipoCuentasService);
-    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas();
+    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoCuenta').setValue(valorSelected[0].id)
+            }
+
+        })
+    )
     public _matData = inject(MAT_DIALOG_DATA);
-    public bancos$: Observable<any> = this.bancosService.getBancos();
+    public bancos$: Observable<any> = this.bancosService.getBancos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idBanco').setValue(valorSelected[0].id)
+            }
+
+        })
+    )
 
     ngOnInit(): void {
         this.createForm();

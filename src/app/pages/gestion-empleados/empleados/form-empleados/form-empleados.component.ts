@@ -11,7 +11,7 @@ import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -83,18 +83,76 @@ export class FormEmpleadosComponent implements OnInit{
     private bancosServices = inject(BancosService)
     private swalService = inject(SwalService);
 
-    public departamentos$ = this._locacionService.getDepartamentos();
+    public departamentos$ = this._locacionService.getDepartamentos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idDepartamento').setValue(valorSelected[0].id)
+                const idDepto = this.form.get('idDepartamento').value;
+                this.getMunicipios(idDepto);
+            }
+        })
+    )
     public municipios$: Observable<any>;
-    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos();
-    public generos$ = this.generoService.getGeneros();
-    public empresasClientes$ = this.empresaClienteService.getEmpresas();
+    public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoDoc').setValue(valorSelected[3].id)
+            }
+        })
+    )
+    public generos$ = this.generoService.getGeneros().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idGenero').setValue(valorSelected[1].id)
+            }
+        })
+    )
+    public empresasClientes$ = this.empresaClienteService.getEmpresas().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idSubEmpresa').setValue(valorSelected[0].id)
+            }
+        })
+    )
     public cargos$ = this.cargosServices.getCargos();
-    public riesgos$ = this.riesgosServices.getRiesgos();
-    public bancos$ = this.bancosServices.getBancos();
+    public riesgos$ = this.riesgosServices.getRiesgos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idNivelRiesgo').setValue(valorSelected[0].id)
+            }
+        })
+    )
+    public bancos$ = this.bancosServices.getBancos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idBanco').setValue(valorSelected[0].id)
+            }
+        })
+    )
     public _matData = inject(MAT_DIALOG_DATA);
     public image: any;
     private tipoCuentasService = inject(TipoCuentasService);
-    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas();
+    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoCuenta').setValue(valorSelected[0].id)
+            }
+        })
+    )
 
     profile: any = {
         avatar: '',
@@ -142,9 +200,21 @@ export class FormEmpleadosComponent implements OnInit{
         }
     }
 
-    getMunicipios(matSelectChange: MatSelectChange) {
+    onSelected(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
-        this.municipios$ = this._locacionService.getMunicipio(id);
+        this.getMunicipios(id);
+    }
+
+    getMunicipios(id) {
+        this.municipios$ = this._locacionService.getMunicipio(id).pipe(
+            tap((response) => {
+                const valorSelected = response.data;
+                const dialogData = this._matData;
+                if (valorSelected && !dialogData.edit) {
+                    this.form.get('idMunicipio').setValue(valorSelected[0].id)
+                }
+            })
+        )
     }
 
     onSave(): void {
