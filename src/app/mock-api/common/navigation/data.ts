@@ -48,7 +48,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'apps.gestion.cobros',
-                title: 'Cobro empleados',
+                title: 'Cobro trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobros',
             },
@@ -56,15 +56,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'apps.gestion-empleados',
-        title: 'Gestión de empleados',
+        title: 'Gestión de trabajadores',
         type: 'collapsable',
         icon: 'heroicons_outline:user-group',
         children: [
             {
                 id: 'apps.gestion.empleados',
-                title: 'Empleados',
+                title: 'Trabajadores',
                 type: 'basic',
-                link: '/pages/gestion-empleados/empleados',
+                link: '/pages/gestion-trabajadores/trabajadores',
             },
         ],
     },

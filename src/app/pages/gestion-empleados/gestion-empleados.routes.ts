@@ -5,7 +5,7 @@ export default [
       path: '',
       children: [
         {
-            path: 'empleados',
+            path: 'trabajadores',
             loadChildren: () => import('./empleados/empleados.routes')
         }
       ]

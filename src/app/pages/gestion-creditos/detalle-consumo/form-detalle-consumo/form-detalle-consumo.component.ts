@@ -198,7 +198,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         }, error => {
             this.alert = {
                 type: 'error',
-                message: 'El empleado no existe!'
+                message: 'El trabajador no existe!'
             };
             // Show the alert
             this.showAlert = true;

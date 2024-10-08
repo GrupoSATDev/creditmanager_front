@@ -93,7 +93,7 @@ export const appRoutes: Route[] = [
                 path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes')
             },
             {
-                path: 'gestion-empleados', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes')
+                path: 'gestion-trabajadores', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes')
             },
             {
                 path: 'gestion-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes')
