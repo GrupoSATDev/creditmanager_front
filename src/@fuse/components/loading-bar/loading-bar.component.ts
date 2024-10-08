@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FuseLoadingService } from '@fuse/services/loading';
-import { Subject, takeUntil } from 'rxjs';
+import { delay, Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'fuse-loading-bar',
@@ -57,21 +57,33 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy {
     ngOnInit(): void {
         // Subscribe to the service
         this._fuseLoadingService.mode$
-            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                delay(300),
+                takeUntil(this._unsubscribeAll),
+            )
             .subscribe((value) => {
-                this.mode = value;
+                setTimeout(() => {
+                    this.mode = value;
+                }, )
             });
 
         this._fuseLoadingService.progress$
-            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                delay(300),
+                takeUntil(this._unsubscribeAll),
+            )
             .subscribe((value) => {
-                this.progress = value;
+                setTimeout(() => {
+                    this.progress = value;
+                }, )
             });
 
         this._fuseLoadingService.show$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((value) => {
-                this.show = value;
+                setTimeout(() => {
+                    this.show = value;
+                }, )
             });
     }
 
