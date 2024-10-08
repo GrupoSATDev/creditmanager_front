@@ -28,7 +28,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'apps.gestion.detalle.dembolso',
-                title: 'Desembolso',
+                title: 'Desembolsos',
                 type: 'basic',
                 link: '/pages/gestion-creditos/desembolsos',
             },
@@ -38,19 +38,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/consumos',
             },
-            {
-                id: 'apps.gestion.tasas',
-                title: 'Tasas de interes',
-                type: 'basic',
-                link: '/pages/gestion-creditos/tasas',
-            },
-            {
-                id: 'apps.gestion.tipos.pagos',
-                title: 'Tipos de pagos',
-                type: 'basic',
-                link: '/pages/gestion-creditos/tipos-pagos',
-            },
-
         ],
     },
     {
@@ -123,6 +110,19 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/configuracion/generos',
             },
+            {
+                id: 'apps.gestion.tipos.pagos',
+                title: 'Tipos de pagos',
+                type: 'basic',
+                link: '/pages/configuracion/tipos-pagos',
+            },
+            {
+                id: 'apps.gestion.tasas',
+                title: 'Tasas de interes',
+                type: 'basic',
+                link: '/pages/configuracion/tasas',
+            },
+
         ],
     },
     {

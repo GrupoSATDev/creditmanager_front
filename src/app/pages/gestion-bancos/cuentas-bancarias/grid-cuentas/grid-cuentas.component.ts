@@ -33,10 +33,11 @@ export class GridCuentasComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Número de cuenta', 'Descripción', ];
+    columns = ['Número de cuenta', 'Tipo de cuenta', 'Banco', ];
     columnPropertyMap = {
         'Número de cuenta': 'numeroCuenta',
-        'Descripción': 'descripcion',
+        'Tipo de cuenta': 'nombreTipoCuenta',
+        'Banco': 'nombreBanco'
     };
 
     buttons: IButton[] = [

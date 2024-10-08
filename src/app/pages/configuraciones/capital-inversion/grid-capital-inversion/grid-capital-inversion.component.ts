@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { FormCapitalInversionComponent } from '../form-capital-inversion/form-capital-inversion.component';
 import { Estados } from '../../../../core/enums/estados';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-grid-capital-inversion',
@@ -22,19 +23,27 @@ import { CapitalInversionService } from '../../../../core/services/capital-inver
         MatIcon,
         MatInput,
     ],
+    providers: [
+        DatePipe,
+        CurrencyPipe
+    ],
   templateUrl: './grid-capital-inversion.component.html',
   styleUrl: './grid-capital-inversion.component.scss'
 })
 export class GridCapitalInversionComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
+    private datePipe = inject(DatePipe);
+    private currencyPipe = inject(CurrencyPipe);
 
     data = [];
 
-    columns = ['Inversor', 'Rubro', 'Detalle de inversión'];
+    columns = ['Inversor', 'Rubro invertido', 'Rubro disponible', 'Fecha de retorno', 'Detalle de inversión'];
     columnPropertyMap = {
         'Inversor': 'nombreInversor',
-        'Rubro': 'rubroInversion',
+        'Rubro invertido': 'rubroInversion',
+        'Rubro disponible': 'montoDisponible',
+        'Fecha de retorno': 'fechaCreacion',
         'Detalle de inversión': 'detalleInversion',
     };
 
@@ -93,6 +102,13 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
                 })
                 return response;
 
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.rubroInversion = this.currencyPipe.transform(items.rubroInversion, 'USD', 'symbol', '1.2-2');
+                })
+                return response;
             })
         ).subscribe((response) => {
             this.data = response.data;
