@@ -9,41 +9,61 @@
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Inversor</mat-label>
-                <input  matInput [formControlName]="'nombreInversor'" placeholder="Inversor"/>
-            </mat-form-field>
+            <div>
+                <p class="font-bold mb-4 text-2xl">Información de inversor</p>
+                <mat-form-field class="w-full">
+                    <mat-label>Inversor</mat-label>
+                    <input  matInput [formControlName]="'nombreInversor'" placeholder="Inversor"/>
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Rubro a invertir</mat-label>
-                <input  matInput [formControlName]="'rubroInversion'" placeholder="Valor" [mask]="'separator.0'" thousandSeparator="."  />
-            </mat-form-field>
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Rubro a invertir</mat-label>
+                    <input  matInput [formControlName]="'rubroInversion'" placeholder="Valor" [mask]="'separator.0'" thousandSeparator="."  />
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Fuente de ingreso proveedor</mat-label>
-                <input  matInput [formControlName]="'fuenteIngresoProveedor'"   />
-            </mat-form-field>
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Tasa de interes inversor</mat-label>
+                    <input  matInput [formControlName]="'tasaInteresInversor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false"  [mask]="'separator.2'"   />
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Tasa de interes proveedor</mat-label>
-                <input  matInput [formControlName]="'tasaInteresProveedor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false" [mask]="'separator.2'"  />
-            </mat-form-field>
+                <mat-form-field  class="w-full">
+                    <mat-label>Plazo pago invesor</mat-label>
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoInversor'">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
 
-            <!-- Name field -->
-            <mat-form-field class="w-full">
-                <mat-label>Tasa de interes inversor</mat-label>
-                <input  matInput [formControlName]="'tasaInteresInversor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false"  [mask]="'separator.2'"   />
-            </mat-form-field>
+                <mat-form-field  class="w-full">
+                    <mat-label>Detalle de la inversión</mat-label>
+                    <textarea matInput placeholder="Detalle inversión" [formControlName]="'detalleInversion'"></textarea>
+                </mat-form-field>
 
+            </div>
 
-            <mat-form-field  class="w-full">
-                <mat-label>Detalle de la inversión</mat-label>
-                <textarea matInput placeholder="Detalle inversión" [formControlName]="'detalleInversion'"></textarea>
-            </mat-form-field>
+            <div>
+                <p class="font-bold mb-4 text-2xl">Proveedor de origen </p>
+                <mat-form-field class="w-full">
+                    <mat-label>Origen del rubro (Proveedor)</mat-label>
+                    <input  matInput [formControlName]="'fuenteIngresoProveedor'"   />
+                </mat-form-field>
+
+                <!-- Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Tasa de interes proveedor</mat-label>
+                    <input  matInput [formControlName]="'tasaInteresProveedor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false" [mask]="'separator.2'"  />
+                </mat-form-field>
+
+                <mat-form-field  class="w-full">
+                    <mat-label>Plazo pago proveedor</mat-label>
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoProveedor'">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+
 
             <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button

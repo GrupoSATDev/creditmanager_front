@@ -11,7 +11,28 @@
         <form class="mt-8" [formGroup]="form">
             <div>
                 <p class="font-bold mb-4 text-2xl">Información general</p>
+                <div class="flex mb-4">
+                    <div class="flex mb-4">
+                        <div
+                            class="fcursor-pointer"
+                            (click)="twoStepToggle.toggle()"
+                        >
+                            <div class="font-medium leading-6">
+                                Estado {{form.get('estado').value ? 'Activo' : 'Inactivo'}}
+                            </div>
+                        </div>
+                        <mat-slide-toggle
+                            class="ml-4"
+                            [color]="'primary'"
+                            [formControlName]="'estado'"
+                            #twoStepToggle
+                        >
+                        </mat-slide-toggle>
+                    </div>
+
+                </div>
                 <div class="flex mb-4 gap-2">
+
                     <!-- Name field -->
                     <mat-form-field class="w-full">
                         <mat-label>Nit</mat-label>

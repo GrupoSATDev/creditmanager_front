@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
 import { SwalService } from '../../../../core/services/swal.service';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -25,6 +26,10 @@ const maskConfig: Partial<IConfig> = {
         MatLabel,
         ReactiveFormsModule,
         NgxMaskDirective,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatSuffix,
     ],
   templateUrl: './form-capital-inversion.component.html',
   styleUrl: './form-capital-inversion.component.scss',
@@ -137,7 +142,9 @@ export class FormCapitalInversionComponent implements OnInit{
             detalleInversion: [''],
             fuenteIngresoProveedor: [''],
             tasaInteresProveedor: [''],
-            tasaInteresInversor: ['']
+            tasaInteresInversor: [''],
+            plazoPagoProveedor: [''],
+            plazoPagoInversor: [''],
         })
     }
 

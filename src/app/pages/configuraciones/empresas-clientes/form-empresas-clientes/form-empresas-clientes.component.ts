@@ -22,6 +22,7 @@ import { CUSTOM_DATE_FORMATS } from '../../../../core/constant/custom-date-forma
 import { SubscripcionService } from '../../../../core/services/subscripcion.service';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -47,6 +48,7 @@ const maskConfig: Partial<IConfig> = {
         MatDatepicker,
         MatFormFieldModule,
         NgxMaskDirective,
+        MatSlideToggle,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -130,9 +132,12 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (dialogData.edit) {
             const data = dialogData.data;
             this.form.patchValue(data);
-            const {idDepartamento, fechaCorte} = data;
+            const {idDepartamento, fechaCorte, estado} = data;
             const fecha = new Date(fechaCorte)
-            this.form.patchValue({fechaCorte: fecha})
+            this.form.patchValue({
+                estado: estado == 'Activo' ? true : false,
+                fechaCorte: fecha
+            })
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
         }
 
@@ -142,7 +147,7 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, idEmpresa, fechaCobro, ...form} = data;
+                const {idDepartamento, idEmpresa, fechaCobro,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaCobro: fecha,
@@ -177,7 +182,7 @@ export class FormEmpresasClientesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaCobro, estado, ...form} = data;
+                const {idDepartamento, fechaCobro,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaCobro: fecha,
