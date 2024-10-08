@@ -23,6 +23,8 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmDesembolsoComponent } from '../dialog-confirm-desembolso/dialog-confirm-desembolso.component';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -75,9 +77,20 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     estadoCredito = [];
     tasas = [];
     idCredito: string = '';
+    public _matDialog = inject(MatDialog);
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
+    }
+
+    onSolicitud() {
+        this._matDialog.open(DialogConfirmDesembolsoComponent, {
+            data: {
+                data: this.items
+            },
+            width: '30%',
+            disableClose: true
+        })
     }
 
     ngOnInit(): void {
