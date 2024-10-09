@@ -1,5 +1,5 @@
-<div class="mat-elevation-z8">
-    <mat-table [dataSource]="dataSource" matSort>
+<div class="mat-elevation-z8 overflow-x-auto w-full">
+    <mat-table [dataSource]="dataSource" matSort class="min-w-full">
 
         <!-- Definir columnas -->
         <ng-container *ngFor="let column of columns" [matColumnDef]="column">
