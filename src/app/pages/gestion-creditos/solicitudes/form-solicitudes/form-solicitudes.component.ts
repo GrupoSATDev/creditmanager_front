@@ -11,7 +11,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
-import { map, Subscription, tap } from 'rxjs';
+import { filter, map, of, pipe, Subscription, tap } from 'rxjs';
 import { TerminosCondicionesComponent } from '../terminos-condiciones/terminos-condiciones.component';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
@@ -69,6 +69,10 @@ export class FormSolicitudesComponent implements OnInit{
     private swalService = inject(SwalService);
     private tipoSolicitudService = inject(TipoSolicitudesService)
     tipoSolicitud$ = this.tipoSolicitudService.getTipos().pipe(
+        map((response) => {
+            response.data = response.data.filter((res) => res.nombre !== 'Desembolsos');
+            return response;
+        }),
         tap((opciones) => {
             const valorDefecto  = opciones.data[0];
             if (valorDefecto) {
