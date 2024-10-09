@@ -34,13 +34,13 @@
                 <div class="flex mb-4 gap-2">
 
                     <!-- Name field -->
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Nit</mat-label>
                         <input  matInput [formControlName]="'nit'" placeholder="Nit"/>
                     </mat-form-field>
 
                     <!-- Name field -->
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Razón social</mat-label>
                         <input  matInput [formControlName]="'razonSocial'" placeholder="Razón social" />
                     </mat-form-field>
@@ -48,13 +48,13 @@
 
                 <div class="flex mb-4 gap-2">
                     <!-- Name field -->
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Correo</mat-label>
                         <input  matInput  [formControlName]="'correo'" placeholder="Correo electronico" />
                     </mat-form-field>
 
                     <!-- Name field -->
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Teléfono</mat-label>
                         <input  matInput     [formControlName]="'telefono'" placeholder="Teléfono" />
                     </mat-form-field>
@@ -62,7 +62,7 @@
 
                 <div class="flex mb-4 gap-2">
 
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Departamento</mat-label>
                         <mat-select
                             #data
@@ -76,7 +76,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Ciudad</mat-label>
                         <mat-select [formControlName]="'idMunicipio'" placeholder="Ciudad">
                             <ng-container *ngIf="municipios$ | async as municipios">
@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="flex mb-4">
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Dirección</mat-label>
                         <input
                             matInput [formControlName]="'direccion'" placeholder="Dirección"/>
@@ -100,7 +100,7 @@
             <div>
                 <p class="font-bold mb-4 text-2xl">Información de contrato</p>
                 <div class="flex mb-4 gap-2">
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Tipo de empresa</mat-label>
                         <mat-select [formControlName]="'idTipoEmpresa'" placeholder="Tipo de empresa">
                             <ng-container *ngIf="tiposEmpresas$ | async as tipos">
@@ -109,7 +109,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Subscripción</mat-label>
                         <mat-select [formControlName]="'idSuscripcion'" placeholder="Subscripción">
                             <ng-container *ngIf="subcripciones$ | async as subscripciones">
@@ -121,13 +121,13 @@
                 </div>
 
                 <div class="flex mb-4 gap-2">
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Valor subscripción</mat-label>
                         <input
                             matInput [formControlName]="'valorSuscripcion'" mask="separator.0" thousandSeparator="." placeholder="Valor subcripción" />
                     </mat-form-field>
 
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Porcentaje cobro</mat-label>
                         <input
                             matInput [formControlName]="'porcCobro'"  placeholder="Porcentaje %" />
@@ -135,9 +135,9 @@
                 </div>
 
                 <div class="flex mb-4">
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Fecha de cobro</mat-label>
-                        <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'">
+                        <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'" placeholder="Fecha de cobro">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>

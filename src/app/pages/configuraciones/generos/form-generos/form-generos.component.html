@@ -10,9 +10,9 @@
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
 
-            <mat-form-field class="w-full">
+            <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Nombre</mat-label>
-                <input  matInput [formControlName]="'nombre'"/>
+                <input  matInput [formControlName]="'nombre'" placeholder="Nombre"/>
             </mat-form-field>
 
             <div class="flex flex-wrap justify-end gap-2.5 ">

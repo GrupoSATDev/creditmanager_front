@@ -10,12 +10,12 @@
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
-            <mat-form-field class="w-full">
+            <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Abreviaatura</mat-label>
                 <input  matInput [formControlName]="'codigo'" placeholder="Abreviaatura" />
             </mat-form-field>
 
-            <mat-form-field class="w-full">
+            <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Tipo de documento</mat-label>
                 <input  matInput [formControlName]="'nombre'" placeholder="Tipo de documento" />
             </mat-form-field>

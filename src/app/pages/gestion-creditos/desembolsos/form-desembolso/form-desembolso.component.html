@@ -23,7 +23,7 @@
                                     </ng-container>
                                 </mat-select>
                             </mat-form-field>
-                            <mat-form-field class="w-full">
+                            <mat-form-field class="w-full" floatLabel="always">
                                 <mat-label>Número de identificación</mat-label>
                                 <input  matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
                                 <mat-error *ngIf="firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched  &&  (firstFormGroup.get('numDocumento').errors.required)">
@@ -96,14 +96,14 @@
                     <div class="w-full h-full p-4 shadow-lg">
                         <form [formGroup]="thirdFormGroup">
                             <div class="flex flex-row items-baseline gap-2.5">
-                                <mat-form-field class="w-full">
+                                <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Número de comprobante</mat-label>
-                                    <input  matInput [formControlName]="'numeroFactura'" />
+                                    <input  matInput [formControlName]="'numeroFactura'" placeholder="Número de comprobante" />
                                 </mat-form-field>
 
-                                <mat-form-field class="w-full">
+                                <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Valor de la transferencia</mat-label>
-                                    <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  />
+                                    <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  placeholder="Valor" />
                                     <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
                                     <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
 
@@ -111,20 +111,21 @@
 
                             </div>
                             <div class="flex flex-row gap-2.5">
-                                <mat-form-field  class="w-full">
+                                <mat-form-field  class="w-full" floatLabel="always">
                                     <mat-label>Cuenta de origen</mat-label>
                                     <mat-select
                                         #data
                                         [formControlName]="'idCuentaBancaria'"
+                                        placeholder="Cuenta de origen"
                                     >
                                        <mat-option [value]="cuenta.idTipoCuenta" *ngFor="let cuenta of cuentas">{{cuenta.nombreBanco}}</mat-option>
 
                                     </mat-select>
                                 </mat-form-field>
 
-                                <mat-form-field class="w-full">
+                                <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Cuenta destino</mat-label>
-                                    <input  matInput type="text" [formControlName]="'cuentaDestino'"  />
+                                    <input  matInput type="text" [formControlName]="'cuentaDestino'" placeholder="Cuenta destino"  />
                                 </mat-form-field>
                             </div>
 

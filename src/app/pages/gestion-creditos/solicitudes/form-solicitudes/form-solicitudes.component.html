@@ -115,7 +115,7 @@
                     <p class="mb-6 text-left">
                         Te invitamos a revisar constantemente tus solicitudes y créditos para conocer el estado en que se encuentran.
                     </p>
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Tipo de solicitud</mat-label>
                         <mat-select [formControlName]="'idTipoSolicitud'" placeholder="Tipo de solicitud">
                             <ng-container *ngIf="tipoSolicitud$ | async as tipoSolicitud">
@@ -123,14 +123,14 @@
                             </ng-container>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Digita el cupo que deseas solicitar</mat-label>
                         <input  matInput [formControlName]="'cupo'" [mask]="'separator.0'" thousandSeparator="." placeholder="Cupo solicitado" />
                         <mat-error *ngIf="secondFormGroup.get('cupo').dirty || secondFormGroup.get('cupo').touched  &&  (secondFormGroup.get('cupo').errors.required)">
                             Este campo es requerido!.
                         </mat-error>
                     </mat-form-field>
-                    <mat-form-field  class="w-full">
+                    <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Observaciónes</mat-label>
                         <textarea matInput placeholder="Observaciones" [formControlName]="'observacion'"></textarea>
                     </mat-form-field>

@@ -11,13 +11,13 @@
         <form class="mt-8" [formGroup]="form">
             <div class="flex mb-4 gap-2">
                 <!-- Name field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Nit</mat-label>
                     <input id="nit" matInput [formControlName]="'nit'" placeholder="Nit"/>
                 </mat-form-field>
 
                 <!-- Email field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Razón social</mat-label>
                     <input matInput [formControlName]="'razonSocial'" placeholder="Razón social"/>
                 </mat-form-field>
@@ -25,7 +25,7 @@
 
             <div class="flex mb-4 gap-2">
                 <!-- Company field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Correo</mat-label>
                     <input
                         matInput
@@ -35,7 +35,7 @@
                 </mat-form-field>
 
                 <!-- Company field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Teléfono</mat-label>
                     <input
                         matInput
@@ -47,12 +47,13 @@
 
             <div class="flex mb-4 gap-2">
 
-                <mat-form-field  class="w-full">
+                <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Departamento</mat-label>
                         <mat-select
                             #data
                             (selectionChange)="onSelected($event)"
                             [formControlName]="'idDepartamento'"
+                            placeholder="Departamento"
                         >
                             <ng-container *ngIf="departamentos$ | async as departamentos">
                                 <mat-option [value]="departamento.id" *ngFor="let departamento of departamentos.data">{{departamento.nombre}}</mat-option>
@@ -60,9 +61,9 @@
                         </mat-select>
                 </mat-form-field>
 
-                <mat-form-field  class="w-full">
+                <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Ciudad</mat-label>
-                        <mat-select [formControlName]="'idMunicipio'">
+                        <mat-select [formControlName]="'idMunicipio'" placeholder="Ciudad">
                             <ng-container *ngIf="municipios$ | async as municipios">
                                 <mat-option [value]="municipio.id" *ngFor="let municipio of municipios.data">{{municipio.nombre}}</mat-option>
                             </ng-container>
@@ -73,11 +74,12 @@
 
             <div class="flex mb-4 gap-2">
                 <!-- Company field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Dirección</mat-label>
                     <input
                         matInput
                         [formControlName]="'direccion'"
+                        placeholder="Dirección"
                     />
                 </mat-form-field>
             </div>

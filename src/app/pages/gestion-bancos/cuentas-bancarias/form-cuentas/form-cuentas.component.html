@@ -10,10 +10,11 @@
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
             <!-- Name field -->
-            <mat-form-field  class="w-full">
+            <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Tipo de cuenta</mat-label>
                 <mat-select
                     [formControlName]="'idTipoCuenta'"
+                    placeholder="Tipo de cuenta"
                 >
                     <ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
                         <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
@@ -22,10 +23,11 @@
             </mat-form-field>
 
             <!-- Name field -->
-            <mat-form-field  class="w-full">
+            <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Banco</mat-label>
                 <mat-select
                     [formControlName]="'idBanco'"
+                    placeholder="Banco"
                 >
                     <ng-container *ngIf="bancos$ | async as bancos">
                         <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
@@ -33,12 +35,12 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field  class="w-full">
+            <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Número de cuenta</mat-label>
-                <input  matInput   [formControlName]="'numeroCuenta'"  />
+                <input  matInput   [formControlName]="'numeroCuenta'"  placeholder="Número de cuenta" />
             </mat-form-field>
 
-            <mat-form-field  class="w-full">
+            <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Descripción</mat-label>
                 <textarea matInput placeholder="Detalle" [formControlName]="'descripcion'"></textarea>
             </mat-form-field>

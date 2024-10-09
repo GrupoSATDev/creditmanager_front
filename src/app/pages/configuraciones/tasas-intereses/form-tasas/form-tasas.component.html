@@ -27,17 +27,17 @@
                 </mat-slide-toggle>
             </div>
             <!-- Name field -->
-            <mat-form-field class="w-full">
+            <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Nombre</mat-label>
                 <input  matInput [formControlName]="'nombre'" placeholder="Nombre"/>
             </mat-form-field>
 
-            <mat-form-field class="w-full">
+            <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Porcentaje %</mat-label>
                 <input  matInput [formControlName]="'porcentaje'" placeholder="Porcentaje %"/>
             </mat-form-field>
 
-            <mat-form-field  class="w-full">
+            <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Vigencia</mat-label>
                 <input matInput [matDatepicker]="picker" [formControlName]="'vigencia'" />
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

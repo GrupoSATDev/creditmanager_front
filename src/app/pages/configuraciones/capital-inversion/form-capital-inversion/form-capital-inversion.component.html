@@ -11,31 +11,31 @@
         <form class="mt-8" [formGroup]="form">
             <div>
                 <p class="font-bold mb-4 text-2xl">Información de inversor</p>
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Inversor</mat-label>
                     <input  matInput [formControlName]="'nombreInversor'" placeholder="Inversor"/>
                 </mat-form-field>
 
                 <!-- Name field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Rubro a invertir</mat-label>
                     <input  matInput [formControlName]="'rubroInversion'" placeholder="Valor" [mask]="'separator.0'" thousandSeparator="."  />
                 </mat-form-field>
 
                 <!-- Name field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Tasa de interes inversor</mat-label>
                     <input  matInput [formControlName]="'tasaInteresInversor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false"  [mask]="'separator.2'"   />
                 </mat-form-field>
 
-                <mat-form-field  class="w-full">
+                <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Plazo pago invesor</mat-label>
-                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoInversor'">
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoInversor'" placeholder="Plazo de pago">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field  class="w-full">
+                <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Detalle de la inversión</mat-label>
                     <textarea matInput placeholder="Detalle inversión" [formControlName]="'detalleInversion'"></textarea>
                 </mat-form-field>
@@ -44,20 +44,20 @@
 
             <div>
                 <p class="font-bold mb-4 text-2xl">Proveedor de origen </p>
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Origen del rubro (Proveedor)</mat-label>
-                    <input  matInput [formControlName]="'fuenteIngresoProveedor'"   />
+                    <input  matInput [formControlName]="'fuenteIngresoProveedor'"  placeholder="Origen del rubro (Proveedor)"  />
                 </mat-form-field>
 
                 <!-- Name field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Tasa de interes proveedor</mat-label>
                     <input  matInput [formControlName]="'tasaInteresProveedor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false" [mask]="'separator.2'"  />
                 </mat-form-field>
 
-                <mat-form-field  class="w-full">
+                <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Plazo pago proveedor</mat-label>
-                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoProveedor'">
+                    <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoProveedor'" placeholder="Plazo pago proveedor">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
