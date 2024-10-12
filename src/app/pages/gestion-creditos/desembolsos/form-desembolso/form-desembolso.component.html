@@ -1,197 +1,162 @@
-<div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
-    <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
+<div class="absolute inset-0 flex flex-col min-w-0 items-center  overflow-y-auto bg-gray-100 p-6 sm:p-8" cdkScrollable>
+    <div class="relative w-full flex-0 max-w-4xl sm:rounded-lg overflow-hidden">
 
-        <div class="sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto overflow-hidden">
-            <div
-                class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
-            >
-                {{'Desembolso'}}
-            </div>
-
-            <mat-horizontal-stepper [linear]="true" #stepper>
-                <!-- Primer paso:  Consulta de empleado -->
-                <mat-step [stepControl]="firstFormGroup" label="Consultar trabajador">
-                    <div class="flex flex-col items-center justify-center w-full h-full px-4">
-                        <form [formGroup]="firstFormGroup">
-                            <mat-form-field  class="w-full">
-                                <mat-label>Tipo de documento</mat-label>
-                                <mat-select
-                                    [formControlName]="'idTipoDoc'"
-                                >
-                                    <ng-container *ngIf="tiposDocumentos$ | async as documentos">
-                                        <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{item.nombre}}</mat-option>
-                                    </ng-container>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field class="w-full" floatLabel="always">
-                                <mat-label>Número de identificación</mat-label>
-                                <input  matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
-                                <mat-error *ngIf="firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched  &&  (firstFormGroup.get('numDocumento').errors.required)">
-                                    El número de identificación es requerido!.
-                                </mat-error>
-                            </mat-form-field>
-                            <fuse-alert class="mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false"
-                                        [type]="alert.type" [@shake]="alert.type === 'error'">
-                                {{alert.message}}
-                            </fuse-alert>
-                            <button (click)="onSearch()" [disabled]="firstFormGroup.invalid"
-                                    mat-raised-button
-                                    [ngClass]="{'bg-crediblue-50': firstFormGroup.valid, 'bg-credigray-100': firstFormGroup.invalid}"
-                                    class=" text-white px-6 py-2 rounded-md w-full">Consultar</button>
-                        </form>
-
-                    </div>
-                </mat-step>
-
-                <!-- Segundo Stepper: Información del Documento -->
-                <mat-step [stepControl]="secondFormGroup" label="Verificar información">
-                    <div class="w-full h-full px-4">
-                        <form [formGroup]="secondFormGroup">
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field class="w-full">
-                                    <mat-label>Primer nombre</mat-label>
-                                    <input  matInput [formControlName]="'primerNombre'" [readonly]="true"/>
-                                </mat-form-field>
-                                <mat-form-field class="w-full">
-                                    <mat-label>Segundo nombre</mat-label>
-                                    <input  matInput [formControlName]="'segundoNombre'" [readonly]="true"/>
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field class="w-full">
-                                    <mat-label>Primer apellido</mat-label>
-                                    <input  matInput [formControlName]="'primerApellido'" [readonly]="true"/>
-                                </mat-form-field>
-                                <mat-form-field class="w-full">
-                                    <mat-label>Segundo apellido</mat-label>
-                                    <input  matInput [formControlName]="'segundoApellido'" [readonly]="true"/>
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field class="w-full">
-                                    <mat-label>Identificación</mat-label>
-                                    <input  matInput [formControlName]="'numDoc'" [readonly]="true" />
-                                </mat-form-field>
-                                <mat-form-field class="w-full">
-                                    <mat-label>Email</mat-label>
-                                    <input  matInput [formControlName]="'correo'" [readonly]="true" />
-                                </mat-form-field>
-                            </div>
-                            <div class="flex flex-row">
-                                <mat-form-field class="w-full">
-                                    <mat-label>Crédito</mat-label>
-                                    <input  matInput [formControlName]="'credito'" [readonly]="true" />
-                                </mat-form-field>
-                            </div>
-                        </form>
-                        <div class="flex justify-end gap-2.5">
-                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
-                        </div>
-                    </div>
-
-                </mat-step>
-
-                <mat-step [stepControl]="thirdFormGroup" label="Confirmar desembolso">
-                    <div class="w-full h-full p-4 shadow-lg">
-                        <form [formGroup]="thirdFormGroup">
-                            <div class="flex flex-row items-baseline gap-2.5">
-                                <mat-form-field class="w-full" floatLabel="always">
-                                    <mat-label>Número de comprobante</mat-label>
-                                    <input  matInput [formControlName]="'numeroFactura'" placeholder="Número de comprobante" />
-                                </mat-form-field>
-
-                                <mat-form-field class="w-full" floatLabel="always">
-                                    <mat-label>Valor de la transferencia</mat-label>
-                                    <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  placeholder="Valor" />
-                                    <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
-                                    <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
-
-                                </mat-form-field>
-
-                            </div>
-                            <div class="flex flex-row gap-2.5">
-                                <mat-form-field  class="w-full" floatLabel="always">
-                                    <mat-label>Cuenta de origen</mat-label>
-                                    <mat-select
-                                        #data
-                                        [formControlName]="'idCuentaBancaria'"
-                                        placeholder="Cuenta de origen"
-                                    >
-                                       <mat-option [value]="cuenta.idTipoCuenta" *ngFor="let cuenta of cuentas">{{cuenta.nombreBanco}}</mat-option>
-
-                                    </mat-select>
-                                </mat-form-field>
-
-                                <mat-form-field class="w-full" floatLabel="always">
-                                    <mat-label>Cuenta destino</mat-label>
-                                    <input  matInput type="text" [formControlName]="'cuentaDestino'" placeholder="Cuenta destino"  />
-                                </mat-form-field>
-                            </div>
-
-                        </form>
-                        <div class="flex justify-end gap-2.5">
-                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="bg-crediblue-50 text-white py-2 px-4 rounded ">Confirmar</button>
-                        </div>
-                    </div>
-
-                </mat-step>
-
-                <mat-step [stepControl]="thirdFormGroup" label="Resumen de desembolso">
-                    <div class="w-full h-full px-4" *ngIf="detaleConsumo">
-                        <div class="max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg">
-                            <!-- Header del resumen de compra -->
-                            <div class="border-b pb-4 mb-4">
-                                <h2 class="text-2xl font-bold text-gray-800">Resumen de desembolso</h2>
-                                <p class="text-sm text-gray-500">Revise los detalles</p>
-                            </div>
-
-                            <!-- Información del producto -->
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center border-b pb-2">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-700">Fecha</h3>
-                                    </div>
-                                    <p class="text-lg font-bold text-gray-800">{{detaleConsumo.fechaCreacion | date: 'dd/MM/yyyy'}}</p>
-                                </div>
-                                <div class="flex justify-between items-center border-b pb-2">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-700">Número de comprobante</h3>
-                                    </div>
-                                    <p class="text-lg font-bold text-gray-800">{{detaleConsumo.numeroFactura}}</p>
-                                </div>
-
-                                <div class="flex justify-between items-center border-b pb-2">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-700">Valor</h3>
-                                    </div>
-                                    <p class="text-lg font-bold text-gray-800">{{detaleConsumo.montoConsumo | currency}}</p>
-                                </div>
-
-                                <!-- Totales -->
-                                <div class="flex justify-between items-center pt-4 border-t">
-                                    <p class="text-lg font-semibold text-gray-700">Número de cuotas</p>
-                                    <p class="text-lg font-bold text-gray-800">{{detaleConsumo.cantidadCuotas}}</p>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <p class="text-lg font-semibold text-gray-700">Estado</p>
-                                    <p class="text-lg font-bold text-gray-800">{{detaleConsumo.nombreEstadoCredito}}</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </mat-step>
-
-            </mat-horizontal-stepper>
-
+        <div class="p-2 text-3xl font-semibold text-center text-gray-800">
+            {{ 'Desembolso' }}
         </div>
 
+        <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'1500'">
+            <!-- Primer paso: Consulta de empleado -->
+            <mat-step [stepControl]="firstFormGroup" label="Consultar trabajador">
+                <div class="flex flex-col items-center w-full">
+                    <form [formGroup]="firstFormGroup" class="space-y-4 w-full max-w-sm">
+                        <mat-form-field class="w-full">
+                            <mat-label>Tipo de documento</mat-label>
+                            <mat-select [formControlName]="'idTipoDoc'">
+                                <ng-container *ngIf="tiposDocumentos$ | async as documentos">
+                                    <mat-option [value]="item.id" *ngFor="let item of documentos.data">{{ item.nombre }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-full" floatLabel="always">
+                            <mat-label>Número de identificación</mat-label>
+                            <input matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
+                            <mat-error *ngIf="firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched && (firstFormGroup.get('numDocumento').errors.required)">
+                                El número de identificación es requerido!.
+                            </mat-error>
+                        </mat-form-field>
+                        <fuse-alert class="mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type" [@shake]="alert.type === 'error'">
+                            {{ alert.message }}
+                        </fuse-alert>
+                        <button (click)="onSearch()" [disabled]="firstFormGroup.invalid" mat-raised-button [ngClass]="{'bg-crediblue-50': firstFormGroup.valid, 'bg-credigray-100': firstFormGroup.invalid}" class="w-full py-2 text-white rounded-lg transition hover:bg-opacity-80">
+                            Consultar
+                        </button>
+                    </form>
+                </div>
+            </mat-step>
 
+            <!-- Segundo paso: Información del Documento -->
+            <mat-step [stepControl]="secondFormGroup" label="Verificar información">
+                <div class="w-full">
+                    <form [formGroup]="secondFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Primer nombre</mat-label>
+                                <input matInput [formControlName]="'primerNombre'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Segundo nombre</mat-label>
+                                <input matInput [formControlName]="'segundoNombre'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Primer apellido</mat-label>
+                                <input matInput [formControlName]="'primerApellido'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Segundo apellido</mat-label>
+                                <input matInput [formControlName]="'segundoApellido'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Identificación</mat-label>
+                                <input matInput [formControlName]="'numDoc'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Email</mat-label>
+                                <input matInput [formControlName]="'correo'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col">
+                            <mat-form-field class="w-full">
+                                <mat-label>Crédito</mat-label>
+                                <input matInput [formControlName]="'credito'" readonly/>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
+                        <button mat-button matStepperPrevious class="sm:w-auto w-full py-2 px-4 text-white bg-gray-500 rounded-lg hover:bg-gray-600">Anterior</button>
+                        <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="sm:w-auto w-full py-2 px-4 text-white bg-crediblue-50 rounded-lg hover:bg-opacity-80">Siguiente</button>
+                    </div>
+                </div>
+            </mat-step>
 
+            <!-- Tercer paso: Confirmar desembolso -->
+            <mat-step [stepControl]="thirdFormGroup" label="Confirmar desembolso">
+                <div class="w-full h-full p-4 sm:p-8">
+                    <form [formGroup]="thirdFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
+                        <div class="flex flex-col sm:flex-row items-baseline gap-4">
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Número de comprobante</mat-label>
+                                <input matInput placeholder="Número de comprobante" [formControlName]="'numeroFactura'"/>
+                                <mat-error *ngIf="(comprobante.touched || comprobante.dirty) && comprobante.hasError('required')">El campo es requerido!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Valor de la transferencia</mat-label>
+                                <input matInput [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="." placeholder="Valor"/>
+                                <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
+                                <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual')">El valor ingresado no puede superar el cupo disponible!</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Cuenta de origen</mat-label>
+                                <mat-select [formControlName]="'idCuentaBancaria'" placeholder="Cuenta de origen">
+                                    <mat-option [value]="cuenta.idTipoCuenta" *ngFor="let cuenta of cuentas">{{ cuenta.nombreBanco }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Cuenta destino</mat-label>
+                                <input matInput [formControlName]="'cuentaDestino'" placeholder="Cuenta destino"/>
+                                <mat-error *ngIf="(cuentaDestino.touched || cuentaDestino.dirty) && cuentaDestino.hasError('required')">El campo es requerido!</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
+                        <button mat-button matStepperPrevious class="sm:w-auto w-full py-2 px-4 text-white bg-gray-500 rounded-lg hover:bg-gray-600">Anterior</button>
+                        <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="sm:w-auto w-full py-2 px-4 text-white bg-crediblue-50 rounded-lg hover:bg-opacity-80">Confirmar</button>
+                    </div>
+                </div>
+            </mat-step>
+
+            <!-- Resumen de desembolso -->
+            <mat-step label="Resumen de desembolso">
+                <div class="w-full px-4 sm:px-8" *ngIf="detaleConsumo">
+                    <div class="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+                        <div class="border-b pb-4 mb-4 text-center">
+                            <h2 class="text-2xl font-bold text-gray-800">Resumen de desembolso</h2>
+                            <p class="text-sm text-gray-500">Revise los detalles</p>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Detalles del resumen -->
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div><h3 class="text-lg font-semibold text-gray-700">Fecha</h3></div>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.fechaCreacion | date: 'dd/MM/yyyy' }}</p>
+                            </div>
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div><h3 class="text-lg font-semibold text-gray-700">Número de comprobante</h3></div>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.numeroFactura }}</p>
+                            </div>
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div><h3 class="text-lg font-semibold text-gray-700">Valor</h3></div>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.montoConsumo }}</p>
+                            </div>
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div><h3 class="text-lg font-semibold text-gray-700">Cuenta de origen</h3></div>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.cuentaOrigen }}</p>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div><h3 class="text-lg font-semibold text-gray-700">Cuenta destino</h3></div>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.cuentaDestino }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-stepper>
     </div>
-
 </div>
-

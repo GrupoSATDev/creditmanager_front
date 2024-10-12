@@ -8,10 +8,10 @@
         <div class="text-3xl font-semibold tracking-tight">Créditos</div>
 
         <!-- Actions -->
-        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+        <div class="mt-6 flex w-full shrink-0 flex-col items-center sm:ml-4 sm:mt-0 sm:flex-row sm:space-x-2 sm:w-auto">
             <!-- Search -->
             <mat-form-field
-                class="fuse-mat-dense rounded-lg min-w-64"
+                class="fuse-mat-dense rounded-lg w-full sm:w-auto min-w-64"
                 [subscriptSizing]="'dynamic'"
             >
                 <mat-icon
@@ -25,16 +25,6 @@
                     [placeholder]="'Buscar'"
                 />
             </mat-form-field>
-            <!-- Add product button -->
-            <!--<button
-                class="ml-4 bg-crediblue-50"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="onNew()"
-            >
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Crear documento</span>
-            </button>-->
         </div>
 
     </div>

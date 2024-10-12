@@ -163,6 +163,13 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     get montoConsumo() {
         return this.thirdFormGroup.get('montoConsumo');
     }
+    get comprobante() {
+        return this.thirdFormGroup.get('numeroFactura');
+    }
+
+    get cuentaDestino() {
+        return this.thirdFormGroup.get('cuentaDestino');
+    }
 
     public onSearch() {
         const data = this.firstFormGroup.getRawValue();

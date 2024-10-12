@@ -8,10 +8,10 @@
         <div class="text-3xl font-semibold tracking-tight">Detalle Consumo</div>
 
         <!-- Actions -->
-        <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+        <div class="mt-6 flex w-full shrink-0 flex-col items-center sm:ml-4 sm:mt-0 sm:flex-row sm:space-x-2 sm:w-auto">
             <!-- Search -->
             <mat-form-field
-                class="fuse-mat-dense rounded-lg min-w-64"
+                class="fuse-mat-dense rounded-lg w-full sm:w-auto min-w-64"
                 [subscriptSizing]="'dynamic'"
             >
                 <mat-icon
@@ -70,19 +70,6 @@
                         </ng-container>
                     </ng-template>
                 </mat-tab>
-                <!--<mat-tab label="Pagados">
-                    <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
-                            <app-custom-table
-                                [columns]="columns"
-                                [displayedColumns]="columns"
-                                [columnPropertyMap]="columnPropertyMap"
-                                [data]="data"
-                                [buttons]="buttons"
-                            ></app-custom-table>
-                        </ng-container>
-                    </ng-template>
-                </mat-tab>-->
                 <mat-tab label="Rechazados">
                     <ng-template matTabContent>
                         <ng-container *ngIf="data.length">
