@@ -1,18 +1,15 @@
-<div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
-    <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
+<div class="absolute inset-0 flex flex-col min-w-0 items-center  overflow-y-auto bg-gray-100 p-6 sm:p-8" cdkScrollable>
+    <div class="relative w-full flex-0 max-w-4xl sm:rounded-lg overflow-hidden">
 
-        <div class="sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto overflow-hidden">
-            <div
-                class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
-            >
+            <div class="p-2 text-3xl font-semibold text-center text-gray-800">
                 {{'Detalle consumo'}}
             </div>
 
-            <mat-horizontal-stepper [linear]="true" #stepper>
+            <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'1500'">
                 <!-- Primer paso:  Consulta de empleado -->
                 <mat-step [stepControl]="firstFormGroup" label="Consultar trabajador">
-                    <div class="flex flex-col items-center justify-center w-full h-full px-4">
-                        <form [formGroup]="firstFormGroup">
+                    <div class="flex flex-col items-center w-full">
+                        <form [formGroup]="firstFormGroup" class="space-y-4 w-full max-w-sm">
                             <mat-form-field  class="w-full">
                                 <mat-label>Tipo de documento</mat-label>
                                 <mat-select
@@ -45,9 +42,9 @@
 
                 <!-- Segundo Stepper: Información del Documento -->
                 <mat-step [stepControl]="secondFormGroup" label="Verificar información">
-                    <div class="w-full h-full px-4 shadow-lg">
-                        <form [formGroup]="secondFormGroup">
-                            <div class="flex flex-row gap-2.5">
+                    <div class="w-full">
+                        <form [formGroup]="secondFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
+                            <div class="flex flex-col sm:flex-row gap-4">
                                 <mat-form-field class="w-full">
                                     <mat-label>Primer nombre</mat-label>
                                     <input  matInput [formControlName]="'primerNombre'" [readonly]="true"/>
@@ -57,7 +54,7 @@
                                     <input  matInput [formControlName]="'segundoNombre'" [readonly]="true"/>
                                 </mat-form-field>
                             </div>
-                            <div class="flex flex-row gap-2.5">
+                            <div class="flex flex-col sm:flex-row gap-4">
                                 <mat-form-field class="w-full">
                                     <mat-label>Primer apellido</mat-label>
                                     <input  matInput [formControlName]="'primerApellido'" [readonly]="true"/>
@@ -67,7 +64,7 @@
                                     <input  matInput [formControlName]="'segundoApellido'" [readonly]="true"/>
                                 </mat-form-field>
                             </div>
-                            <div class="flex flex-row gap-2.5">
+                            <div class="flex flex-col sm:flex-row gap-4">
                                 <mat-form-field class="w-full">
                                     <mat-label>Identificación</mat-label>
                                     <input  matInput [formControlName]="'numDoc'" [readonly]="true" />
@@ -77,31 +74,31 @@
                                     <input  matInput [formControlName]="'correo'" [readonly]="true" />
                                 </mat-form-field>
                             </div>
-                            <div class="flex flex-row">
+                            <div class="flex flex-col">
                                 <mat-form-field class="w-full">
                                     <mat-label>Crédito</mat-label>
                                     <input  matInput [formControlName]="'credito'" [readonly]="true" />
                                 </mat-form-field>
                             </div>
                         </form>
-                        <div class="flex justify-end gap-2.5 py-3">
-                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
+                        <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
+                            <button mat-button matStepperPrevious class="sm:w-auto w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
+                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="sm:w-auto w-full bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
                         </div>
                     </div>
 
                 </mat-step>
 
                 <mat-step [stepControl]="thirdFormGroup" label="Completar compra">
-                    <div class="h-full mx-auto px-4 w-1/2 shadow-lg">
-                        <form [formGroup]="thirdFormGroup">
-                            <div class="flex flex-row items-baseline gap-2.5">
+                    <div class="w-full h-full p-4 sm:p-8">
+                        <form [formGroup]="thirdFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
+                            <div class="flex flex-col">
                                 <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Número de factura</mat-label>
                                     <input  matInput [formControlName]="'numeroFactura'" placeholder="Número de factura" />
                                 </mat-form-field>
                             </div>
-                            <div class="flex flex-row items-baseline gap-2.5">
+                            <div class="flex flex-col sm:flex-row gap-4">
                                 <mat-form-field  class="w-full" floatLabel="always">
                                     <mat-label>Tipo consumo</mat-label>
                                     <mat-select
@@ -115,7 +112,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="flex flex-row gap-2.5">
+                            <div class="flex flex-col">
                                 <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Valor</mat-label>
                                     <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  placeholder="Valor" />
@@ -123,15 +120,11 @@
                                         <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
 
                                 </mat-form-field>
-                               <!-- <mat-form-field class="w-full">
-                                    <mat-label>Cantidad de cuotas</mat-label>
-                                    <input  matInput type="number" [min]="1" [max]="6" [formControlName]="'cantidadCuotas'"  />
-                                </mat-form-field>-->
                             </div>
                         </form>
-                        <div class="flex justify-end gap-2.5 py-4">
-                            <button mat-button matStepperPrevious class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="bg-crediblue-50 text-white py-2 px-4 rounded ">Pagar</button>
+                        <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
+                            <button mat-button matStepperPrevious class="sm:w-auto w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
+                            <button (click)="onSave()" [disabled]="thirdFormGroup.invalid" mat-button class="sm:w-auto w-full bg-crediblue-50 text-white py-2 px-4 rounded ">Pagar</button>
                         </div>
                     </div>
 
@@ -194,11 +187,7 @@
                     </div>
                 </mat-step>
 
-            </mat-horizontal-stepper>
-
-        </div>
-
-
+            </mat-stepper>
 
     </div>
 
