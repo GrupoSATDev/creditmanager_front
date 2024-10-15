@@ -1,68 +1,66 @@
-     <div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
+<div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
+    <div class="inline-block p-4 sm:p-6 md:p-10 print:p-0 w-full">
+        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl max-w-4xl mx-auto overflow-hidden">
+            <div class="bg-crediblue-50 px-4 py-3 sm:px-6 sm:py-4 flex items-center justify-between">
+                <div>
+                    <a mat-button [routerLink]="['/pages/gestion-creditos/solicitudes']" class="flex items-center">
+                        <mat-icon [svgIcon]="'heroicons_outline:arrow-long-left'" class="text-white"></mat-icon>
+                    </a>
+                </div>
+                <h2 class="text-lg sm:text-xl font-bold text-white">Detalle de Solicitud</h2>
+            </div>
 
-         <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
-
-            <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl max-w-xl mx-auto overflow-hidden" >
-                <div class="bg-crediblue-50 px-6 py-4 flex items-center justify-between">
-                    <div>
-                        <a mat-button [routerLink]="['/pages/gestion-creditos/solicitudes']" class="flex items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:arrow-long-left'" class="text-white"></mat-icon>
-                        </a>
+            <div class="p-4 sm:p-6" *ngIf="items">
+                <!-- Información del Cliente y Empresa -->
+                <div class="mb-4 flex flex-col md:flex-row md:justify-between gap-4">
+                    <div class="space-y-2">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-800">
+                            {{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}}
+                            {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}}
+                        </h3>
+                        <p class="text-gray-600 font-bold">Identificación:
+                            <span class="text-gray-800">{{items.trabajador.numDoc}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Empresa:
+                            <span class="text-gray-800">{{items.nombreSubEmpresa}}</span>
+                        </p>
+                        <p class="text-gray-600 font-semibold">Cargo:
+                            <span class="text-gray-800">{{items.trabajador.cargo}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Correo:
+                            <span class="text-gray-800">{{items.trabajador.correo}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Dirección:
+                            <span class="text-gray-800">{{items.trabajador.direccion}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Teléfono:
+                            <span class="text-gray-800">{{items.trabajador.telefono}}</span>
+                        </p>
                     </div>
-                    <h2 class="text-xl font-bold text-white">Detalle de Solicitud</h2>
+
+                    <div class="space-y-2">
+                        <p class="text-gray-600 font-bold">Número de solicitud: #12345</p>
+                        <p class="text-gray-600 font-bold">Cupo solicitado:
+                            <span class="text-gray-800">{{items.cupo | currency}}</span>
+                        </p>
+                        <p class="text-gray-600 font-bold">Fecha de Solicitud:
+                            <span class="text-gray-800">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="p-6" *ngIf="items">
-                    <!-- Información del Cliente y Empresa -->
-                    <div class="mb-4 flex justify-between">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">{{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}} {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}} </h3>
-                            <p class="text-gray-600 font-bold">Identificación:
-                                <span class="text-gray-800 ">{{items.trabajador.numDoc}}</span>
-                            </p>
-                            <p class="text-gray-600 font-bold">Empresa:
-                                <span class="text-gray-800 ">{{items.nombreSubEmpresa}}</span>
-                            </p>
-                            <p class="text-gray-600 font-semibold">Cargo:
-                                <span class="text-gray-800 ">{{items.trabajador.cargo}}</span>
-                            </p>
-                            <p class="text-gray-600 font-bold">Correo:
-                                <span class="text-gray-800 ">{{items.trabajador.correo}}</span>
-                            </p>
-                            <p class="text-gray-600 font-bold">Dirección:
-                                <span class="text-gray-800 ">{{items.trabajador.direccion}}</span>
-                            </p>
-                            <p class="text-gray-600 font-bold">Teléfono:
-                                <span class="text-gray-800 ">{{items.trabajador.telefono}}</span>
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-gray-600 font-bold">Número de solicitud: #12345</p>
-                            <p class="text-gray-600 font-bold">Cupo solicitado:
-                                <span class="text-gray-800 ">{{items.cupo | currency}}</span>
-                            </p>
-                            <p class="text-gray-600 font-bold">Fecha de Solicitud:
-                                <span class="text-gray-800 ">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
-                            </p>
-                        </div>
+                <!-- Acciónes -->
+                <ng-container *ngIf="detalleEmpleado.idEstadoSolicitud == CodigosEstadosSolicitudes.PENDIENTE">
+                    <div class="flex flex-col sm:flex-row justify-end items-center gap-2 sm:gap-2.5 mt-4 sm:mt-10">
+                        <button (click)="onReject()" mat-flat-button class="sm:w-auto w-full bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                            Rechazar
+                        </button>
+                        <button (click)="onSave()" mat-flat-button class="sm:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                            Aprobar
+                        </button>
                     </div>
-                    <!-- Acciónes -->
-                    <ng-container *ngIf="detalleEmpleado.idEstadoSolicitud == CodigosEstadosSolicitudes.PENDIENTE">
-                        <div class="flex justify-end items-center gap-2.5 mt-10">
-                            <button (click)="onReject()" mat-flat-button class="fuse-mat-button-large bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                                Rechazar
-                            </button>
-                            <button (click)="onSave()" mat-flat-button class="fuse-mat-button-large bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                                Aprobar
-                            </button>
-                        </div>
-                    </ng-container>
-
-                </div>
-
+                </ng-container>
             </div>
         </div>
-
     </div>
-
+</div>
