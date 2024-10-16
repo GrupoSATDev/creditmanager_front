@@ -9,7 +9,7 @@
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
-            <div class="flex mb-4 gap-2">
+            <div class="flex flex-col lg:flex-row mb-4 gap-2">
                 <!-- Name field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Nit</mat-label>
@@ -23,7 +23,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="flex mb-4 gap-2">
+            <div class="flex flex-col lg:flex-row mb-4 gap-2">
                 <!-- Company field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Correo</mat-label>
@@ -45,7 +45,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="flex mb-4 gap-2">
+            <div class="flex flex-col lg:flex-row mb-4 gap-2">
 
                 <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Departamento</mat-label>
@@ -72,7 +72,7 @@
 
             </div>
 
-            <div class="flex mb-4 gap-2">
+            <div class="flex flex-col sm:flex-row mb-4 gap-2">
                 <!-- Company field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Dirección</mat-label>
@@ -87,7 +87,7 @@
             <!-- Submit button -->
             <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
-                    class="fuse-mat-button-large mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    class="lg:w-auto w-full lg:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="closeDialog()"
@@ -97,7 +97,7 @@
                 </button>
 
                 <button
-                    class="fuse-mat-button-large mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    class="lg:w-auto w-full lg:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="onSave()"

@@ -65,8 +65,8 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
                 edit: false,
             },
             maxHeight: '90vh',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         })
     }
 
@@ -78,8 +78,8 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
                 data: this.selectedData
             },
             maxHeight: '90vh',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         })
     }
 

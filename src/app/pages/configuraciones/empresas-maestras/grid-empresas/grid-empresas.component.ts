@@ -80,8 +80,8 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
             },
             maxHeight: '90vh',
             width: '50%',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         });
     }
 
@@ -94,8 +94,8 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
             },
             maxHeight: '90vh',
             width: '50%',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         })
     }
 
