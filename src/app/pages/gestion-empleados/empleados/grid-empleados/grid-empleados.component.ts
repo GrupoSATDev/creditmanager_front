@@ -67,9 +67,8 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 edit: false,
             },
             maxHeight: '90vh',
-            width: '50%',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         })
     }
 
@@ -81,9 +80,8 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 data: this.selectedData
             },
             maxHeight: '90vh',
-            width: '50%',
-            maxWidth: '100%',
-            disableClose: true
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
         })
     }
 

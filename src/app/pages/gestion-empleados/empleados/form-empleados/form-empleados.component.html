@@ -9,7 +9,7 @@
         </div>
 
         <!-- Sign Up form -->
-        <form class="mt-8" [formGroup]="form">
+        <form class="mt-8 space-y-8" [formGroup]="form">
             <div
                 class="group relative mx-auto mt-8 flex h-40 w-40 flex-0 rounded-full mb-8"
             >
@@ -65,7 +65,7 @@
                     >
                     </mat-slide-toggle>
                 </div>
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <!-- Name field -->
                     <mat-form-field class="w-full">
                         <mat-label>Primer nombre</mat-label>
@@ -80,7 +80,7 @@
 
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Primer apellido</mat-label>
                         <input  matInput [formControlName]="'primerApellido'" placeholder="Primer apellido" />
@@ -92,7 +92,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de documento</mat-label>
                         <mat-select
@@ -112,7 +112,7 @@
 
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
 
                     <mat-form-field  class="w-full">
                         <mat-label>Género</mat-label>
@@ -139,7 +139,7 @@
             <div>
                 <p class="font-bold mb-4 text-2xl">Información demográfica</p>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Departamento</mat-label>
                         <mat-select
@@ -164,7 +164,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
 
                     <mat-form-field  class="w-full">
                         <mat-label>Dirección</mat-label>
@@ -177,7 +177,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
 
                     <mat-form-field  class="w-full">
                         <mat-label>Teléfono</mat-label>
@@ -191,7 +191,7 @@
 
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Empresa</mat-label>
                         <mat-select [formControlName]="'idSubEmpresa'" placeholder="Empresa">
@@ -207,7 +207,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Inicio de contrato</mat-label>
                         <input matInput [matDatepicker]="inicio" [formControlName]="'fechaInicioContrato'">
@@ -225,7 +225,7 @@
 
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full" >
                         <mat-label>Salario devengado</mat-label>
                         <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'" placeholder="Salario devengdado" />
@@ -238,7 +238,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Tipo de cuenta</mat-label>
                         <mat-select [formControlName]="'idTipoCuenta'" placeholder="Tipo de cuenta">
@@ -259,7 +259,7 @@
 
                 </div>
 
-                <div class="flex gap-2.5">
+                <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full">
                         <mat-label>Nivel de riesgo</mat-label>
                         <mat-select [formControlName]="'idNivelRiesgo'" placeholder="Nivel de riesgo">
@@ -280,7 +280,7 @@
 
             <div class="flex flex-wrap justify-end gap-2.5">
                 <button
-                    class="fuse-mat-button-large mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="closeDialog()"
@@ -290,7 +290,7 @@
                 </button>
 
                 <button
-                    class="fuse-mat-button-large mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="onSave()"
