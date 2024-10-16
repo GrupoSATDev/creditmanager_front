@@ -11,8 +11,7 @@
         <form class="mt-8" [formGroup]="form">
             <div>
                 <p class="font-bold mb-4 text-2xl">Información general</p>
-                <div class="flex mb-4">
-                    <div class="flex mb-4">
+                <div class="flex flex-col sm:flex-row  mb-4">
                         <div
                             class="fcursor-pointer"
                             (click)="twoStepToggle.toggle()"
@@ -28,10 +27,9 @@
                             #twoStepToggle
                         >
                         </mat-slide-toggle>
-                    </div>
 
                 </div>
-                <div class="flex mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row  mb-4 gap-2">
 
                     <!-- Name field -->
                     <mat-form-field class="w-full" floatLabel="always">
@@ -46,7 +44,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row  mb-4 gap-2">
                     <!-- Name field -->
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Correo</mat-label>
@@ -60,7 +58,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row  mb-4 gap-2">
 
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Departamento</mat-label>
@@ -86,7 +84,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex mb-4">
+                <div class="flex flex-col sm:flex-row  mb-4">
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Dirección</mat-label>
                         <input
@@ -99,7 +97,7 @@
 
             <div>
                 <p class="font-bold mb-4 text-2xl">Información de contrato</p>
-                <div class="flex mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row  mb-4 gap-2">
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Tipo de empresa</mat-label>
                         <mat-select [formControlName]="'idTipoEmpresa'" placeholder="Tipo de empresa">
@@ -120,7 +118,7 @@
 
                 </div>
 
-                <div class="flex mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row  mb-4 gap-2">
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Valor subscripción</mat-label>
                         <input
@@ -134,7 +132,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex mb-4">
+                <div class="flex flex-col sm:flex-row  mb-4">
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Fecha de cobro</mat-label>
                         <input matInput [matDatepicker]="picker"  [formControlName]="'fechaCobro'" placeholder="Fecha de cobro">
@@ -148,7 +146,7 @@
 
             <div class="flex flex-wrap justify-end gap-2.5 ">
                 <button
-                    class="fuse-mat-button-large mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    class="sm:w-auto w-full lg:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="closeDialog()"
@@ -158,7 +156,7 @@
                 </button>
 
                 <button
-                    class="fuse-mat-button-large mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    class="sm:w-auto w-full lg:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
                     (click)="onSave()"
