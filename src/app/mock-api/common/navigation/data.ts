@@ -42,7 +42,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'apps.gestion-cobros',
-        title: 'Gestión de cobros',
+        title: 'Gestión de cartera',
         type: 'collapsable',
         icon: 'request_quote',
         children: [
@@ -51,6 +51,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Cobro trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobros',
+            },
+            {
+                id: 'apps.gestion.aliados',
+                title: 'Pago aliados',
+                type: 'basic',
+                link: '/pages/gestion-cobros/aliados',
             },
         ],
     },

@@ -163,5 +163,11 @@ export class AppSettingsService {
         }
     }
 
+    public pagoAliados = {
+        url: {
+            base: EndPoints.uriBase('PagoAliados')
+        }
+    }
+
 
 }
