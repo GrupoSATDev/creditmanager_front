@@ -1,3 +1,4 @@
+<!--
 <div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
 
     <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
@@ -17,7 +18,7 @@
                 <div class="w-full h-full px-4" *ngIf="detalle">
                     <div class="max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg" >
 
-                        <!-- Información del producto -->
+                        &lt;!&ndash; Información del producto &ndash;&gt;
                         <div class="space-y-4 mb-12" *ngFor="let item of detalle">
                             <mat-divider></mat-divider>
                             <div class="flex justify-between items-center border-b pb-2">
@@ -34,7 +35,7 @@
                                 <p class="text-lg font-bold text-gray-800">{{item.valorPendiente | currency}}</p>
                             </div>
 
-                            <!-- Totales -->
+                            &lt;!&ndash; Totales &ndash;&gt;
                             <div class="flex justify-between items-center">
                                 <p class="text-lg font-semibold text-gray-700">Valor cuota</p>
                                 <p class="text-lg font-bold text-gray-800">{{item.montoCuota | currency}}</p>
@@ -53,8 +54,8 @@
                     </div>
 
                 </div>
-                <!-- Acciónes -->
-                <!--<ng-container>
+                &lt;!&ndash; Acciónes &ndash;&gt;
+                &lt;!&ndash;<ng-container>
                     <div class="flex justify-end items-center mt-8 p-4">
                         <button (click)="onReject()" mat-flat-button class="fuse-mat-button-large bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
                             Rechazar
@@ -63,12 +64,63 @@
                             Aprobar
                         </button>
                     </div>
-                </ng-container>-->
+                </ng-container>&ndash;&gt;
 
             </div>
 
         </div>
     </div>
 
+
+</div>
+-->
+
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+>
+    <div
+        class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        <!-- Title -->
+        <div class="text-3xl font-semibold tracking-tight">Cobro Trabajadores</div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex w-full shrink-0 flex-col items-center gap-2.5 sm:ml-4 sm:mt-0 sm:flex-row sm:w-1/2">
+            <!-- Search -->
+            <mat-form-field
+                class="fuse-mat-dense rounded-lg w-full sm:w-1/2"
+                [subscriptSizing]="'dynamic'"
+            >
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:magnifying-glass'"
+                ></mat-icon>
+                <input
+                    matInput
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar'"
+                />
+            </mat-form-field>            <!-- Add product button -->
+
+        </div>
+
+    </div>
+
+    <!--Main-->
+    <div class="flex flex-auto overflow-hidden">
+        <!-- Products list -->
+        <div
+            class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
+        >
+            <app-custom-table
+                [columns]="columns"
+                [displayedColumns]="columns"
+                [columnPropertyMap]="columnPropertyMap"
+                [data]="detalle"
+            ></app-custom-table>
+        </div>
+
+    </div>
 
 </div>
