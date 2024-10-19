@@ -79,6 +79,10 @@
                             <input  matInput   [formControlName]="'cantCuotas'" mask="separator.0" thousandSeparator="." />
                         </mat-form-field>
                         <mat-form-field  class="w-full">
+                            <mat-label>Cupo sugerido</mat-label>
+                            <input  matInput  [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." />
+                        </mat-form-field>
+                        <mat-form-field  class="w-full">
                             <mat-label>Cupo aprobado</mat-label>
                             <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." />
                         </mat-form-field>
