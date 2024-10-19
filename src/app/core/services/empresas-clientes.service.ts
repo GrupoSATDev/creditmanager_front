@@ -17,6 +17,10 @@ export class EmpresasClientesService {
       return this._http.get(this.appSettings.empresasClientes.url.base)
   }
 
+    getEmpresasClientes(): Observable<any> {
+        return this._http.get(this.appSettings.empresasClientes.url.baseTrabajador)
+    }
+
   postEmpresaCliente(data): Observable<any> {
       delete data.id;
       return this._http.post(this.appSettings.empresasClientes.url.base, data);

@@ -113,7 +113,7 @@ export class FormEmpleadosComponent implements OnInit{
             }
         })
     )
-    public empresasClientes$ = this.empresaClienteService.getEmpresas().pipe(
+    public empresasClientes$ = this.empresaClienteService.getEmpresasClientes().pipe(
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
