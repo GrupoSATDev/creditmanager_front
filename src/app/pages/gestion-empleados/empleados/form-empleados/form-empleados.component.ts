@@ -27,6 +27,7 @@ import { BancosService } from '../../../../core/services/bancos.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { SwalService } from '../../../../core/services/swal.service';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
+import { ContratosService } from '../../../../core/services/contratos.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -150,6 +151,16 @@ export class FormEmpleadosComponent implements OnInit{
             const dialogData = this._matData;
             if (valorSelected && !dialogData.edit) {
                 this.form.get('idTipoCuenta').setValue(valorSelected[0].id)
+            }
+        })
+    )
+    public tipoContratosService = inject(ContratosService);
+    public tipoContratos$ = this.tipoContratosService.getContratos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoContrato').setValue(valorSelected[0].id)
             }
         })
     )
@@ -334,6 +345,7 @@ export class FormEmpleadosComponent implements OnInit{
             foto: [''],
             firma: [''],
             idSubEmpresa: [''],
+            idTipoContrato: [''],
             estado: ['true']
         })
     }

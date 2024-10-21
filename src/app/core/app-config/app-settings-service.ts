@@ -170,5 +170,11 @@ export class AppSettingsService {
         }
     }
 
+    public tipoContratos = {
+        url: {
+            base: EndPoints.uriBase('TipoContratos')
+        }
+    }
+
 
 }

@@ -228,12 +228,10 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Tipo de contrato</mat-label>
-                        <mat-select placeholder="Tipo de contrato">
-                            <mat-option [value]="">Indefinido</mat-option>
-                            <mat-option [value]="">Bolsa de empleo</mat-option>
-                            <!--<ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
-                                <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
-                            </ng-container>-->
+                        <mat-select placeholder="Tipo de contrato" [formControlName]="'idTipoContrato'">
+                            <ng-container *ngIf="tipoContratos$ | async as tipoContratos">
+                                <mat-option [value]="item.id" *ngFor="let item of tipoContratos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
                         </mat-select>
                     </mat-form-field>
                 </div>
