@@ -10,6 +10,7 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
 import { IConfig, provideNgxMask } from 'ngx-mask';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
+import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -48,6 +49,8 @@ export class FormAliadosComponent implements OnInit{
     public form: FormGroup;
     public dialogRef = inject(MatDialogRef<FormAliadosComponent>);
     public _matData = inject(MAT_DIALOG_DATA);
+    private empresaClienteService = inject(EmpresasClientesService)
+    empresa$ = this.empresaClienteService.getEmpresas();
 
     private createForm() {
         this.form = this.fb.group({

@@ -111,7 +111,8 @@ export class AppSettingsService {
     public detalleConsumos = {
         url: {
             base: EndPoints.uriBase('DetalleConsumos'),
-            desembolsoBase: EndPoints.uriBase('DetalleConsumos/DetalleConsumoDesembolso')
+            desembolsoBase: EndPoints.uriBase('DetalleConsumos/DetalleConsumoDesembolso'),
+            aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAliado'),
         }
     }
 
