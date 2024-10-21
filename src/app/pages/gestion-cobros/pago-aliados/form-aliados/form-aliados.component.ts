@@ -11,6 +11,7 @@ import { IConfig, provideNgxMask } from 'ngx-mask';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
+import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -50,6 +51,8 @@ export class FormAliadosComponent implements OnInit{
     public dialogRef = inject(MatDialogRef<FormAliadosComponent>);
     public _matData = inject(MAT_DIALOG_DATA);
     private empresaClienteService = inject(EmpresasClientesService)
+    private detalleConsumoService = inject(DetalleConsumoService);
+
     empresa$ = this.empresaClienteService.getEmpresas();
 
     private createForm() {
@@ -68,5 +71,24 @@ export class FormAliadosComponent implements OnInit{
     closeDialog() {
         this.dialogRef.close();
     }
+
+    onGet() {
+        if (this.form.valid) {
+            const data = this.form.getRawValue();
+
+            this.getAllPago(data);
+
+        }
+    }
+
+    private getAllPago(data) {
+        this.detalleConsumoService.getPagosAliados(data).subscribe((response) => {
+            if (response) {
+
+            }
+        })
+    }
+
+
 
 }

@@ -16,4 +16,5 @@ export class PagoAliadosService {
   getAliados(): Observable<any> {
       return this._http.get(`${this.appSettings.pagoAliados.url.base}/Tabla`)
   }
+
 }

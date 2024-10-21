@@ -32,6 +32,11 @@ export class DetalleConsumoService {
       return this._http.get(`${this.appSettings.detalleConsumos.url.base}/trabajador/${id}`)
   }
 
+  getPagosAliados(data): Observable<any> {
+      const {fechaInicio, fechaFinal, idSubEmpresa} = data;
+      return this._http.get( `${this.appSettings.detalleConsumos.url.base}?fechaInicio=${fechaInicio}&fechaFinal=${fechaFinal}?&IdSubEmpresa=${idSubEmpresa}`);
+  }
+
   patchConsumo(data): Observable<any> {
     const id = data.id;
     delete data.id;

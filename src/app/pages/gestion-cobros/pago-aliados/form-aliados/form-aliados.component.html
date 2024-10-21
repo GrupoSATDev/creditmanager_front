@@ -28,7 +28,7 @@
             <div class="flex flex-col sm:flex-row gap-2.5">
                 <mat-form-field  class="w-full" floatLabel="always">
                     <mat-label>Empresas</mat-label>
-                    <mat-select placeholder="Tipo de contrato" [formControlName]="'idTipoContrato'">
+                    <mat-select placeholder="Tipo de contrato" [formControlName]="'idSubEmpresa'">
                         <ng-container *ngIf="empresa$ | async as empresas">
                             <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
                         </ng-container>
@@ -52,10 +52,10 @@
                     class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                     mat-flat-button
                     [color]="'primary'"
-
+                    (click)="onGet()"
                 >
 
-                    <span> Guardar </span>
+                    <span> Consultar </span>
                 </button>
 
             </div>
