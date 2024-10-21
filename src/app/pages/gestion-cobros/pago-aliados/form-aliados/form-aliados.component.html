@@ -1,0 +1,71 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+
+    <div class="">
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar pago' : 'Agregar pago'}}
+        </div>
+
+        <form class="mt-8" [formGroup]="form">
+            <div class="flex flex-col sm:flex-row gap-2.5">
+                <mat-form-field  class="w-full" floatLabel="always">
+                    <mat-label>Fecha de inicial</mat-label>
+                    <input matInput [matDatepicker]="inicialPicker"  [formControlName]="'fechaIncial'" placeholder="dd/mm/yyyy">
+                    <mat-datepicker-toggle matIconSuffix [for]="inicialPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #inicialPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full" floatLabel="always">
+                    <mat-label>Fecha final</mat-label>
+                    <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
+                    <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #finalPicker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5">
+               <!-- <mat-form-field  class="w-full" floatLabel="always">
+                    <mat-label>Tipo de contrato</mat-label>
+                    <mat-select placeholder="Tipo de contrato" [formControlName]="'idTipoContrato'">
+                        <ng-container *ngIf="tipoContratos$ | async as tipoContratos">
+                            <mat-option [value]="item.id" *ngFor="let item of tipoContratos.data">{{item.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>        -->
+
+            </div>
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+</div>
