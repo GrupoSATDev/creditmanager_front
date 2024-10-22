@@ -12,6 +12,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
+import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -35,6 +37,7 @@ const maskConfig: Partial<IConfig> = {
         NgForOf,
         NgIf,
         MatButton,
+        CustomTableComponent,
     ],
   templateUrl: './form-aliados.component.html',
   styleUrl: './form-aliados.component.scss',
@@ -52,8 +55,27 @@ export class FormAliadosComponent implements OnInit{
     public _matData = inject(MAT_DIALOG_DATA);
     private empresaClienteService = inject(EmpresasClientesService)
     private detalleConsumoService = inject(DetalleConsumoService);
+    private datePipe = inject(DatePipe);
 
     empresa$ = this.empresaClienteService.getEmpresas();
+    data = [];
+
+    columns = ['Número de factura', 'Valor', 'Cuotas', ];
+    columnPropertyMap = {
+        'Número de factura': 'numeroFactura',
+        'Valor': 'montoConsumo',
+        'Cuotas': 'montoCuotas'
+    };
+
+    buttons: IButton[] = [
+        {
+            label: 'Edit',
+            icon: 'edit',
+            action: (element) => {
+                console.log('Editing', element);
+            }
+        },
+    ];
 
     private createForm() {
         this.form = this.fb.group({
@@ -74,9 +96,18 @@ export class FormAliadosComponent implements OnInit{
 
     onGet() {
         if (this.form.valid) {
-            const data = this.form.getRawValue();
+            const {fechaIncial, fechaFinal, idSubEmpresa } = this.form.getRawValue();
 
-            this.getAllPago(data);
+            const fechaInicialData = this.datePipe.transform(fechaIncial, 'dd/MM/yyyy');
+            const fechaFinallData = this.datePipe.transform(fechaFinal, 'dd/MM/yyyy');
+
+            const consulta = {
+                fechaInicialData,
+                fechaFinallData,
+                idSubEmpresa
+            }
+
+            this.getAllPago(consulta);
 
         }
     }
@@ -84,6 +115,8 @@ export class FormAliadosComponent implements OnInit{
     private getAllPago(data) {
         this.detalleConsumoService.getPagosAliados(data).subscribe((response) => {
             if (response) {
+
+                this.data = response.data;
 
             }
         })

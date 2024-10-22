@@ -33,8 +33,8 @@ export class DetalleConsumoService {
   }
 
   getPagosAliados(data): Observable<any> {
-      const {fechaInicio, fechaFinal, idSubEmpresa} = data;
-      return this._http.get( `${this.appSettings.detalleConsumos.url.base}?fechaInicio=${fechaInicio}&fechaFinal=${fechaFinal}?&IdSubEmpresa=${idSubEmpresa}`);
+      const {fechaInicialData, fechaFinallData, idSubEmpresa} = data;
+      return this._http.get( `${this.appSettings.detalleConsumos.url.base}?fechaInicio=${fechaInicialData}&fechaFinal=${fechaFinallData}&IdSubEmpresa=${idSubEmpresa}`);
   }
 
   patchConsumo(data): Observable<any> {

@@ -5,5 +5,5 @@ export default [
     {
         path: '',
         component: GridAliadosComponent
-    }
+    },
 ]as Routes;;
