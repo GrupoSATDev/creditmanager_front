@@ -20,6 +20,7 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { PagoAliadosService } from '../../../../core/services/pago-aliados.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -60,8 +61,8 @@ const maskConfig: Partial<IConfig> = {
 export class FormAliadosComponent implements OnInit{
     private fb = inject(FormBuilder);
     public form: FormGroup;
-    public dialogRef = inject(MatDialogRef<FormAliadosComponent>);
-    public _matData = inject(MAT_DIALOG_DATA);
+    //public dialogRef = inject(MatDialogRef<FormAliadosComponent>);
+    //public _matData = inject(MAT_DIALOG_DATA);
     private empresaClienteService = inject(EmpresasClientesService)
     private detalleConsumoService = inject(DetalleConsumoService);
     private pagoAliadoService = inject(PagoAliadosService);
@@ -71,6 +72,7 @@ export class FormAliadosComponent implements OnInit{
     public fuseService = inject(FuseConfirmationService);
     private currencyPipe = inject(CurrencyPipe);
     private decimalPipe =  inject(DecimalPipe)
+    private router = inject(Router);
 
     empresa$ = this.empresaClienteService.getEmpresasClientes();
     data = [];
@@ -99,7 +101,7 @@ export class FormAliadosComponent implements OnInit{
     }
 
     closeDialog() {
-        this.dialogRef.close();
+        //this.dialogRef.close();
     }
 
     onGet() {

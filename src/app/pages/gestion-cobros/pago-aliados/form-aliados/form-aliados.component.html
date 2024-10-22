@@ -1,97 +1,100 @@
-<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden" >
 
-    <div class="">
-        <div
-            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
-        >
-            {{_matData.edit ? 'Actualizar pago' : 'Agregar pago'}}
-        </div>
+    <div
+        class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+    >
+        {{'Pago aliado'}}
+    </div>
 
-        <form class="mt-8" [formGroup]="form">
-            <div class="flex flex-col sm:flex-row gap-2.5">
-                <mat-form-field  class="w-full" floatLabel="always">
-                    <mat-label>Fecha de inicial</mat-label>
-                    <input matInput [matDatepicker]="inicialPicker"  [formControlName]="'fechaIncial'" placeholder="dd/mm/yyyy">
-                    <mat-datepicker-toggle matIconSuffix [for]="inicialPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #inicialPicker></mat-datepicker>
-                </mat-form-field>
+    <div class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row md:px-8">
 
-                <mat-form-field  class="w-full" floatLabel="always">
-                    <mat-label>Fecha final</mat-label>
-                    <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
-                    <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #finalPicker></mat-datepicker>
-                </mat-form-field>
+        <div class="mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
 
-                <mat-form-field  class="w-full" floatLabel="always">
-                    <mat-label>Empresas</mat-label>
-                    <mat-select placeholder="Tipo de contrato" [formControlName]="'idSubEmpresa'">
-                        <ng-container *ngIf="empresa$ | async as empresas">
-                            <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
+            <form class="mt-8" [formGroup]="form">
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-form-field  class="w-full min-w-90 " floatLabel="always">
+                        <mat-label>Fecha de inicial</mat-label>
+                        <input matInput [matDatepicker]="inicialPicker"  [formControlName]="'fechaIncial'" placeholder="dd/mm/yyyy">
+                        <mat-datepicker-toggle matIconSuffix [for]="inicialPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #inicialPicker></mat-datepicker>
+                    </mat-form-field>
 
-            </div>
+                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                        <mat-label>Fecha final</mat-label>
+                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
+                        <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #finalPicker></mat-datepicker>
+                    </mat-form-field>
 
-            <div class="relative p-4 border border-gray-300 rounded-lg mt-4">
-                <div class="absolute -top-3 left-4 bg-white px-2 text-gray-500 font-semibold">
-                    Opciones
-                </div>
-                <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 ">
-                    <button
-                        class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
-                        mat-flat-button
-                        [color]="'primary'"
-                        (click)="closeDialog()"
-                    >
-
-                        <span> Cancelar </span>
-                    </button>
-
-                    <button
-                        class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
-                        mat-flat-button
-                        [color]="'primary'"
-                        (click)="onGet()"
-                    >
-
-                        <span> Consultar </span>
-                    </button>
-
-                    <button
-                        class="lg:w-auto w-full sm:mt-6 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                        [ngClass]="{'bg-credigray-100' : data.length == 0,  'bg-green-600' : data.length > 0 }"
-                        mat-flat-button
-                        (click)="onSave()"
-                        [disabled]="data.length == 0"
-                    >
-                        <span> Pagar </span>
-                    </button>
-
+                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                        <mat-label>Empresas</mat-label>
+                        <mat-select placeholder="Tipo de contrato" [formControlName]="'idSubEmpresa'">
+                            <ng-container *ngIf="empresa$ | async as empresas">
+                                <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
 
                 </div>
-            </div>
 
-        </form>
+                <div class="relative p-4 border border-gray-300 rounded-lg mt-4">
+                    <div class="absolute -top-3 left-4 bg-white px-2 text-gray-500 font-semibold">
+                        Opciones
+                    </div>
+                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 ">
+                        <button
+                            class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="closeDialog()"
+                        >
 
-        <div class="flex flex-auto overflow-hidden">
-            <!-- Products list -->
-            <div
-                class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
-            >
-                <app-custom-table
-                    [columns]="columns"
-                    [displayedColumns]="columns"
-                    [columnPropertyMap]="columnPropertyMap"
-                    [data]="data"
-                ></app-custom-table>
-            </div>
+                            <span> Cancelar </span>
+                        </button>
 
+                        <button
+                            class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="onGet()"
+                        >
+
+                            <span> Consultar </span>
+                        </button>
+
+                        <button
+                            class="lg:w-auto w-full sm:mt-6 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            [ngClass]="{'bg-credigray-100' : data.length == 0,  'bg-green-600' : data.length > 0 }"
+                            mat-flat-button
+                            (click)="onSave()"
+                            [disabled]="data.length == 0"
+                        >
+                            <span> Pagar </span>
+                        </button>
+
+                    </div>
+                </div>
+
+            </form>
         </div>
-
-
 
     </div>
+
+    <div class="flex flex-auto overflow-hidden ">
+        <!-- Products list -->
+        <div
+            class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
+        >
+            <app-custom-table
+                [columns]="columns"
+                [displayedColumns]="columns"
+                [columnPropertyMap]="columnPropertyMap"
+                [data]="data"
+            ></app-custom-table>
+        </div>
+
+    </div>
+
+
 
 </div>

@@ -12,6 +12,7 @@ import { PagoAliadosService } from '../../../../core/services/pago-aliados.servi
 import { MatDialog } from '@angular/material/dialog';
 import { FormAliadosComponent } from '../form-aliados/form-aliados.component';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-grid-aliados',
@@ -45,6 +46,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
     private pagoAliadoService = inject(PagoAliadosService);
     private _matDialog = inject(MatDialog);
     private estadoDatosService = inject(EstadosDatosService)
+    private router = inject(Router);
 
     data = [];
 
@@ -75,7 +77,8 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
     }
 
     onNew() {
-        this._matDialog.open(FormAliadosComponent, {
+        this.router.navigate(['/pages/gestion-cobros/aliados/aliado'])
+        /*this._matDialog.open(FormAliadosComponent, {
             autoFocus: false,
             data: {
                 edit: false,
@@ -83,7 +86,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             maxHeight: '95vh',
             disableClose: true,
             panelClass: 'custom-dialog-container'
-        });
+        });*/
 
     }
 
