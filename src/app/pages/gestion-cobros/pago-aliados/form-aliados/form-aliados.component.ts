@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { AsyncPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
@@ -19,6 +19,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { PagoAliadosService } from '../../../../core/services/pago-aliados.service';
 import { guardar } from '../../../../core/constant/dialogs';
+import { map } from 'rxjs';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -51,6 +52,8 @@ const maskConfig: Partial<IConfig> = {
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         DatePipe,
+        CurrencyPipe,
+        DecimalPipe,
         provideNgxMask(maskConfig)
     ],
 })
@@ -66,15 +69,19 @@ export class FormAliadosComponent implements OnInit{
     private swalService = inject(SwalService);
     public estadosDatosService = inject(EstadosDatosService);
     public fuseService = inject(FuseConfirmationService);
+    private currencyPipe = inject(CurrencyPipe);
+    private decimalPipe =  inject(DecimalPipe)
 
-    empresa$ = this.empresaClienteService.getEmpresas();
+    empresa$ = this.empresaClienteService.getEmpresasClientes();
     data = [];
 
-    columns = ['Número de factura', 'Valor', 'Cuotas', ];
+    columns = ['Número de factura', 'Porcentaje', 'Valor', 'Comision', 'Total a Pagar', ];
     columnPropertyMap = {
         'Número de factura': 'numeroFactura',
+        'Porcentaje': 'porcentajeSubEmpresa',
         'Valor': 'montoConsumo',
-        'Cuotas': 'montoCuotas'
+        'Comision': 'comision',
+        'Total a Pagar': 'pagar'
     };
 
 
@@ -99,8 +106,8 @@ export class FormAliadosComponent implements OnInit{
         if (this.form.valid) {
             const {fechaIncial, fechaFinal, idSubEmpresa } = this.form.getRawValue();
 
-            const fechaInicialData = this.datePipe.transform(fechaIncial, 'dd/MM/yyyy');
-            const fechaFinallData = this.datePipe.transform(fechaFinal, 'dd/MM/yyyy');
+            const fechaInicialData = this.datePipe.transform(fechaIncial, 'yyyy-MM-dd');
+            const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
             const consulta = {
                 fechaInicialData,
@@ -116,8 +123,8 @@ export class FormAliadosComponent implements OnInit{
     onSave() {
         const {fechaIncial, fechaFinal, idSubEmpresa } = this.form.getRawValue();
 
-        const fechaInicialData = this.datePipe.transform(fechaIncial, 'dd/MM/yyyy');
-        const fechaFinallData = this.datePipe.transform(fechaFinal, 'dd/MM/yyyy');
+        const fechaInicialData = this.datePipe.transform(fechaIncial, 'yyyy-MM-dd');
+        const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
 
         const consulta = {
             fechaInicialData,
@@ -150,7 +157,20 @@ export class FormAliadosComponent implements OnInit{
     }
 
     private getAllPago(data) {
-        this.detalleConsumoService.getPagosAliados(data).subscribe((response) => {
+        this.detalleConsumoService.getPagosAliados(data).pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
+                    items.pagar = (items.montoConsumo - items.comision);
+                    items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                    items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
+                    items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
+                    items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa,  '1.2-2') + '%';
+                })
+                return response
+            })
+
+        ).subscribe((response) => {
             if (response) {
                 this.data = response.data;
             }else {
