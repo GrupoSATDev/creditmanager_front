@@ -59,15 +59,15 @@
                         <span> Consultar </span>
                     </button>
 
-                    @if (data.length) {
-                        <button
-                            class="lg:w-auto w-full sm:mt-6 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                            mat-flat-button
-
-                        >
-                            <span> Pagar </span>
-                        </button>
-                    }
+                    <button
+                        class="lg:w-auto w-full sm:mt-6 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                        [ngClass]="{'bg-credigray-100' : data.length == 0,  'bg-green-600' : data.length > 0 }"
+                        mat-flat-button
+                        (click)="onSave()"
+                        [disabled]="data.length == 0"
+                    >
+                        <span> Pagar </span>
+                    </button>
 
 
                 </div>
@@ -85,7 +85,6 @@
                     [displayedColumns]="columns"
                     [columnPropertyMap]="columnPropertyMap"
                     [data]="data"
-                    [buttons]="buttons"
                 ></app-custom-table>
             </div>
 

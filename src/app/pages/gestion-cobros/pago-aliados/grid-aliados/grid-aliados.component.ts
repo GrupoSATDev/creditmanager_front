@@ -11,6 +11,7 @@ import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { PagoAliadosService } from '../../../../core/services/pago-aliados.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormAliadosComponent } from '../form-aliados/form-aliados.component';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 
 @Component({
   selector: 'app-grid-aliados',
@@ -43,6 +44,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
     private pagoAliadoService = inject(PagoAliadosService);
     private _matDialog = inject(MatDialog);
+    private estadoDatosService = inject(EstadosDatosService)
 
     data = [];
 
@@ -69,6 +71,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.getAliados();
+        this.listenGrid();
     }
 
     onNew() {
@@ -77,7 +80,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             data: {
                 edit: false,
             },
-            maxHeight: '90vh',
+            maxHeight: '95vh',
             disableClose: true,
             panelClass: 'custom-dialog-container'
         });
@@ -100,6 +103,17 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             this.data = response.data;
 
         })
+    }
+
+    private listenGrid() {
+        const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
+
+        refreshData$.subscribe((state) => {
+            if (state) {
+                this.getAliados();
+            }
+        })
+
     }
 
 }
