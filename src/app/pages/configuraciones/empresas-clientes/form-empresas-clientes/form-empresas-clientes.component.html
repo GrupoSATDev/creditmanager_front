@@ -109,7 +109,7 @@
 
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Subscripción</mat-label>
-                        <mat-select [formControlName]="'idSuscripcion'" placeholder="Subscripción">
+                        <mat-select [formControlName]="'idSubscripcion'" placeholder="Subscripción">
                             <ng-container *ngIf="subcripciones$ | async as subscripciones">
                                 <mat-option [value]="item.id" *ngFor="let item of subscripciones.data">{{item.nombre}}</mat-option>
                             </ng-container>

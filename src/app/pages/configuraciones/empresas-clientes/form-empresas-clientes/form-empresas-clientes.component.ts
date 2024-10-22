@@ -101,7 +101,7 @@ export class FormEmpresasClientesComponent implements OnInit{
             const valorSelected = response.data;
             const dialogData = this._matData;
             if (valorSelected && !dialogData.edit) {
-                this.form.get('idSuscripcion').setValue(valorSelected[0].id)
+                this.form.get('idSubscripcion').setValue(valorSelected[0].id)
             }
         })
     )
@@ -233,7 +233,7 @@ export class FormEmpresasClientesComponent implements OnInit{
             idTipoEmpresa: [''],
             idMunicipio: [''],
             fechaCorte: [''],
-            idSuscripcion: [''],
+            idSubscripcion: [''],
             valorSuscripcion: [''],
             porcCobro: [''],
             fechaCobro: [''],

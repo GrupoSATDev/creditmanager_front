@@ -112,7 +112,7 @@ export class AppSettingsService {
         url: {
             base: EndPoints.uriBase('DetalleConsumos'),
             desembolsoBase: EndPoints.uriBase('DetalleConsumos/DetalleConsumoDesembolso'),
-            aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAliado'),
+            aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAlido'),
         }
     }
 
@@ -125,7 +125,7 @@ export class AppSettingsService {
 
     public subcripciones = {
         url: {
-            base: EndPoints.uriBase('Suscripciones')
+            base: EndPoints.uriBase('Subscripciones')
         }
     }
 
