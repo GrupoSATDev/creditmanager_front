@@ -1,0 +1,28 @@
+<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden" >
+    <div
+        class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+    >
+        {{'Detalle pago proveedores'}}
+    </div>
+
+    <div class="relative flex flex-0 flex-col border-b px-6 sm:flex-row md:px-8">
+
+    </div>
+
+    <div class="flex flex-auto overflow-hidden ">
+        <!-- Products list -->
+        <div
+            class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
+        >
+            <app-custom-table
+                [columns]="columns"
+                [displayedColumns]="columns"
+                [columnPropertyMap]="columnPropertyMap"
+                [data]="data"
+            ></app-custom-table>
+        </div>
+
+    </div>
+
+
+</div>

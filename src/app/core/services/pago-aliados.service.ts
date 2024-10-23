@@ -20,4 +20,8 @@ export class PagoAliadosService {
       return this._http.post(this.appSettings.pagoAliados.url.base, data)
   }
 
+    getAliado(id): Observable<any> {
+        return this._http.get(`${this.appSettings.pagoAliados.url.base}/${id}`)
+    }
+
 }

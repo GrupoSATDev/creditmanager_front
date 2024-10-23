@@ -63,7 +63,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
-                this.selectedData = element;
+                this.router.navigate(['/pages/gestion-cobros/aliados/detalle/', element.id])
             }
         },
     ];

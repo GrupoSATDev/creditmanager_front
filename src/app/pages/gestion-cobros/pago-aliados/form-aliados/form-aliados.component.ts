@@ -94,7 +94,6 @@ export class FormAliadosComponent implements OnInit{
 
     private createForm() {
         this.form = this.fb.group({
-            fechaIncial: ['', [Validators.required] ],
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
         })
@@ -111,14 +110,12 @@ export class FormAliadosComponent implements OnInit{
 
     onGet() {
         if (this.form.valid) {
-            const {fechaIncial, fechaFinal, idSubEmpresa } = this.form.getRawValue();
+            const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
 
-            const fechaInicialData = this.datePipe.transform(fechaIncial, 'yyyy-MM-dd');
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
             const consulta = {
-                fechaInicialData,
-                fechaFinallData,
+                fechaFinal: fechaFinallData,
                 idSubEmpresa
             }
 
@@ -128,14 +125,12 @@ export class FormAliadosComponent implements OnInit{
     }
 
     onSave() {
-        const {fechaIncial, fechaFinal, idSubEmpresa } = this.form.getRawValue();
+        const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
 
-        const fechaInicialData = this.datePipe.transform(fechaIncial, 'yyyy-MM-dd');
         const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
 
         const consulta = {
-            fechaInicialData,
-            fechaFinallData,
+            fechaFinal: fechaFinallData,
             idSubEmpresa
         }
 
