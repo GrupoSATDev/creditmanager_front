@@ -3,10 +3,10 @@
     <div
         class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
     >
-        {{'Pago aliado'}}
+        {{'Pago proveedores'}}
     </div>
 
-    <div class="relative flex flex-0 flex-col border-b px-6 py-8 sm:flex-row md:px-8">
+    <div class="relative flex flex-0 flex-col border-b px-6 sm:flex-row md:px-8">
 
         <div class="mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
 
@@ -27,8 +27,8 @@
                     </mat-form-field>
 
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
-                        <mat-label>Empresas</mat-label>
-                        <mat-select placeholder="Tipo de contrato" [formControlName]="'idSubEmpresa'">
+                        <mat-label>Empresa</mat-label>
+                        <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'">
                             <ng-container *ngIf="empresa$ | async as empresas">
                                 <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
                             </ng-container>
@@ -94,6 +94,29 @@
         </div>
 
     </div>
+
+    <div class="flex flex-col gap-4 justify-end sm:flex-row">
+        @if(subtotal) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Subtotal:
+               <span class="text-gray-800">{{subtotal | currency}}</span>
+            </span>
+        }
+
+        @if(totalComision) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Comisiones:
+                <span class="text-gray-800">{{totalComision | currency}}</span>
+            </span>
+        }
+
+        @if(totalPagar) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Total a pagar:
+                <span class="text-gray-800">
+                    {{totalPagar | currency}}
+                </span>
+            </span>
+        }
+    </div>
+
 
 
 

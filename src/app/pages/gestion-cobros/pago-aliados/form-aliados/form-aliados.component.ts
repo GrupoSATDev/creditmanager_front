@@ -18,7 +18,7 @@ import { SwalService } from '../../../../core/services/swal.service';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { PagoAliadosService } from '../../../../core/services/pago-aliados.service';
-import { guardar } from '../../../../core/constant/dialogs';
+import { confirmarPago, guardar } from '../../../../core/constant/dialogs';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -46,6 +46,7 @@ const maskConfig: Partial<IConfig> = {
         MatButton,
         CustomTableComponent,
         NgClass,
+        CurrencyPipe,
     ],
   templateUrl: './form-aliados.component.html',
   styleUrl: './form-aliados.component.scss',
@@ -76,6 +77,9 @@ export class FormAliadosComponent implements OnInit{
 
     empresa$ = this.empresaClienteService.getEmpresasClientes();
     data = [];
+    totalPagar: number;
+    totalComision: number;
+    subtotal: number;
 
     columns = ['Número de factura', 'Porcentaje', 'Valor', 'Comision', 'Total a Pagar', ];
     columnPropertyMap = {
@@ -101,7 +105,7 @@ export class FormAliadosComponent implements OnInit{
     }
 
     closeDialog() {
-        //this.dialogRef.close();
+        this.router.navigate(['/pages/gestion-cobros/aliados']);;
     }
 
     onGet() {
@@ -148,7 +152,7 @@ export class FormAliadosComponent implements OnInit{
 
         console.log(createData)
         const dialog = this.fuseService.open({
-            ...guardar
+            ...confirmarPago
         });
 
         dialog.afterClosed().subscribe((response) => {
@@ -161,6 +165,9 @@ export class FormAliadosComponent implements OnInit{
     private getAllPago(data) {
         this.detalleConsumoService.getPagosAliados(data).pipe(
             map((response) => {
+                this.subtotal = 0;
+                this.totalComision = 0;
+                this.totalPagar = 0;
                 response.data.forEach((items) => {
                     items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
                     items.pagar = (items.montoConsumo - items.comision);
@@ -168,6 +175,10 @@ export class FormAliadosComponent implements OnInit{
                     items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
                     items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
                     items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa,  '1.2-2') + '%';
+
+                    this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
+                    this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                    this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
                 })
                 return response
             })

@@ -54,7 +54,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'apps.gestion.aliados',
-                title: 'Pago aliados',
+                title: 'Pago proveedores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/aliados',
             },
