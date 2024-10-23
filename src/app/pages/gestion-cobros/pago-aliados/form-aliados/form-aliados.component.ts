@@ -111,11 +111,12 @@ export class FormAliadosComponent implements OnInit{
     onGet() {
         if (this.form.valid) {
             const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
+            console.log(fechaFinal)
 
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
             const consulta = {
-                fechaFinal: fechaFinallData,
+                fechaFinallData,
                 idSubEmpresa
             }
 
