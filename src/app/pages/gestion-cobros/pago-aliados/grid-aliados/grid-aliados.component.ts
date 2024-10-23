@@ -78,16 +78,6 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
     onNew() {
         this.router.navigate(['/pages/gestion-cobros/aliados/aliado'])
-        /*this._matDialog.open(FormAliadosComponent, {
-            autoFocus: false,
-            data: {
-                edit: false,
-            },
-            maxHeight: '95vh',
-            disableClose: true,
-            panelClass: 'custom-dialog-container'
-        });*/
-
     }
 
     public getAliados() {
