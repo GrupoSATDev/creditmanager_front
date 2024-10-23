@@ -49,7 +49,7 @@
                             (click)="closeDialog()"
                         >
 
-                            <span> Cancelar </span>
+                            <span> Atras </span>
                         </button>
 
                         <button
@@ -80,20 +80,35 @@
 
     </div>
 
-    <div class="flex flex-auto overflow-hidden ">
-        <!-- Products list -->
-        <div
-            class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
-        >
-            <app-custom-table
-                [columns]="columns"
-                [displayedColumns]="columns"
-                [columnPropertyMap]="columnPropertyMap"
-                [data]="data"
-            ></app-custom-table>
-        </div>
+    @if (data.length) {
+        <div class="flex flex-auto overflow-hidden ">
+            <!-- Products list -->
+            <div
+                class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
+            >
+                <app-custom-table
+                    [columns]="columns"
+                    [displayedColumns]="columns"
+                    [columnPropertyMap]="columnPropertyMap"
+                    [data]="data"
+                ></app-custom-table>
+            </div>
 
-    </div>
+        </div>
+    } @else if (message) {
+        <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+
+            <div class="inline-block p-4 sm:p-8 print:p-0 w-full">
+                <fuse-alert
+                    [type]="'info'"
+                    [appearance]="'outline'">
+                    <span fuseAlertTitle>Información</span>
+                    {{message}}
+                </fuse-alert>
+            </div>
+
+        </div>
+    }
 
     <div class="flex flex-col gap-4 justify-end sm:flex-row">
         @if(subtotal) {

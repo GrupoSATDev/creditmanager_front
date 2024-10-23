@@ -59,8 +59,8 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'Edit',
-            icon: 'edit',
+            label: 'Eye',
+            icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
                 this.selectedData = element;

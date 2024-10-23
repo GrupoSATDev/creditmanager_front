@@ -21,6 +21,7 @@ import { PagoAliadosService } from '../../../../core/services/pago-aliados.servi
 import { confirmarPago, guardar } from '../../../../core/constant/dialogs';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -47,6 +48,7 @@ const maskConfig: Partial<IConfig> = {
         CustomTableComponent,
         NgClass,
         CurrencyPipe,
+        FuseAlertComponent,
     ],
   templateUrl: './form-aliados.component.html',
   styleUrl: './form-aliados.component.scss',
@@ -62,8 +64,6 @@ const maskConfig: Partial<IConfig> = {
 export class FormAliadosComponent implements OnInit{
     private fb = inject(FormBuilder);
     public form: FormGroup;
-    //public dialogRef = inject(MatDialogRef<FormAliadosComponent>);
-    //public _matData = inject(MAT_DIALOG_DATA);
     private empresaClienteService = inject(EmpresasClientesService)
     private detalleConsumoService = inject(DetalleConsumoService);
     private pagoAliadoService = inject(PagoAliadosService);
@@ -74,6 +74,7 @@ export class FormAliadosComponent implements OnInit{
     private currencyPipe = inject(CurrencyPipe);
     private decimalPipe =  inject(DecimalPipe)
     private router = inject(Router);
+    public message: string;
 
     empresa$ = this.empresaClienteService.getEmpresasClientes();
     data = [];
@@ -168,26 +169,31 @@ export class FormAliadosComponent implements OnInit{
                 this.subtotal = 0;
                 this.totalComision = 0;
                 this.totalPagar = 0;
-                response.data.forEach((items) => {
-                    items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
-                    items.pagar = (items.montoConsumo - items.comision);
-                    items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
-                    items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
-                    items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
-                    items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa,  '1.2-2') + '%';
+                if (response && Array.isArray(response.data)) {
+                    response.data.forEach((items) => {
+                        items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
+                        items.pagar = (items.montoConsumo - items.comision);
+                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                        items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
+                        items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
+                        items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
 
-                    this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
-                    this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                    this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
-                })
+                        this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
+                        this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                        this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                    });
+                }else {
+                    this.data = [];
+                }
                 return response
             })
 
         ).subscribe((response) => {
-            if (response) {
+            if (response && Array.isArray(response.data)) {
                 this.data = response.data;
             }else {
                 this.data = [];
+                this.message = response.msg;
             }
         })
     }
