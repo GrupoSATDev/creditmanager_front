@@ -36,4 +36,8 @@ export class EmpleadosService {
         const {idTipoDoc, numDocumento} = data;
       return this._http.get(`${this.appSettings.empleados.url.base}/Consultar?idTdocumento=${idTipoDoc}&numDocumento=${numDocumento}`)
     }
+
+    getValidaInfo(): Observable<any> {
+        return this._http.get(this.appSettings.empleados.url.baseValidate)
+    }
 }

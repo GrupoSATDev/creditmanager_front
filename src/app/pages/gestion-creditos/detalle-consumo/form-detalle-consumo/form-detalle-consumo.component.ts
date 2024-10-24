@@ -25,7 +25,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { FuseAlertComponent, FuseAlertType } from '../../../../../@fuse/components/alert';
 import { fuseAnimations } from '../../../../../@fuse/animations';
 import { LocacionService } from '../../../../core/services/locacion.service';
-import { Observable, of, Subscription, tap } from 'rxjs';
+import { interval, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { Router } from '@angular/router';
@@ -97,6 +97,10 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public departamentos$ = this._locacionService.getDepartamentos();
     public municipios$: Observable<any>;
     public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos().pipe(
+        map((response) => {
+            response.data = response.data.filter((item) => item.nombre !== 'Avance');
+            return response;
+        }),
         tap((response) => {
             const valorDefecto  = response.data[0];
             if (valorDefecto) {
@@ -112,6 +116,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public secondFormGroup: FormGroup;
     public thirdFormGroup: FormGroup;
     private subscription$: Subscription;
+    detalleSubscription$: Subscription;
     showAlert: boolean = false;
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
@@ -119,6 +124,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     };
 
     compareValor: any;
+    empleadoConsumo: any;
 
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
         tap((response) => {
@@ -128,14 +134,22 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             }
         })
     );
+    empleado$ = this.empleadosServices.getValidaInfo();
     public creditos = [];
     public detaleConsumo: any;
+    isButtonDisabled: boolean = false;
 
     ngOnDestroy(): void {
     }
 
     ngOnInit(): void {
         this.createForm();
+        this.empleado$.subscribe((response) => {
+            if (response) {
+                this.empleadoConsumo = response.data;
+
+            }
+        })
     }
 
     getMunicipios(matSelectChange: MatSelectChange) {
@@ -255,6 +269,33 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                 this.stepper.next();
             }
         })
+    }
+
+    onUpdate() {
+        if (this.isButtonDisabled) {
+            return;  // Si el botón está deshabilitado, no ejecuta nada
+        }
+
+        this.isButtonDisabled = true;
+
+        if (this.detalleSubscription$) {
+            this.detalleSubscription$.unsubscribe();  // Cancelar suscripción previa si existía
+        }
+
+        // Llamar al servicio y luego establecer un intervalo de 30 segundos
+        this.detalleSubscription$ = interval(30000)
+            .pipe(
+                switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.empleadoConsumo.id))
+            )
+            .subscribe((detalleResponse) => {
+                console.log(detalleResponse);
+                this.detaleConsumo = detalleResponse.data;
+            });
+
+        // Habilitar el botón después de 30 segundos
+        setTimeout(() => {
+            this.isButtonDisabled = false;
+        }, 30000);  // 30 segundos en milisegundos
     }
 
     private createForm() {

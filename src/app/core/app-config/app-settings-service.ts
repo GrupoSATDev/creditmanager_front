@@ -85,7 +85,8 @@ export class AppSettingsService {
 
     public empleados = {
         url: {
-            base: EndPoints.uriBase('Trabajadores')
+            base: EndPoints.uriBase('Trabajadores'),
+            baseValidate: EndPoints.uriBase('Trabajadores/ValidaInfo')
         }
     }
 
@@ -112,6 +113,7 @@ export class AppSettingsService {
         url: {
             base: EndPoints.uriBase('DetalleConsumos'),
             desembolsoBase: EndPoints.uriBase('DetalleConsumos/DetalleConsumoDesembolso'),
+            baseTrabajador: EndPoints.uriBase('DetalleConsumos/Trabajador'),
             aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAlido'),
         }
     }
