@@ -122,6 +122,7 @@ export class AppSettingsService {
         url: {
             base: EndPoints.uriBase('CobroTrabajadores'),
             baseTabla: EndPoints.uriBase('CobroTrabajadores/Tabla'),
+            baseTrabajador: EndPoints.uriBase('CobroTrabajadores/AllTrabajador'),
         }
     }
 
@@ -176,6 +177,12 @@ export class AppSettingsService {
     public tipoContratos = {
         url: {
             base: EndPoints.uriBase('TipoContratos')
+        }
+    }
+
+    public pagoTrabajadores = {
+        url: {
+            base: EndPoints.uriBase('PagoTrabajadores')
         }
     }
 

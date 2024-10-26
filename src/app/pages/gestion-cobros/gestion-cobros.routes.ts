@@ -11,6 +11,10 @@ export default [
             {
                 path: 'aliados',
                 loadChildren: () => import('./pago-aliados/pago-aliados.routes')
+            },
+            {
+                path: 'trabajadores',
+                loadChildren: () => import('./pago-trabajadores/pago-trabajadores.routes')
             }
         ]
     }
