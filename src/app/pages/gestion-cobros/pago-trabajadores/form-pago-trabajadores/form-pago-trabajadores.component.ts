@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -61,7 +61,7 @@ const maskConfig: Partial<IConfig> = {
         provideNgxMask(maskConfig)
     ],
 })
-export class FormPagoTrabajadoresComponent {
+export class FormPagoTrabajadoresComponent implements OnInit{
     private fb = inject(FormBuilder);
     public form: FormGroup;
     private empresaClienteService = inject(EmpresasClientesService)
@@ -77,24 +77,25 @@ export class FormPagoTrabajadoresComponent {
     public message: string;
 
     empresa$ = this.empresaClienteService.getEmpresasClientes();
+    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores();
     data = [];
     totalPagar: number;
     totalComision: number;
     subtotal: number;
 
-    columns = ['Número de factura', 'Porcentaje', 'Valor', 'Comision', 'Total a Pagar', ];
+    columns = ['Número de identificación', 'Número de cuotas', 'Valor pendiente', 'Fecha de cobro' ];
     columnPropertyMap = {
-        'Número de factura': 'numeroFactura',
-        'Porcentaje': 'porcentajeSubEmpresa',
-        'Valor': 'montoConsumo',
-        'Comision': 'comision',
-        'Total a Pagar': 'pagar'
+        'Número de identificación': 'documentoTrabajador',
+        'Número de cuotas': 'numCuota',
+        'Valor pendiente': 'valorPendiente',
+        'Fecha de cobro': 'fechaCobro',
     };
 
     private createForm() {
         this.form = this.fb.group({
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
+            idTipoPagoTrabajador: ['', Validators.required],
         })
 
     }
@@ -125,7 +126,7 @@ export class FormPagoTrabajadoresComponent {
     }
 
     onSave() {
-        const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
+        const {fechaFinal, idSubEmpresa, idTipoPagoTrabajador } = this.form.getRawValue();
 
         const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
 
@@ -134,16 +135,17 @@ export class FormPagoTrabajadoresComponent {
             idSubEmpresa
         }
 
-        let detallePagoAliado = []
-        detallePagoAliado = this.data.map((item) => {
+        let detallePagoTrabajador = []
+        detallePagoTrabajador = this.data.map((item) => {
             return {
-                idDetalleConsumo: item.id
+                idCobroTrabajador: item.id
             }
         })
 
         const createData = {
             ...consulta,
-            detallePagoAliado
+            idTipoPagoTrabajador,
+            detallePagoTrabajador
         }
 
         console.log(createData)
@@ -171,11 +173,13 @@ export class FormPagoTrabajadoresComponent {
                         items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
                         items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
                         items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
-                        items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
+                        items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
+                        //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
+                        items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
 
-                        this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
-                        this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                        this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                        //this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
+                        //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                        //this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
                     });
                 }else {
                     this.data = [];

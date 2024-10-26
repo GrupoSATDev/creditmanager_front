@@ -182,7 +182,8 @@ export class AppSettingsService {
 
     public pagoTrabajadores = {
         url: {
-            base: EndPoints.uriBase('PagoTrabajadores')
+            base: EndPoints.uriBase('PagoTrabajadores'),
+            baseTipo: EndPoints.uriBase('TipoPagoTrabajadores')
         }
     }
 
