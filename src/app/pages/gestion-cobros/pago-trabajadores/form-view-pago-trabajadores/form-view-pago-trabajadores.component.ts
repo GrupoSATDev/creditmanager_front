@@ -62,12 +62,12 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
         total: ''
     }
 
-    columns = ['Número de factura', 'Porcentaje', 'Valor facturado', 'Total' ];
+    columns = ['Número de identificación', 'Fecha de creación', 'Número de cuota', 'Valor' ];
     columnPropertyMap = {
-        'Número de factura': 'numeroFactura',
-        'Porcentaje': 'porcentaje',
-        'Valor facturado': 'valorFacturado',
-        'Total': 'total',
+        'Número de identificación': 'documentoTrabajador',
+        'Fecha de creación': 'fechaCobro',
+        'Número de cuota': 'numCuota',
+        'Valor': 'valorPago',
     };
     ngOnDestroy(): void {
         this.subscription$.unsubscribe();
@@ -83,9 +83,8 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
             tap((response) => {
                 //TODO remover el signo pregunta despues de componer el detalle
                 response.data.detallePagoTrabajador?.forEach((items) => {
-                    items.total = this.currencyPipe.transform(items.total, 'USD', 'symbol', '1.2-2');
-                    items.valorFacturado = this.currencyPipe.transform(items.valorFacturado, 'USD', 'symbol', '1.2-2');
-                    items.porcentaje = this.decimalPipe.transform(items.porcentaje, '1.2-2') + '%';
+                    items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+                    items.valorPago = this.currencyPipe.transform(items.valorPago, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
