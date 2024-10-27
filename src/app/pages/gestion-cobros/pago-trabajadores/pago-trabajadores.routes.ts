@@ -13,7 +13,7 @@ export  default [
         component: FormPagoTrabajadoresComponent
     },
     {
-        path: 'pago:/id',
+        path: 'pago/:id',
         component: FormViewPagoTrabajadoresComponent
     }
 
