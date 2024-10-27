@@ -1,8 +1,8 @@
 import { FuseConfirmationConfig } from '../../../@fuse/services/confirmation';
 
 export const guardar: FuseConfirmationConfig = {
-    title: 'Guardar',
-    message: '¿Está seguro de guardar el registro?',
+    title: 'Mensaje de confirmación',
+    message: 'Este registro se guardará en el sistema. ¿Deseas continuar?',
     icon: {
         show: true,
         name: 'heroicons_solid:question-mark-circle',
