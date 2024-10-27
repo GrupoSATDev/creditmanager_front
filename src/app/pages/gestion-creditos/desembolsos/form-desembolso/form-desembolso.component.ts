@@ -251,7 +251,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                         console.log(res)
                         this.swalService.ToastAler({
                             icon: 'success',
-                            title: 'Registro creado con exito!',
+                            title: 'Registro Creado o Actualizado con Exito.',
                             timer: 4000,
                         })
                         this.getResumenCompra(idTrabajador);

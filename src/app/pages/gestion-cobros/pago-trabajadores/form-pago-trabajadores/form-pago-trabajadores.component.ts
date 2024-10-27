@@ -201,7 +201,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
         this.pagoTrabajadorService.postPagosTrabajadores(data).subscribe((response) => {
             this.swalService.ToastAler({
                 icon: 'success',
-                title: 'Registro creado con exito!',
+                title: 'Registro Creado o Actualizado con Exito.',
                 timer: 4000,
             })
             this.estadosDatosService.stateGrid.next(true);

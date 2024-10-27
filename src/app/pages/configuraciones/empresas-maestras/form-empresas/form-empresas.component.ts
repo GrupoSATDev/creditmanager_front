@@ -116,7 +116,7 @@ export class FormEmpresasComponent implements OnInit{
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
-                                message: 'Registro creado con exito!',
+                                message: 'Registro Creado o Actualizado con Exito.',
                                 actionMessage: 'Cerrar',
                                 duration: 3000
                             })

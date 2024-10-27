@@ -70,7 +70,7 @@ export class FormConsumosComponent implements  OnInit{
                     if (response.isExitoso) {
                         this.swalService.ToastAler({
                             icon: 'success',
-                            title: 'Registro creado con exito!',
+                            title: 'Registro Creado o Actualizado con Exito.',
                             timer: 4000,
                         })
                         this.router.navigate(['/pages/gestion-creditos/consumos']);
@@ -105,7 +105,7 @@ export class FormConsumosComponent implements  OnInit{
                 this.subcription$ = this.detalleConsumoService.patchConsumo(data).subscribe((response) => {
                     if (response.isExitoso) {
                         this.toasService.toasAlertWarn({
-                            message: 'Registro creado con exito!',
+                            message: 'Registro Creado o Actualizado con Exito.',
                             actionMessage: 'Cerrar',
                             duration: 3000
                         })

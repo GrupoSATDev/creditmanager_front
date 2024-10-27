@@ -79,7 +79,7 @@ export class FormCapitalInversionComponent implements OnInit{
                             this.estadosDatosService.stateGrid.next(true);
                             this.swalService.ToastAler({
                                 icon: 'success',
-                                title: 'Registro creado con exito!',
+                                title: 'Registro Creado o Actualizado con Exito.',
                                 timer: 4000,
                             })
                             this.closeDialog();

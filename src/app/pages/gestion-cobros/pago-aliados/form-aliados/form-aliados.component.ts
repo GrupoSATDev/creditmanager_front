@@ -198,7 +198,7 @@ export class FormAliadosComponent implements OnInit{
         this.pagoAliadoService.postAliados(data).subscribe((response) => {
             this.swalService.ToastAler({
                 icon: 'success',
-                title: 'Registro creado con exito!',
+                title: 'Registro Creado o Actualizado con Exito.',
                 timer: 4000,
             })
             this.estadosDatosService.stateGrid.next(true);

@@ -84,7 +84,7 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
         ).subscribe((response) => {
             this.swalService.ToastAler({
                 icon: 'success',
-                title: 'Registro creado con exito!',
+                title: 'Registro Creado o Actualizado con Exito.',
                 timer: 4000,
             })
             this.router.navigate(['/pages/gestion-creditos/solicitudes']);

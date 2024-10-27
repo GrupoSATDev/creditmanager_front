@@ -89,7 +89,7 @@ export class DialogConfirmDesembolsoComponent implements OnInit{
                 this.solicitudService.postSolicitudes(createData).subscribe((res) => {
                     this.swalService.ToastAler({
                         icon: 'success',
-                        title: 'Registro creado con exito!',
+                        title: 'Registro Creado o Actualizado con Exito.',
                         timer: 4000,
                     })
                     this.closeDialog();

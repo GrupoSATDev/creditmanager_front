@@ -143,7 +143,7 @@ export class FormSolicitudesComponent implements OnInit{
                             this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 2});
                             this.swalService.ToastAler({
                                 icon: 'success',
-                                title: 'Registro creado con exito!',
+                                title: 'Registro Creado o Actualizado con Exito.',
                                 timer: 4000,
                             })
                             this.closeDialog();
