@@ -141,6 +141,35 @@
                     </mat-form-field>
 
                 </div>
+                <div>
+                    <p class="font-bold mb-4 text-2xl">Información bancaria</p>
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Tipo de cuenta</mat-label>
+                            <mat-select [formControlName]="'idTipoCuenta'" placeholder="Tipo de cuenta">
+                                <ng-container *ngIf="tipoCuentas$ | async as tipoCuentas">
+                                    <mat-option [value]="item.id" *ngFor="let item of tipoCuentas.data">{{item.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Bancos</mat-label>
+                            <mat-select [formControlName]="'idBanco'" placeholder="Bancos">
+                                <ng-container *ngIf="bancos$ | async as bancos">
+                                    <mat-option [value]="item.id" *ngFor="let item of bancos.data">{{item.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Número de cuenta bancaria</mat-label>
+                            <input  matInput  [formControlName]="'numCuentaBancaria'" placeholder="Número de cuenta"/>
+                        </mat-form-field>
+                    </div>
+                </div>
 
             </div>
 

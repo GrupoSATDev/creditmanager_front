@@ -23,6 +23,8 @@ import { SubscripcionService } from '../../../../core/services/subscripcion.serv
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { BancosService } from '../../../../core/services/bancos.service';
+import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -72,6 +74,28 @@ export class FormEmpresasClientesComponent implements OnInit{
     public tiposEmpresaService= inject(TiposEmpresasService);
     public empresaClienteService = inject(EmpresasClientesService);
     public subcripciones = inject(SubscripcionService);
+    private bancosServices = inject(BancosService)
+    private tipoCuentasService = inject(TipoCuentasService);
+
+    public bancos$ = this.bancosServices.getBancos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idBanco').setValue(valorSelected[0].id)
+            }
+        })
+    )
+
+    public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idTipoCuenta').setValue(valorSelected[0].id)
+            }
+        })
+    )
 
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
         tap((response) => {
@@ -237,6 +261,9 @@ export class FormEmpresasClientesComponent implements OnInit{
             valorSuscripcion: [''],
             porcCobro: [''],
             fechaCobro: [''],
+            idTipoCuenta: [''],
+            idBanco: [''],
+            numCuentaBancaria: [''],
             estado: [true],
         })
     }
