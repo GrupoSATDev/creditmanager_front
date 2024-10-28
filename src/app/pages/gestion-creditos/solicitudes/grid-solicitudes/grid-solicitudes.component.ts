@@ -46,7 +46,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
-    private selectedTab: any = EstadosSolicitudes.APROBADA;
+    private selectedTab: any = EstadosSolicitudes.PENDIENTE;
     public tabIndex ;
 
     data = [];
