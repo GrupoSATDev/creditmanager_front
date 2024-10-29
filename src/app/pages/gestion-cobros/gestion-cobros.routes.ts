@@ -15,6 +15,10 @@ export default [
             {
                 path: 'trabajadores',
                 loadChildren: () => import('./pago-trabajadores/pago-trabajadores.routes')
+            },
+            {
+                path: 'trabajador',
+                loadChildren: () => import('./pago-trabajador/pago-trabajador.routes')
             }
         ]
     }
