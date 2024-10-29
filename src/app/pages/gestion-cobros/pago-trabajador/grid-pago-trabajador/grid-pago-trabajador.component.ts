@@ -55,7 +55,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
-                this.router.navigate(['/pages/gestion-cobros/trabajadores/pago/', element.id])
+                this.router.navigate(['/pages/gestion-cobros/trabajador/individual/', element.id])
             }
         },
     ];
@@ -69,7 +69,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
     }
 
     onNew() {
-        this.router.navigate(['/pages/gestion-cobros/trabajadores/pago'])
+        this.router.navigate(['/pages/gestion-cobros/trabajador/individual'])
     }
 
     public getPagoTrabajadores() {

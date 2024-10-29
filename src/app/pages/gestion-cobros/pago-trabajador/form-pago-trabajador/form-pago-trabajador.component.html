@@ -1,1 +1,140 @@
-<p>form-pago-trabajador works!</p>
+<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden" >
+
+    <div
+        class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+    >
+        {{'Pago trabajador'}}
+    </div>
+
+    <div class="relative flex flex-0 flex-col border-b px-6 sm:flex-row md:px-8">
+
+        <div class="mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
+
+            <form class="mt-8" [formGroup]="form">
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                        <mat-label>Fecha de corte</mat-label>
+                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
+                        <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #finalPicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                        <mat-label>Tipo de pago</mat-label>
+                        <mat-select placeholder="Tipo de pago trabajador" [formControlName]="'idTipoPagoTrabajador'">
+                            <ng-container *ngIf="tipoPago$ | async as tipoPagos">
+                                <mat-option [value]="item.id" *ngFor="let item of tipoPagos.data">{{item.nombre}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                        <mat-label>Empresa</mat-label>
+                        <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'">
+                            <ng-container *ngIf="empresa$ | async as empresas">
+                                <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="relative p-4 border border-gray-300 rounded-lg mt-4">
+                    <div class="absolute -top-3 left-4 bg-white px-2 text-gray-500 font-semibold">
+                        Opciones
+                    </div>
+                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 ">
+                        <button
+                            class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="closeDialog()"
+                        >
+
+                            <span> Atras </span>
+                        </button>
+
+                        <button
+                            class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="onGet()"
+                        >
+
+                            <span> Consultar </span>
+                        </button>
+
+                        <button
+                            class="lg:w-auto w-full sm:mt-6 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            [ngClass]="{'bg-credigray-100' : data.length == 0,  'bg-green-600' : data.length > 0 }"
+                            mat-flat-button
+                            (click)="onSave()"
+                            [disabled]="data.length == 0"
+                        >
+                            <span> Pagar </span>
+                        </button>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    @if (data.length) {
+        <div class="flex flex-auto overflow-hidden ">
+            <!-- Products list -->
+            <div
+                class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
+            >
+                <app-custom-table
+                    [columns]="columns"
+                    [displayedColumns]="columns"
+                    [columnPropertyMap]="columnPropertyMap"
+                    [data]="data"
+                ></app-custom-table>
+            </div>
+
+        </div>
+    } @else if (message) {
+        <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+
+            <div class="inline-block p-4 sm:p-8 print:p-0 w-full">
+                <fuse-alert
+                    [type]="'info'"
+                    [appearance]="'outline'">
+                    <span fuseAlertTitle>Información</span>
+                    {{message}}
+                </fuse-alert>
+            </div>
+
+        </div>
+    }
+
+    <div class="flex flex-col gap-4 justify-end sm:flex-row">
+        @if(subtotal) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Subtotal:
+               <span class="text-gray-800">{{subtotal | currency}}</span>
+            </span>
+        }
+
+        @if(totalComision) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Comisiones:
+                <span class="text-gray-800">{{totalComision | currency}}</span>
+            </span>
+        }
+
+        @if(totalPagar) {
+            <span class="sm:pr-4 text-gray-600 font-bold text-right " >Total a pagar:
+                <span class="text-gray-800">
+                    {{totalPagar | currency}}
+                </span>
+            </span>
+        }
+    </div>
+
+
+
+
+</div>

@@ -20,6 +20,10 @@ export class PagoTrabajadoresService {
         return this._http.post(this.appSettings.pagoTrabajadores.url.base, data)
     }
 
+    postPagoTrabajador(data): Observable<any> {
+        return this._http.post(`${this.appSettings.pagoTrabajadores.url.base}/Individual`, data)
+    }
+
     getPagosTrabajador(id): Observable<any> {
         return this._http.get(`${this.appSettings.pagoTrabajadores.url.base}/${id}`)
     }

@@ -1,12 +1,217 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { MatButton } from '@angular/material/button';
+import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IConfig, provideNgxMask } from 'ngx-mask';
+import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
+import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
+import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabajadores.service';
+import { SwalService } from '../../../../core/services/swal.service';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { Router } from '@angular/router';
+import { confirmarPago } from '../../../../core/constant/dialogs';
+import { map } from 'rxjs';
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-pago-trabajador',
   standalone: true,
-  imports: [],
+    imports: [
+        AsyncPipe,
+        CurrencyPipe,
+        CustomTableComponent,
+        FuseAlertComponent,
+        MatButton,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatSuffix,
+        NgForOf,
+        NgIf,
+        ReactiveFormsModule,
+        NgClass,
+    ],
+    providers: [
+        { provide: DateAdapter, useClass: DateAdapterService },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        DatePipe,
+        CurrencyPipe,
+        DecimalPipe,
+        provideNgxMask(maskConfig)
+    ],
   templateUrl: './form-pago-trabajador.component.html',
   styleUrl: './form-pago-trabajador.component.scss'
 })
-export class FormPagoTrabajadorComponent {
+export class FormPagoTrabajadorComponent  implements OnInit{
+    private fb = inject(FormBuilder);
+    public form: FormGroup;
+    private empresaClienteService = inject(EmpresasClientesService)
+    private pagoTrabajadorService = inject(PagoTrabajadoresService);
+    private cobroTrabajadorService = inject(CobroTrabajadoresService);
+    private datePipe = inject(DatePipe);
+    private swalService = inject(SwalService);
+    public estadosDatosService = inject(EstadosDatosService);
+    public fuseService = inject(FuseConfirmationService);
+    private currencyPipe = inject(CurrencyPipe);
+    private decimalPipe =  inject(DecimalPipe)
+    private router = inject(Router);
+    public message: string;
+
+    empresa$ = this.empresaClienteService.getEmpresasClientes();
+    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores();
+    data = [];
+    totalPagar: number;
+    totalComision: number;
+    subtotal: number;
+
+    columns = ['Número de identificación', 'Número de cuotas', 'Valor pendiente', 'Fecha de cobro' ];
+    columnPropertyMap = {
+        'Número de identificación': 'documentoTrabajador',
+        'Número de cuotas': 'numCuota',
+        'Valor pendiente': 'valorPendiente',
+        'Fecha de cobro': 'fechaCobro',
+    };
+
+    private createForm() {
+        this.form = this.fb.group({
+            fechaFinal: ['', Validators.required],
+            idSubEmpresa: ['', Validators.required],
+            idTipoPagoTrabajador: ['', Validators.required],
+        })
+
+    }
+
+    ngOnInit(): void {
+        this.createForm();
+    }
+
+    closeDialog() {
+        this.router.navigate(['/pages/gestion-cobros/trabajador']);
+    }
+
+    onGet() {
+        if (this.form.valid) {
+            const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
+            console.log(fechaFinal)
+
+            const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
+
+            const consulta = {
+                fechaFinallData,
+                idSubEmpresa
+            }
+
+            this.getAllPagoTrabajador(consulta);
+
+        }
+    }
+
+    onSave() {
+        const {fechaFinal, idSubEmpresa, idTipoPagoTrabajador } = this.form.getRawValue();
+
+        const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
+
+        const consulta = {
+            fechaFinal: fechaFinallData,
+            idSubEmpresa
+        }
+
+        let detallePagoTrabajador = []
+        detallePagoTrabajador = this.data.map((item) => {
+            return {
+                idCobroTrabajador: item.id
+            }
+        })
+
+        const createData = {
+            ...consulta,
+            idTipoPagoTrabajador,
+            detallePagoTrabajador
+        }
+
+        console.log(createData)
+        const dialog = this.fuseService.open({
+            ...confirmarPago
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.postSave(createData)
+            }
+        })
+    }
+
+    private getAllPagoTrabajador(data) {
+        this.cobroTrabajadorService.getCobroTrabajador(data).pipe(
+            map((response) => {
+                this.subtotal = 0;
+                this.totalComision = 0;
+                this.totalPagar = 0;
+                if (response && Array.isArray(response.data)) {
+                    response.data.forEach((items) => {
+                        items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
+                        items.pagar = (items.montoConsumo - items.comision);
+                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                        items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
+                        items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
+                        items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
+                        //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
+                        items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+
+                        //this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
+                        //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                        //this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                    });
+                }else {
+                    this.data = [];
+                }
+                return response
+            })
+
+        ).subscribe((response) => {
+            if (response && Array.isArray(response.data)) {
+                this.data = response.data;
+            }else {
+                this.data = [];
+                this.message = response.msg;
+            }
+        })
+    }
+
+    private postSave(data) {
+        this.pagoTrabajadorService.postPagoTrabajador(data).subscribe((response) => {
+            this.swalService.ToastAler({
+                icon: 'success',
+                title: 'Registro Creado o Actualizado con Exito.',
+                timer: 4000,
+            })
+            this.estadosDatosService.stateGrid.next(true);
+            this.closeDialog();
+        }, error => {
+            this.swalService.ToastAler({
+                icon: 'error',
+                title: 'Ha ocurrido un error al crear el registro!',
+                timer: 4000,
+            })
+        })
+    }
+
+
 
 }
