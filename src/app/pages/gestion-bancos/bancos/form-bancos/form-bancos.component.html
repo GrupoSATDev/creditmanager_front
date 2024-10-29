@@ -1,1 +1,64 @@
-<p>form-bancos works!</p>
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar banco' : 'Agregar banco'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+
+            <div class="flex mb-4">
+                <div
+                    class="fcursor-pointer"
+                    (click)="twoStepToggle.toggle()"
+                >
+                    <div class="font-medium leading-6">
+                        Estado {{form.get('estado').value ? 'Activo' : 'Inactivo'}}
+                    </div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-4"
+                    [color]="'primary'"
+                    [formControlName]="'estado'"
+                    #twoStepToggle
+                >
+                </mat-slide-toggle>
+            </div>
+
+            <mat-form-field class="w-full" floatLabel="always">
+                <mat-label>Nombre</mat-label>
+                <input  matInput [formControlName]="'nombre'" placeholder="Nombre"/>
+            </mat-form-field>
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
