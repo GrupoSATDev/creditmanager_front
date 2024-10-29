@@ -17,6 +17,10 @@ export class TasasInteresService {
         return this._http.get(this.appSettingService.tasasIntereses.url.base);
     }
 
+    getTasasParametros(parametro): Observable<any> {
+        return this._http.get(`${this.appSettingService.tasasIntereses.url.base}/${parametro}`);
+    }
+
     postTasas(data): Observable<any> {
         delete data.id;
         return this._http.post(this.appSettingService.tasasIntereses.url.base, data);

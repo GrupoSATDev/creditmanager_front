@@ -1,7 +1,7 @@
 <div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
 
     <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
-        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl mx-auto overflow-hidden w-full max-w-5xl" >
+        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl mx-auto overflow-hidden w-full max-w-3xl" >
             <div class="bg-crediblue-50 px-6 py-4 flex items-center justify-between">
                 <div>
                     <a mat-button [routerLink]="['/pages/gestion-creditos/creditos']" class="flex items-center">
@@ -52,51 +52,59 @@
                 <div>
                     <p class="text-lg text-gray-600 font-bold mb-10">Información de Crédito</p>
                     <form [formGroup]="form">
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Tipo de pago</mat-label>
                             <mat-select
                                 [formControlName]="'idTipoPago'"
                             >
-                                <mat-option [value]="item.id" *ngFor="let item of data">{{item.nombre}}</mat-option>
+                                <ng-container *ngIf="tipoPagos$ | async as tipoPagos">
+                                    <mat-option [value]="item.id" *ngFor="let item of tipoPagos.data">{{item.nombre}}</mat-option>
+                                </ng-container>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Capital de inversión</mat-label>
                             <mat-select
                                 [formControlName]="'idCapitalInversion'"
+                                placeholder="Capital de inversion"
                             >
-                                <mat-option [value]="item.id" *ngFor="let item of capital">{{item.detalleInversion + ' - ' + item.rubroInversion}}</mat-option>
+                                <ng-container *ngIf="capital$ | async as capital">
+                                    <mat-option [value]="item.id" *ngFor="let item of capital.data">{{item.detalleInversion + ' - ' + item.rubroInversion}}</mat-option>
+                                </ng-container>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Tasa de interes</mat-label>
                             <mat-select
                                 [formControlName]="'idTasaInteres'"
+                                placeholder="Tasa de interes"
                             >
-                                <mat-option [value]="item.id" *ngFor="let item of tasas">{{item.porcentaje}}</mat-option>
+                                <ng-container *ngIf="tasas$ | async as tasas">
+                                    <mat-option [value]="item.id" *ngFor="let item of tasas.data">{{item.porcentaje}}</mat-option>
+                                </ng-container>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cantidad de cuotas</mat-label>
-                            <input  matInput   [formControlName]="'cantCuotas'" mask="separator.0" thousandSeparator="." />
+                            <input  matInput   [formControlName]="'cantCuotas'" mask="separator.0" thousandSeparator="." placeholder="Cantidad de cuotas" />
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo sugerido</mat-label>
-                            <input  matInput  [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." />
+                            <input  matInput  [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." placeholder="cupo sugerido" />
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo aprobado</mat-label>
-                            <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." />
+                            <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." placeholder="Cupo aprobado" />
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Fecha de vencimiento</mat-label>
-                            <input matInput [matDatepicker]="picker"  [formControlName]="'fechaVencimiento'">
+                            <input matInput [matDatepicker]="picker"  [formControlName]="'fechaVencimiento'" placeholder="dd/mm/yyyy">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        <mat-form-field  class="w-full">
+                        <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Fecha de corte</mat-label>
-                            <input matInput [matDatepicker]="fechaCorte" [formControlName]="'fechaCorte'" >
+                            <input matInput [matDatepicker]="fechaCorte" [formControlName]="'fechaCorte'" placeholder="dd/mm/yyyy">
                             <mat-datepicker-toggle  matIconSuffix [for]="fechaCorte"></mat-datepicker-toggle>
                             <mat-datepicker #fechaCorte></mat-datepicker>
                         </mat-form-field>

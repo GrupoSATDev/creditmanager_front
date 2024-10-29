@@ -3,7 +3,7 @@ import { ToastAlertsService } from '../../../../core/services/toast-alerts.servi
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { CreditosService } from '../../../../core/services/creditos.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatAnchor, MatButton } from '@angular/material/button';
@@ -81,68 +81,49 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     private tasaService = inject(TasasInteresService);
     public subcription$: Subscription;
     public items: any;
-    public detalleEmpleado: any;
     private fb = inject(FormBuilder);
     public form: FormGroup;
     private datePipe = inject(DatePipe);
     private swalService = inject(SwalService);
-    data = [];
-    capital = [];
+    private readonly parametroTasa = 'Activas';
+    tipoPagos$ = this.tiposPagos.getTiposPagos().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.form.get('idTipoPago').setValue(valorSelected[0].id)
+            }
+        })
+    )
+    capital$ = this.capitalInversion.getCapitales().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.form.get('idCapitalInversion').setValue(valorSelected[0].id)
+            }
+        })
+    );
     estadoCredito = [];
-    tasas = [];
+    tasas$ = this.tasaService.getTasasParametros(this.parametroTasa).pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.form.get('idTasaInteres').setValue(valorSelected[0].id)
+            }
+        })
+    );
     idCredito: string = '';
 
 
     ngOnInit(): void {
         this.idCredito = this.activatedRoute.snapshot.paramMap.get('id');
         this.getCredito(this.idCredito);
-        this.getTiposPagos();
-        this.getCapital();
         this.getEstadoCredito();
-        this.getTasas();
         this.createForm();
     }
 
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
-            this.detalleEmpleado = response.data;
-        })
-    }
-
-    getTiposPagos() {
-        this.subcription$ = this.tiposPagos.getTiposPagos().pipe(
-            map((response) => {
-                response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
-
-            })
-        ).subscribe((response) => {
-            this.data = response.data;
-        })
-    }
-
-    getTasas() {
-        this.subcription$ = this.tasaService.getTass().pipe(
-            map((response) => {
-                response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
-
-            })
-        ).subscribe((response) => {
-            this.tasas = response.data;
         })
     }
 
@@ -161,24 +142,6 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
             })
         ).subscribe((response) => {
             this.estadoCredito = response.data;
-        })
-    }
-
-    getCapital() {
-        this.subcription$ = this.capitalInversion.getCapitales().pipe(
-            map((response) => {
-                response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
-
-            })
-        ).subscribe((response) => {
-            this.capital = response.data;
         })
     }
 

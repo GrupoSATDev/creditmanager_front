@@ -81,7 +81,6 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
     private getTrabajador(id) {
         this.subscription$ = this.pagoTrabajadorService.getPagosTrabajador(id).pipe(
             tap((response) => {
-                //TODO remover el signo pregunta despues de componer el detalle
                 response.data.detallePagoTrabajador?.forEach((items) => {
                     items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
                     items.valorPago = this.currencyPipe.transform(items.valorPago, 'USD', 'symbol', '1.2-2');
