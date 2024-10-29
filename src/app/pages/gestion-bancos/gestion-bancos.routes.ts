@@ -8,6 +8,10 @@ export default [
             {
                 path: 'cuentas',
                 loadChildren: () => import('./cuentas-bancarias/cuentas.routes')
+            },
+            {
+                path: 'bancos',
+                loadChildren: () => import('./bancos/bancos.routes')
             }
         ]
     }

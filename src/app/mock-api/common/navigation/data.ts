@@ -149,6 +149,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-bancos/cuentas',
             },
+            {
+                id: 'apps.cuentas.bancarias',
+                title: 'Bancos',
+                type: 'basic',
+                link: '/pages/gestion-bancos/bancos',
+            },
         ],
     },
 
