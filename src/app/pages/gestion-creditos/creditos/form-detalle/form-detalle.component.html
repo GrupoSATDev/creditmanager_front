@@ -73,17 +73,28 @@
                                 </ng-container>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Tasa de interes</mat-label>
-                            <mat-select
-                                [formControlName]="'idTasaInteres'"
-                                placeholder="Tasa de interes"
-                            >
-                                <ng-container *ngIf="tasas$ | async as tasas">
-                                    <mat-option [value]="item.id" *ngFor="let item of tasas.data">{{item.porcentaje}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
+                            @if (tasas$ | async; as tasas) {
+                                @for (item of tasas.data; track item) {
+                                    <mat-form-field  class="w-full" floatLabel="always">
+                                        <mat-label>Tasa de interes</mat-label>
+                                        <mat-select
+                                            [formControlName]="'idTasaInteres'"
+                                            placeholder="Tasa de interes"
+                                        >
+                                                <mat-option [value]="item.id" >{{item.porcentaje}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                }
+                            } @else {
+                                <div class="inline-block mb-4 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay tasas de interés disponibles, por favor comuniquese con el administrador.
+                                    </fuse-alert>
+                                </div>
+                            }
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cantidad de cuotas</mat-label>
                             <input  matInput   [formControlName]="'cantCuotas'" mask="separator.0" thousandSeparator="." placeholder="Cantidad de cuotas" />
@@ -115,10 +126,16 @@
                 <!-- Acciónes -->
                 <ng-container>
                     <div class="flex flex-wrap justify-end items-center mt-7 gap-2.5">
-                        <button  mat-flat-button class="lg:w-auto w-full bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                        <button
+                            mat-flat-button class="lg:w-auto w-full bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                            [disabled]="form.invalid"
+                        >
                             Rechazar
                         </button>
-                        <button (click)="onSave()"  mat-flat-button class="lg:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                        <button (click)="onSave()"
+                                mat-flat-button class="lg:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                                [disabled]="form.invalid"
+                        >
                             Aprobar
                         </button>
                     </div>

@@ -15,7 +15,7 @@ import { Estados } from '../../../../core/enums/estados';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
@@ -26,6 +26,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -58,6 +59,7 @@ const maskConfig: Partial<IConfig> = {
         ReactiveFormsModule,
         JsonPipe,
         NgxMaskDirective,
+        FuseAlertComponent,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -190,13 +192,13 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
 
     createForm() {
         this.form = this.fb.group({
-            cupoAprobado: [''],
+            cupoAprobado: ['', [Validators.required]],
             idTipoPago: [''],
             idCapitalInversion: [''],
-            idTasaInteres: [''],
-            fechaVencimiento: [''],
-            fechaCorte: [''],
-            cantCuotas: [''],
+            idTasaInteres: ['', [Validators.required]],
+            fechaVencimiento: ['', [Validators.required]],
+            fechaCorte: ['', [Validators.required]],
+            cantCuotas: ['', [Validators.required]],
         })
     }
 
