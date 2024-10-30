@@ -58,7 +58,9 @@
                                 [allowNegativeNumbers]="false"
                                 [separatorLimit]="'999999999'"
                                 mask="separator.2" thousandSeparator="," decimalMarker="." [formControlName]="'valorAbono'" placeholder="Abono" />
+                        <mat-error *ngIf="valorAbono.touched && valorAbono.hasError('required')">El valor es requerido!</mat-error>
                         <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('exceedsBalance')">El valor ingresado no puede superar el total a pagar!</mat-error>
+                        <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('valueZero')">El valor ingresado no puede ser 0!</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="w-full" floatLabel="always">

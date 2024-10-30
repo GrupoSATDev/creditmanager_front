@@ -82,6 +82,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     private decimalPipe =  inject(DecimalPipe)
     private router = inject(Router);
     public message: string;
+    public selectOptionValue: any;
     private empleadosService = inject(EmpleadosService);
 
     empresa$ = this.empresaClienteService.getEmpresasClientes().pipe(
@@ -93,7 +94,15 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             }
         })
     )
-    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores();
+    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                console.log(valorSelected)
+                this.selectOptionValue = valorSelected
+            }
+        })
+    )
     empleados$: Observable<any>;
     data = [];
     totalPagar: number;
@@ -122,6 +131,20 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        this.form.get('valorAbono').valueChanges.subscribe((response) => {
+            console.log(response)
+            this.actualizaSelected(response);
+        })
+    }
+
+    actualizaSelected(inputValue: number) {
+        if (inputValue === this.totalPagar) {
+            console.log('Si entra al actualizar')
+            this.form.get('idTipoPagoTrabajador').setValue(this.selectOptionValue[0].id)
+        }else if (inputValue < this.totalPagar) {
+            console.log('Si entra al actualizar 2')
+            this.form.get('idTipoPagoTrabajador').setValue(this.selectOptionValue[1].id)
+        }
     }
 
     get valorAbono() {
@@ -137,6 +160,10 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         if (amount > this.totalPagar) {
             console.log('Si entra')
             return { exceedsBalance: true };
+        }
+
+        if (amount === 0) {
+            return {valueZero: true}
         }
 
         return null;
