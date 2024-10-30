@@ -4,12 +4,19 @@ import { CustomTableComponent } from '../../../shared/custom-table/custom-table.
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { MatButton } from '@angular/material/button';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IConfig, provideNgxMask } from 'ngx-mask';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { EmpresasClientesService } from '../../../../core/services/empresas-clientes.service';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
@@ -19,7 +26,8 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { Router } from '@angular/router';
 import { confirmarPago } from '../../../../core/constant/dialogs';
-import { map } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
+import { EmpleadosService } from '../../../../core/services/empleados.service';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -46,6 +54,8 @@ const maskConfig: Partial<IConfig> = {
         NgIf,
         ReactiveFormsModule,
         NgClass,
+        NgxMaskDirective,
+        MatError
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -72,9 +82,19 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     private decimalPipe =  inject(DecimalPipe)
     private router = inject(Router);
     public message: string;
+    private empleadosService = inject(EmpleadosService);
 
-    empresa$ = this.empresaClienteService.getEmpresasClientes();
+    empresa$ = this.empresaClienteService.getEmpresasClientes().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            if (valorSelected) {
+                this.form.get('idSubEmpresa').setValue(valorSelected[0].id)
+                this.getEmpleadosSubEmpresas(valorSelected[0].id)
+            }
+        })
+    )
     tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores();
+    empleados$: Observable<any>;
     data = [];
     totalPagar: number;
     totalComision: number;
@@ -93,6 +113,9 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
             idTipoPagoTrabajador: ['', Validators.required],
+            Idtrabajador: ['', Validators.required],
+            valorAbono: ['', [this.maxAmountValidator.bind(this)]],
+            observacion: [''],
         })
 
     }
@@ -101,20 +124,50 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         this.createForm();
     }
 
+    get valorAbono() {
+        return this.form.get('valorAbono');
+    }
+
+    maxAmountValidator(control: AbstractControl): ValidationErrors | null {
+        if (!control.value) return null;
+
+        const amount = parseFloat(control.value.toString().replace(/,/g, ''));
+        console.log(amount)
+        console.log(this.totalPagar)
+        if (amount > this.totalPagar) {
+            console.log('Si entra')
+            return { exceedsBalance: true };
+        }
+
+        return null;
+    }
+
     closeDialog() {
         this.router.navigate(['/pages/gestion-cobros/trabajador']);
     }
 
+    getEmpleadosSubEmpresas(id) {
+        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id).pipe(
+            tap((response) => {
+                const valorSelected = response.data;
+                if (valorSelected ) {
+                    this.form.get('Idtrabajador').setValue(valorSelected[0].id)
+                }
+            })
+        )
+    }
+
     onGet() {
         if (this.form.valid) {
-            const {fechaFinal, idSubEmpresa } = this.form.getRawValue();
+            const {fechaFinal, idSubEmpresa, Idtrabajador } = this.form.getRawValue();
             console.log(fechaFinal)
 
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
             const consulta = {
                 fechaFinallData,
-                idSubEmpresa
+                idSubEmpresa,
+                Idtrabajador
             }
 
             this.getAllPagoTrabajador(consulta);
@@ -123,7 +176,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     }
 
     onSave() {
-        const {fechaFinal, idSubEmpresa, idTipoPagoTrabajador } = this.form.getRawValue();
+        const {fechaFinal, idSubEmpresa, idTrabajador, idTipoPagoTrabajador } = this.form.getRawValue();
 
         const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
 
@@ -165,9 +218,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
                 this.totalPagar = 0;
                 if (response && Array.isArray(response.data)) {
                     response.data.forEach((items) => {
-                        items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
-                        items.pagar = (items.montoConsumo - items.comision);
-                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                        items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
                         items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
                         items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
                         items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
@@ -176,7 +227,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
                         //this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
                         //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                        //this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                        this.totalPagar += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
                     });
                 }else {
                     this.data = [];

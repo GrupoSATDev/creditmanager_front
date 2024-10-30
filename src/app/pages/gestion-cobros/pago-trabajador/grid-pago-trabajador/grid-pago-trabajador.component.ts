@@ -73,7 +73,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
     }
 
     public getPagoTrabajadores() {
-        this.pagoTrabajadorService.getPagosTrabajadores().pipe(
+        this.pagoTrabajadorService.getPagoTrabajadorIndividual().pipe(
             tap((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
