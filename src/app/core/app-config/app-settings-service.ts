@@ -188,5 +188,11 @@ export class AppSettingsService {
         }
     }
 
+    public deduccionesLegales = {
+        url: {
+            base: EndPoints.uriBase('DeduccionesLegales'),
+        }
+    }
+
 
 }

@@ -28,6 +28,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { SwalService } from '../../../../core/services/swal.service';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { ContratosService } from '../../../../core/services/contratos.service';
+import { DeduccionesService } from '../../../../core/services/deducciones.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -165,6 +166,17 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
 
+    private deduccioLegalService = inject(DeduccionesService);
+    public deduccion$ = this.deduccioLegalService.getDeducciones().pipe(
+        tap((response) => {
+            const valorSelected = response.data;
+            const dialogData = this._matData;
+            if (valorSelected && !dialogData.edit) {
+                this.form.get('idDeduccionLegal').setValue(valorSelected[0].id)
+            }
+        })
+    )
+
     profile: any = {
         avatar: '',
         name: 'Pedro'
@@ -191,7 +203,18 @@ export class FormEmpleadosComponent implements OnInit{
             console.log(this.form.getRawValue())
             this.image = `data:image/png;base64,  ${data.foto}`;
         }
+
+        this.form.get('salarioBase').valueChanges.subscribe((valorBase) => {
+            console.log(valorBase)
+            this.form.get('otroIngreso').valueChanges.subscribe((otroValor) => {
+                console.log(valorBase + otroValor)
+                this.form.get('salarioDevengado').setValue((valorBase + otroValor) - ((valorBase * 8) / 100));
+            })
+        })
+
     }
+
+
 
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -232,7 +255,7 @@ export class FormEmpleadosComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 //let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -272,7 +295,7 @@ export class FormEmpleadosComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -337,7 +360,6 @@ export class FormEmpleadosComponent implements OnInit{
             fechaInicioContrato: [''],
             fechaFinContrato: ['null'],
             numCuentaBancaria: [''],
-            salarioDevengado: [''],
             capacidadEndeudamiento: [''],
             idNivelRiesgo: [''],
             idBanco: [''],
@@ -346,6 +368,10 @@ export class FormEmpleadosComponent implements OnInit{
             firma: [''],
             idSubEmpresa: [''],
             idTipoContrato: [''],
+            salarioBase: [0],
+            otroIngreso: [0],
+            idDeduccionLegal: [''],
+            salarioDevengado: [''],
             estado: ['true']
         })
     }

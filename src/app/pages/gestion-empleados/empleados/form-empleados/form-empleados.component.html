@@ -242,12 +242,12 @@
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Salario base</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="." placeholder="Salario base" [formControlName]="'idTipoContrato'" />
+                            <input  matInput mask="separator.0" thousandSeparator="." placeholder="Salario base" [formControlName]="'salarioBase'" />
                         </mat-form-field>
 
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Otros ingresos</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="."  placeholder="Otros ingresos" />
+                            <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'otroIngreso'"  placeholder="Otros ingresos" />
                         </mat-form-field>
 
                     </div>
@@ -255,21 +255,33 @@
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Salario devengado</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="." [formControlName]="'salarioDevengado'" placeholder="Salario devengdado" />
+                            <input  matInput mask="separator.0" thousandSeparator="." [readonly]="true" placeholder="Salario devengdado" [formControlName]="'salarioDevengado'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Deducciones legales</mat-label>
+                            <mat-select placeholder="Deducciones legales" [formControlName]="'idDeduccionLegal'" [disabled]="true">
+                                <ng-container *ngIf="deduccion$ | async as deducciones">
+                                    <mat-option [value]="item.id" *ngFor="let item of deducciones.data">Porcentaje salud: {{item.porcentajeSalud}}% - Porcentaje pensión: {{item.porcentajePension}}%</mat-option>
+                                </ng-container>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Salud</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="."  placeholder="Salud" />
+                            <input  matInput mask="separator.0" thousandSeparator="." [readonly]="true"  placeholder="Salud" />
                         </mat-form-field>
 
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Pensión</mat-label>
-                            <input  matInput   placeholder="Pensión"/>
+                            <input  matInput   placeholder="Pensión" [readonly]="true" />
                         </mat-form-field>
 
                     </div>
+
+
 
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
