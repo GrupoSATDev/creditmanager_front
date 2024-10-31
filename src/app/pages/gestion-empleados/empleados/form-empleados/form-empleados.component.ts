@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -11,7 +11,7 @@ import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
-import { Observable, tap } from 'rxjs';
+import { combineLatestWith, map, Observable, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -29,6 +29,7 @@ import { SwalService } from '../../../../core/services/swal.service';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { ContratosService } from '../../../../core/services/contratos.service';
 import { DeduccionesService } from '../../../../core/services/deducciones.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -84,6 +85,10 @@ export class FormEmpleadosComponent implements OnInit{
     private riesgosServices = inject(NivelRiesgoService)
     private bancosServices = inject(BancosService)
     private swalService = inject(SwalService);
+    private readonly destroyedRef = inject(DestroyRef);
+    private porcentajeSalud: number;
+    private porcentajePension: number;
+    private sumaPorcentaje: number;
 
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
         tap((response) => {
@@ -173,6 +178,9 @@ export class FormEmpleadosComponent implements OnInit{
             const dialogData = this._matData;
             if (valorSelected && !dialogData.edit) {
                 this.form.get('idDeduccionLegal').setValue(valorSelected[0].id)
+                this.porcentajeSalud = valorSelected[0].porcentajeSalud;
+                this.porcentajePension = valorSelected[0].porcentajePension;
+                this.sumaPorcentaje = this.porcentajePension + this.porcentajeSalud;
             }
         })
     )
@@ -204,14 +212,55 @@ export class FormEmpleadosComponent implements OnInit{
             this.image = `data:image/png;base64,  ${data.foto}`;
         }
 
-        this.form.get('salarioBase').valueChanges.subscribe((valorBase) => {
-            console.log(valorBase)
-            this.form.get('otroIngreso').valueChanges.subscribe((otroValor) => {
-                console.log(valorBase + otroValor)
-                this.form.get('salarioDevengado').setValue((valorBase + otroValor) - ((valorBase * 8) / 100));
-            })
-        })
+       /* const salarioBase$ =  this.form.get('salarioBase').valueChanges
+        const otroIngreso$ = this.form.get('otroIngreso').valueChanges
 
+        salarioBase$.pipe(
+            combineLatestWith(otroIngreso$),
+            map(([valorBase, otroIngreso]) => {
+                console.log(valorBase)
+                console.log(otroIngreso)
+                const salarioDevengado = (valorBase + otroIngreso) - ((valorBase * 8) / 100);
+
+                return salarioDevengado
+
+            })
+        ).subscribe((response) => {
+            console.log(response)
+            this.form.get('salarioDevengado').setValue(response, { emitEvent: false });
+        })*/
+
+   /*     combineLatestWith([
+           ,
+
+        ]).subscribe(([valorBase, otroValor]) => {
+            const salarioDevengado = (valorBase + otroValor) - ((valorBase * 8) / 100);
+            this.form.get('salarioDevengado').setValue(salarioDevengado, { emitEvent: false });
+        });*/
+        this.setCampoValue();
+
+    }
+
+    setCampoValue() {
+        this.form.get('salarioBase').valueChanges.pipe(
+            takeUntilDestroyed(this.destroyedRef)
+        ).subscribe(() => this.calcularCampo());
+        this.form.get('otroIngreso').valueChanges.pipe(
+            takeUntilDestroyed(this.destroyedRef)
+        ).subscribe(() => this.calcularCampo());
+    }
+
+    calcularCampo() {
+        const valorBase = this.form.get('salarioBase')?.value || 0;
+        const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+        const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / 100;
+        const salud = (valorBase + otroIngreso) * this.porcentajeSalud / 100;
+        const pension = (valorBase + otroIngreso) * this.porcentajePension / 100;
+        const endeudamiento = (devengado) * 30 / 100;
+        this.form.get('salarioDevengado').setValue(devengado);
+        this.form.get('salud').setValue(salud);
+        this.form.get('pension').setValue(pension);
+        this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
     }
 
 
@@ -255,7 +304,7 @@ export class FormEmpleadosComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado, salud, pension,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 //let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -295,7 +344,7 @@ export class FormEmpleadosComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado,  ...form} = data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado, salud, pension,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
@@ -371,7 +420,9 @@ export class FormEmpleadosComponent implements OnInit{
             salarioBase: [0],
             otroIngreso: [0],
             idDeduccionLegal: [''],
-            salarioDevengado: [''],
+            salarioDevengado: [0],
+            salud: [0],
+            pension: [0],
             estado: ['true']
         })
     }
