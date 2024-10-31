@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { MatButton } from '@angular/material/button';
@@ -55,7 +55,8 @@ const maskConfig: Partial<IConfig> = {
         ReactiveFormsModule,
         NgClass,
         NgxMaskDirective,
-        MatError
+        MatError,
+        JsonPipe,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -108,10 +109,9 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     totalComision: number;
     subtotal: number;
 
-    columns = ['Número de identificación', 'Número de cuotas', 'Valor pendiente', 'Fecha de cobro' ];
+    columns = ['Número de identificación', 'Valor pendiente', 'Fecha de cobro' ];
     columnPropertyMap = {
         'Número de identificación': 'documentoTrabajador',
-        'Número de cuotas': 'numCuota',
         'Valor pendiente': 'valorPendiente',
         'Fecha de cobro': 'fechaCobro',
     };
@@ -184,20 +184,13 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     }
 
     getEmpleadosSubEmpresas(id) {
-        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id).pipe(
-            tap((response) => {
-                const valorSelected = response.data;
-                if (valorSelected ) {
-                    this.form.get('idTrabajador').setValue(valorSelected[0].id)
-                }
-            })
-        )
+        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id)
     }
 
     onGet() {
         if (this.form.valid) {
             const {fechaFinal, idSubEmpresa, idTrabajador } = this.form.getRawValue();
-            console.log(fechaFinal)
+
 
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
@@ -206,6 +199,8 @@ export class FormPagoTrabajadorComponent  implements OnInit{
                 idSubEmpresa,
                 idTrabajador
             }
+
+            console.log(consulta)
 
             this.getAllPagoTrabajador(consulta);
 

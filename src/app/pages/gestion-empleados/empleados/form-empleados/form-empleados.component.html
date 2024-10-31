@@ -242,7 +242,7 @@
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Salario base</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="." placeholder="Salario base" />
+                            <input  matInput mask="separator.0" thousandSeparator="." placeholder="Salario base" [formControlName]="'idTipoContrato'" />
                         </mat-form-field>
 
                         <mat-form-field  class="w-full" floatLabel="always">

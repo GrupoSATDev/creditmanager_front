@@ -123,6 +123,7 @@ export class AppSettingsService {
             base: EndPoints.uriBase('CobroTrabajadores'),
             baseTabla: EndPoints.uriBase('CobroTrabajadores/Tabla'),
             baseTrabajador: EndPoints.uriBase('CobroTrabajadores/AllTrabajador'),
+            baseTrabajadorIndividual: EndPoints.uriBase('CobroTrabajadores/AllTrabajadorIndividual'),
         }
     }
 

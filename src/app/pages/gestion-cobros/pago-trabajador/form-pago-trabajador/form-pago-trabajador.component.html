@@ -43,7 +43,7 @@
 
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Trabajadores</mat-label>
-                        <mat-select placeholder="Trabajadores" >
+                        <mat-select placeholder="Trabajadores" [formControlName]="'idTrabajador'">
                             <ng-container *ngIf="empleados$ | async as empleados">
                                 <mat-option [value]="item.id" *ngFor="let item of empleados.data">{{item.primerNombre}} {{item.primerApellido}}</mat-option>
                             </ng-container>
@@ -58,7 +58,7 @@
                                 [allowNegativeNumbers]="false"
                                 [separatorLimit]="'999999999'"
                                 (blur)="valorAbono.updateValueAndValidity()"
-                                mask="separator.2" thousandSeparator="," decimalMarker="." [formControlName]="'valorAbono'" placeholder="Abono" />
+                                mask="separator.2" thousandSeparator="," decimalMarker="." [formControlName]="'valorAbono'" placeholder="Valor a cancelar" />
                         <!--<mat-error *ngIf="valorAbono.hasError('required') && valorAbono.touched">El valor es requerido!</mat-error>-->
                         <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('required')">El valor es requerido!</mat-error>
                         <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('exceedsBalance')">El valor ingresado no puede superar el total a pagar!</mat-error>
