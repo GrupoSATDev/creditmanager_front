@@ -53,12 +53,14 @@
 
                 <div class="flex flex-col items-baseline sm:flex-row gap-2.5" *ngIf="data.length">
                     <mat-form-field  class="w-full" floatLabel="always">
-                        <mat-label>Abono</mat-label>
+                        <mat-label>Valor a cancelar</mat-label>
                         <input  matInput
                                 [allowNegativeNumbers]="false"
                                 [separatorLimit]="'999999999'"
+                                (blur)="valorAbono.updateValueAndValidity()"
                                 mask="separator.2" thousandSeparator="," decimalMarker="." [formControlName]="'valorAbono'" placeholder="Abono" />
-                        <mat-error *ngIf="valorAbono.touched && valorAbono.hasError('required')">El valor es requerido!</mat-error>
+                        <!--<mat-error *ngIf="valorAbono.hasError('required') && valorAbono.touched">El valor es requerido!</mat-error>-->
+                        <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('required')">El valor es requerido!</mat-error>
                         <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('exceedsBalance')">El valor ingresado no puede superar el total a pagar!</mat-error>
                         <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('valueZero')">El valor ingresado no puede ser 0!</mat-error>
                     </mat-form-field>

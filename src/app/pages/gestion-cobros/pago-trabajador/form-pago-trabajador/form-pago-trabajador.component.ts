@@ -98,7 +98,6 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         tap((response) => {
             const valorSelected = response.data;
             if (valorSelected) {
-                console.log(valorSelected)
                 this.selectOptionValue = valorSelected
             }
         })
@@ -122,7 +121,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
             idTipoPagoTrabajador: ['', Validators.required],
-            Idtrabajador: ['', Validators.required],
+            idTrabajador: ['', Validators.required],
             valorAbono: ['', [this.maxAmountValidator.bind(this)]],
             observacion: [''],
         })
@@ -133,7 +132,13 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         this.createForm();
         this.form.get('valorAbono').valueChanges.subscribe((response) => {
             console.log(response)
-            this.actualizaSelected(response);
+            if (response == 0) {
+                this.form.get('valorAbono').setValidators([Validators.required, this.maxAmountValidator.bind(this)])
+                //this.actualizaSelected(response)
+                this.form.updateValueAndValidity()
+            }else if (response > 0) {
+                this.actualizaSelected(response);
+            }
         })
     }
 
@@ -152,18 +157,23 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     }
 
     maxAmountValidator(control: AbstractControl): ValidationErrors | null {
-        if (!control.value) return null;
+
+        if (control.value === null || control.value === undefined || control.value === '') {
+            return null; // Permite que Validators.required gestione los casos de campo vacío.
+        }
+
+        console.log(control.value)
 
         const amount = parseFloat(control.value.toString().replace(/,/g, ''));
         console.log(amount)
-        console.log(this.totalPagar)
-        if (amount > this.totalPagar) {
-            console.log('Si entra')
-            return { exceedsBalance: true };
-        }
 
         if (amount === 0) {
             return {valueZero: true}
+        }
+
+        if (amount > this.totalPagar) {
+            console.log('Si entra')
+            return { exceedsBalance: true };
         }
 
         return null;
@@ -178,7 +188,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             tap((response) => {
                 const valorSelected = response.data;
                 if (valorSelected ) {
-                    this.form.get('Idtrabajador').setValue(valorSelected[0].id)
+                    this.form.get('idTrabajador').setValue(valorSelected[0].id)
                 }
             })
         )
@@ -186,7 +196,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
     onGet() {
         if (this.form.valid) {
-            const {fechaFinal, idSubEmpresa, Idtrabajador } = this.form.getRawValue();
+            const {fechaFinal, idSubEmpresa, idTrabajador } = this.form.getRawValue();
             console.log(fechaFinal)
 
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
@@ -194,7 +204,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             const consulta = {
                 fechaFinallData,
                 idSubEmpresa,
-                Idtrabajador
+                idTrabajador
             }
 
             this.getAllPagoTrabajador(consulta);
@@ -222,7 +232,8 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         const createData = {
             ...consulta,
             idTipoPagoTrabajador,
-            detallePagoTrabajador
+            detallePagoTrabajador,
+            idTrabajador
         }
 
         console.log(createData)
