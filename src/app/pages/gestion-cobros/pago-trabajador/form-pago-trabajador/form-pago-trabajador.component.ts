@@ -210,7 +210,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     }
 
     onSave() {
-        const {fechaFinal, idSubEmpresa, idTrabajador, idTipoPagoTrabajador } = this.form.getRawValue();
+        const {fechaFinal, idSubEmpresa, idTrabajador, idTipoPagoTrabajador, ...form } = this.form.getRawValue();
 
         const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd');
 
@@ -230,7 +230,8 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             ...consulta,
             idTipoPagoTrabajador,
             detallePagoTrabajador,
-            idTrabajador
+            idTrabajador,
+            ...form
         }
 
         console.log(createData)
