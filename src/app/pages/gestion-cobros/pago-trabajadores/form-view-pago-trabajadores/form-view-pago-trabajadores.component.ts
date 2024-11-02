@@ -62,12 +62,11 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
         total: ''
     }
 
-    columns = ['Número de identificación', 'Fecha de creación', 'Número de cuota', 'Valor' ];
+    columns = ['Identificación', 'Nombres Apellidos', 'Valor pagado' ];
     columnPropertyMap = {
-        'Número de identificación': 'documentoTrabajador',
-        'Fecha de creación': 'fechaCobro',
-        'Número de cuota': 'numCuota',
-        'Valor': 'valorPago',
+        'Identificación': 'documentoTrabajador',
+        'Nombres Apellidos': 'nombreCompleto',
+        'Valor pagado': 'valorPago',
     };
     ngOnDestroy(): void {
         this.subscription$.unsubscribe();

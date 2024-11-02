@@ -1,4 +1,4 @@
-<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:inset-0 sm:overflow-hidden" >
+<div class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:inset-0 sm:overflow-hidden" cdkScrollable>
 
     <div
         class="mt-8 text-3xl font-semibold leading-tight tracking-tight pl-8 "
@@ -72,11 +72,11 @@
                 </div>
 
 
-                <div class="relative p-4 border border-gray-300 rounded-lg mt-4">
+                <div class="relative border border-gray-300 rounded-lg">
                     <div class="absolute -top-3 left-4 bg-white px-2 text-gray-500 font-semibold">
                         Opciones
                     </div>
-                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 ">
+                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 pr-2 ">
                         <button
                             class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
                             mat-flat-button
@@ -121,6 +121,8 @@
             <div
                 class="flex flex-auto flex-col overflow-hidden sm:p-4 sm:mb-10 sm:overflow-y-auto"
             >
+                <p class="text-lg text-black font-semibold mb-4">Movimientos</p>
+
                 <app-custom-table
                     [columns]="columns"
                     [displayedColumns]="columns"

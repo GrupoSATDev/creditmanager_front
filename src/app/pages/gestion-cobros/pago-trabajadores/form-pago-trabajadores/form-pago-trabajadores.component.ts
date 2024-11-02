@@ -75,27 +75,29 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     private decimalPipe =  inject(DecimalPipe)
     private router = inject(Router);
     public message: string;
-
+    idTipoPagoTrabajador: any;
     empresa$ = this.empresaClienteService.getEmpresasClientes();
-    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores();
+    tipoPago$ = this.pagoTrabajadorService.tipoPagoTrabajadores().subscribe((response) => {
+        this.idTipoPagoTrabajador = response.data[0].id;
+    })
     data = [];
     totalPagar: number;
     totalComision: number;
     subtotal: number;
+    fechaActual: Date = new Date();
 
-    columns = ['Número de identificación', 'Número de cuotas', 'Valor pendiente', 'Fecha de cobro' ];
+    columns = ['Identificación', 'Nombres Apellidos', 'Valor pendiente' ];
     columnPropertyMap = {
-        'Número de identificación': 'documentoTrabajador',
-        'Número de cuotas': 'numCuota',
+        'Identificación': 'documentoTrabajador',
+        'Nombres Apellidos': 'nombreCompleto',
         'Valor pendiente': 'valorPendiente',
-        'Fecha de cobro': 'fechaCobro',
     };
 
     private createForm() {
         this.form = this.fb.group({
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
-            idTipoPagoTrabajador: ['', Validators.required],
+            idTipoPagoTrabajador: [''],
         })
 
     }
@@ -144,7 +146,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
 
         const createData = {
             ...consulta,
-            idTipoPagoTrabajador,
+            idTipoPagoTrabajador: this.idTipoPagoTrabajador,
             detallePagoTrabajador
         }
 

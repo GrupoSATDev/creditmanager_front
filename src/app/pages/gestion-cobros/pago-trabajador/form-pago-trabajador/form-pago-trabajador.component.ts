@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 import { confirmarPago } from '../../../../core/constant/dialogs';
 import { map, Observable, tap } from 'rxjs';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -57,6 +58,7 @@ const maskConfig: Partial<IConfig> = {
         NgxMaskDirective,
         MatError,
         JsonPipe,
+        CdkScrollable,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -109,11 +111,11 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     totalComision: number;
     subtotal: number;
 
-    columns = ['Número de identificación', 'Valor pendiente', 'Fecha de cobro' ];
+    columns = ['Empresa', 'N factura / Comprobante', 'Valor pendiente' ];
     columnPropertyMap = {
-        'Número de identificación': 'documentoTrabajador',
+        'Empresa': 'nombreSubEmpresa',
+        'N factura / Comprobante': 'numeroFactura',
         'Valor pendiente': 'valorPendiente',
-        'Fecha de cobro': 'fechaCobro',
     };
 
     private createForm() {

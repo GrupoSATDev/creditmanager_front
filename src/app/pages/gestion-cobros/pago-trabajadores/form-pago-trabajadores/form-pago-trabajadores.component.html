@@ -14,23 +14,14 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Fecha de corte</mat-label>
-                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
+                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy" [max]="fechaActual">
                         <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
                         <mat-datepicker #finalPicker></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
-                        <mat-label>Tipo de pago</mat-label>
-                        <mat-select placeholder="Tipo de pago trabajador" [formControlName]="'idTipoPagoTrabajador'">
-                            <ng-container *ngIf="tipoPago$ | async as tipoPagos">
-                                <mat-option [value]="item.id" *ngFor="let item of tipoPagos.data">{{item.nombre}}</mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Empresa</mat-label>
-                        <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'">
+                        <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'" >
                             <ng-container *ngIf="empresa$ | async as empresas">
                                 <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
                             </ng-container>
@@ -39,11 +30,11 @@
 
                 </div>
 
-                <div class="relative p-4 border border-gray-300 rounded-lg mt-4">
+                <div class="relative border border-gray-300 rounded-lg">
                     <div class="absolute -top-3 left-4 bg-white px-2 text-gray-500 font-semibold">
                         Opciones
                     </div>
-                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 ">
+                    <div class="flex flex-wrap justify-end gap-2.5 sm:mb-4 pr-2 ">
                         <button
                             class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
                             mat-flat-button
