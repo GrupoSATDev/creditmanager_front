@@ -12,10 +12,18 @@ import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@ang
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { TiposPagosService } from '../../../../core/services/tipos-pagos.service';
 import { Estados } from '../../../../core/enums/estados';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { CapitalInversionService } from '../../../../core/services/capital-inversion.service';
 import { EstadoCreditosService } from '../../../../core/services/estado-creditos.service';
@@ -60,6 +68,7 @@ const maskConfig: Partial<IConfig> = {
         JsonPipe,
         NgxMaskDirective,
         FuseAlertComponent,
+        MatError,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -88,6 +97,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     private datePipe = inject(DatePipe);
     private swalService = inject(SwalService);
     private readonly parametroTasa = 'Activas';
+    enDeudamiento: any;
     tipoPagos$ = this.tiposPagos.getTiposPagos().pipe(
         tap((response) => {
             const valorSelected = response.data;
@@ -123,11 +133,39 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
         this.createForm();
     }
 
+    maxAmountValidator(control: AbstractControl): ValidationErrors | null {
+
+        if (control.value === null || control.value === undefined || control.value === '') {
+            return null; // Permite que Validators.required gestione los casos de campo vacío.
+        }
+
+        console.log(control.value)
+
+        const amount = parseFloat(control.value.toString().replace(/,/g, ''));
+        console.log(amount)
+
+        if (amount === 0) {
+            return {valueZero: true}
+        }
+
+        if (amount > this.enDeudamiento) {
+            console.log('Si entra')
+            return { exceedsBalance: true };
+        }
+
+        return null;
+    }
+
+    get cupoAprobado() {
+        return this.form.get('cupoAprobado');
+    }
+
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
             this.form.get('capacidadEndeudamiento').setValue(this.items.trabajador.capacidadEndeudamiento)
             this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`))
+            this.enDeudamiento = (this.items.trabajador.salarioDevengado * 40) / 100;
         })
     }
 
@@ -196,7 +234,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
 
     createForm() {
         this.form = this.fb.group({
-            cupoAprobado: ['', [Validators.required]],
+            cupoAprobado: ['', [Validators.required, this.maxAmountValidator.bind(this)]],
             idTipoPago: [''],
             capacidadEndeudamiento: [{value: '', disabled: true}],
             fechaLimitePago: ['', [Validators.required]],
