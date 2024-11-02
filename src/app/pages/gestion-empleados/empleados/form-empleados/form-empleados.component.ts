@@ -30,6 +30,7 @@ import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.servi
 import { ContratosService } from '../../../../core/services/contratos.service';
 import { DeduccionesService } from '../../../../core/services/deducciones.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { VALOR_PORCENTAJE_100, VALOR_PORCENTAJE_30 } from '../../../../core/constant/valores';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -180,7 +181,7 @@ export class FormEmpleadosComponent implements OnInit{
                 this.form.get('idDeduccionLegal').setValue(valorSelected[0].id)
                 this.porcentajeSalud = valorSelected[0].porcentajeSalud;
                 this.porcentajePension = valorSelected[0].porcentajePension;
-                this.sumaPorcentaje = this.porcentajePension + this.porcentajeSalud;
+                this.sumaPorcentaje = valorSelected[0].estado ? this.porcentajePension + this.porcentajeSalud : 0;
             }
         })
     )
@@ -253,10 +254,10 @@ export class FormEmpleadosComponent implements OnInit{
     calcularCampo() {
         const valorBase = this.form.get('salarioBase')?.value || 0;
         const otroIngreso = this.form.get('otroIngreso')?.value || 0;
-        const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / 100;
-        const salud = (valorBase + otroIngreso) * this.porcentajeSalud / 100;
-        const pension = (valorBase + otroIngreso) * this.porcentajePension / 100;
-        const endeudamiento = (devengado) * 30 / 100;
+        const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / VALOR_PORCENTAJE_100;
+        const salud = (valorBase + otroIngreso) * this.porcentajeSalud / VALOR_PORCENTAJE_100;
+        const pension = (valorBase + otroIngreso) * this.porcentajePension / VALOR_PORCENTAJE_100;
+        const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
         this.form.get('salarioDevengado').setValue(devengado);
         this.form.get('salud').setValue(salud);
         this.form.get('pension').setValue(pension);
@@ -409,7 +410,7 @@ export class FormEmpleadosComponent implements OnInit{
             fechaInicioContrato: [''],
             fechaFinContrato: ['null'],
             numCuentaBancaria: [''],
-            capacidadEndeudamiento: [''],
+            capacidadEndeudamiento: [{value: 0, disabled: true}],
             idNivelRiesgo: [''],
             idBanco: [''],
             idTipoCuenta: [''],
@@ -420,9 +421,9 @@ export class FormEmpleadosComponent implements OnInit{
             salarioBase: [0],
             otroIngreso: [0],
             idDeduccionLegal: [''],
-            salarioDevengado: [0],
-            salud: [0],
-            pension: [0],
+            salarioDevengado: [{value: 0, disabled: true}],
+            salud: [{value: 0, disabled: true}],
+            pension: [{value: 0, disabled: true}],
             estado: ['true']
         })
     }
