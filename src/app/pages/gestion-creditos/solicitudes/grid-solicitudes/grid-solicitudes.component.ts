@@ -17,6 +17,7 @@ import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { Router } from '@angular/router';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -31,6 +32,7 @@ import { Router } from '@angular/router';
         MatTabGroup,
         MatTabContent,
         NgIf,
+        FuseAlertComponent,
     ],
     providers: [
         DatePipe,
