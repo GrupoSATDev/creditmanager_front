@@ -43,11 +43,11 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Creación', 'Empresa', 'Total', ];
+    columns = ['Fecha de corte', 'Empresa', 'Pago registrado', ];
     columnPropertyMap = {
-        'Creación': 'fechaCreacion',
+        'Fecha de corte': 'fechaCreacion',
         'Empresa': 'nombreSubempresa',
-        'Total': 'total'
+        'Pago registrado': 'total'
     };
 
     buttons: IButton[] = [

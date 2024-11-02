@@ -59,6 +59,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/pages/gestion-cobros/aliados',
             },
             {
+                id: 'apps.gestion.maestro',
+                title: 'Pago trabajadores',
+                type: 'basic',
+                link: '/pages/gestion-cobros/maestro',
+            }
+           /* {
                 id: 'apps.gestion.trabajador',
                 title: 'Pago trabajadores',
                 type: 'basic',
@@ -69,7 +75,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pago trabajador',
                 type: 'basic',
                 link: '/pages/gestion-cobros/trabajador',
-            },
+            },*/
         ],
     },
     {
