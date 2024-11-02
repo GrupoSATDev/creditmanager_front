@@ -23,6 +23,10 @@ export default [
             {
                 path: 'trabajador',
                 loadChildren: () => import('./pago-trabajador/pago-trabajador.routes')
+            },
+            {
+                path: 'subscripciones',
+                loadChildren: () => import('./subscripciones/subscripciones.routes')
             }
         ]
     }

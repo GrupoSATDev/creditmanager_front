@@ -63,19 +63,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pago trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/maestro',
-            }
-           /* {
-                id: 'apps.gestion.trabajador',
-                title: 'Pago trabajadores',
-                type: 'basic',
-                link: '/pages/gestion-cobros/trabajadores',
             },
             {
-                id: 'apps.gestion.trabajador.individual',
-                title: 'Pago trabajador',
+                id: 'apps.gestion.subcripciones',
+                title: 'Subscripciones',
                 type: 'basic',
-                link: '/pages/gestion-cobros/trabajador',
-            },*/
+                link: '/pages/gestion-cobros/subscripciones',
+            }
         ],
     },
     {

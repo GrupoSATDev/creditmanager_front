@@ -101,7 +101,7 @@
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo sugerido</mat-label>
-                            <input  matInput  [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." placeholder="cupo sugerido" />
+                            <input  matInput  [formControlName]="'capacidadEndeudamiento'" [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." placeholder="cupo sugerido" />
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo aprobado</mat-label>
@@ -118,6 +118,12 @@
                             <input matInput [matDatepicker]="fechaCorte" [formControlName]="'fechaCorte'" placeholder="dd/mm/yyyy">
                             <mat-datepicker-toggle  matIconSuffix [for]="fechaCorte"></mat-datepicker-toggle>
                             <mat-datepicker #fechaCorte></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Fecha limite de pago</mat-label>
+                            <input matInput [matDatepicker]="limite"  [formControlName]="'fechaLimitePago'" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matIconSuffix [for]="limite"></mat-datepicker-toggle>
+                            <mat-datepicker #limite></mat-datepicker>
                         </mat-form-field>
 
                     </form>

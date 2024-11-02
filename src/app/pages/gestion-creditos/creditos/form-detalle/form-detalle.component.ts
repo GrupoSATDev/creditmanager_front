@@ -126,6 +126,8 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
+            this.form.get('capacidadEndeudamiento').setValue(this.items.trabajador.capacidadEndeudamiento)
+            this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`))
         })
     }
 
@@ -150,12 +152,14 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     onSave() {
         if (this.form.valid) {
             const data = this.form.getRawValue();
-            const {fechaVencimiento, fechaCorte, cupoAprobado, ...form} = data;
+            const {fechaVencimiento, fechaCorte, cupoAprobado, fechaLimitePago,  capacidadEndeudamiento,  ...form} = data;
             let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
             let fechaCorteTransform = this.datePipe.transform(fechaCorte, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+            let fechaLimitePagoTransform = this.datePipe.transform(fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
             const createData = {
                 fechaVencimiento: fechaVencimientoTransform,
                 fechaCorte: fechaCorteTransform,
+                fechaLimitePago: fechaLimitePagoTransform,
                 idEstadoCredito: CodigoEstadosCreditos.APROBADO,
                 cupoAprobado: Number(cupoAprobado),
                 id: this.idCredito,
@@ -194,6 +198,8 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
         this.form = this.fb.group({
             cupoAprobado: ['', [Validators.required]],
             idTipoPago: [''],
+            capacidadEndeudamiento: [{value: '', disabled: true}],
+            fechaLimitePago: ['', [Validators.required]],
             idCapitalInversion: [''],
             idTasaInteres: ['', [Validators.required]],
             fechaVencimiento: ['', [Validators.required]],
