@@ -25,6 +25,11 @@ export class CobroTrabajadoresService {
       return this._http.get(`${this.appSettings.cobroTrabajadores.url.baseTabla}/${idEstado}`)
   }
 
+    getCobroTrabajadores(data): Observable<any> {
+        const {fechaFinallData, idSubEmpresa} = data;
+        return this._http.get( `${this.appSettings.cobroTrabajadores.url.baseTrabajador}?fechaFinal=${fechaFinallData}&IdSubEmpresa=${idSubEmpresa}`);
+    }
+
     getCobroTrabajador(data): Observable<any> {
         const {fechaFinallData, idSubEmpresa, idTrabajador} = data;
         return this._http.get( `${this.appSettings.cobroTrabajadores.url.baseTrabajadorIndividual}?fechaFinal=${fechaFinallData}&IdSubEmpresa=${idSubEmpresa}&Idtrabajador=${idTrabajador}`);

@@ -161,7 +161,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     }
 
     private getAllPagoTrabajador(data) {
-        this.cobroTrabajadorService.getCobroTrabajador(data).pipe(
+        this.cobroTrabajadorService.getCobroTrabajadores(data).pipe(
             map((response) => {
                 this.subtotal = 0;
                 this.totalComision = 0;
