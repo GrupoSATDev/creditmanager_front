@@ -24,6 +24,15 @@
             </div>
 
             <div class="flex flex-col lg:flex-row mb-4 gap-2">
+                <!-- Name field -->
+                <mat-form-field class="w-full" floatLabel="always">
+                    <mat-label>Porcentaje maximo prestamo</mat-label>
+                    <input  matInput [formControlName]="'procMaxPrestamo'" placeholder="Porcentaje maximo"/>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex flex-col lg:flex-row mb-4 gap-2">
                 <!-- Company field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Correo</mat-label>

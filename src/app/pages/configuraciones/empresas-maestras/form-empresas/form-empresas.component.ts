@@ -96,7 +96,8 @@ export class FormEmpresasComponent implements OnInit{
             telefono: [''],
             direccion: [''],
             idDepartamento: [''],
-            idMunicipio: ['']
+            idMunicipio: [''],
+            procMaxPrestamo: [''],
         })
     }
 
