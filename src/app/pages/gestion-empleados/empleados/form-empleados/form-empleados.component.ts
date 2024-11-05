@@ -196,21 +196,7 @@ export class FormEmpleadosComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            const {estado, idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
-            const fecha = new Date(fechaNacimiento)
-            const fechaInicioAntes = new Date(fechaInicioContrato)
-            const fechaFinAntes = new Date(fechaFinContrato)
-            this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
-            this.form.patchValue({
-                fechaNacimiento: fecha,
-                fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
-                fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
-                idDepartamento,
-                estado: estado == 'Activo' ? true : false,
-                ...form
-            })
-            console.log(this.form.getRawValue())
-            this.image = `data:image/png;base64,  ${data.foto}`;
+            this.getTrabajador(data.id)
         }
 
        /* const salarioBase$ =  this.form.get('salarioBase').valueChanges
@@ -242,6 +228,31 @@ export class FormEmpleadosComponent implements OnInit{
 
     }
 
+    public getTrabajador(id) {
+        this.empleadosServices.getEmpleado(id).subscribe((response) => {
+            if (response) {
+                const data = response.data;
+                const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
+                const fecha = new Date(fechaNacimiento)
+                const fechaInicioAntes = new Date(fechaInicioContrato)
+                const fechaFinAntes = new Date(fechaFinContrato)
+                this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+                console.log(data)
+                console.log(form)
+                this.form.patchValue({
+                    fechaNacimiento: fecha,
+                    fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
+                    fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
+                    idDepartamento,
+                    ...form
+                })
+                console.log(this.form.getRawValue())
+                this.image = `data:image/png;base64,  ${data.foto}`;
+            }
+
+        })
+    }
+
     setCampoValue() {
         this.form.get('salarioBase').valueChanges.pipe(
             takeUntilDestroyed(this.destroyedRef)
@@ -252,16 +263,18 @@ export class FormEmpleadosComponent implements OnInit{
     }
 
     calcularCampo() {
-        const valorBase = this.form.get('salarioBase')?.value || 0;
-        const otroIngreso = this.form.get('otroIngreso')?.value || 0;
-        const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / VALOR_PORCENTAJE_100;
-        const salud = (valorBase + otroIngreso) * this.porcentajeSalud / VALOR_PORCENTAJE_100;
-        const pension = (valorBase + otroIngreso) * this.porcentajePension / VALOR_PORCENTAJE_100;
-        const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
-        this.form.get('salarioDevengado').setValue(devengado);
-        this.form.get('salud').setValue(salud);
-        this.form.get('pension').setValue(pension);
-        this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
+        if(!this._matData.edit) {
+            const valorBase = this.form.get('salarioBase')?.value || 0;
+            const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+            const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / VALOR_PORCENTAJE_100;
+            const salud = (valorBase + otroIngreso) * this.porcentajeSalud / VALOR_PORCENTAJE_100;
+            const pension = (valorBase + otroIngreso) * this.porcentajePension / VALOR_PORCENTAJE_100;
+            const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
+            this.form.get('salarioDevengado').setValue(devengado);
+            this.form.get('salud').setValue(salud);
+            this.form.get('pension').setValue(pension);
+            this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
+        }
     }
 
 
@@ -424,7 +437,7 @@ export class FormEmpleadosComponent implements OnInit{
             salarioDevengado: [{value: 0, disabled: true}],
             salud: [{value: 0, disabled: true}],
             pension: [{value: 0, disabled: true}],
-            estado: ['true']
+            estado: [true]
         })
     }
 
