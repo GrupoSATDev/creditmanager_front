@@ -47,34 +47,7 @@
 
             </div>
 
-            <div>
-                <p class="font-bold mb-4 text-2xl">Proveedor de origen </p>
 
-                <div class="flex flex-col sm:flex-row gap-2.5">
-                    <mat-form-field class="w-full" floatLabel="always">
-                        <mat-label>Origen del rubro (Proveedor)</mat-label>
-                        <input  matInput [formControlName]="'fuenteIngresoProveedor'"  placeholder="Origen del rubro (Proveedor)"  />
-                    </mat-form-field>
-
-                    <!-- Name field -->
-                    <mat-form-field class="w-full" floatLabel="always">
-                        <mat-label>Tasa de interes proveedor</mat-label>
-                        <input  matInput [formControlName]="'tasaInteresProveedor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false" [mask]="'separator.2'"  />
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-2.5">
-                    <mat-form-field  class="w-full" floatLabel="always">
-                        <mat-label>Plazo pago proveedor</mat-label>
-                        <input matInput [matDatepicker]="picker"  [formControlName]="'plazoPagoProveedor'" placeholder="Plazo pago proveedor">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-
-
-            </div>
 
 
             <div class="flex flex-wrap justify-end gap-2.5 ">

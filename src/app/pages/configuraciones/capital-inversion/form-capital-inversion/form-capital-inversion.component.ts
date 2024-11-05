@@ -140,10 +140,7 @@ export class FormCapitalInversionComponent implements OnInit{
             nombreInversor: [''],
             rubroInversion: [''],
             detalleInversion: [''],
-            fuenteIngresoProveedor: [''],
-            tasaInteresProveedor: [''],
             tasaInteresInversor: [''],
-            plazoPagoProveedor: [''],
             plazoPagoInversor: [''],
         })
     }
