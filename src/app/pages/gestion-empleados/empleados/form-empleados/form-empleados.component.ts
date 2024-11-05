@@ -237,8 +237,6 @@ export class FormEmpleadosComponent implements OnInit{
                 const fechaInicioAntes = new Date(fechaInicioContrato)
                 const fechaFinAntes = new Date(fechaFinContrato)
                 this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
-                console.log(data)
-                console.log(form)
                 this.form.patchValue({
                     fechaNacimiento: fecha,
                     fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
@@ -246,7 +244,6 @@ export class FormEmpleadosComponent implements OnInit{
                     idDepartamento,
                     ...form
                 })
-                console.log(this.form.getRawValue())
                 this.image = `data:image/png;base64,  ${data.foto}`;
             }
 
