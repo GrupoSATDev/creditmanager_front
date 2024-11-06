@@ -165,7 +165,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
             this.items = response.data;
             this.form.get('capacidadEndeudamiento').setValue(this.items.trabajador.capacidadEndeudamiento)
             this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`))
-            this.enDeudamiento = (this.items.trabajador.salarioDevengado * 40) / 100;
+            this.enDeudamiento = (this.items.trabajador.salarioDevengado * this.items.procMaxPrestamo) / 100;
         })
     }
 
