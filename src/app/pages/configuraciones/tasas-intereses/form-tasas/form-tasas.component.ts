@@ -58,9 +58,12 @@ export class FormTasasComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            const {estado, ...form} = data;
+            const {estado, vigencia, ...form} = data;
+            const vigenciaConvert = new Date (vigencia);
+            vigenciaConvert.setMinutes(vigenciaConvert.getMinutes() + vigenciaConvert.getTimezoneOffset())
             this.form.patchValue({
                 estado: estado == 'Activo' ? true : false,
+                vigencia: vigenciaConvert,
                 ...form
             });
         }
