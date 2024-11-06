@@ -27,7 +27,7 @@ export default [
             {
                 path: 'subscripciones',
                 loadChildren: () => import('./subscripciones/subscripciones.routes')
-            }
+            },
         ]
     }
 

@@ -8,8 +8,6 @@ export default [
                 path: 'solicitudes',
                 loadChildren: () => import('./solicitudes/solicitudes.routes')
             },
-
-
             {
                 path: 'creditos',
                 loadChildren: () => import('./creditos/creditos.routes')
