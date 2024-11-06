@@ -153,8 +153,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.PENDIENTE :
                            tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADA :
-                           tabChangeEvent.index == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :  EstadosSolicitudes.APROBADA;
+                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADA : EstadosSolicitudes.PENDIENTE
         this.getSolicitudes(this.selectedTab)
     }
 
