@@ -1,16 +1,16 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { CustomTableComponent } from '../../shared/custom-table/custom-table.component';
+import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { EstadosDatosService } from '../../../core/services/estados-datos.service';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { Router } from '@angular/router';
-import { IButton } from '../../shared/interfaces/buttonsInterfaces';
+import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Subscription, tap } from 'rxjs';
-import { SubscripcionService } from '../../../core/services/subscripcion.service';
-import { Estados } from '../../../core/enums/estados';
+import { SubscripcionService } from '../../../../core/services/subscripcion.service';
+import { Estados } from '../../../../core/enums/estados';
 
 @Component({
   selector: 'app-grid-subscripcion',
