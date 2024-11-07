@@ -44,7 +44,7 @@
             >
                 <mat-tab label="En revisión" >
                     <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
+                        <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
                                 [columns]="columns"
                                 [displayedColumns]="columns"
@@ -53,12 +53,24 @@
                                 [buttons]="buttons"
                             ></app-custom-table>
                         </ng-container>
+                        <ng-template #noData>
+                            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay créditos en revisión hasta el momento.
+                                    </fuse-alert>
+                                </div>
+                            </div>
+                        </ng-template>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab label="Aprobado">
                     <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
+                        <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
                                 [columns]="columnsAprobadas"
                                 [displayedColumns]="columnsAprobadas"
@@ -67,11 +79,23 @@
                                 [buttons]="buttonsView"
                             ></app-custom-table>
                         </ng-container>
+                        <ng-template #noData>
+                            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay créditos aprobados hasta el momento.
+                                    </fuse-alert>
+                                </div>
+                            </div>
+                        </ng-template>
                     </ng-template>
                 </mat-tab>
                 <mat-tab label="Vencido">
                     <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
+                        <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
                                 [columns]="columnsAprobadas"
                                 [displayedColumns]="columnsAprobadas"
@@ -80,11 +104,23 @@
                                 [buttons]="buttons"
                             ></app-custom-table>
                         </ng-container>
+                        <ng-template #noData>
+                            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay créditos vencidos hasta el momento.
+                                    </fuse-alert>
+                                </div>
+                            </div>
+                        </ng-template>
                     </ng-template>
                 </mat-tab>
                 <mat-tab label="Bloqueado">
                     <ng-template matTabContent>
-                        <ng-container *ngIf="data.length">
+                        <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
                                 [columns]="columnsAprobadas"
                                 [displayedColumns]="columnsAprobadas"
@@ -93,6 +129,18 @@
                                 [buttons]="buttons"
                             ></app-custom-table>
                         </ng-container>
+                        <ng-template #noData>
+                            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay créditos bloqueados hasta el momento.
+                                    </fuse-alert>
+                                </div>
+                            </div>
+                        </ng-template>
                     </ng-template>
                 </mat-tab>
 

@@ -14,6 +14,7 @@ import { Estados } from '../../../../core/enums/estados';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -28,6 +29,7 @@ import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
         MatTabContent,
         MatTabGroup,
         NgIf,
+        FuseAlertComponent,
     ],
     providers: [
         DatePipe,
