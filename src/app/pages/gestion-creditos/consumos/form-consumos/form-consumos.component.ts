@@ -73,7 +73,7 @@ export class FormConsumosComponent implements  OnInit{
                             title: 'Registro Creado o Actualizado con Exito.',
                             timer: 4000,
                         })
-                        this.router.navigate(['/pages/gestion-creditos/consumos']);
+                        this.router.navigate(['/pages/gestion-creditos/consumos/listar']);
                         this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
                     }
 
@@ -109,7 +109,7 @@ export class FormConsumosComponent implements  OnInit{
                             actionMessage: 'Cerrar',
                             duration: 3000
                         })
-                        this.router.navigate(['/pages/gestion-creditos/consumos']);
+                        this.router.navigate(['/pages/gestion-creditos/consumos/listar']);
                         this.estadosDatosService.stateGridSolicitudes.next({state: true, tab: 0});
                     }
                 }, error => {

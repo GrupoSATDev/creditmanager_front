@@ -20,12 +20,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/creditos',
             },
-            {
+           /* {
                 id: 'apps.gestion.detalle.consumo',
                 title: 'Consumo',
                 type: 'basic',
                 link: '/pages/gestion-creditos/detalle-consumo',
-            },
+            },*/
             {
                 id: 'apps.gestion.detalle.dembolso',
                 title: 'Desembolsos',
