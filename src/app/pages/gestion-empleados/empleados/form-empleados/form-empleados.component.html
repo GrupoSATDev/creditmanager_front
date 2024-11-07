@@ -231,10 +231,10 @@
                     <div class="flex flex-col sm:flex-row gap-2.5">
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Tipo de contrato</mat-label>
-                            <mat-select placeholder="Tipo de contrato" [formControlName]="'idTipoContrato'">
-                                <ng-container *ngIf="tipoContratos$ | async as tipoContratos">
-                                    <mat-option [value]="item.id" *ngFor="let item of tipoContratos.data">{{item.nombre}}</mat-option>
-                                </ng-container>
+                            <mat-select placeholder="Tipo de contrato" [formControlName]="'idTipoContrato'"
+                                        (selectionChange)="selectedDeduccion($event)"
+                            >
+                                <mat-option [value]="item.id" *ngFor="let item of tipoContratos">{{item.nombre}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -263,20 +263,20 @@
 
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-2.5">
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Salud</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="." [readonly]="true"  placeholder="Salud" [formControlName]="'salud'" />
-                        </mat-form-field>
+                    <ng-container *ngIf="deduccionLegal">
+                        <div class="flex flex-col sm:flex-row gap-2.5">
+                            <mat-form-field  class="w-full" floatLabel="always">
+                                <mat-label>Salud</mat-label>
+                                <input  matInput mask="separator.0" thousandSeparator="." [readonly]="true"  placeholder="Salud" [formControlName]="'salud'" />
+                            </mat-form-field>
 
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Pensión</mat-label>
-                            <input  matInput mask="separator.0" thousandSeparator="."   placeholder="Pensión" [readonly]="true" [formControlName]="'pension'" />
-                        </mat-form-field>
+                            <mat-form-field  class="w-full" floatLabel="always">
+                                <mat-label>Pensión</mat-label>
+                                <input  matInput mask="separator.0" thousandSeparator="."   placeholder="Pensión" [readonly]="true" [formControlName]="'pension'" />
+                            </mat-form-field>
 
-                    </div>
-
-
+                        </div>
+                    </ng-container>
 
 
 

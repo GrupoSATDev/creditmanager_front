@@ -11,7 +11,7 @@ import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
-import { combineLatestWith, map, Observable, tap } from 'rxjs';
+import { combineLatestWith, map, Observable, take, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -90,6 +90,8 @@ export class FormEmpleadosComponent implements OnInit{
     private porcentajeSalud: number;
     private porcentajePension: number;
     private sumaPorcentaje: number;
+    public deduccionLegal: boolean;
+
 
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
         tap((response) => {
@@ -162,15 +164,40 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public tipoContratosService = inject(ContratosService);
-    public tipoContratos$ = this.tipoContratosService.getContratos().pipe(
-        tap((response) => {
-            const valorSelected = response.data;
-            const dialogData = this._matData;
-            if (valorSelected && !dialogData.edit) {
-                this.form.get('idTipoContrato').setValue(valorSelected[0].id)
+    public tipoContratos = []
+
+
+    getContratos() {
+        this.tipoContratosService.getContratos().pipe(
+            tap((response) => {
+                const valorSelected = response.data;
+                const dialogData = this._matData;
+                if (valorSelected && !dialogData.edit) {
+                    this.form.get('idTipoContrato').setValue(valorSelected[0].id);
+                    this.deduccionLegal = valorSelected[0].deduccioneLegal;
+                }
+            }),
+        ).subscribe((response) => {
+            if (response.data) {
+                this.tipoContratos = response.data;
             }
         })
-    )
+    }
+
+    selectedDeduccion(event: MatSelectChange) {
+        const idContrato = event.value;
+        const datoDeduccion = this.tipoContratos.find((item) => {
+            if (item.id == idContrato) {
+                return item;
+            }
+        })
+        this.deduccionLegal = datoDeduccion.deduccioneLegal;
+        if (this.deduccionLegal) {
+           this.resetConDeduccion();
+        }else {
+           this.resetSinDeduccion();
+        }
+    }
 
     private deduccioLegalService = inject(DeduccionesService);
     public deduccion$ = this.deduccioLegalService.getDeducciones().pipe(
@@ -193,6 +220,7 @@ export class FormEmpleadosComponent implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        this.getContratos();
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
@@ -232,6 +260,7 @@ export class FormEmpleadosComponent implements OnInit{
         this.empleadosServices.getEmpleado(id).subscribe((response) => {
             if (response) {
                 const data = response.data;
+                this.buscarContrato(data.idTipoContrato)
                 const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, ...form} = data;
                 const fecha = new Date(fechaNacimiento)
                 const fechaInicioAntes = new Date(fechaInicioContrato)
@@ -245,9 +274,23 @@ export class FormEmpleadosComponent implements OnInit{
                     ...form
                 })
                 this.image = `data:image/png;base64,  ${data.foto}`;
+
             }
 
         })
+    }
+
+    buscarContrato(id) {
+
+        const idContrato = id ;
+        const datoDeduccion = this.tipoContratos.find((item) => {
+            if (item.id == idContrato) {
+                return item;
+            }
+        })
+
+        this.deduccionLegal = datoDeduccion.deduccioneLegal;
+
     }
 
     setCampoValue() {
@@ -257,10 +300,26 @@ export class FormEmpleadosComponent implements OnInit{
         this.form.get('otroIngreso').valueChanges.pipe(
             takeUntilDestroyed(this.destroyedRef)
         ).subscribe(() => this.calcularCampo());
+
+    }
+
+    resetConDeduccion() {
+        this.form.get('salarioBase').setValue(0);
+        this.form.get('otroIngreso').setValue(0);
+        this.form.get('salarioDevengado').setValue(0);
+        this.form.get('salud').setValue(0);
+        this.form.get('pension').setValue(0);
+        this.form.get('capacidadEndeudamiento').setValue(0);
+    }
+
+    resetSinDeduccion() {
+        this.form.get('salarioBase').setValue(0);
+        this.form.get('otroIngreso').setValue(0);
+        this.form.get('salarioDevengado').setValue(0);
     }
 
     calcularCampo() {
-        if(!this._matData.edit) {
+        if(!this._matData.edit && this.deduccionLegal) {
             const valorBase = this.form.get('salarioBase')?.value || 0;
             const otroIngreso = this.form.get('otroIngreso')?.value || 0;
             const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / VALOR_PORCENTAJE_100;
@@ -271,10 +330,15 @@ export class FormEmpleadosComponent implements OnInit{
             this.form.get('salud').setValue(salud);
             this.form.get('pension').setValue(pension);
             this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
+        } else if (!this._matData.edit && this.deduccionLegal == false) {
+            const valorBase = this.form.get('salarioBase')?.value || 0;
+            const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+            const devengado = valorBase + otroIngreso;
+            const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
+            this.form.get('salarioDevengado').setValue(devengado);
+            this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
         }
     }
-
-
 
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -442,4 +506,5 @@ export class FormEmpleadosComponent implements OnInit{
         this.dialogRef.close();
     }
 
+    protected readonly event = event;
 }
