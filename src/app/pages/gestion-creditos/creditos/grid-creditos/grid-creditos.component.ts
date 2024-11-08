@@ -123,6 +123,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
                     items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
                     items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
+                    items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
