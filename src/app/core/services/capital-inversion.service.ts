@@ -18,6 +18,10 @@ export class CapitalInversionService {
       return this._http.get(this.appSettings.capitalInversion.url.base)
   }
 
+  getCapital(id): Observable<any> {
+      return this._http.get(`${this.appSettings.capitalInversion.url.base}/${id}`)
+  }
+
   postCapitales(data): Observable<any> {
       delete data.id;
       return this._http.post(this.appSettings.capitalInversion.url.base, data)

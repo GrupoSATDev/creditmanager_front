@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -12,6 +12,10 @@ import { CapitalInversionService } from '../../../../core/services/capital-inver
 import { SwalService } from '../../../../core/services/swal.service';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapterService } from '../../../../core/services/date-adapter.service';
+import { DatePipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -34,6 +38,9 @@ const maskConfig: Partial<IConfig> = {
   templateUrl: './form-capital-inversion.component.html',
   styleUrl: './form-capital-inversion.component.scss',
   providers: [
+      { provide: DateAdapter, useClass: DateAdapterService },
+      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+      DatePipe,
         provideNgxMask(maskConfig)
   ],
 })
@@ -47,13 +54,15 @@ export class FormCapitalInversionComponent implements OnInit{
     private capitalService = inject(CapitalInversionService);
     public _matData = inject(MAT_DIALOG_DATA);
     private swalService = inject(SwalService);
+    private datePipe = inject(DatePipe);
+    private readonly destroyedRef = inject(DestroyRef);
 
     ngOnInit(): void {
         this.createForm();
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.form.patchValue(data);
+            this.getCapital(data.id)
         }
 
     }
@@ -62,9 +71,11 @@ export class FormCapitalInversionComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {rubroInversion,  ...form} = data;
+                const {rubroInversion, plazoPagoInversor,  ...form} = data;
+                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     rubroInversion: Number(rubroInversion),
+                    plazoPagoInversor: plazoPagoInversorTransform,
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -74,7 +85,9 @@ export class FormCapitalInversionComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.capitalService.postCapitales(createData).subscribe((res) => {
+                        this.capitalService.postCapitales(createData).pipe(
+                            takeUntilDestroyed(this.destroyedRef)
+                        ).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.swalService.ToastAler({
@@ -96,9 +109,11 @@ export class FormCapitalInversionComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {rubroInversion,  ...form} = data;
+                const {rubroInversion, plazoPagoInversor,  ...form} = data;
+                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     rubroInversion: Number(rubroInversion),
+                    plazoPagoInversor: plazoPagoInversorTransform,
                     ...form
                 }
 
@@ -109,7 +124,9 @@ export class FormCapitalInversionComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.capitalService.putCapitales(createData).subscribe((res) => {
+                        this.capitalService.putCapitales(createData).pipe(
+                            takeUntilDestroyed(this.destroyedRef)
+                        ).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
                             this.swalService.ToastAler({
                                 icon: 'success',
@@ -132,6 +149,26 @@ export class FormCapitalInversionComponent implements OnInit{
             }
 
         }
+    }
+
+    private getCapital(id) {
+        this.capitalService.getCapital(id).pipe(
+            takeUntilDestroyed(this.destroyedRef)
+        ).subscribe((response) => {
+            if (response) {
+                const fechaConver = new Date(response.data.plazoPagoInversor);
+                fechaConver.setMinutes(fechaConver.getMinutes() + fechaConver.getTimezoneOffset());
+                const campos = {
+                    id: response.data.id,
+                    nombreInversor: response.data.nombreInversor,
+                    rubroInversion: response.data.rubroInversion,
+                    detalleInversion: response.data.detalleInversion,
+                    tasaInteresInversor: response.data.tasaInteresInversor,
+                    plazoPagoInversor: fechaConver,
+                }
+                this.form.patchValue(campos);
+            }
+        })
     }
 
     private createForm() {
