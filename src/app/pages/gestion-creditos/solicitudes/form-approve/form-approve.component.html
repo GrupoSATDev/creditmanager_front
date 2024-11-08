@@ -14,39 +14,39 @@
                 <!-- Información del Cliente y Empresa -->
                 <div class="mb-4 flex flex-col md:flex-row md:justify-between gap-4">
                     <div class="space-y-2">
-                        <h3 class="text-base sm:text-lg font-semibold text-gray-800">
+                        <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
                             {{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}}
                             {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}}
                         </h3>
-                        <p class="text-gray-600 font-bold">Identificación:
-                            <span class="text-gray-800">{{items.trabajador.numDoc}}</span>
+                        <p class="font-medium text-gray-600">Identificación:
+                            <span class="text-md text-secondary">{{items.trabajador.numDoc}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Empresa:
-                            <span class="text-gray-800">{{items.nombreSubEmpresa}}</span>
+                        <p class="font-medium text-gray-600">Empresa:
+                            <span class="text-md text-secondary">{{items.nombreSubEmpresa}}</span>
                         </p>
                         <p class="text-gray-600 font-semibold">Cargo:
-                            <span class="text-gray-800">{{items.trabajador.cargo}}</span>
+                            <span class="text-md text-secondary">{{items.trabajador.cargo}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Correo:
-                            <span class="text-gray-800">{{items.trabajador.correo}}</span>
+                        <p class="font-medium text-gray-600">Correo:
+                            <span class="text-md text-secondary">{{items.trabajador.correo}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Dirección:
-                            <span class="text-gray-800">{{items.trabajador.direccion}}</span>
+                        <p class="font-medium text-gray-600">Dirección:
+                            <span class="text-md text-secondary">{{items.trabajador.direccion}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Teléfono:
-                            <span class="text-gray-800">{{items.trabajador.telefono}}</span>
+                        <p class="font-medium text-gray-600">Teléfono:
+                            <span class="text-md text-secondary">{{items.trabajador.telefono}}</span>
                         </p>
                     </div>
 
                     <div class="space-y-2">
-                        <p class="text-gray-600 font-bold">Número de solicitud:
-                            <span class="text-gray-800">{{items.numSolicitud}}</span>
+                        <p class="font-medium text-gray-600">Número de solicitud:
+                            <span class="text-md text-secondary">{{items.numSolicitud}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Cupo solicitado:
-                            <span class="text-gray-800">{{items.cupo | currency}}</span>
+                        <p class="font-medium text-gray-600">Cupo solicitado:
+                            <span class="text-md text-secondary">{{items.cupo | currency}}</span>
                         </p>
-                        <p class="text-gray-600 font-bold">Fecha de Solicitud:
-                            <span class="text-gray-800">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                        <p class="font-medium text-gray-600">Fecha de Solicitud:
+                            <span class="text-md text-secondary">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
                         </p>
                     </div>
                 </div>
