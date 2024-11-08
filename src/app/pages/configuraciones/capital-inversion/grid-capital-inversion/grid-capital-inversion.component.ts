@@ -107,6 +107,7 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
                     items.rubroInversion = this.currencyPipe.transform(items.rubroInversion, 'USD', 'symbol', '1.2-2');
+                    items.montoDisponible = this.currencyPipe.transform(items.montoDisponible, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
