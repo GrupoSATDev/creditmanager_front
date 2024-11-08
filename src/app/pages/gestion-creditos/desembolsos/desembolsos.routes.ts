@@ -6,15 +6,11 @@ import { GridDesembolsosComponent } from './grid-desembolsos/grid-desembolsos.co
 export default [
     {
         path: '',
-        component: MainDesembolsosComponent
-    },
-    {
-        path: 'registrar',
-        component: FormDesembolsoComponent
-    },
-    {
-        path: 'listar',
         component: GridDesembolsosComponent
+    },
+    {
+        path: 'registrar/:id',
+        component: FormDesembolsoComponent
     },
 
 ] as Routes

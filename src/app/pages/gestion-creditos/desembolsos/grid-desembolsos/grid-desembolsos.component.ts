@@ -74,6 +74,19 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         },
     ];
 
+    buttonsApprove: IButton[] = [
+        {
+            label: 'View',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
+                this.router.navigate(['pages/gestion-creditos/desembolsos/registrar', this.selectedData.id])
+
+            }
+        },
+    ];
+
     getSolicitudes(param): void {
 
         this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
