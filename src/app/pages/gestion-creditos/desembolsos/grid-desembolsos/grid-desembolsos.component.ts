@@ -50,6 +50,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private estadoDatosService = inject(EstadosDatosService);
     private solicitudService = inject(SolicitudesService);
 
+    public searchTerm: string = '';
+
     data = [];
 
     columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Estado'];
@@ -117,6 +119,11 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         }, error => {
             this.data = [];
         })
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {

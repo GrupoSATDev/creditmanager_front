@@ -23,18 +23,9 @@
                     matInput
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar'"
+                    (input)="onSearch($event)"
                 />
             </mat-form-field>
-            <!-- Add product button -->
-            <button
-                class="mt-2 w-full bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold sm:ml-4 sm:mt-0 sm:w-auto"
-                mat-flat-button
-                [color]="'primary'"
-
-            >
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Registrar</span>
-            </button>
         </div>
 
     </div>
@@ -51,6 +42,7 @@
                 [columnPropertyMap]="columnPropertyMap"
                 [data]="data"
                 [buttons]="buttons"
+                [searchTerm]="searchTerm"
             ></app-custom-table>
         </div>
 

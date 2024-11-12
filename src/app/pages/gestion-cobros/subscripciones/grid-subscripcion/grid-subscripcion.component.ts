@@ -35,6 +35,7 @@ export class GridSubscripcionComponent implements OnInit, OnDestroy {
     private estadoDatosService = inject(EstadosDatosService)
     private subscriptionService = inject(SubscripcionService)
     private router = inject(Router);
+    public searchTerm: string = '';
 
     data = [];
 
@@ -55,6 +56,11 @@ export class GridSubscripcionComponent implements OnInit, OnDestroy {
             }
         },
     ]
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
+    }
 
     ngOnDestroy(): void {
     }

@@ -47,6 +47,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private creditoService: CreditosService = inject(CreditosService);
     private selectedTab: any = EstadosCreditos.EN_REVISION;
     private currencyPipe = inject(CurrencyPipe);
+    public searchTerm: string = '';
 
     data = [];
 
@@ -136,6 +137,11 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         }, error => {
             this.data = [];
         })
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     private listenGrid() {

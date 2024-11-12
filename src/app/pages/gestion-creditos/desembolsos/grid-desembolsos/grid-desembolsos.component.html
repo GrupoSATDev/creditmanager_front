@@ -23,6 +23,7 @@
                     matInput
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar'"
+                    (input)="onSearch($event)"
                 />
             </mat-form-field>
             <!-- Add product button -->
@@ -64,6 +65,7 @@
                                 [columnPropertyMap]="columnPropertyMap"
                                 [data]="data"
                                 [buttons]="buttonsApprove"
+                                [searchTerm]="searchTerm"
                             ></app-custom-table>
                         </ng-container>
                         <ng-template #noData>
@@ -92,6 +94,7 @@
                                 [columnPropertyMap]="columnPropertyMap"
                                 [data]="data"
                                 [buttons]="buttons"
+                                [searchTerm]="searchTerm"
                             ></app-custom-table>
                         </ng-container>
                         <ng-template #noData>
@@ -119,6 +122,7 @@
                                 [columnPropertyMap]="columnPropertyMap"
                                 [data]="data"
                                 [buttons]="buttons"
+                                [searchTerm]="searchTerm"
                             ></app-custom-table>
                         </ng-container>
                         <ng-template #noData>

@@ -173,6 +173,11 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
         })
     }
 
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
+    }
+
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
     }

@@ -41,6 +41,7 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
     private currencyPipe = inject(CurrencyPipe);
 
     private pagoAliadoService = inject(PagoAliadosService);
@@ -97,6 +98,12 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
         })
     }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
+    }
+
 
     private listenGrid() {
         const refreshData$ = this.estadoDatosService.stateGrid.asObservable();

@@ -50,6 +50,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.PENDIENTE;
     public tabIndex ;
+    public searchTerm: string = '';
 
     data = [];
 
@@ -144,6 +145,11 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             }
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {

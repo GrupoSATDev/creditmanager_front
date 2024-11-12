@@ -34,6 +34,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
     private currencyPipe = inject(CurrencyPipe);
 
     private pagoTrabajadorService = inject(PagoTrabajadoresService);
@@ -90,6 +91,12 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
         })
     }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
+    }
+
 
 
 

@@ -44,6 +44,7 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     private consumoService = inject(DetalleConsumoService);
     private selectedTab: any = EstadoDetalleConsumo.EN_REVISION;
     public tabIndex ;
+    public searchTerm: string = '';
 
     data = [];
 
@@ -101,6 +102,11 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
                            tabChangeEvent.index == 2 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
         this.getDetalle(this.selectedTab);
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     getDetalle(param): void {

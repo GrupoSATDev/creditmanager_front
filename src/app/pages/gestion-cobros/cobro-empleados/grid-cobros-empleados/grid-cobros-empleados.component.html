@@ -23,6 +23,7 @@
                     matInput
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar'"
+                    (input)="onSearch($event)"
                 />
             </mat-form-field>
             <!-- Add product button -->
