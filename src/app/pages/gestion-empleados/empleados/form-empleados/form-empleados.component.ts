@@ -227,32 +227,9 @@ export class FormEmpleadosComponent implements OnInit{
             this.getTrabajador(data.id)
         }
 
-       /* const salarioBase$ =  this.form.get('salarioBase').valueChanges
-        const otroIngreso$ = this.form.get('otroIngreso').valueChanges
-
-        salarioBase$.pipe(
-            combineLatestWith(otroIngreso$),
-            map(([valorBase, otroIngreso]) => {
-                console.log(valorBase)
-                console.log(otroIngreso)
-                const salarioDevengado = (valorBase + otroIngreso) - ((valorBase * 8) / 100);
-
-                return salarioDevengado
-
-            })
-        ).subscribe((response) => {
-            console.log(response)
-            this.form.get('salarioDevengado').setValue(response, { emitEvent: false });
-        })*/
-
-   /*     combineLatestWith([
-           ,
-
-        ]).subscribe(([valorBase, otroValor]) => {
-            const salarioDevengado = (valorBase + otroValor) - ((valorBase * 8) / 100);
-            this.form.get('salarioDevengado').setValue(salarioDevengado, { emitEvent: false });
-        });*/
-        this.setCampoValue();
+        if (!this._matData.edit) {
+            this.setCampoValue();
+        }
 
     }
 
@@ -319,24 +296,28 @@ export class FormEmpleadosComponent implements OnInit{
     }
 
     calcularCampo() {
-        if(!this._matData.edit && this.deduccionLegal) {
-            const valorBase = this.form.get('salarioBase')?.value || 0;
-            const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+        const valorBase = this.form.get('salarioBase')?.value || 0;
+        const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+        if(this.deduccionLegal) {
             const devengado = (valorBase + otroIngreso) - (valorBase * this.sumaPorcentaje) / VALOR_PORCENTAJE_100;
             const salud = (valorBase + otroIngreso) * this.porcentajeSalud / VALOR_PORCENTAJE_100;
             const pension = (valorBase + otroIngreso) * this.porcentajePension / VALOR_PORCENTAJE_100;
             const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
-            this.form.get('salarioDevengado').setValue(devengado);
-            this.form.get('salud').setValue(salud);
-            this.form.get('pension').setValue(pension);
-            this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
-        } else if (!this._matData.edit && this.deduccionLegal == false) {
-            const valorBase = this.form.get('salarioBase')?.value || 0;
-            const otroIngreso = this.form.get('otroIngreso')?.value || 0;
+            this.form.patchValue({
+                salarioDevengado: devengado,
+                salud: salud,
+                pension: pension,
+                capacidadEndeudamiento: endeudamiento
+            });
+        } else {
             const devengado = valorBase + otroIngreso;
             const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
-            this.form.get('salarioDevengado').setValue(devengado);
-            this.form.get('capacidadEndeudamiento').setValue(endeudamiento);
+            this.form.patchValue({
+                salarioDevengado: devengado,
+                capacidadEndeudamiento: endeudamiento,
+                salud: 0,
+                pension: 0
+            });
         }
     }
 
