@@ -163,15 +163,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
-    {
-        id: 'apps.subscripcion',
-        title: 'Subscripción',
-        type: 'basic',
-        icon: 'subscriptions',
-        link: '/pages/subscripcion',
-    },
-
-
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [

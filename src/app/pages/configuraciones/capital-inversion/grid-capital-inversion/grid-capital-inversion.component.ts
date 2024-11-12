@@ -35,6 +35,7 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
     public selectedData: any;
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
+    public searchTerm: string = '';
 
     data = [];
 
@@ -125,6 +126,11 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
             }
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {

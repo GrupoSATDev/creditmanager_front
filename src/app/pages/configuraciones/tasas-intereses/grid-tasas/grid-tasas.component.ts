@@ -29,6 +29,7 @@ import { FormTasasComponent } from '../form-tasas/form-tasas.component';
 export class GridTasasComponent  implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
 
     data = [];
 
@@ -110,6 +111,11 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
             }
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {

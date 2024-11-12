@@ -31,6 +31,7 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
     @Input() buttons: IButton[] = [];
     @Input() columnPropertyMap: { [key: string]: string } = {};
     @Input() searchTerm: string = '';
+    @Input() filterProperties: string[] = [];
     filteredData: T[] = [];
 
 
@@ -49,10 +50,6 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['data']) {
             this.dataSource.data = this.data;
-            console.log('Data received in ngOnChanges:', this.data);
-
-            console.log('Columns:', this.columns);
-            console.log('Displayed Columns:', this.displayedColumns);
         }
 
         if (changes['data'] || changes['searchTerm']) {
@@ -63,10 +60,13 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
 
     filterData() {
         const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+        const properties = Object.values(this.columnPropertyMap);
         this.dataSource.data  = this.data.filter((item: any) => {
-                return item.razonSocial.toLowerCase().includes(lowerCaseSearchTerm)
-            }
-        );
+            return properties.some(property => {
+                const valueToFilter = item[property]?.toString().toLowerCase();
+                return valueToFilter.includes(lowerCaseSearchTerm);
+            });
+        });
     }
 
     ngAfterViewInit() {

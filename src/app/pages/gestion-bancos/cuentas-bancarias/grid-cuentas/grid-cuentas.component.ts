@@ -30,6 +30,7 @@ export class GridCuentasComponent implements OnInit, OnDestroy{
 
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
 
     data = [];
 
@@ -112,6 +113,11 @@ export class GridCuentasComponent implements OnInit, OnDestroy{
             }
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {

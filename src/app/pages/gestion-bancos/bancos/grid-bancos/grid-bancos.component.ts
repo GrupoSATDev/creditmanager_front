@@ -31,6 +31,7 @@ export class GridBancosComponent  implements OnInit, OnDestroy {
 
     public subcription$: Subscription;
     public selectedData: any;
+    public searchTerm: string = '';
 
     data = [];
 
@@ -110,6 +111,11 @@ export class GridBancosComponent  implements OnInit, OnDestroy {
             this.data  = response.data;
         })
 
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
     private listenGrid() {
