@@ -307,9 +307,9 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         this.secondFormGroup = this.fb.group({
             numDoc: ['', Validators.required],
             primerNombre: ['', Validators.required],
-            segundoNombre:  ['', Validators.required],
+            segundoNombre:  [''],
             primerApellido:  ['', Validators.required],
-            segundoApellido:  ['', Validators.required],
+            segundoApellido:  [''],
             idTrabajador: [''],
             correo: ['', Validators.required],
             credito: ['', Validators.required],
