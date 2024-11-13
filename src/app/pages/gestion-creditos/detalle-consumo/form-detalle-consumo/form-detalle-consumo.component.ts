@@ -34,6 +34,7 @@ import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TipoConsumosService } from '../../../../core/services/tipo-consumos.service';
 import { CuentasBancariasService } from '../../../../core/services/cuentas-bancarias.service';
 import { SwalService } from '../../../../core/services/swal.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -70,6 +71,7 @@ const maskConfig: Partial<IConfig> = {
         FormatoOptionsPipe,
         NgClass,
         NgxMaskDirective,
+        MatProgressSpinner,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -283,19 +285,27 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         }
 
         // Llamar al servicio y luego establecer un intervalo de 30 segundos
-        this.detalleSubscription$ = interval(30000)
+        this.detalleSubscription$ = interval(10000)
             .pipe(
-                switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.empleadoConsumo.id))
+                switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.detaleConsumo.id))
             )
             .subscribe((detalleResponse) => {
                 console.log(detalleResponse);
                 this.detaleConsumo = detalleResponse.data;
+                this.swalService.ToastAler({
+                    icon: 'success',
+                    title: 'Registro Creado o Actualizado con Exito.',
+                    timer: 4000,
+                })
+                setTimeout(() => {
+                    this.router.navigate(['pages/gestion-creditos/consumos']);
+                }, 5000)
             });
 
         // Habilitar el botón después de 30 segundos
         setTimeout(() => {
             this.isButtonDisabled = false;
-        }, 30000);  // 30 segundos en milisegundos
+        }, 10000);  // 30 segundos en milisegundos
     }
 
     private createForm() {
