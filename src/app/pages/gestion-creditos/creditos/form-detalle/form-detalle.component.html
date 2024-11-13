@@ -97,7 +97,16 @@
                             }
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cantidad de cuotas</mat-label>
-                            <input  matInput   [formControlName]="'cantCuotas'" mask="separator.0" thousandSeparator="." placeholder="Cantidad de cuotas" />
+                            <input  matInput type="number"  [formControlName]="'cantCuotas'"  placeholder="Cantidad de cuotas" [min]="1" [max]="36" />
+                            @if (form.get('cantCuotas').hasError('required')) {
+                                <mat-error> La cantidad de cuotas es requirida! </mat-error>
+                            }
+                            @if (form.get('cantCuotas').hasError('min')) {
+                                <mat-error> La cuota mínima es 1.</mat-error>
+                            }
+                            @if (form.get('cantCuotas').hasError('max')) {
+                                <mat-error> La cuota maxima es 36.</mat-error>
+                            }
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo sugerido</mat-label>
@@ -107,18 +116,30 @@
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo aprobado</mat-label>
                             <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." placeholder="Cupo aprobado" />
+                            @if (form.get('cupoAprobado').hasError('required')) {
+                                <mat-error> El cupo aprobado es requirido! </mat-error>
+                            }
+                            @if (form.get('cupoAprobado').hasError('exceedsBalance')) {
+                                <mat-error> El cupo aprobado no puede ser mayor que el valor solicitado! </mat-error>
+                            }
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Fecha de vencimiento</mat-label>
                             <input matInput [matDatepicker]="picker"  [formControlName]="'fechaVencimiento'" placeholder="dd/mm/yyyy">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                            @if (form.get('fechaVencimiento').hasError('required')) {
+                                <mat-error> La fecha de vencimiento es requirida! </mat-error>
+                            }
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Fecha de corte</mat-label>
                             <input matInput [matDatepicker]="fechaCorte" [formControlName]="'fechaCorte'" placeholder="dd/mm/yyyy">
                             <mat-datepicker-toggle  matIconSuffix [for]="fechaCorte"></mat-datepicker-toggle>
                             <mat-datepicker #fechaCorte></mat-datepicker>
+                            @if (form.get('fechaCorte').hasError('required')) {
+                                <mat-error> La fecha de corte es requirida! </mat-error>
+                            }
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Fecha limite de pago</mat-label>

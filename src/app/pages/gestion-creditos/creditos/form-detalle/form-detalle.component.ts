@@ -242,7 +242,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
             idTasaInteres: ['', [Validators.required]],
             fechaVencimiento: ['', [Validators.required]],
             fechaCorte: ['', [Validators.required]],
-            cantCuotas: ['', [Validators.required]],
+            cantCuotas: ['', [Validators.required, Validators.min(1), Validators.max(36) ]],
         })
     }
 
