@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import {
     AbstractControl,
@@ -35,6 +35,7 @@ import { TipoConsumosService } from '../../../../core/services/tipo-consumos.ser
 import { CuentasBancariasService } from '../../../../core/services/cuentas-bancarias.service';
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -127,6 +128,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     compareValor: any;
     empleadoConsumo: any;
+    private readonly destroyedRef = inject(DestroyRef);
 
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
         tap((response) => {
@@ -146,12 +148,6 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.createForm();
-        this.empleado$.subscribe((response) => {
-            if (response) {
-                this.empleadoConsumo = response.data;
-
-            }
-        })
     }
 
     getMunicipios(matSelectChange: MatSelectChange) {
@@ -287,19 +283,22 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         // Llamar al servicio y luego establecer un intervalo de 30 segundos
         this.detalleSubscription$ = interval(10000)
             .pipe(
-                switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.detaleConsumo.id))
+                takeUntilDestroyed(this.destroyedRef),
+                switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.detaleConsumo.idTrabajador))
             )
             .subscribe((detalleResponse) => {
                 console.log(detalleResponse);
-                this.detaleConsumo = detalleResponse.data;
-                this.swalService.ToastAler({
-                    icon: 'success',
-                    title: 'Registro Creado o Actualizado con Exito.',
-                    timer: 4000,
-                })
-                setTimeout(() => {
-                    this.router.navigate(['pages/gestion-creditos/consumos']);
-                }, 5000)
+                if (detalleResponse.data.nombreEstadoCredito == 'Aprobado') {
+                    this.detaleConsumo = detalleResponse.data;
+                    this.swalService.ToastAler({
+                        icon: 'success',
+                        title: 'Registro Creado o Actualizado con Exito.',
+                        timer: 4000,
+                    })
+                    setTimeout(() => {
+                        this.router.navigate(['pages/gestion-creditos/consumos']);
+                    }, 5000)
+                }
             });
 
         // Habilitar el botón después de 30 segundos
