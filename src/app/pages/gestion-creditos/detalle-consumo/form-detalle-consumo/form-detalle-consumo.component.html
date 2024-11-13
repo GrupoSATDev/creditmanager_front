@@ -23,9 +23,16 @@
                             <mat-form-field class="w-full" floatLabel="always">
                                 <mat-label>Número de identificación</mat-label>
                                 <input  matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
-                                <mat-error *ngIf="firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched  &&  (firstFormGroup.get('numDocumento').errors.required)">
-                                    El número de identificación es requerido!.
-                                </mat-error>
+                                @if (firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched) {
+                                    <mat-error>
+                                        @if (firstFormGroup.get('numDocumento').hasError('required')) {
+                                            El número de identificación es requerido!.
+                                        }
+                                        @if (firstFormGroup.get('numDocumento').hasError('pattern')) {
+                                             Solo se permiten números.
+                                        }
+                                    </mat-error>
+                                }
                             </mat-form-field>
                             <fuse-alert class="mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false"
                                         [type]="alert.type" [@shake]="alert.type === 'error'">

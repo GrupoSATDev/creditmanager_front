@@ -310,7 +310,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     private createForm() {
         this.firstFormGroup = this.fb.group({
             idTipoDoc: [''],
-            numDocumento: ['', Validators.required]
+            numDocumento: ['', [Validators.required, Validators.pattern('^[0-9]*$')] ]
         });
 
         this.secondFormGroup = this.fb.group({
