@@ -27,7 +27,11 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Tasa de interes inversor</mat-label>
-                        <input  matInput [formControlName]="'tasaInteresInversor'" placeholder="Valor" [decimalMarker]="','" [thousandSeparator]="'.'"  [dropSpecialCharacters]="false"  [mask]="'separator.2'"   />
+                        <input  matInput [formControlName]="'tasaInteresInversor'"
+                                placeholder="Tasa de interes inversor"
+                                [thousandSeparator]="'.'"
+                                [dropSpecialCharacters]="true"
+                                [mask]="'9.00'" />
                     </mat-form-field>
 
                     <mat-form-field  class="w-full" floatLabel="always">

@@ -56,6 +56,7 @@ export class FormCapitalInversionComponent implements OnInit{
     private swalService = inject(SwalService);
     private datePipe = inject(DatePipe);
     private readonly destroyedRef = inject(DestroyRef);
+    public currentValuePorcentaje: any;
 
     ngOnInit(): void {
         this.createForm();
@@ -71,11 +72,12 @@ export class FormCapitalInversionComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {rubroInversion, plazoPagoInversor,  ...form} = data;
+                const {rubroInversion, plazoPagoInversor, tasaInteresInversor,  ...form} = data;
                 let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     rubroInversion: Number(rubroInversion),
                     plazoPagoInversor: plazoPagoInversorTransform,
+                    tasaInteresInversor: Number(tasaInteresInversor / 100),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -109,11 +111,12 @@ export class FormCapitalInversionComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {rubroInversion, plazoPagoInversor,  ...form} = data;
+                const {rubroInversion, plazoPagoInversor, tasaInteresInversor,  ...form} = data;
                 let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     rubroInversion: Number(rubroInversion),
                     plazoPagoInversor: plazoPagoInversorTransform,
+                    tasaInteresInversor: this.currentValuePorcentaje == tasaInteresInversor ? tasaInteresInversor : Number(tasaInteresInversor / 100),
                     ...form
                 }
 
@@ -167,6 +170,7 @@ export class FormCapitalInversionComponent implements OnInit{
                     plazoPagoInversor: fechaConver,
                 }
                 this.form.patchValue(campos);
+                this.currentValuePorcentaje = {...this.form.get('tasaInteresInversor')}
             }
         })
     }
