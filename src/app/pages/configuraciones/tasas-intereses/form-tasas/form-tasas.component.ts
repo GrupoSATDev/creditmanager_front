@@ -54,6 +54,7 @@ export class FormTasasComponent implements OnInit{
     public toasService = inject(ToastAlertsService);
     public _matData = inject(MAT_DIALOG_DATA);
     private datePipe = inject(DatePipe);
+    public currentValuePorcentaje: any;
 
     private tasasService = inject(TasasInteresService);
     private swalService = inject(SwalService);
@@ -71,6 +72,7 @@ export class FormTasasComponent implements OnInit{
                 vigencia: vigenciaConvert,
                 ...form
             });
+            this.currentValuePorcentaje = {...this.form.get('porcentaje')}
         }
 
     }
@@ -118,7 +120,7 @@ export class FormTasasComponent implements OnInit{
                 let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     vigencia: fecha,
-                    porcentaje: Number(porcentaje),
+                    porcentaje: this.currentValuePorcentaje.value == porcentaje ? porcentaje : Number(porcentaje / 100),
                     ...form
                 }
 
