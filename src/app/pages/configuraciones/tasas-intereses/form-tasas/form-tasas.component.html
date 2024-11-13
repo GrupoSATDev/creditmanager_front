@@ -34,7 +34,13 @@
 
             <mat-form-field class="w-full" floatLabel="always">
                 <mat-label>Porcentaje %</mat-label>
-                <input  matInput [formControlName]="'porcentaje'" placeholder="Porcentaje %"/>
+                <input  matInput [formControlName]="'porcentaje'"
+                        placeholder="Porcentaje %"
+                        [mask]="'9.00'"
+                        thousandSeparator="."
+                        [dropSpecialCharacters]="true"
+
+                />
             </mat-form-field>
 
             <mat-form-field  class="w-full" floatLabel="always">

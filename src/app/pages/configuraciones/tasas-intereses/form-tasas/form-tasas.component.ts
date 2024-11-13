@@ -13,9 +13,12 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { DatePipe } from '@angular/common';
-import { provideNgxMask } from 'ngx-mask';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-tasas',
@@ -31,6 +34,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
         MatDatepickerToggle,
         MatSuffix,
         MatSlideToggle,
+        NgxMaskDirective,
     ],
   templateUrl: './form-tasas.component.html',
   styleUrl: './form-tasas.component.scss',
@@ -38,6 +42,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         DatePipe,
+        provideNgxMask(maskConfig)
     ],
 })
 export class FormTasasComponent implements OnInit{
@@ -74,11 +79,11 @@ export class FormTasasComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {porcentaje, vigencia, ...form} = data;
+                const {porcentaje,  vigencia, ...form} = data;
                 let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     vigencia: fecha,
-                    porcentaje: Number(porcentaje),
+                    porcentaje: Number(porcentaje /  100),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -89,7 +94,6 @@ export class FormTasasComponent implements OnInit{
 
                     if (response === 'confirmed') {
                         this.tasasService.postTasas(createData).subscribe((res) => {
-                            console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.swalService.ToastAler({
                                 icon: 'success',
