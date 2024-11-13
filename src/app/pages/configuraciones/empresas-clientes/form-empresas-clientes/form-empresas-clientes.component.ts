@@ -77,6 +77,8 @@ export class FormEmpresasClientesComponent implements OnInit{
     private bancosServices = inject(BancosService)
     private tipoCuentasService = inject(TipoCuentasService);
 
+    public currentValuePorcentaje: any;
+
     public bancos$ = this.bancosServices.getBancos().pipe(
         tap((response) => {
             const valorSelected = response.data;
@@ -163,6 +165,7 @@ export class FormEmpresasClientesComponent implements OnInit{
                 fechaCorte: fecha
             })
             this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+            this.currentValuePorcentaje = {...this.form.get('porcCobro')}
         }
 
     }
@@ -171,10 +174,11 @@ export class FormEmpresasClientesComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, idEmpresa, fechaCobro,  ...form} = data;
+                const {idDepartamento, idEmpresa, fechaCobro, porcCobro,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaCobro: fecha,
+                    porcCobro: Number( porcCobro / 100 ),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -206,10 +210,11 @@ export class FormEmpresasClientesComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, fechaCobro,  ...form} = data;
+                const {idDepartamento, fechaCobro, porcCobro,  ...form} = data;
                 let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaCobro: fecha,
+                    porcCobro: this.currentValuePorcentaje == porcCobro ? porcCobro : Number(porcCobro / 100),
                     ...form
                 }
 
