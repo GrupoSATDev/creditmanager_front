@@ -32,13 +32,13 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Estado', 'Documento', 'Identificación','Nombre completo', 'Teléfono', 'Cargo',];
+    columns = ['Estado', 'Identificación','Nombre completo', 'Teléfono', 'Empresa', 'Cargo',];
     columnPropertyMap = {
         'Estado': 'estado',
-        'Documento': 'nombreTipoDocumento',
         'Identificación': 'numDoc',
         'Nombre completo': 'nombreCompleto',
         'Teléfono': 'telefono',
+        'Empresa': 'nombreSubEmpresa',
         'Cargo': 'cargo',
     };
 
