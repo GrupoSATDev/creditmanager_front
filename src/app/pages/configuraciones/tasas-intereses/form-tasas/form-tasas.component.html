@@ -33,10 +33,32 @@
             </mat-form-field>
 
             <mat-form-field class="w-full" floatLabel="always">
-                <mat-label>Porcentaje %</mat-label>
+                <mat-label>Tasa efectiva anual</mat-label>
                 <input  matInput [formControlName]="'porcentaje'"
-                        placeholder="Porcentaje %"
-                        [mask]="'9.00'"
+                        placeholder="Tasa efectiva anual"
+                        [mask]="'99.00'"
+                        thousandSeparator="."
+                        [dropSpecialCharacters]="true"
+
+                />
+            </mat-form-field>
+
+            <mat-form-field class="w-full" floatLabel="always">
+                <mat-label>Tasa efectiva mensual</mat-label>
+                <input  matInput
+                        placeholder="Tasa efectiva mensual"
+                        [mask]="'99.00'"
+                        thousandSeparator="."
+                        [dropSpecialCharacters]="true"
+
+                />
+            </mat-form-field>
+
+            <mat-form-field class="w-full" floatLabel="always">
+                <mat-label>Tasa efectiva diaria</mat-label>
+                <input  matInput
+                        placeholder="Tasa efectiva diaria"
+                        [mask]="'99.00'"
                         thousandSeparator="."
                         [dropSpecialCharacters]="true"
 
@@ -45,7 +67,7 @@
 
             <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Vigencia</mat-label>
-                <input matInput [matDatepicker]="picker" [formControlName]="'vigencia'" />
+                <input matInput [matDatepicker]="picker" [formControlName]="'vigencia'" placeholder="DD/MM/YYYY" />
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
