@@ -47,6 +47,12 @@
                                 <input matInput [formControlName]="'credito'" readonly/>
                             </mat-form-field>
                         </div>
+                        <div class="flex flex-col">
+                            <mat-form-field class="w-full">
+                                <mat-label>Número de cuenta</mat-label>
+                                <input matInput [formControlName]="'numCuentaBancaria'" readonly/>
+                            </mat-form-field>
+                        </div>
                     </form>
                     <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
                         <button mat-button (click)="cerrar()" class="sm:w-auto w-full py-2 px-4 text-white bg-crediorange-100 rounded-lg">Cancelar</button>

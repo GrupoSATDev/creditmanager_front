@@ -73,6 +73,7 @@ const maskConfig: Partial<IConfig> = {
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         DatePipe,
+        CurrencyPipe,
         provideNgxMask(maskConfig)
     ],
   templateUrl: './form-desembolso.component.html',
@@ -85,6 +86,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     private cuentasServices = inject(CuentasBancariasService)
     private tipoCuentaService = inject(TipoCuentasService)
     private datePipe = inject(DatePipe);
+    private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
 
     private fb = inject(FormBuilder);
@@ -147,7 +149,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                             segundoApellido:  response.data.segundoApellido,
                             idTrabajador: response.data.id,
                             correo: response.data.correo,
-                            credito: response.data.creditos[0].numCredito + ' - ' + response.data.creditos[0].cupoDisponible,
+                            credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
                             idCredito: response.data.creditos[0].id,
                             numCuentaBancaria: response.data.numCuentaBancaria,
                             idTipoCuenta: response.data.idTipoCuenta,
