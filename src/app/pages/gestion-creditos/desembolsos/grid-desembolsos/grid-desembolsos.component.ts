@@ -142,11 +142,11 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             if (states.state) {
                 console.log('Si entro')
                 console.log(states)
-                this.selectedTab = states.tab == 0 ? EstadosSolicitudes.PENDIENTE :
+                this.selectedTab =
+                    states.tab == 0 ? EstadosSolicitudes.PENDIENTE :
                     states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
-                        states.tab == 2 ? EstadosSolicitudes.APROBADA :
-                            states.tab == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
-                                EstadosSolicitudes.APROBADA;
+                    states.tab == 2 ? EstadosSolicitudes.APROBADA :
+                    states.tab == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO : EstadosSolicitudes.APROBADA;
                 this.tabIndex = states.tab;
                 console.log(this.tabIndex)
                 this.getSolicitudes(this.selectedTab);
@@ -162,7 +162,9 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
                            tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA_DESEMBOLSO :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADO_DESEMBOLSO : EstadosSolicitudes.PENDIENTE_DESEMBOLSO
+                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADO_DESEMBOLSO :
+                           tabChangeEvent.index == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO :
+                           EstadosSolicitudes.APROBADA
         this.getSolicitudes(this.selectedTab)
     }
 
