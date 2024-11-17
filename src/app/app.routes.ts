@@ -101,6 +101,9 @@ export const appRoutes: Route[] = [
             {
                 path: 'gestion-bancos', loadChildren: () => import('app/pages/gestion-bancos/gestion-bancos.routes')
             },
+            {
+                path: 'gestion-seguridad', loadChildren: () => import('app/pages/seguridad/seguridad.routes')
+            },
         ]
     }
 ];

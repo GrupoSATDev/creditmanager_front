@@ -163,6 +163,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
+    {
+        id: 'apps.seguridad',
+        title: 'Seguridad',
+        type: 'collapsable',
+        icon: 'lock',
+        children: [
+            {
+                id: 'apps.cuentas.bancarias',
+                title: 'Usuarios',
+                type: 'basic',
+                link: '/pages/gestion-seguridad/empresas',
+            },
+        ],
+    },
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [

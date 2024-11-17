@@ -96,13 +96,10 @@ export class AuthSignInComponent implements OnInit {
 
         const form = this.signInForm.getRawValue();
 
-        const data = {
-            ...form,
-            idTipoUsuario: 'e626ea69-e995-4462-be9a-905326714782'
-        }
+
 
         // Sign in
-        this._authService.signIn(data).subscribe(
+        this._authService.signIn(form).subscribe(
             () => {
                 // Set the redirect url.
                 // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user

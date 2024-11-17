@@ -200,5 +200,23 @@ export class AppSettingsService {
         }
     }
 
+    public usuarios = {
+        url: {
+            base: EndPoints.uriBase('Usuarios'),
+        }
+    }
+
+    public tipoUsuarios = {
+        url: {
+            base: EndPoints.uriBase('TipoUsuarios'),
+        }
+    }
+
+    public roles = {
+        url: {
+            base: EndPoints.uriBase('Roles'),
+        }
+    }
+
 
 }
