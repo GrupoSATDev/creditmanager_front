@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { initialDataResolver } from 'app/app.resolvers';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
+import { RoleGuard } from 'app/core/auth/guards/role.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 
@@ -17,7 +18,7 @@ export const appRoutes: Route[] = [
     // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'pages/configuracion'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboard'},
 
     // Auth routes for guests
     {
@@ -79,11 +80,15 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'pages',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
         resolve: {
             initialData: initialDataResolver
+        },
+        data: {
+            roles: ['Admin', 'Aliado'], // Solo accesible para roles específicos
+            tipos: ['Empresa Aliada'],  // Solo para TipoUsuario específico
         },
         children: [
             {

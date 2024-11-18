@@ -3,7 +3,9 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
 import { DecimalPipe } from '@angular/common';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
-
+import { MatButton } from '@angular/material/button';
+import { DateTime } from 'luxon';
+const now = DateTime.now();
 @Component({
   selector: 'app-dashboard-main',
   standalone: true,
@@ -14,67 +16,62 @@ import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
         DecimalPipe,
         NgApexchartsModule,
         MatMenuItem,
+        MatButton,
     ],
   templateUrl: './dashboard-main.component.html',
   styleUrl: './dashboard-main.component.scss'
 })
 export class DashboardMainComponent implements  OnInit{
-    data: any;
-    chartConversions: ApexOptions;
+
+
+    chartOptions: ApexOptions = {};
 
     constructor() {
 
     }
 
-    private _prepareChartData(): void {
-        // Visitors
-
-
-        // Conversions
-        this.chartConversions = {
+    ngOnInit(): void {
+        this.chartOptions = {
             chart: {
-                animations: {
-                    enabled: false,
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'area',
-                sparkline: {
-                    enabled: true,
-                },
+                type: 'bar',
+                height: 350,
+                toolbar: {
+                    show: false
+                }
             },
-            colors: ['#38BDF8'],
-            fill: {
-                colors: ['#38BDF8'],
-                opacity: 0.5,
+            plotOptions: {
+                bar: {
+                    borderRadius: 8,
+                    horizontal: false
+                }
             },
-            series: this.data?.conversions.series,
-            stroke: {
-                curve: 'smooth',
-            },
-            tooltip: {
-                followCursor: true,
-                theme: 'dark',
+            dataLabels: {
+                enabled: false
             },
             xaxis: {
-                type: 'category',
-                categories: this.data?.conversions.labels,
+                categories: ['Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre']
             },
             yaxis: {
-                labels: {
-                    formatter: (val): string => val.toString(),
-                },
+                title: {
+                    text: 'Solicitudes'
+                }
             },
+            title: {
+                text: 'Solicitudes de Crédito por Mes',
+                align: 'center',
+                style: {
+                    fontSize: '18px',
+                    fontWeight: 'bold'
+                }
+            },
+            colors: ['#1E90FF'],
+            series: [
+                {
+                    name: 'Solicitudes',
+                    data: [30, 45, 50, 60, 80, 70] // Datos de ejemplo
+                }
+            ]
         };
-
-
     }
-
-    ngOnInit(): void {
-        this._prepareChartData();
-    }
-
-
 
 }
