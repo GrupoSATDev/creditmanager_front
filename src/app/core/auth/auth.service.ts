@@ -5,6 +5,10 @@ import { UserService } from 'app/core/user/user.service';
 import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
 import { user } from '../../mock-api/common/user/data';
+import { jwtDecode } from 'jwt-decode';
+
+export type UserRole = 'Aliado' | 'Analista' | 'Super Admin' | 'Auditor' | 'Trabajador' | 'Cliente';
+export type UserType = 'Empresa Aliada' | 'Trabajador' | 'EmprasaMaestra' | 'Cliente-Aliado' | 'Empresa Cliente';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -211,5 +215,38 @@ export class AuthService {
         //return this.signInUsingToken();
         return of(true);
 
+    }
+
+    private decodeToken(): any {
+        if (!this.accessToken) return null;
+        try {
+            return jwtDecode(this.accessToken);
+        } catch (error) {
+            console.error('Error al decodificar el token', error);
+            return null;
+        }
+    }
+
+    // Obtiene el rol desde el token
+    getRole(): string | null {
+        const decoded = this.decodeToken();
+        return decoded?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || null;
+    }
+
+    // Obtiene el TipoUsuario desde el token
+    getTipoUsuario(): string | null {
+        const decoded = this.decodeToken();
+        return decoded?.TipoUsuario || null;
+    }
+
+    // Valida si tiene un rol específico
+    hasRole(role: string): boolean {
+        return this.getRole() === role;
+    }
+
+
+    // Valida si es un TipoUsuario específico
+    hasTipoUsuario(tipoUsuario: string): boolean {
+        return this.getTipoUsuario() === tipoUsuario;
     }
 }

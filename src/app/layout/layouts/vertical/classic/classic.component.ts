@@ -18,7 +18,8 @@ import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.comp
 import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
     selector: 'classic-layout',
@@ -54,7 +55,8 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _authService: AuthService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,9 +79,14 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Subscribe to navigation data
+        const userRole = this._authService.getRole();
+        const userTipo = this._authService.getTipoUsuario();
         this._navigationService.navigation$
-            .pipe(takeUntil(this._unsubscribeAll))
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+            )
             .subscribe((navigation: Navigation) => {
+                console.log(navigation)
                 this.navigation = navigation;
             });
 
