@@ -3,6 +3,13 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id   : 'apps.dashboard',
+        title: 'Dashboard',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/dashboard'
+    },
+    {
         id: 'apps.gestion-creditos',
         title: 'Gestión de créditos',
         type: 'collapsable',
@@ -20,12 +27,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/creditos',
             },
-           /* {
-                id: 'apps.gestion.detalle.consumo',
-                title: 'Consumo',
-                type: 'basic',
-                link: '/pages/gestion-creditos/detalle-consumo',
-            },*/
             {
                 id: 'apps.gestion.detalle.dembolso',
                 title: 'Desembolsos',
@@ -64,12 +65,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-cobros/maestro',
             },
-            {
+            /*{
                 id: 'apps.gestion.subcripciones',
                 title: 'Subscripciones',
                 type: 'basic',
                 link: '/pages/gestion-cobros/subscripciones',
-            }
+            }*/
         ],
     },
     {

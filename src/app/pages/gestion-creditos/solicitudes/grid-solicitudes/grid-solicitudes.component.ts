@@ -54,13 +54,13 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Estado'];
+    columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Tipo de solicitud'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
         'Trabajador': 'nombreTrabajador',
         'Cupo solicitado': 'cupo',
         'Empresa': 'nombreSubEmpresa',
-        'Estado': 'nombreEstadoSolicitud',
+        'Tipo de solicitud': 'nombreTipoSolicitud',
     };
 
     buttons: IButton[] = [

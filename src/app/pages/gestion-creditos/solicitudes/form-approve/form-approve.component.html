@@ -13,7 +13,7 @@
             <div class="p-4 sm:p-6" *ngIf="items">
                 <!-- Información del Cliente y Empresa -->
                 <div class="mb-4 flex flex-col md:flex-row md:justify-between gap-4">
-                    <div class="space-y-2">
+                    <div>
                         <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
                             {{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}}
                             {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}}
@@ -38,7 +38,10 @@
                         </p>
                     </div>
 
-                    <div class="space-y-2">
+                    <div>
+                        <p class="font-medium text-gray-600">Tipo de solicitud:
+                            <span class="text-md text-secondary">{{items.nombreTipoSolicitud}}</span>
+                        </p>
                         <p class="font-medium text-gray-600">Número de solicitud:
                             <span class="text-md text-secondary">{{items.numSolicitud}}</span>
                         </p>
