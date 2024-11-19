@@ -20,6 +20,10 @@ export class NavigationService {
         return this._navigation.asObservable();
     }
 
+    updateNavigation(newNavigation: any): void {
+        this._navigation.next(newNavigation);
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------

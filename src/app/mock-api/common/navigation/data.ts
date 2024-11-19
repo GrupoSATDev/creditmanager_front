@@ -3,38 +3,38 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'apps.dashboard',
+        id   : '1',
         title: 'Dashboard',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/dashboard'
     },
     {
-        id: 'apps.gestion-creditos',
+        id: '2',
         title: 'Gestión de créditos',
         type: 'collapsable',
         icon: 'attach_money',
         children: [
             {
-                id: 'apps.gestion.solicitudes',
+                id: '2.1',
                 title: 'Solicitudes',
                 type: 'basic',
                 link: '/pages/gestion-creditos/solicitudes',
             },
             {
-                id: 'apps.gestion.creditos',
+                id: '2.2',
                 title: 'Créditos',
                 type: 'basic',
                 link: '/pages/gestion-creditos/creditos',
             },
             {
-                id: 'apps.gestion.detalle.dembolso',
+                id: '2.3',
                 title: 'Desembolsos',
                 type: 'basic',
                 link: '/pages/gestion-creditos/desembolsos',
             },
             {
-                id: 'apps.gestion.detalles.consumos',
+                id: '2.4',
                 title: 'Detalle consumo',
                 type: 'basic',
                 link: '/pages/gestion-creditos/consumos',
@@ -42,25 +42,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'apps.gestion-cobros',
+        id: '3',
         title: 'Gestión de cartera',
         type: 'collapsable',
         icon: 'request_quote',
         children: [
             {
-                id: 'apps.gestion.cobros',
+                id: '3.1',
                 title: 'Cobro trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobros',
             },
             {
-                id: 'apps.gestion.aliados',
+                id: '3.2',
                 title: 'Pago proveedores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/aliados',
             },
             {
-                id: 'apps.gestion.maestro',
+                id: '3.3',
                 title: 'Pago trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/maestro',
@@ -74,13 +74,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'apps.gestion-empleados',
+        id: '4',
         title: 'Gestión de trabajadores',
         type: 'collapsable',
         icon: 'heroicons_outline:user-group',
         children: [
             {
-                id: 'apps.gestion.empleados',
+                id: '4.1',
                 title: 'Trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-trabajadores/trabajadores',
@@ -88,55 +88,55 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
    {
-        id: 'apps.configuraciones',
+        id: '5',
         title: 'Configuraciones',
         type: 'collapsable',
         icon: 'settings',
         children: [
             {
-                id: 'apps.empresas.maestras',
+                id: '5.1',
                 title: 'Empresas maestras',
                 type: 'basic',
                 link: '/pages/configuracion/empresas-maestras',
             },
             {
-                id: 'apps.empresas.clientes',
+                id: '5.2',
                 title: 'Clientes - Aliados',
                 type: 'basic',
                 link: '/pages/configuracion/empresas-clientes',
             },
             {
-                id: 'apps.tipos.documentos',
+                id: '5.3',
                 title: 'Tipos de documentos',
                 type: 'basic',
                 link: '/pages/configuracion/tipos-documentos',
             },
             {
-                id: 'apps.capital.inversion',
+                id: '5.4',
                 title: 'Capital de inversión',
                 type: 'basic',
                 link: '/pages/configuracion/capital-inversion',
             },
             {
-                id: 'apps.departamentos',
+                id: '5.5',
                 title: 'Departamentos',
                 type: 'basic',
                 link: '/pages/configuracion/departamentos',
             },
             {
-                id: 'apps.generos',
+                id: '5.6',
                 title: 'Géneros',
                 type: 'basic',
                 link: '/pages/configuracion/generos',
             },
             {
-                id: 'apps.gestion.tipos.pagos',
+                id: '5.7',
                 title: 'Tipos de pagos',
                 type: 'basic',
                 link: '/pages/configuracion/tipos-pagos',
             },
             {
-                id: 'apps.gestion.tasas',
+                id: '5.8',
                 title: 'Tasas de interes',
                 type: 'basic',
                 link: '/pages/configuracion/tasas',
@@ -145,19 +145,19 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'apps.cuentas',
+        id: '6',
         title: 'Gestión bancos',
         type: 'collapsable',
         icon: 'account_balance',
         children: [
             {
-                id: 'apps.cuentas.bancarias',
+                id: '6.1',
                 title: 'Cuentas bancarias',
                 type: 'basic',
                 link: '/pages/gestion-bancos/cuentas',
             },
             {
-                id: 'apps.cuentas.bancarias',
+                id: '6.2',
                 title: 'Bancos',
                 type: 'basic',
                 link: '/pages/gestion-bancos/bancos',
@@ -165,13 +165,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'apps.seguridad',
+        id: '7',
         title: 'Seguridad',
         type: 'collapsable',
         icon: 'lock',
         children: [
             {
-                id: 'apps.cuentas.bancarias',
+                id: '7.1',
                 title: 'Usuarios',
                 type: 'basic',
                 link: '/pages/gestion-seguridad/empresas',
