@@ -45,8 +45,24 @@ export class DashboardMainComponent implements  OnInit{
         },
         colors: ['#28a745', '#dc3545', '#ffc107', '#007bff', '#6c757d', '#17a2b8'],
         legend: {
-            position: 'bottom'
+            position: 'right',
+            horizontalAlign: 'center', // Centra verticalmente los elementos
+            fontSize: '14px',
+            markers: {
+                width: 12,
+                height: 12,
+            },
+            itemMargin: {
+                horizontal: 5,
+                vertical: 5
+            }
+        },
+        dataLabels: {
+            style: {
+                fontSize: '12px',
+            },
         }
+
     };
 
     constructor() {
