@@ -21,5 +21,9 @@ describe('AppComponent', () => {
         fixture.detectChanges();
     });
 
-    // tus pruebas aquí
+    it('should do something', async () => {
+        // Correcto
+        await fixture.whenStable();
+        // Tu código aquí
+    });
 });
