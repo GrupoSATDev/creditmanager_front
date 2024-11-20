@@ -25,4 +25,10 @@ export class UsuariosService {
       delete data.id;
       return this._http.post(`${this.appSettingService.usuarios.url.base}/RegistroEmpresas`, data)
     }
+
+    putUsuario(data):  Observable<any> {
+        const id = data.id;
+        delete data.id;
+        return this._http.put(`${this.appSettingService.usuarios.url.base}/${id}`, data)
+    }
 }
