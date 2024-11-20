@@ -33,11 +33,13 @@ export class GridTasasComponent  implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Estado', 'Nombre', 'Porcentaje %'];
+    columns = ['Estado', 'Nombre', 'Porcentaje anual %', 'Porcentaje mensual %', 'Porcentaje diario %'];
     columnPropertyMap = {
         'Estado': 'estado',
         'Nombre': 'nombre',
-        'Porcentaje %': 'porcentaje',
+        'Porcentaje anual %': 'porcentaje',
+        'Porcentaje mensual %': 'porcentajeMensual',
+        'Porcentaje diario %': 'porcentajeDiario',
     };
 
     buttons: IButton[] = [

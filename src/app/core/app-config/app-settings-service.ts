@@ -218,5 +218,11 @@ export class AppSettingsService {
         }
     }
 
+    public dashboard = {
+        url: {
+            base: EndPoints.uriBase('Indicadores')
+        }
+    }
+
 
 }

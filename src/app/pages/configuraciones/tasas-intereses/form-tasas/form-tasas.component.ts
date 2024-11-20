@@ -81,16 +81,19 @@ export class FormTasasComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {porcentaje,  vigencia, ...form} = data;
-                let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                const {porcentaje, porcentajeMensual, porcentajeDiario,  vigencia, ...form} = data;
+                let fecha = this.datePipe.transform(vigencia, 'yyyy-MM-dd');
                 const createData = {
                     vigencia: fecha,
-                    porcentaje: Number(porcentaje /  100),
+                    porcentaje: parseFloat(porcentaje),
+                    porcentajeMensual: parseFloat(porcentajeMensual),
+                    porcentajeDiario: parseFloat(porcentajeDiario),
                     ...form
                 }
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
+                console.log(createData)
 
                 dialog.afterClosed().subscribe((response) => {
 
@@ -116,11 +119,13 @@ export class FormTasasComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {porcentaje, vigencia, ...form} = data;
-                let fecha = this.datePipe.transform(vigencia, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                const {porcentaje, porcentajeMensual, porcentajeDiario,  vigencia, ...form} = data;
+                let fecha = this.datePipe.transform(vigencia, 'yyyy-MM-dd');
                 const createData = {
                     vigencia: fecha,
-                    porcentaje: this.currentValuePorcentaje.value == porcentaje ? porcentaje : Number(porcentaje / 100),
+                    porcentaje: parseFloat(porcentaje),
+                    porcentajeMensual: parseFloat(porcentajeMensual),
+                    porcentajeDiario: parseFloat(porcentajeDiario),
                     ...form
                 }
 
@@ -160,6 +165,8 @@ export class FormTasasComponent implements OnInit{
         this.form = this.fb.group({
             id: [null],
             porcentaje: [''],
+            porcentajeMensual: [''],
+            porcentajeDiario: [''],
             vigencia: [''],
             nombre: [''],
             estado: ['true'],

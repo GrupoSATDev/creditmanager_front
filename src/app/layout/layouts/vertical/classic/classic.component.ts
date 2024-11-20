@@ -44,8 +44,18 @@ import { AuthService } from '../../../../core/auth/auth.service';
 })
 export class ClassicLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
-    navigation: Navigation;
+    public navigation: any = { compact: [], default: [], futuristic: [], horizontal: [] }
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private roleVisibilityMap = {
+        'Super Admin': ['1', '2', '2.1', '2.2', '2.3', '2.4', '3', '3.1', '3.2', '3.3', '4', '4.1', '5', '5.1', '5.2', '5.3', '5.4', '5.5', '5.7', '5.8', '6', '6.1', '6.2', '7', '7.1'],
+        analista: ['1', '2.1', '2.4'],
+        cliente: ['1'],
+        'Aliado': ['1', '2', '2.2', '2.3', '2.4'],
+        'aliado': ['1', '2', '2.2', '2.3', '2.4'],
+        trabajador: ['1'],
+        auditor: ['1'],
+    };
 
     /**
      * Constructor
@@ -80,15 +90,25 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Subscribe to navigation data
         const userRole = this._authService.getRole();
-        const userTipo = this._authService.getTipoUsuario();
+        //const userTipo = this._authService.getTipoUsuario();
         this._navigationService.navigation$
             .pipe(
                 takeUntil(this._unsubscribeAll),
             )
             .subscribe((navigation: Navigation) => {
-                console.log(navigation)
-                this.navigation = navigation;
+                //console.log(userRole)
+                //console.log(navigation)
+                this.navigation = this.filterMenuByRole(navigation.default, this.roleVisibilityMap[userRole]);
+                //console.log(navigation)
+                //console.log(this.navigation)
+                this.navigation = {
+                    compact: [],
+                    default: [...this.navigation],
+                    futuristic: [],
+                    horizontal: []
+                }
             });
+
 
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
@@ -97,6 +117,21 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
+    }
+
+    filterMenuByRole(menu: any[], allowedIds: string[]): any[] {
+        //console.log(menu)
+        const filtro = menu.filter(item => {
+            if (allowedIds.includes(item.id)) {
+                if (item.children) {
+                    item.children = this.filterMenuByRole(item.children, allowedIds);
+                } return true;
+            }
+            return false;
+        });
+        //console.log(filtro);
+        return filtro
     }
 
     /**

@@ -55,11 +55,27 @@
                     </div>
                 </div>-->
                 <div class="flex h-auto flex-auto flex-col">
-                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                               [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis"
-                               [title]="chartOptions.title" [plotOptions]="chartOptions.plotOptions"
-                               [dataLabels]="chartOptions.dataLabels" [colors]="chartOptions.colors">
-                    </apx-chart>
+                    <ng-container *ngIf="chartOptions.series.length > 0; else noData">
+                        <apx-chart [series]="chartOptions.series"
+                                   [chart]="chartOptions.chart"
+                                   [labels]="chartOptions.labels"
+                                   [title]="chartOptions.title"
+                                   [colors]="chartOptions.colors"
+                                   [legend]="chartOptions.legend">
+                        </apx-chart>
+                    </ng-container>
+                    <ng-template #noData>
+                        <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                            <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                <fuse-alert
+                                    [type]="'info'"
+                                    [appearance]="'outline'">
+                                    <span fuseAlertTitle>Información</span>
+                                    No hay información para mostrar hasta el momento.
+                                </fuse-alert>
+                            </div>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>

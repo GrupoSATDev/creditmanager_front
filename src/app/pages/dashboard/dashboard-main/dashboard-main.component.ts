@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { MatButton } from '@angular/material/button';
 import { DateTime } from 'luxon';
+import { DashboardService } from '../../../core/services/dashboard.service';
+import { FuseAlertComponent } from '../../../../@fuse/components/alert';
 const now = DateTime.now();
 @Component({
   selector: 'app-dashboard-main',
@@ -17,61 +19,84 @@ const now = DateTime.now();
         NgApexchartsModule,
         MatMenuItem,
         MatButton,
+        NgIf,
+        FuseAlertComponent,
     ],
   templateUrl: './dashboard-main.component.html',
   styleUrl: './dashboard-main.component.scss'
 })
 export class DashboardMainComponent implements  OnInit{
+    public indicadoresService = inject(DashboardService);
 
+    chartOptions: ApexOptions = {
+        chart: {
+            type: 'donut',
+            height: 350,
+            width: 1000
+        },
+        labels: [],
+        series: [],
+        title: {
+            text: 'Distribución de Solicitudes y Créditos',
+            align: 'left',
+            style: {
+                fontSize: '18px',
+                fontWeight: 'bold'
+            }
+        },
+        colors: ['#28a745', '#dc3545', '#ffc107', '#007bff', '#6c757d', '#17a2b8'],
+        legend: {
+            position: 'right',
+            horizontalAlign: 'right', // Centra verticalmente los elementos
+            fontSize: '14px',
+            markers: {
+                width: 12,
+                height: 12,
+            },
+            itemMargin: {
+                horizontal: 5,
+                vertical: 5
+            }
+        },
+        dataLabels: {
+            style: {
+                fontSize: '12px',
+            },
+        }
 
-    chartOptions: ApexOptions = {};
+    };
 
     constructor() {
 
     }
 
     ngOnInit(): void {
-        this.chartOptions = {
-            chart: {
-                type: 'bar',
-                height: 350,
-                toolbar: {
-                    show: false
-                }
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 8,
-                    horizontal: false
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: ['Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre']
-            },
-            yaxis: {
-                title: {
-                    text: 'Solicitudes'
-                }
-            },
-            title: {
-                text: 'Solicitudes de Crédito por Mes',
-                align: 'center',
-                style: {
-                    fontSize: '18px',
-                    fontWeight: 'bold'
-                }
-            },
-            colors: ['#1E90FF'],
-            series: [
-                {
-                    name: 'Solicitudes',
-                    data: [30, 45, 50, 60, 80, 70] // Datos de ejemplo
-                }
-            ]
-        };
+        this.getIndicadores();
+
+    }
+
+    private getIndicadores() {
+        this.indicadoresService.getIndicadores().subscribe((response) => {
+            if (response.data) {
+                this.chartOptions.labels = [
+                    'Solicitudes Aprobadas',
+                    'Solicitudes Rechazadas',
+                    'Solicitudes Pendientes',
+                    'Créditos Aprobados',
+                    'Créditos Rechazados',
+                    'Créditos Pendientes'
+                ];
+
+                this.chartOptions.series = [
+                    response.data.canSolicitudesAprobadas,
+                    response.data.canSolicitudesRechazadas,
+                    response.data.canSolicitudesPendientes,
+                    response.data.canCreditosAprobados,
+                    response.data.canCreditosRechazados,
+                    response.data.canCreditosPendientes
+                ];
+            }
+        })
     }
 
 }
