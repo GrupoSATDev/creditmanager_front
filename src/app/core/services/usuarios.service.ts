@@ -17,6 +17,10 @@ export class UsuariosService {
       return this._http.get(`${this.appSettingService.usuarios.url.base}/Table`)
     }
 
+    getUsuario(id):  Observable<any> {
+      return this._http.get(`${this.appSettingService.usuarios.url.base}/${id}`)
+    }
+
     postUsuarios(data): Observable<any> {
       delete data.id;
       return this._http.post(`${this.appSettingService.usuarios.url.base}/RegistroEmpresas`, data)

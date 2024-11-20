@@ -25,6 +25,7 @@ import { EmpresasClientesService } from '../../../../core/services/empresas-clie
 import { guardar } from '../../../../core/constant/dialogs';
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatIcon } from '@angular/material/icon';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-form-usuarios-empresas',
@@ -43,7 +44,8 @@ import { MatIcon } from '@angular/material/icon';
         MatButton,
         MatIcon,
         MatIconButton,
-        MatError
+        MatError,
+        MatSlideToggle,
     ],
   templateUrl: './form-usuarios-empresas.component.html',
   styleUrl: './form-usuarios-empresas.component.scss'
@@ -139,6 +141,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
             idTipoUsuario: [''],
             idDepartamento: [''],
             idMunicipio: [''],
+            estado: [true],
         },
             { validators: passwordMatchValidator('contrasena', 'confirmaContrasena') })
     }
