@@ -31,13 +31,14 @@ export class DashboardMainComponent implements  OnInit{
     chartOptions: ApexOptions = {
         chart: {
             type: 'donut',
-            height: 350
+            height: 350,
+            width: 1000
         },
         labels: [],
         series: [],
         title: {
             text: 'Distribución de Solicitudes y Créditos',
-            align: 'center',
+            align: 'left',
             style: {
                 fontSize: '18px',
                 fontWeight: 'bold'
@@ -46,7 +47,7 @@ export class DashboardMainComponent implements  OnInit{
         colors: ['#28a745', '#dc3545', '#ffc107', '#007bff', '#6c757d', '#17a2b8'],
         legend: {
             position: 'right',
-            horizontalAlign: 'center', // Centra verticalmente los elementos
+            horizontalAlign: 'right', // Centra verticalmente los elementos
             fontSize: '14px',
             markers: {
                 width: 12,
