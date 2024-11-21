@@ -19,6 +19,7 @@ import { firstValueFrom } from 'rxjs';
 import { TranslocoHttpLoader } from './core/transloco/transloco.http-loader';
 import { provideServiceWorker } from '@angular/service-worker';
 
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
