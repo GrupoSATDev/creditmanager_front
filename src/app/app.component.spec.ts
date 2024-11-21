@@ -23,7 +23,9 @@ describe('AppComponent', () => {
 
     it('should do something', async () => {
         // Correcto
-        await fixture.whenStable();
+        await fixture.whenStable().then().then(() => {
+            // Código que se ejecutará cuando el DOM esté estable
+        });
         // Tu código aquí
     });
 });
