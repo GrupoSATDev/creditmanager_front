@@ -23,7 +23,7 @@
         "@angular/material-luxon-adapter": "18.0.1",
         "@angular/platform-browser": "18.0.1",
         "@angular/platform-browser-dynamic": "18.0.1",
-        "@angular/pwa": "^18.0.1",
+        "@angular/pwa": "^19.0.0",
         "@angular/router": "18.0.1",
         "@angular/service-worker": "^19.0.0",
         "@ngneat/transloco": "6.0.4",
