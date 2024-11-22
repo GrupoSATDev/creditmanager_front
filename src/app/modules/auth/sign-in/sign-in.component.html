@@ -138,6 +138,15 @@
                     }
                 </button>
 
+                <button
+                    class="fuse-mat-button-large mt-6 w-full bg-crediorange-100 text-white font-semibold rounded-lg"
+                    mat-flat-button
+                    (click)="installApp()"
+                    *ngIf="showInstallButton"
+                >
+                  Instalar
+                </button>
+
                 <!-- Separator -->
                 <!--<div class="mt-8 flex items-center">
                     <div class="mt-px flex-auto border-t"></div>
