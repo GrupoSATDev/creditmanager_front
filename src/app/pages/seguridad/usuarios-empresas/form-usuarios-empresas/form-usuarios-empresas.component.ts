@@ -193,7 +193,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.usuariosService.postUsuarios(form).subscribe((res) => {
+                        this.usuariosService.putUsuario(form).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
                             this.swalService.ToastAler({
                                 icon: 'success',
