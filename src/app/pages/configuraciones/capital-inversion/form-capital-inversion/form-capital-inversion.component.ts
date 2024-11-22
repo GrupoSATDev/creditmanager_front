@@ -73,11 +73,11 @@ export class FormCapitalInversionComponent implements OnInit{
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
                 const {rubroInversion, plazoPagoInversor, tasaInteresInversor,  ...form} = data;
-                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, 'yyyy-MM-dd');
                 const createData = {
                     rubroInversion: Number(rubroInversion),
                     plazoPagoInversor: plazoPagoInversorTransform,
-                    tasaInteresInversor: Number(tasaInteresInversor / 100),
+                    tasaInteresInversor: parseFloat(tasaInteresInversor),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -112,11 +112,11 @@ export class FormCapitalInversionComponent implements OnInit{
             }else {
                 const data = this.form.getRawValue();
                 const {rubroInversion, plazoPagoInversor, tasaInteresInversor,  ...form} = data;
-                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let plazoPagoInversorTransform = this.datePipe.transform(plazoPagoInversor, 'yyyy-MM-dd');
                 const createData = {
                     rubroInversion: Number(rubroInversion),
                     plazoPagoInversor: plazoPagoInversorTransform,
-                    tasaInteresInversor: this.currentValuePorcentaje == tasaInteresInversor ? tasaInteresInversor : Number(tasaInteresInversor / 100),
+                    tasaInteresInversor: parseFloat(tasaInteresInversor),
                     ...form
                 }
 

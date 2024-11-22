@@ -29,9 +29,10 @@
                         <mat-label>Tasa de interes inversor</mat-label>
                         <input  matInput [formControlName]="'tasaInteresInversor'"
                                 placeholder="Tasa de interes inversor"
-                                [thousandSeparator]="'.'"
+                                [thousandSeparator]="''"
+                                decimalMarker="."
                                 [dropSpecialCharacters]="true"
-                                [mask]="'9.00'" />
+                                [mask]="'separator.6'" />
                     </mat-form-field>
 
                     <mat-form-field  class="w-full" floatLabel="always">
