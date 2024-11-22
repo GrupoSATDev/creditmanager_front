@@ -30,6 +30,10 @@ export class EmpresasClientesService {
       return this._http.post(this.appSettings.empresasClientes.url.base, data);
   }
 
+    getEmpresaCliente(id): Observable<any> {
+        return this._http.get(`${this.appSettings.empresasClientes.url.base}/${id}`)
+    }
+
   putEmpresaCliente(data): Observable<any> {
       const id = data.id;
       delete data.id;

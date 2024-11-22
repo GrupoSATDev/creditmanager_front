@@ -25,6 +25,7 @@ import { SwalService } from '../../../../core/services/swal.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { BancosService } from '../../../../core/services/bancos.service';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
+import { parseISO } from 'date-fns';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -53,9 +54,9 @@ const maskConfig: Partial<IConfig> = {
         MatSlideToggle,
     ],
     providers: [
+        DatePipe,
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        DatePipe,
         provideNgxMask(maskConfig)
     ],
   templateUrl: './form-empresas-clientes.component.html',
@@ -76,9 +77,6 @@ export class FormEmpresasClientesComponent implements OnInit{
     public subcripciones = inject(SubscripcionService);
     private bancosServices = inject(BancosService)
     private tipoCuentasService = inject(TipoCuentasService);
-
-    public currentValuePorcentaje: any;
-
     public bancos$ = this.bancosServices.getBancos().pipe(
         tap((response) => {
             const valorSelected = response.data;
@@ -157,15 +155,7 @@ export class FormEmpresasClientesComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.form.patchValue(data);
-            const {idDepartamento, fechaCorte, estado} = data;
-            const fecha = new Date(fechaCorte)
-            this.form.patchValue({
-                estado: estado == 'Activo' ? true : false,
-                fechaCorte: fecha
-            })
-            this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
-            this.currentValuePorcentaje = {...this.form.get('porcCobro')}
+            this.getEmpresas(data.id);
         }
 
     }
@@ -248,6 +238,22 @@ export class FormEmpresasClientesComponent implements OnInit{
             }
 
         }
+    }
+
+    public getEmpresas(id) {
+        this.empresaClienteService.getEmpresaCliente(id).subscribe((response) => {
+            if (response) {
+                const data = response.data;
+                this.form.patchValue(data);
+                const {idDepartamento, fechaCobro, ...form } = data;
+                const fecha = parseISO(fechaCobro);
+                this.form.patchValue({
+                    fechaCobro: fecha,
+                    ...form
+                })
+                this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+            }
+        })
     }
 
     private createForm() {
