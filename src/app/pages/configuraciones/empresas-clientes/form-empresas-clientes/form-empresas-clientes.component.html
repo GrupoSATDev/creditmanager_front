@@ -122,7 +122,9 @@
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Valor subscripción</mat-label>
                         <input
-                            matInput [formControlName]="'valorSuscripcion'" mask="separator.0" thousandSeparator="." placeholder="Valor subcripción" />
+                            matInput [formControlName]="'valorSuscripcion'"
+                            mask="separator.0" thousandSeparator="."
+                            placeholder="Valor subcripción" />
                     </mat-form-field>
 
                     <mat-form-field class="w-full" floatLabel="always">
@@ -130,9 +132,10 @@
                         <input
                             matInput [formControlName]="'porcCobro'"
                             placeholder="Porcentaje %"
-                            [thousandSeparator]="'.'"
+                            mask="separator.6"
+                            thousandSeparator=""
+                            decimalMarker="."
                             [dropSpecialCharacters]="true"
-                            [mask]="'9.00'"
                         />
                     </mat-form-field>
                 </div>

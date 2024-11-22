@@ -175,10 +175,10 @@ export class FormEmpresasClientesComponent implements OnInit{
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
                 const {idDepartamento, idEmpresa, fechaCobro, porcCobro,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fecha = this.datePipe.transform(fechaCobro, 'yyyy-MM-dd');
                 const createData = {
                     fechaCobro: fecha,
-                    porcCobro: Number( porcCobro / 100 ),
+                    porcCobro: parseFloat( porcCobro ),
                     ...form
                 }
                 const dialog = this.fuseService.open({
@@ -211,10 +211,10 @@ export class FormEmpresasClientesComponent implements OnInit{
             }else {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaCobro, porcCobro,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaCobro, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fecha = this.datePipe.transform(fechaCobro, 'yyyy-MM-dd');
                 const createData = {
                     fechaCobro: fecha,
-                    porcCobro: this.currentValuePorcentaje == porcCobro ? porcCobro : Number(porcCobro / 100),
+                    porcCobro: parseFloat(porcCobro),
                     ...form
                 }
 
@@ -261,7 +261,6 @@ export class FormEmpresasClientesComponent implements OnInit{
             idDepartamento: [''],
             idTipoEmpresa: [''],
             idMunicipio: [''],
-            fechaCorte: [''],
             idSubscripcion: [''],
             valorSuscripcion: [''],
             porcCobro: [''],
