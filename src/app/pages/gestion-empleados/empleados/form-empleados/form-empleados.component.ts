@@ -402,13 +402,13 @@ export class FormEmpleadosComponent implements OnInit{
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado, salud, pension,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-                let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fecha = this.datePipe.transform(fechaNacimiento, 'yyyy-MM-dd');
+                let inicio = this.datePipe.transform(fechaInicioContrato, 'yyyy-MM-dd');
                 //let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
                 const createData = {
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
-                    fechaFinContrato: '0001-01-01T00:00:00+00:00',
+                    fechaFinContrato: '0001-01-01',
                     ...form
                 }
                 console.log(createData)
@@ -442,9 +442,9 @@ export class FormEmpleadosComponent implements OnInit{
             }else {
                 const data = this.form.getRawValue();
                 const {idDepartamento, fechaNacimiento, fechaInicioContrato, fechaFinContrato, salarioDevengado, salud, pension,  ...form} = data;
-                let fecha = this.datePipe.transform(fechaNacimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-                let inicio = this.datePipe.transform(fechaInicioContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-                let fin = this.datePipe.transform(fechaFinContrato, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+                let fecha = this.datePipe.transform(fechaNacimiento, 'yyyy-MM-dd');
+                let inicio = this.datePipe.transform(fechaInicioContrato, 'yyyy-MM-dd');
+                let fin = this.datePipe.transform(fechaFinContrato, 'yyyy-MM-dd');
                 const createData = {
                     fechaNacimiento: fecha,
                     fechaInicioContrato: inicio,
