@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-main-detalle-consumo',
@@ -13,5 +14,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './main-detalle-consumo.component.scss'
 })
 export class MainDetalleConsumoComponent {
+    public _authService: AuthService = inject(AuthService);
 
 }

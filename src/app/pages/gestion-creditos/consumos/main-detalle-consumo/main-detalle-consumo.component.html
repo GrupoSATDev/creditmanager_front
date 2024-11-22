@@ -17,6 +17,7 @@
         >
             <fuse-card class="filter-list flex w-full max-w-lg flex-col p-8 sm:p-10 mt-6 shadow-xl rounded-xl bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
                 <!-- Header -->
+
                 <div class="flex justify-between items-center mb-6">
                     <div class="flex items-center space-x-3">
                         <span class="font-semibold text-2xl text-blue-900">Consumos Realizados</span>
@@ -26,7 +27,7 @@
                     </div>
                 </div>
 
-                <!-- Action Button -->
+               <!-- Action Button -->
                 <button class="w-full py-3 text-white bg-crediblue-50 hover:bg-blue-600 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
                         routerLink="/pages/gestion-creditos/consumos/listar"
                 >
@@ -34,24 +35,26 @@
                 </button>
             </fuse-card>
 
-            <fuse-card class="filter-list flex w-full max-w-lg flex-col p-8 sm:p-10 mt-6 shadow-xl rounded-xl bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                <!-- Header -->
-                <div class="flex justify-between items-center mb-6">
-                    <div class="flex items-center space-x-3">
-                        <span class="font-semibold text-2xl text-blue-900">Realizar Detalle Consumo</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7H7v6m6 0h5m-8 4H7m6 0h5" />
-                        </svg>
+            @if(!_authService.getRole().includes('Super Admin')){
+                <fuse-card class="filter-list flex w-full max-w-lg flex-col p-8 sm:p-10 mt-6 shadow-xl rounded-xl bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-semibold text-2xl text-blue-900">Realizar Detalle Consumo</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7H7v6m6 0h5m-8 4H7m6 0h5" />
+                            </svg>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Action Button -->
-                <button class="w-full py-3 text-white bg-crediblue-50 hover:bg-blue-600 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
-                        routerLink="/pages/gestion-creditos/detalle-consumo"
-                >
-                    Realizar Detalle Consumo
-                </button>
-            </fuse-card>
+                    <!-- Action Button -->
+                    <button class="w-full py-3 text-white bg-crediblue-50 hover:bg-blue-600 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                            routerLink="/pages/gestion-creditos/detalle-consumo"
+                    >
+                        Realizar Detalle Consumo
+                    </button>
+                </fuse-card>
+            }
 
 
 
