@@ -126,6 +126,11 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        const dialogData = this._matData;
+        if (dialogData.edit) {
+            const data = dialogData.data;
+            this.getUsuario(data.id)
+        }
     }
 
     private createForm() {
@@ -211,6 +216,20 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
             }
         }
 
+    }
+
+    private getUsuario(id) {
+        this.usuariosService.getUsuario(id).subscribe((response) => {
+            if (response) {
+                console.log(response.data)
+                const { idDepartamento, ...data } = response.data;
+                this.form.patchValue({
+                    idDepartamento,
+                    ...data,
+                })
+                this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+            }
+        })
     }
 
     closeDialog() {
