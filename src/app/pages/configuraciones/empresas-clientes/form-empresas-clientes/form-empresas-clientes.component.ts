@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -26,6 +26,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { BancosService } from '../../../../core/services/bancos.service';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { parseISO } from 'date-fns';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -77,6 +78,7 @@ export class FormEmpresasClientesComponent implements OnInit{
     public subcripciones = inject(SubscripcionService);
     private bancosServices = inject(BancosService)
     private tipoCuentasService = inject(TipoCuentasService);
+    private readonly destroyedRef = inject(DestroyRef);
     public bancos$ = this.bancosServices.getBancos().pipe(
         tap((response) => {
             const valorSelected = response.data;
@@ -241,7 +243,9 @@ export class FormEmpresasClientesComponent implements OnInit{
     }
 
     public getEmpresas(id) {
-        this.empresaClienteService.getEmpresaCliente(id).subscribe((response) => {
+        this.empresaClienteService.getEmpresaCliente(id).pipe(
+            takeUntilDestroyed(this.destroyedRef)
+        ).subscribe((response) => {
             if (response) {
                 const data = response.data;
                 this.form.patchValue(data);
