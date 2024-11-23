@@ -76,7 +76,7 @@
                             @if (tasas$ | async; as tasas) {
                                 @for (item of tasas.data; track item) {
                                     <mat-form-field  class="w-full" floatLabel="always">
-                                        <mat-label>Tasa de interes</mat-label>
+                                        <mat-label>Tasa de interes EA</mat-label>
                                         <mat-select
                                             [formControlName]="'idTasaInteres'"
                                             placeholder="Tasa de interes"

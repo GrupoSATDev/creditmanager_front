@@ -164,7 +164,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
             this.form.get('capacidadEndeudamiento').setValue(this.items.trabajador.capacidadEndeudamiento)
-            this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`))
+            this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, 'yyyy-MM-dd'))
             this.enDeudamiento = (this.items.trabajador.salarioDevengado * this.items.procMaxPrestamo) / 100;
         })
     }
@@ -191,9 +191,9 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
         if (this.form.valid) {
             const data = this.form.getRawValue();
             const {fechaVencimiento, fechaCorte, cupoAprobado, fechaLimitePago,  capacidadEndeudamiento,  ...form} = data;
-            let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-            let fechaCorteTransform = this.datePipe.transform(fechaCorte, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
-            let fechaLimitePagoTransform = this.datePipe.transform(fechaLimitePago, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`);
+            let fechaVencimientoTransform = this.datePipe.transform(fechaVencimiento, 'yyyy-MM-dd');
+            let fechaCorteTransform = this.datePipe.transform(fechaCorte, 'yyyy-MM-dd');
+            let fechaLimitePagoTransform = this.datePipe.transform(fechaLimitePago, 'yyyy-MM-dd');
             const createData = {
                 fechaVencimiento: fechaVencimientoTransform,
                 fechaCorte: fechaCorteTransform,
