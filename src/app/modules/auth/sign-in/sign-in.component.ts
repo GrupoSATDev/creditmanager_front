@@ -79,7 +79,7 @@ export class AuthSignInComponent implements OnInit {
         window.addEventListener('beforeinstallprompt', (event: any) => {
             event.preventDefault(); // Previene que el navegador muestre el mensaje automáticamente
             this.deferredPrompt = event; // Guarda el evento para usarlo más tarde
-            this.showInstallButton = true; // Muestra el botón de instalación
+            this.showInstallButton = true; // Muestra el botón de instalaciónes
         });
     }
 
