@@ -22,6 +22,8 @@ export class FormQrComponent implements OnInit{
     public _matData = inject(MAT_DIALOG_DATA);
     public qrDatas: string = null;
     public qrData: string = null;
+    public nameTrabajaador: string = '';
+
 
     employee = {
         id: 1,
@@ -31,6 +33,7 @@ export class FormQrComponent implements OnInit{
     };
 
     ngOnInit(): void {
+        this.nameTrabajaador = this._matData.data.nombreCompleto;
         this.qrDatas = JSON.stringify(this._matData.data);
         this.qrData = `https://example.com/employee/${this.employee.id}?name=${encodeURIComponent(this.employee.name)}&email=${encodeURIComponent(this.employee.email)}&phone=${encodeURIComponent(this.employee.phone)}`;
 
