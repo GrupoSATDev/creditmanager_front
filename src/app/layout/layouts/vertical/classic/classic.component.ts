@@ -50,7 +50,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     private roleVisibilityMap = {
         'Super Admin': ['2', '2.1', '2.2', '2.3', '2.4', '3', '3.1', '3.2', '3.3', '4', '4.1', '5', '5.1', '5.2', '5.3', '5.4', '5.5', '5.7', '5.8', '7', '7.1'],
         'Analista': ['1', '2', '2.1', '2.4', '3', '3.1', '3.2', '3.3', '4', '4.1', ],
-        'Cliente': ['3', '3.3', '4',],
+        'Cliente': ['3', '3.3', '4', '4.1'],
         'Aliado': ['1', '2', '2.2', '2.3', '2.4'],
         'aliado': ['1', '2', '2.2', '2.3', '2.4'],
         trabajador: ['1'],
