@@ -60,7 +60,7 @@
                                 {
                                     "type": "initial",
                                     "maximumWarning": "3mb",
-                                    "maximumError": "5mb"
+                                    "maximumError": "10mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -68,7 +68,8 @@
                                     "maximumError": "90kb"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "serviceWorker": "ngsw-config.json"
                         },
                         "development": {
                             "optimization": false,
@@ -111,7 +112,10 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles/styles.scss"],
+                        "styles": [
+                            "src/styles/styles.scss",
+                            "src/manifest.webmanifest"
+                        ],
                         "scripts": []
                     }
                 }
