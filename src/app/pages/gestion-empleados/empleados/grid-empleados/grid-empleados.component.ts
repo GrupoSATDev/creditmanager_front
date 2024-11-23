@@ -56,7 +56,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
         },
         {
             label: 'View',
-            icon: 'visibility',
+            icon: 'qr_code',
             action: (element) => {
                 console.log('View', element);
                 this.selectedData = element;
