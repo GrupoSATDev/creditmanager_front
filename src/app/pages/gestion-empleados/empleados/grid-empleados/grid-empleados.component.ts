@@ -104,7 +104,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 edit: true,
                 data: this.selectedData
             },
-            maxHeight: '90vh',
+            maxHeight: '70vh',
             disableClose: true,
             panelClass: 'custom-dialog-container'
         })
