@@ -53,13 +53,13 @@ export class FormCobrosEmpleadosComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
 
-    columns = ['Fecha de compra', 'Valor pendiente', 'Valor cuota', 'Cantidad cuotas', 'Estado'];
+    columns = ['Fecha de cobro', 'Valor pendiente', 'Valor cuota', 'No. cuota', 'Estado'];
 
     columnPropertyMap = {
-        'Fecha de compra': 'fechaCobro',
+        'Fecha de cobro': 'fechaCobro',
         'Valor pendiente': 'valorPendiente',
         'Valor cuota': 'montoCuota',
-        'Cantidad cuotas': 'numCuota',
+        'No. cuota': 'numCuota',
         'Estado': 'nombreEstadoCredito',
     };
 
