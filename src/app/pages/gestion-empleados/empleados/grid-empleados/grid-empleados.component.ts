@@ -11,6 +11,7 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { FormEmpleadosComponent } from '../form-empleados/form-empleados.component';
 import { Estados } from '../../../../core/enums/estados';
+import { FormQrComponent } from '../form-qr/form-qr.component';
 
 @Component({
   selector: 'app-grid-empleados',
@@ -29,6 +30,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
+    public myAngularxQrCode: string = null;
 
     data = [];
 
@@ -50,6 +52,15 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
                 console.log('Editing', element);
                 this.selectedData = element;
                 this.onEdit();
+            }
+        },
+        {
+            label: 'View',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onGenerate();
             }
         },
     ];
@@ -75,6 +86,19 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
 
     onEdit(): void {
         this._matDialog.open(FormEmpleadosComponent, {
+            autoFocus: false,
+            data: {
+                edit: true,
+                data: this.selectedData
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    onGenerate(): void {
+        this._matDialog.open(FormQrComponent, {
             autoFocus: false,
             data: {
                 edit: true,
