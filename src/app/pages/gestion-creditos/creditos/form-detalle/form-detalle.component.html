@@ -69,7 +69,7 @@
                                 placeholder="Capital de inversion"
                             >
                                 <ng-container *ngIf="capital$ | async as capital">
-                                    <mat-option [value]="item.id" *ngFor="let item of capital.data">{{item.detalleInversion + ' - ' + item.rubroInversion}}</mat-option>
+                                    <mat-option [value]="item.id" *ngFor="let item of capital.data">{{item.detalleInversion + ' - ' + '$' +item.rubroInversion}}</mat-option>
                                 </ng-container>
                             </mat-select>
                         </mat-form-field>
