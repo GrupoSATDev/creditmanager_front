@@ -35,7 +35,7 @@
                 </button>
             </fuse-card>
 
-            @if(!_authService.getRole().includes('Super Admin')){
+            @if(!['Super Admin', 'Analista'].includes(_authService.getRole())){
                 <fuse-card class="filter-list flex w-full max-w-lg flex-col p-8 sm:p-10 mt-6 shadow-xl rounded-xl bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
                     <!-- Header -->
                     <div class="flex justify-between items-center mb-6">
