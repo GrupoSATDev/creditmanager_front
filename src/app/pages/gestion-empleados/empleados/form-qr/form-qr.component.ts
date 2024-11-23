@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material
 import { QrCodeModule } from 'ng-qrcode';
 import { MatButton } from '@angular/material/button';
 import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-form-qr',
@@ -21,6 +22,7 @@ export class FormQrComponent implements OnInit{
     public _matData = inject(MAT_DIALOG_DATA);
     public qrDatas: string = null;
     public qrData: string = null;
+
     employee = {
         id: 1,
         name: 'Juan Pérez',
