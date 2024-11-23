@@ -53,7 +53,7 @@
             <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Usuario</mat-label>
+                    <mat-label>Correo electronico</mat-label>
                     <input id="correo" matInput [formControlName]="'correo'" />
                     @if (signInForm.get('correo').hasError('required')) {
                         <mat-error> El correo es requirido </mat-error>
