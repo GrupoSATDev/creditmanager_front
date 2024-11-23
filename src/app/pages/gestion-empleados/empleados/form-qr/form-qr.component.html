@@ -5,12 +5,14 @@
        Escanea el QR
     </div>
     <div class="flex flex-col justify-center sm:flex-row ">
-        <qr-code [value]="qrData" size="256"  errorCorrectionLevel="M"></qr-code>
+        <qr-code [value]="qrData"
+                 size="200"
+                 errorCorrectionLevel="M"></qr-code>
     </div>
 
-    <div class="flex flex-wrap justify-end gap-2.5">
+    <div class="flex flex-wrap justify-center">
         <button
-            class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+            class="sm:w-auto w-full sm:mt-6 bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold"
             mat-flat-button
             [color]="'primary'"
             mat-dialog-close
