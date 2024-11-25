@@ -224,5 +224,11 @@ export class AppSettingsService {
         }
     }
 
+    public cobrosFijos = {
+        url: {
+            base: EndPoints.uriBase('CobroFijos')
+        }
+    }
+
 
 }

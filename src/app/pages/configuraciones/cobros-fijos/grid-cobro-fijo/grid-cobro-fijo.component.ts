@@ -10,6 +10,7 @@ import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { FormCobroFijoComponent } from '../form-cobro-fijo/form-cobro-fijo.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { CobrosFijosService } from '../../../../core/services/cobros-fijos.service';
 
 @Component({
   selector: 'app-grid-cobro-fijo',
@@ -36,6 +37,7 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
     public searchTerm: string = '';
     private _matDialog = inject(MatDialog);
     private estadoDatosService: EstadosDatosService = inject(EstadosDatosService);
+    private cobrosFijosService: CobrosFijosService = inject(CobrosFijosService);
 
     data = [];
 
@@ -101,6 +103,14 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
         this.searchTerm = target.value.trim().toLowerCase();
     }
 
+    getCobros() {
+        this.subcription$ = this.cobrosFijosService.getCobros().subscribe((response) => {
+            if(response.data) {
+                this.data = response.data;
+            }
+        })
+    }
+
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
@@ -108,6 +118,7 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.listenGrid();
+        this.getCobros();
     }
 
 }

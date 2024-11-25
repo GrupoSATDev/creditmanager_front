@@ -1,1 +1,91 @@
-<p>form-cobro-fijo works!</p>
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar cobro' : 'Agregar cobro'}}
+        </div>
+
+        <!-- Sign Up form -->
+        <form class="mt-8" [formGroup]="form">
+            <div>
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Valor de aval</mat-label>
+                        <input  matInput [formControlName]="'valorAval'" placeholder="Valor de aval"
+                                [thousandSeparator]="''"
+                                decimalMarker="."
+                                [dropSpecialCharacters]="true"
+                                [mask]="'separator.6'"
+                        />
+                    </mat-form-field>
+
+                    <!-- Name field -->
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Valor firma electronica</mat-label>
+                        <input  matInput [formControlName]="'valorFirmaElectronica'"
+                                placeholder="Valor firma electronica"
+                                [mask]="'separator.0'"
+                                thousandSeparator="."
+                                [dropSpecialCharacters]="true"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Valor de tarjeta</mat-label>
+                        <input  matInput [formControlName]="'valorTarjeta'"
+                                placeholder="Valor de tarjeta"
+                                [thousandSeparator]="''"
+                                decimalMarker="."
+                                [dropSpecialCharacters]="true"
+                                [mask]="'separator.6'" />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Valor de periodo</mat-label>
+                        <input  matInput [formControlName]="'periodo'"
+                                placeholder="Valor de periodo"
+                                [thousandSeparator]="''"
+                                decimalMarker="."
+                                [dropSpecialCharacters]="true"
+                                [mask]="'separator.6'" />
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
