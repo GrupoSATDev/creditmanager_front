@@ -141,6 +141,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/configuracion/tasas',
             },
+            {
+                id: '5.9',
+                title: 'Cobros fijos',
+                type: 'basic',
+                link: '/pages/configuracion/cobros-fijos',
+            },
 
         ],
     },

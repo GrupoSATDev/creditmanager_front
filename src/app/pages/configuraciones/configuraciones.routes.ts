@@ -36,6 +36,10 @@ export default [
                 path: 'tasas',
                 loadChildren: () => import('./tasas-intereses/tasa-intereses.routes')
             },
+            {
+                path: 'cobros-fijos',
+                loadChildren: () => import('./cobros-fijos/cobros-fijos.routing')
+            }
         ]
     }
 ] as Routes;
