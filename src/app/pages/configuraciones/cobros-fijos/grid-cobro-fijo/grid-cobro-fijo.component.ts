@@ -109,7 +109,6 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
                     items.valorAval = this.currencyPipe.transform(items.valorAval, 'USD', 'symbol', '1.2-2');
                     items.valorFirmaElectronica = this.currencyPipe.transform(items.valorFirmaElectronica, 'USD', 'symbol', '1.2-2');
                     items.valorTarjeta = this.currencyPipe.transform(items.valorTarjeta, 'USD', 'symbol', '1.2-2');
-                    items.periodo = this.currencyPipe.transform(items.periodo, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })

@@ -14,10 +14,7 @@
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Valor de aval</mat-label>
                         <input  matInput [formControlName]="'valorAval'" placeholder="Valor de aval"
-                                [thousandSeparator]="''"
-                                decimalMarker="."
-                                [dropSpecialCharacters]="true"
-                                [mask]="'separator.6'"
+                                mask="separator.0" thousandSeparator="."
                         />
                     </mat-form-field>
 
@@ -26,9 +23,7 @@
                         <mat-label>Valor firma electronica</mat-label>
                         <input  matInput [formControlName]="'valorFirmaElectronica'"
                                 placeholder="Valor firma electronica"
-                                [mask]="'separator.0'"
-                                thousandSeparator="."
-                                [dropSpecialCharacters]="true"
+                                mask="separator.0" thousandSeparator="."
                         />
                     </mat-form-field>
                 </div>
@@ -38,20 +33,16 @@
                         <mat-label>Valor de tarjeta</mat-label>
                         <input  matInput [formControlName]="'valorTarjeta'"
                                 placeholder="Valor de tarjeta"
-                                [thousandSeparator]="''"
-                                decimalMarker="."
-                                [dropSpecialCharacters]="true"
-                                [mask]="'separator.6'" />
+                                mask="separator.0" thousandSeparator="."
+                        />
                     </mat-form-field>
 
                     <mat-form-field class="w-full" floatLabel="always">
-                        <mat-label>Valor de periodo</mat-label>
+                        <mat-label>Cantidad de días</mat-label>
                         <input  matInput [formControlName]="'periodo'"
-                                placeholder="Valor de periodo"
-                                [thousandSeparator]="''"
-                                decimalMarker="."
-                                [dropSpecialCharacters]="true"
-                                [mask]="'separator.6'" />
+                                placeholder="Cantidad de días"
+                                type="number"
+                                />
                     </mat-form-field>
 
                 </div>

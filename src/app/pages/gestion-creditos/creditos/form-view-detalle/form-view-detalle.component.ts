@@ -25,6 +25,7 @@ import { FuseCardComponent } from '../../../../../@fuse/components/card';
 import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmDesembolsoComponent } from '../dialog-confirm-desembolso/dialog-confirm-desembolso.component';
+import { DialogCostosAdicionalesComponent } from '../dialog-costos-adicionales/dialog-costos-adicionales.component';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -83,8 +84,8 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
         this.subcription$.unsubscribe();
     }
 
-    onSolicitud() {
-        this._matDialog.open(DialogConfirmDesembolsoComponent, {
+    onCostos() {
+        this._matDialog.open(DialogCostosAdicionalesComponent, {
             data: {
                 data: this.items
             },

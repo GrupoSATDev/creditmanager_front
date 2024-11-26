@@ -1,0 +1,65 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            {{_matData.edit ? 'Actualizar cobro adicional' : 'Agregar cobro adicional'}}
+        </div>
+        <!-- Sign Up form -->
+        <div class="mt-8" >
+            <div>
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-form-field  class="w-full" floatLabel="always">
+                        <mat-label>Seleccione la cantidad de días</mat-label>
+                        <mat-select placeholder="Seleccione la cantidad de díás"
+                                    (selectionChange)="onSelected($event)"
+                        >
+                            <ng-container *ngIf="costosFijos$ | async as cobros">
+                                <mat-option [value]="item" *ngFor="let item of cobros.data">{{item.periodo}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            @if(labelData) {
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <mat-list role="list">
+                        <mat-list-item role="listitem"><span class="font-semibold">Valor de aval:</span> {{labelData.valorAval | currency: 'USD'}}</mat-list-item>
+                        <mat-list-item role="listitem"><span class="font-semibold">Valor de firma electronica: </span>{{labelData.valorFirmaElectronica | currency: 'USD'}}</mat-list-item>
+                        <mat-list-item role="listitem"><span class="font-semibold">Valor de tarjeta:</span> {{labelData.valorTarjeta | currency: 'USD'}}</mat-list-item>
+                    </mat-list>
+                </div>
+            }
+
+
+            <div class="flex flex-wrap justify-end gap-2.5 ">
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="closeDialog()"
+                >
+
+                    <span> Cancelar </span>
+                </button>
+
+                <button
+                    class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onSave()"
+                >
+
+                    <span> Guardar </span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

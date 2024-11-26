@@ -47,4 +47,8 @@ export class DetalleConsumoService {
     const {idEstado} = data;
     return this._http.patch(`${this.appSettings.detalleConsumos.url.base}/${id}?idEstado=${idEstado}`,{} )
   }
+
+  postConsumoFijo(data): Observable<any> {
+      return this._http.post(this.appSettings.detalleConsumos.url.cobroFijo, data);
+  }
 }
