@@ -13,7 +13,7 @@
                     <mat-form-field  class="w-full" floatLabel="always">
                         <mat-label>Seleccione la cantidad de días</mat-label>
                         <mat-select placeholder="Seleccione la cantidad de díás"
-                                    (selectionChange)="onSelected($event)"
+                                    [formControl]="cobroFijo"
                         >
                             <ng-container *ngIf="costosFijos$ | async as cobros">
                                 <mat-option [value]="item" *ngFor="let item of cobros.data">{{item.periodo}}</mat-option>
@@ -24,13 +24,23 @@
 
             </div>
 
-            @if(labelData) {
+            @if(cobroFijo.value) {
                 <div class="flex flex-col sm:flex-row gap-2.5">
-                    <mat-list role="list">
-                        <mat-list-item role="listitem"><span class="font-semibold">Valor de aval:</span> {{labelData.valorAval | currency: 'USD'}}</mat-list-item>
-                        <mat-list-item role="listitem"><span class="font-semibold">Valor de firma electronica: </span>{{labelData.valorFirmaElectronica | currency: 'USD'}}</mat-list-item>
-                        <mat-list-item role="listitem"><span class="font-semibold">Valor de tarjeta:</span> {{labelData.valorTarjeta | currency: 'USD'}}</mat-list-item>
+                    <mat-list role="list" class="w-full bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+                        <mat-list-item role="listitem" class="flex justify-between py-2 border-b border-gray-300 last:border-none">
+                            <span class="font-semibold text-gray-700">Valor de aval: </span>
+                            <span class="text-gray-800">{{ cobroFijo.value.valorAval | currency: 'USD' }}</span>
+                        </mat-list-item>
+                        <mat-list-item role="listitem" class="flex justify-between py-2 border-b border-gray-300 last:border-none">
+                            <span class="font-semibold text-gray-700">Valor de firma electrónica: </span>
+                            <span class="text-gray-800">{{ cobroFijo.value.valorFirmaElectronica | currency: 'USD' }}</span>
+                        </mat-list-item>
+                        <mat-list-item role="listitem" class="flex justify-between py-2">
+                            <span class="font-semibold text-gray-700">Valor de tarjeta: </span>
+                            <span class="text-gray-800">{{ cobroFijo.value.valorTarjeta | currency: 'USD' }}</span>
+                        </mat-list-item>
                     </mat-list>
+
                 </div>
             }
 
