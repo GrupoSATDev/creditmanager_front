@@ -184,6 +184,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
+    {
+        id: '8',
+        title: 'Reportes',
+        type: 'collapsable',
+        icon: 'heroicons_solid:document',
+        children: [
+            {
+                id: '8.1',
+                title: 'Reporte de consumos',
+                type: 'basic',
+                link: '/pages/reportes/consumos',
+            },
+        ],
+    },
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [

@@ -109,6 +109,9 @@ export const appRoutes: Route[] = [
             {
                 path: 'gestion-seguridad', loadChildren: () => import('app/pages/seguridad/seguridad.routes')
             },
+            {
+                path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes')
+            },
         ]
     }
 ];
