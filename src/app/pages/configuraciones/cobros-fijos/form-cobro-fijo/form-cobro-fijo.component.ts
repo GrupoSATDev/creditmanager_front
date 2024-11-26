@@ -65,6 +65,7 @@ export class FormCobroFijoComponent  implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
+            this.getCobro(data.id);
         }
 
     }
@@ -140,6 +141,24 @@ export class FormCobroFijoComponent  implements OnInit{
 
         }
 
+    }
+
+    private getCobro(id) {
+        this.cobrosFijosService.getCobro(id).subscribe((response) => {
+            if (response) {
+                const data = response.data;
+                const campos = {
+                    periodo: data.periodo,
+                    valorAval: data.valorAval,
+                    valorFirmaElectronica: data.valorFirmaElectronica,
+                    valorTarjeta: data.valorTarjeta,
+                    id: data.id,
+                }
+
+                this.form.patchValue(campos);
+
+            }
+        })
     }
 
     private createForm() {

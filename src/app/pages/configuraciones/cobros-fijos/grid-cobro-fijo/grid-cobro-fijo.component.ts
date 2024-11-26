@@ -5,7 +5,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { FormCobroFijoComponent } from '../form-cobro-fijo/form-cobro-fijo.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,13 +41,12 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Inversor', 'Rubro invertido', 'Rubro disponible', 'Fecha de retorno', 'Detalle de inversión'];
+    columns = ['Valor aval', 'Valor firma electronica', 'Valor tarjeta', 'Periodo'];
     columnPropertyMap = {
-        'Inversor': 'nombreInversor',
-        'Rubro invertido': 'rubroInversion',
-        'Rubro disponible': 'montoDisponible',
-        'Fecha de retorno': 'fechaCreacion',
-        'Detalle de inversión': 'detalleInversion',
+        'Valor aval': 'valorAval',
+        'Valor firma electronica': 'valorFirmaElectronica',
+        'Valor tarjeta': 'valorTarjeta',
+        'Periodo': 'periodo',
     };
 
     buttons: IButton[] = [
@@ -92,7 +91,7 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
 
         refreshData$.subscribe((state) => {
             if (state) {
-
+                this.getCobros();
             }
         })
 
@@ -104,7 +103,17 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
     }
 
     getCobros() {
-        this.subcription$ = this.cobrosFijosService.getCobros().subscribe((response) => {
+        this.subcription$ = this.cobrosFijosService.getCobros().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.valorAval = this.currencyPipe.transform(items.valorAval, 'USD', 'symbol', '1.2-2');
+                    items.valorFirmaElectronica = this.currencyPipe.transform(items.valorFirmaElectronica, 'USD', 'symbol', '1.2-2');
+                    items.valorTarjeta = this.currencyPipe.transform(items.valorTarjeta, 'USD', 'symbol', '1.2-2');
+                    items.periodo = this.currencyPipe.transform(items.periodo, 'USD', 'symbol', '1.2-2');
+                })
+                return response;
+            })
+        ).subscribe((response) => {
             if(response.data) {
                 this.data = response.data;
             }
