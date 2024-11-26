@@ -12,6 +12,7 @@ import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { EstadoDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 @Component({
   selector: 'app-grid-consumos',
@@ -26,6 +27,7 @@ import { DetalleConsumoService } from '../../../../core/services/detalle-consumo
         MatTabContent,
         MatTabGroup,
         NgIf,
+        FuseAlertComponent,
     ],
     providers: [
         DatePipe,
