@@ -142,7 +142,7 @@ export class AuthSignInComponent implements OnInit {
                 // Set the alert
                 this.alert = {
                     type: 'error',
-                    message: '¡Error de Usuario o Contraseña!',
+                    message: response.error.errorMenssages[0],
                 };
 
                 // Show the alert
