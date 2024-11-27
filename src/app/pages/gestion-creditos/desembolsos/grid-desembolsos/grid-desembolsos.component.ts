@@ -6,7 +6,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { map, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
@@ -15,6 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { Estados } from '../../../../core/enums/estados';
+import { exportar } from '../../../../core/constant/dialogs';
+import * as XLSX from 'xlsx';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 
 @Component({
   selector: 'app-grid-desembolsos',
@@ -30,6 +33,7 @@ import { Estados } from '../../../../core/enums/estados';
         MatTabContent,
         MatTabGroup,
         NgIf,
+        NgClass,
     ],
     providers: [
         DatePipe,
@@ -49,6 +53,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private _matDialog = inject(MatDialog);
     private estadoDatosService = inject(EstadosDatosService);
     private solicitudService = inject(SolicitudesService);
+    public fuseService = inject(FuseConfirmationService);
 
     public searchTerm: string = '';
 
@@ -166,6 +171,27 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                            tabChangeEvent.index == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO :
                            EstadosSolicitudes.APROBADA
         this.getSolicitudes(this.selectedTab)
+    }
+
+    exportToExcel(data: any[]) {
+        const dialog = this.fuseService.open({
+            ...exportar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(data);
+
+                // Create workbook
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+                // Export file
+                XLSX.writeFile(workbook, 'exported_data.xlsx');
+            }
+        })
+
     }
 
 }

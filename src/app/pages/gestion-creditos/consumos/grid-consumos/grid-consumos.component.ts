@@ -5,7 +5,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { map, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
@@ -13,6 +13,9 @@ import { EstadoDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { exportar } from '../../../../core/constant/dialogs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-grid-consumos',
@@ -28,6 +31,7 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
         MatTabGroup,
         NgIf,
         FuseAlertComponent,
+        NgClass,
     ],
     providers: [
         DatePipe,
@@ -47,7 +51,7 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     private selectedTab: any = EstadoDetalleConsumo.EN_REVISION;
     public tabIndex ;
     public searchTerm: string = '';
-
+    public fuseService = inject(FuseConfirmationService);
     data = [];
 
     columns = ['Fecha','Número de factura', 'Detalle compra', 'Valor factura', 'Valor cuotas', 'Cantidad cuotas', 'Estado'];
@@ -140,6 +144,27 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.getDetalle(this.selectedTab);
         this.listenGrid();
+    }
+
+    exportToExcel(data: any[]) {
+        const dialog = this.fuseService.open({
+            ...exportar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(data);
+
+                // Create workbook
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+                // Export file
+                XLSX.writeFile(workbook, 'exported_data.xlsx');
+            }
+        })
+
     }
 
 }
