@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { CreditosService } from '../../../../core/services/creditos.service';
 import { Estados } from '../../../../core/enums/estados';
@@ -33,6 +33,7 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
         MatTabGroup,
         NgIf,
         FuseAlertComponent,
+        NgClass,
     ],
     providers: [
         DatePipe,
