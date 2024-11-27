@@ -13,11 +13,14 @@ import { SolicitudesService } from '../../../../core/services/solicitudes.servic
 import { FormSolicitudesComponent } from '../form-solicitudes/form-solicitudes.component';
 import { Estados } from '../../../../core/enums/estados';
 import { FormApproveComponent } from '../form-approve/form-approve.component';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { Router } from '@angular/router';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { exportar } from '../../../../core/constant/dialogs';
+import * as XLSX from 'xlsx';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -33,6 +36,7 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
         MatTabContent,
         NgIf,
         FuseAlertComponent,
+        NgClass,
     ],
     providers: [
         DatePipe,
@@ -47,6 +51,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     public selectedData: any;
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
+    public fuseService = inject(FuseConfirmationService);
     private router = inject(Router);
     private selectedTab: any = EstadosSolicitudes.PENDIENTE;
     public tabIndex ;
@@ -170,6 +175,27 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.getSolicitudes(this.selectedTab);
         this.listenGrid();
+    }
+
+    exportToExcel(data: any[]) {
+        const dialog = this.fuseService.open({
+            ...exportar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(data);
+
+                // Create workbook
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+                // Export file
+                XLSX.writeFile(workbook, 'exported_data.xlsx');
+            }
+        })
+
     }
 
 
