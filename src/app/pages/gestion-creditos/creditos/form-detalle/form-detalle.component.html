@@ -110,7 +110,7 @@
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Cupo sugerido</mat-label>
-                            <input  matInput  [formControlName]="'capacidadEndeudamiento'" [readonly]="true" value="1000000" mask="separator.0" thousandSeparator="." placeholder="cupo sugerido" />
+                            <input  matInput  [formControlName]="'capacidadEndeudamiento'" [readonly]="true"  placeholder="cupo sugerido" />
                             <mat-error *ngIf="(cupoAprobado.touched || cupoAprobado.dirty) && cupoAprobado.hasError('exceedsBalance')">El cupo aprobado no puede superar el 40% del salario devengado!</mat-error>
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">

@@ -74,6 +74,7 @@ const maskConfig: Partial<IConfig> = {
         { provide: DateAdapter, useClass: DateAdapterService },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         DatePipe,
+        CurrencyPipe,
         provideNgxMask(maskConfig)
     ],
   templateUrl: './form-detalle.component.html',
@@ -95,6 +96,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     private fb = inject(FormBuilder);
     public form: FormGroup;
     private datePipe = inject(DatePipe);
+    private currencyPipe = inject(CurrencyPipe);
     private swalService = inject(SwalService);
     private readonly parametroTasa = 'Activas';
     enDeudamiento: any;
@@ -163,7 +165,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
-            this.form.get('capacidadEndeudamiento').setValue(this.items.trabajador.capacidadEndeudamiento)
+            this.form.get('capacidadEndeudamiento').setValue(this.currencyPipe.transform(this.items.trabajador.capacidadEndeudamiento, 'USD', 'symbol', '1.2-2'))
             this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, 'yyyy-MM-dd'))
             this.enDeudamiento = (this.items.trabajador.salarioDevengado * this.items.procMaxPrestamo) / 100;
         })
