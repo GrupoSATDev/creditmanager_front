@@ -15,6 +15,9 @@ import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/
 import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import * as XLSX from 'xlsx';
+import { exportar, guardar } from '../../../../core/constant/dialogs';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -47,6 +50,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private creditoService: CreditosService = inject(CreditosService);
     private selectedTab: any = EstadosCreditos.EN_REVISION;
     private currencyPipe = inject(CurrencyPipe);
+    public fuseService = inject(FuseConfirmationService);
     public searchTerm: string = '';
 
     data = [];
@@ -150,6 +154,27 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         refreshData$.subscribe((state) => {
             if (state) {
                 this.getCreditos(this.selectedTab);
+            }
+        })
+
+    }
+
+    exportToExcel(data: any[]) {
+        const dialog = this.fuseService.open({
+            ...exportar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(data);
+
+                // Create workbook
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+                // Export file
+                XLSX.writeFile(workbook, 'exported_data.xlsx');
             }
         })
 
