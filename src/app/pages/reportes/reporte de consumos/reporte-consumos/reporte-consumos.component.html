@@ -1,1 +1,125 @@
-<p>reporte-consumos works!</p>
+<div
+    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+    cdkScrollable
+>
+
+    <div
+        class="relative flex flex-0 flex-col  px-6 py-8 sm:flex-row sm:items-center sm:justify-between md:px-8"
+    >
+        <!-- Title -->
+        <div class="text-3xl font-semibold tracking-tight">Reporte de Consumos</div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex w-full shrink-0 flex-col items-center sm:ml-4 sm:mt-0 sm:flex-row sm:space-x-2 sm:w-auto">
+            <!-- Search -->
+            <mat-form-field
+                class="fuse-mat-dense rounded-lg w-full sm:w-auto min-w-64"
+                [subscriptSizing]="'dynamic'"
+            >
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:magnifying-glass'"
+                ></mat-icon>
+                <input
+                    matInput
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar'"
+                    (input)="onSearch($event)"
+                />
+            </mat-form-field>
+            <!-- Add product button -->
+            <button
+                class="sm:w-auto w-full sm:mt-0 mt-2 bg-green-700 rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+            >
+
+                <span> Exportar </span>
+            </button>
+
+        </div>
+
+
+    </div>
+
+    <div class="px-6 border-b mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
+
+            <form [formGroup]="form" class="flex flex-col sm:flex-row gap-2.5">
+                <mat-form-field class="w-full sm:w-1/2">
+                    <mat-label>Estados</mat-label>
+                    <mat-select
+                        (selectionChange)="onSelect($event)"
+                        [formControlName]="'idEstadoCredito'"
+                    >
+                        <ng-container *ngIf="detalleConsumo$ | async as detalleConsumo">
+                            <mat-option [value]="item.id" *ngFor="let item of detalleConsumo.data">{{item.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full  sm:w-1/2" floatLabel="always">
+                    <mat-label>Fecha de inicio</mat-label>
+                    <input matInput [matDatepicker]="inicioPicker"   placeholder="dd/mm/yyyy" [formControlName]="'fechaInicio'">
+                    <mat-datepicker-toggle matIconSuffix [for]="inicioPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #inicioPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full  sm:w-1/2" floatLabel="always">
+                    <mat-label>Fecha fin</mat-label>
+                    <input matInput [matDatepicker]="finalPicker"   placeholder="dd/mm/yyyy" [formControlName]="'fechaFinal'">
+                    <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #finalPicker></mat-datepicker>
+                </mat-form-field>
+
+                <button
+                    class="sm:w-1/6 w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onConsultar()"
+                >
+
+                    <span> Consultar </span>
+                </button>
+            </form>
+
+
+
+    </div>
+
+
+    <!--Main-->
+    @if(data.length > 0) {
+        <div class="flex flex-auto overflow-hidden">
+            <!-- Products list -->
+            <div
+                class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
+            >
+                <app-custom-table
+                    [columns]="columns"
+                    [displayedColumns]="columns"
+                    [columnPropertyMap]="columnPropertyMap"
+                    [data]="data"
+                    [searchTerm]="searchTerm"
+                ></app-custom-table>
+            </div>
+
+        </div>
+
+    } @else {
+        <ng-template>
+            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+
+                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                    <fuse-alert
+                        [type]="'info'"
+                        [appearance]="'outline'">
+                        <span fuseAlertTitle>Información</span>
+                        No hay información hasta el momento.
+                    </fuse-alert>
+                </div>
+            </div>
+        </ng-template>
+    }
+
+</div>

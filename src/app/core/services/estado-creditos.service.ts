@@ -21,4 +21,8 @@ export class EstadoCreditosService {
       return this._http.get(this.appSettings.estadoCreditos.url.baseCobros)
     }
 
+    getDetalleConsumo(): Observable<any> {
+      return this._http.get(this.appSettings.estadoCreditos.url.detalleConsumo)
+    }
+
 }

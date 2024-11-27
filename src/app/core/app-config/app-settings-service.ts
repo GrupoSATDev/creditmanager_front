@@ -105,7 +105,8 @@ export class AppSettingsService {
     public estadoCreditos = {
         url: {
             base: EndPoints.uriBase('EstadoCreditos/Creditos'),
-            baseCobros: EndPoints.uriBase('EstadoCreditos/CobroTrabajadores')
+            baseCobros: EndPoints.uriBase('EstadoCreditos/CobroTrabajadores'),
+            detalleConsumo: EndPoints.uriBase('EstadoCreditos/DetalleConsumo'),
         }
     }
 
@@ -228,6 +229,12 @@ export class AppSettingsService {
     public cobrosFijos = {
         url: {
             base: EndPoints.uriBase('CobroFijos')
+        }
+    }
+
+    public reportes = {
+        url: {
+            reporteConsumo: EndPoints.uriBase('Reportes/DetalleConsumoAliado')
         }
     }
 
