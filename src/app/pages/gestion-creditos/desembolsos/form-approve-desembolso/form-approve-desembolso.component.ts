@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FuseAlertType } from '../../../../../@fuse/components/alert';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { of, Subscription, switchMap } from 'rxjs';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -17,6 +17,8 @@ import { IConfig, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
 import { guardar } from '../../../../core/constant/dialogs';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -58,6 +60,7 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
     private empleadosServices = inject(EmpleadosService);
     private currencyPipe = inject(CurrencyPipe);
     private swalService = inject(SwalService);
+    private errorHandlerService = inject(ErrorHandlerService)
 
     showAlert: boolean = false;
     alert: { type: FuseAlertType; message: string } = {
@@ -76,58 +79,75 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
     }
 
     private getSolicitud(id) {
-        this.subscription$ = this.solicitudService.getSolicitud(id).subscribe((response) => {
-            if(response) {
+        this.subscription$ = this.solicitudService.getSolicitud(id).pipe(
+            switchMap((response) => {
                 const dataForm = {
                     idTipoDoc: response.data.trabajador.idTipoDoc,
                     numDocumento: response.data.trabajador.numDoc
                 }
-
-                this.subscription$ = this.empleadosServices.getEmpleadoParams(dataForm).subscribe((response) => {
-
-                    if (response) {
-                        this.showAlert = false;
-                        const campos = {
-                            numDoc: response.data.numDoc,
-                            primerNombre: response.data.primerNombre,
-                            segundoNombre:  response.data.segundoNombre,
-                            primerApellido:  response.data.primerApellido,
-                            segundoApellido:  response.data.segundoApellido,
-                            idTrabajador: response.data.id,
-                            correo: response.data.correo,
-                            credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
-                            idCredito: response.data.creditos[0].id,
-                            numCuentaBancaria: response.data.numCuentaBancaria,
-                            idTipoCuenta: response.data.idTipoCuenta,
-                        }
-                        this.secondFormGroup.patchValue(campos);
-
-                        //this.creditos = response.data.creditos;
-
-                    }
-
-
-                }, error => {
-                    this.alert = {
-                        type: 'error',
-                        message: 'El trabajador no existe!'
-                    };
-                    // Show the alert
-                    this.showAlert = true;
-                })
-
-
+                return this.empleadosServices.getEmpleadoParams(dataForm);
+            })
+        ).subscribe((response) => {
+            if (response) {
+                this.showAlert = false;
+                const campos = {
+                    numDoc: response.data.numDoc,
+                    primerNombre: response.data.primerNombre,
+                    segundoNombre:  response.data.segundoNombre,
+                    primerApellido:  response.data.primerApellido,
+                    segundoApellido:  response.data.segundoApellido,
+                    idTrabajador: response.data.id,
+                    correo: response.data.correo,
+                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
+                    idCredito: response.data.creditos[0].id,
+                    numCuentaBancaria: response.data.numCuentaBancaria,
+                    idTipoCuenta: response.data.idTipoCuenta,
+                    id
+                }
+                this.secondFormGroup.patchValue(campos);
             }
+
+        }, error => {
+            this.alert = {
+                type: 'error',
+                message: 'El trabajador no existe!'
+            };
+            // Show the alert
+            this.showAlert = true;
         })
     }
 
     onApprove() {
         if (this.secondFormGroup.valid) {
+
+            const { id, idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
+
+            const createData = {
+                id,
+                idEstado: CodigosEstadosSolicitudes.APROBADA
+            }
+
             const dialog = this.fuseService.open({
                 ...guardar
             });
 
+            dialog.afterClosed().subscribe((response) => {
+                if (response === 'confirmed') {
+                    this.solicitudService.patchSolicitudDesembolso(createData).subscribe((response) => {
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro Creado o Actualizado con Exito.',
+                            timer: 4000,
+                        })
+                        this.router.navigate(['pages/gestion-creditos/desembolsos']);
+                    }, error => {
+                        this.errorHandlerService.errorHandler(error);
+                    })
 
+                }
+
+
+            })
 
         }
 
@@ -135,9 +155,34 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
 
     onRechazar() {
         if (this.secondFormGroup.valid) {
+
+            const { id, idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
+
+            const createData = {
+                id,
+                idEstado: CodigosEstadosSolicitudes.RECHAZADA
+            }
+
             const dialog = this.fuseService.open({
                 ...guardar
             });
+
+            dialog.afterClosed().subscribe((response) => {
+                if (response === 'confirmed') {
+                    this.solicitudService.patchSolicitudDesembolso(createData).subscribe((response) => {
+                        this.swalService.ToastAler({
+                            icon: 'success',
+                            title: 'Registro Creado o Actualizado con Exito.',
+                            timer: 4000,
+                        })
+                        this.router.navigate(['pages/gestion-creditos/desembolsos']);
+                    }, error => {
+                        this.errorHandlerService.errorHandler(error);
+                    })
+
+                }
+
+            })
 
 
 
@@ -161,7 +206,8 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
             credito: ['', Validators.required],
             idCredito: ['', Validators.required],
             numCuentaBancaria: [''],
-            idTipoCuenta: ['']
+            idTipoCuenta: [''],
+            id: ['']
         });
     }
 

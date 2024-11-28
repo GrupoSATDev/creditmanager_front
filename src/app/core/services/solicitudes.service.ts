@@ -38,4 +38,11 @@ export class SolicitudesService {
       const {idEstado} = data;
       return this._http.patch(`${this.appSettings.solicitudesCreditos.url.base}/${id}?idEstado=${idEstado}`,{} )
   }
+
+  patchSolicitudDesembolso(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      const {idEstado} = data;
+      return this._http.patch(`${this.appSettings.solicitudesCreditos.url.base}/Desembolso/${id}?idEstado=${idEstado}`,{} )
+  }
 }
