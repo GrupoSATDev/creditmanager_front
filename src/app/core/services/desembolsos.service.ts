@@ -17,4 +17,11 @@ export class DesembolsosService {
       return this._http.post(this.AppSettings.detalleConsumos.url.desembolsoBase, data);
   }
 
+  patchDesembolso(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      const {idEstado, idCuentaDestino, numeroFactura, idCuentaBancaria } = data;
+      return this._http.patch(`${this.AppSettings.detalleConsumos.url.base}/${id}?idEstado=${idEstado}&numFactura=${numeroFactura}&cuentaDestino=${idCuentaDestino}&idCuentaBancaria=${idCuentaBancaria}`,{} )
+  }
+
 }

@@ -18,6 +18,7 @@ import { Estados } from '../../../../core/enums/estados';
 import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 
 @Component({
   selector: 'app-grid-desembolsos',
@@ -53,6 +54,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private _matDialog = inject(MatDialog);
     private estadoDatosService = inject(EstadosDatosService);
     private solicitudService = inject(SolicitudesService);
+    private detalleConsumoService = inject(DetalleConsumoService);
     public fuseService = inject(FuseConfirmationService);
 
     public searchTerm: string = '';
@@ -66,6 +68,15 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Cupo solicitado': 'cupo',
         'Empresa': 'nombreSubEmpresa',
         'Estado': 'nombreEstadoSolicitud',
+    };
+
+    columnsDesembolsos = ['Fecha de aprobación','Trabajador','Cupo aprobado', 'Empresa', 'Estado'];
+    columnPropertyMapDesembolsos = {
+        'Fecha de aprobación': 'fechaCreacion',
+        'Trabajador': 'nombreTrabajador',
+        'Cupo aprobado': 'montoConsumo',
+        'Empresa': 'nombreSubEmpresa',
+        'Estado': 'nombreEstadoCredito',
     };
 
     buttons: IButton[] = [
@@ -88,6 +99,19 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             action: (element) => {
                 console.log('Approve', element);
                 this.selectedData = element;
+                this.router.navigate(['pages/gestion-creditos/desembolsos/registrar', this.selectedData.id])
+
+            }
+        },
+    ];
+
+    buttonsPendiente: IButton[] = [
+        {
+            label: 'View',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
                 this.router.navigate(['pages/gestion-creditos/desembolsos/desembolso', this.selectedData.id])
 
             }
@@ -95,35 +119,68 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     ];
 
     getSolicitudes(param): void {
+        console.log(param)
+        if (param != 'AprobadaDesembolso') {
+            this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
+                map((response) => {
+                    response.data.forEach((items) => {
+                        if (items.estado) {
+                            items.estado = Estados.ACTIVO;
+                        }else {
+                            items.estado = Estados.INACTIVO;
+                        }
+                    })
+                    return response;
 
-        this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
-            map((response) => {
-                response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
+                }),
+                map((response) => {
+                    response.data.forEach((items) => {
+                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
+                    })
+                    return response;
                 })
-                return response;
-
-            }),
-            map((response) => {
-                response.data.forEach((items) => {
-                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
-                    items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
-                })
-                return response;
-            })
-        ).subscribe((response) => {
-            if (response) {
-                this.data = response.data;
-            }else {
+            ).subscribe((response) => {
+                if (response) {
+                    this.data = response.data;
+                }else {
+                    this.data = [];
+                }
+            }, error => {
                 this.data = [];
-            }
-        }, error => {
-            this.data = [];
-        })
+            })
+        }else {
+            this.subcription$ = this.detalleConsumoService.getDetalleConsumoDesembolsos().pipe(
+                map((response) => {
+                    response.data.forEach((items) => {
+                        if (items.estado) {
+                            items.estado = Estados.ACTIVO;
+                        }else {
+                            items.estado = Estados.INACTIVO;
+                        }
+                    })
+                    return response;
+
+                }),
+                map((response) => {
+                    response.data.forEach((items) => {
+                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                    })
+                    return response;
+                })
+            ).subscribe((response) => {
+                if (response) {
+                    this.data = response.data;
+                }else {
+                    this.data = [];
+                }
+            }, error => {
+                this.data = [];
+            })
+        }
+
+
     }
 
     onSearch(event: Event) {

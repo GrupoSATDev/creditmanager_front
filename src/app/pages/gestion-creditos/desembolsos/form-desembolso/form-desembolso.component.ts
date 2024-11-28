@@ -29,13 +29,15 @@ import { CuentasBancariasService } from '../../../../core/services/cuentas-banca
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
-import { Observable, of, Subscription, tap } from 'rxjs';
+import { Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { DesembolsosService } from '../../../../core/services/desembolsos.service';
 import { SwalService } from '../../../../core/services/swal.service';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -95,8 +97,10 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     private desembolsoService = inject(DesembolsosService);
     private swalService = inject(SwalService);
     private solicitudService = inject(SolicitudesService);
+    private detalleConsumoService = inject(DetalleConsumoService);
     private activatedRoute = inject(ActivatedRoute)
     @ViewChild('stepper') stepper!: MatStepper;
+    private errorHandlerService = inject(ErrorHandlerService)
 
     public secondFormGroup: FormGroup;
     public thirdFormGroup: FormGroup;
@@ -130,52 +134,52 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     }
 
     private getSolicitud(id) {
-        this.subscription$ = this.solicitudService.getSolicitud(id).subscribe((response) => {
-            if(response) {
+        let cupo: number;
+        this.subscription$ = this.detalleConsumoService.getDetalleConsumoDesembolso(id).pipe(
+            switchMap((response) => {
                 const dataForm = {
                     idTipoDoc: response.data.trabajador.idTipoDoc,
                     numDocumento: response.data.trabajador.numDoc
                 }
+                cupo = response.data.montoConsumo;
+                return this.empleadosServices.getEmpleadoParams(dataForm);
+            })
+        ).subscribe((response) => {
+            if(response) {
+                this.showAlert = false;
 
-                this.subscription$ = this.empleadosServices.getEmpleadoParams(dataForm).subscribe((response) => {
+                const campos = {
+                    numDoc: response.data.numDoc,
+                    primerNombre: response.data.primerNombre,
+                    segundoNombre:  response.data.segundoNombre,
+                    primerApellido:  response.data.primerApellido,
+                    segundoApellido:  response.data.segundoApellido,
+                    idTrabajador: response.data.id,
+                    correo: response.data.correo,
+                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
+                    idCredito: response.data.creditos[0].id,
+                    numCuentaBancaria: response.data.numCuentaBancaria,
+                    idTipoCuenta: response.data.idTipoCuenta,
+                    id
+                }
+                this.secondFormGroup.patchValue(campos);
 
-                    if (response) {
-                        this.showAlert = false;
-                        const campos = {
-                            numDoc: response.data.numDoc,
-                            primerNombre: response.data.primerNombre,
-                            segundoNombre:  response.data.segundoNombre,
-                            primerApellido:  response.data.primerApellido,
-                            segundoApellido:  response.data.segundoApellido,
-                            idTrabajador: response.data.id,
-                            correo: response.data.correo,
-                            credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
-                            idCredito: response.data.creditos[0].id,
-                            numCuentaBancaria: response.data.numCuentaBancaria,
-                            idTipoCuenta: response.data.idTipoCuenta,
-                        }
-                        this.secondFormGroup.patchValue(campos);
-
-                        this.thirdFormGroup.patchValue({
-                            idCuentaBancaria: campos.idTipoCuenta,
-                            cuentaDestino: campos.numCuentaBancaria,
-                        })
-                        this.creditos = response.data.creditos;
-
-                    }
-
-
-                }, error => {
-                    this.alert = {
-                        type: 'error',
-                        message: 'El trabajador no existe!'
-                    };
-                    // Show the alert
-                    this.showAlert = true;
+                this.thirdFormGroup.patchValue({
+                    idCuentaBancaria: campos.idTipoCuenta,
+                    cuentaDestino: campos.numCuentaBancaria,
+                    montoConsumo: cupo
                 })
-
+                this.creditos = response.data.creditos;
 
             }
+
+        }, error => {
+            this.alert = {
+                type: 'error',
+                message: 'El trabajador no existe!'
+            };
+            // Show the alert
+            this.showAlert = true;
         })
     }
 
@@ -222,8 +226,8 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
     onSave() {
         if (this.thirdFormGroup.valid) {
-            const {montoConsumo, idCuentaBancaria,  ...form} = this.thirdFormGroup.getRawValue();
-            const { idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
+            const {montoConsumo, idCuentaBancaria, cuentaDestino,  ...form} = this.thirdFormGroup.getRawValue();
+            const { id, idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
             console.log(idCredito)
             const cuenta = this.cuentas;
@@ -235,9 +239,9 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             console.log(resultadoCuenta[0].id)
 
             const createData = {
-                idCredito: idCredito,
-                idTrabajador,
-                montoConsumo: Number(montoConsumo),
+                id,
+                idEstado: CodigosEstadosSolicitudes.REALIZADA,
+                idCuentaDestino: cuentaDestino,
                 idCuentaBancaria: resultadoCuenta[0].id,
                 ...form
             }
@@ -249,7 +253,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
             dialog.afterClosed().subscribe((response) => {
                 if (response === 'confirmed') {
-                    this.desembolsoService.postDesembolso(createData).subscribe((res) => {
+                    this.desembolsoService.patchDesembolso(createData).subscribe((res) => {
                         console.log(res)
                         this.swalService.ToastAler({
                             icon: 'success',
@@ -258,11 +262,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                         })
                         this.getResumenCompra(idTrabajador);
                     }, error => {
-                        this.swalService.ToastAler({
-                            icon: 'error',
-                            title: 'Ha ocurrido un error al crear el registro!',
-                            timer: 4000,
-                        })
+                        this.errorHandlerService.errorHandler(error);
                     })
                 }
             })
@@ -295,15 +295,15 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             credito: ['', Validators.required],
             idCredito: ['', Validators.required],
             numCuentaBancaria: [''],
-            idTipoCuenta: ['']
+            idTipoCuenta: [''],
+            id: ['']
         });
 
         this.thirdFormGroup = this.fb.group({
-            montoConsumo: ['', [Validators.required] ],
+            montoConsumo: [{value: 0, disabled: true}, [Validators.required] ],
             numeroFactura: ['', Validators.required],
             idCuentaBancaria: ['', Validators.required],
             cuentaDestino: ['', Validators.required],
-            idCuenta: ['']
         })
     }
 

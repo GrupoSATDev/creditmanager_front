@@ -21,6 +21,14 @@ export class DetalleConsumoService {
       return this._http.get(`${this.appSettings.detalleConsumos.url.base}/${id}`);
   }
 
+  getDetalleConsumoDesembolsos(): Observable<any> {
+      return this._http.get(`${this.appSettings.detalleConsumos.url.detalleDesembolso}`);
+  }
+
+  getDetalleConsumoDesembolso(id): Observable<any> {
+      return this._http.get(`${this.appSettings.detalleConsumos.url.desembolso}/${id}`);
+  }
+
     getConsumoTrabajador(id): Observable<any> {
         return this._http.get(`${this.appSettings.detalleConsumos.url.baseTrabajador}/${id}`);
     }
