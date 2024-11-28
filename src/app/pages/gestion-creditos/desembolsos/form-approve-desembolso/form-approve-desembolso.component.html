@@ -1,0 +1,68 @@
+<div class="absolute inset-0 flex flex-col min-w-0 items-center  overflow-y-auto bg-gray-100 p-6 sm:p-8" cdkScrollable>
+    <div class="relative w-full flex-0 max-w-4xl sm:rounded-lg overflow-hidden">
+
+        <div class="p-2 text-3xl font-semibold text-center text-gray-800">
+            {{ 'Desembolso' }}
+        </div>
+
+        <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'1500'">
+            <mat-step [stepControl]="secondFormGroup" label="Verificar información">
+                <div class="w-full">
+                    <form [formGroup]="secondFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Primer nombre</mat-label>
+                                <input matInput [formControlName]="'primerNombre'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Segundo nombre</mat-label>
+                                <input matInput [formControlName]="'segundoNombre'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Primer apellido</mat-label>
+                                <input matInput [formControlName]="'primerApellido'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Segundo apellido</mat-label>
+                                <input matInput [formControlName]="'segundoApellido'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full">
+                                <mat-label>Identificación</mat-label>
+                                <input matInput [formControlName]="'numDoc'" readonly/>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Email</mat-label>
+                                <input matInput [formControlName]="'correo'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col">
+                            <mat-form-field class="w-full">
+                                <mat-label>Crédito</mat-label>
+                                <input matInput [formControlName]="'credito'" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col">
+                            <mat-form-field class="w-full">
+                                <mat-label>Número de cuenta</mat-label>
+                                <input matInput [formControlName]="'numCuentaBancaria'" readonly/>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
+                        <button mat-button (click)="onRechazar()" class="sm:w-auto w-full py-2 px-4 text-white bg-crediorange-100 rounded-lg">Rechazar</button>
+                        <button mat-button (click)="onApprove()" class="sm:w-auto w-full py-2 px-4 text-white bg-crediblue-50 rounded-lg hover:bg-opacity-80">Aprobar</button>
+                    </div>
+                </div>
+            </mat-step>
+
+        </mat-stepper>
+
+    </div>
+</div>
+
+
+

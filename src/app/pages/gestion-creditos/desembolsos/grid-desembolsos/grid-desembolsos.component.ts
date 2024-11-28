@@ -88,7 +88,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             action: (element) => {
                 console.log('Approve', element);
                 this.selectedData = element;
-                this.router.navigate(['pages/gestion-creditos/desembolsos/registrar', this.selectedData.id])
+                this.router.navigate(['pages/gestion-creditos/desembolsos/desembolso', this.selectedData.id])
 
             }
         },

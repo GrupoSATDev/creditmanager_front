@@ -31,6 +31,7 @@ import { ContratosService } from '../../../../core/services/contratos.service';
 import { DeduccionesService } from '../../../../core/services/deducciones.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VALOR_PORCENTAJE_100, VALOR_PORCENTAJE_30 } from '../../../../core/constant/valores';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -87,6 +88,7 @@ export class FormEmpleadosComponent implements OnInit{
     private bancosServices = inject(BancosService)
     private swalService = inject(SwalService);
     private readonly destroyedRef = inject(DestroyRef);
+    private errorHandlerService = inject(ErrorHandlerService);
     private porcentajeSalud: number = 0;
     private porcentajePension: number = 0;
     private sumaPorcentaje: number = 0;
@@ -429,11 +431,7 @@ export class FormEmpleadosComponent implements OnInit{
                             })
                             this.closeDialog();
                         }, error => {
-                            this.swalService.ToastAler({
-                                icon: 'error',
-                                title: 'Ha ocurrido un error al crear el registro!',
-                                timer: 4000,
-                            })
+                            this.errorHandlerService.errorHandler(error)
                         })
                     }else {
                         this.closeDialog();
