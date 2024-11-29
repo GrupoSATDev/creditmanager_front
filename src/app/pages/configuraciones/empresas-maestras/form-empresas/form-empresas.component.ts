@@ -13,6 +13,11 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { guardar } from '../../../../core/constant/dialogs';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
+import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+    validation: false,
+};
 
 @Component({
   selector: 'app-form-empresas',
@@ -30,9 +35,13 @@ import { ToastAlertsService } from '../../../../core/services/toast-alerts.servi
         NgForOf,
         ReactiveFormsModule,
         JsonPipe,
+        NgxMaskDirective,
     ],
   templateUrl: './form-empresas.component.html',
-  styleUrl: './form-empresas.component.scss'
+  styleUrl: './form-empresas.component.scss',
+    providers: [
+        provideNgxMask(maskConfig)
+    ]
 })
 export class FormEmpresasComponent implements OnInit{
 
@@ -106,7 +115,12 @@ export class FormEmpresasComponent implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, ...form} = data;
+                const {idDepartamento, procMaxPrestamo, procMaxDesembolso,  ...form} = data;
+                const createData = {
+                    procMaxPrestamo: Number(procMaxPrestamo),
+                    procMaxDesembolso: Number(procMaxDesembolso),
+                    ...form
+                }
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -114,7 +128,7 @@ export class FormEmpresasComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresasService.postEmpresa(form).subscribe((res) => {
+                        this.empresasService.postEmpresa(createData).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
@@ -130,7 +144,13 @@ export class FormEmpresasComponent implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, ...form} = data;
+                const {idDepartamento, procMaxPrestamo, procMaxDesembolso,  ...form} = data;
+
+                const createData = {
+                    procMaxPrestamo: Number(procMaxPrestamo),
+                    procMaxDesembolso: Number(procMaxDesembolso),
+                    ...form
+                }
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -138,7 +158,7 @@ export class FormEmpresasComponent implements OnInit{
                 dialog.afterClosed().subscribe((response) => {
 
                     if (response === 'confirmed') {
-                        this.empresasService.putEmpresa(form).subscribe((res) => {
+                        this.empresasService.putEmpresa(createData).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
                             this.toasService.toasAlertWarn({
                                 message: 'Registro actualizado con exito!',

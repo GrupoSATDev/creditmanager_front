@@ -27,12 +27,22 @@
                 <!-- Name field -->
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Porcentaje maximo prestamo</mat-label>
-                    <input  matInput [formControlName]="'procMaxPrestamo'" placeholder="Porcentaje maximo"/>
+                    <input  matInput [formControlName]="'procMaxPrestamo'" placeholder="Porcentaje maximo"
+                            [thousandSeparator]="''"
+                            decimalMarker="."
+                            [dropSpecialCharacters]="true"
+                            [mask]="'separator.6'"
+                    />
                 </mat-form-field>
 
                 <mat-form-field class="w-full" floatLabel="always">
                     <mat-label>Porcentaje maximo desembolso</mat-label>
-                    <input  matInput [formControlName]="'procMaxDesembolso'" placeholder="Porcentaje maximo desembolso"/>
+                    <input  matInput [formControlName]="'procMaxDesembolso'" placeholder="Porcentaje maximo desembolso"
+                            [thousandSeparator]="''"
+                            decimalMarker="."
+                            [dropSpecialCharacters]="true"
+                            [mask]="'separator.6'"
+                    />
                 </mat-form-field>
 
             </div>
