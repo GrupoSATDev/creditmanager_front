@@ -36,6 +36,7 @@ import { CuentasBancariasService } from '../../../../core/services/cuentas-banca
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TIPO_CONSUMO_AVANCE } from '../../../../core/enums/detalle-consumo';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -103,13 +104,14 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public municipios$: Observable<any>;
     public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos().pipe(
         map((response) => {
-            response.data = response.data.filter((item) => item.nombre !== 'Avance');
+            response.data = response.data.filter((item) => item.nombre !== 'Cobros Fijos');
             return response;
         }),
         tap((response) => {
-            const valorDefecto  = response.data[0];
-            if (valorDefecto) {
-                this.thirdFormGroup.get('idTipoConsumo').setValue(valorDefecto.id)
+            const creditoConsumo = response.data.find((item) => item.nombre === 'Credito Consumo');
+
+            if (creditoConsumo) {
+                this.thirdFormGroup.get('idTipoConsumo').setValue(creditoConsumo.id);
             }
         })
     )
@@ -134,9 +136,10 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
         tap((response) => {
-            const valorDefecto  = response.data[3];
-            if (valorDefecto) {
-                this.firstFormGroup.get('idTipoDoc').setValue(valorDefecto.id)
+            const tipoDocumentos = response.data.find((item) => item.nombre === 'Cédula de ciudadanía');
+
+            if (tipoDocumentos) {
+                this.firstFormGroup.get('idTipoDoc').setValue(tipoDocumentos.id);
             }
         })
     );
@@ -181,6 +184,20 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         return of(null);  // Sin errores si es igual
     }
 
+    validateValue(control: AbstractControl): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const compareValue = this.secondFormGroup.get('procMaxDesembolso').value;
+            const value = control.value;
+            console.log(compareValue)
+
+            if (value > compareValue) {
+                return {notEqual: true}
+            }
+            return null;
+
+        };
+    }
+
     get montoConsumo() {
         return this.thirdFormGroup.get('montoConsumo');
     }
@@ -199,7 +216,9 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
                     credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
-                    idCredito: response.data.creditos[0].id
+                    idCredito: response.data.creditos[0].id,
+                    procMaxDesembolso: response.data.procMaxDesembolso,
+                    cupoDisponible: response.data.creditos[0].cupoDisponible,
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
@@ -219,6 +238,21 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         })
     }
 
+    selectedTipo(event: MatSelectChange) {
+        const { procMaxDesembolso, cupoDisponible } = this.secondFormGroup.getRawValue();
+        let valorCalculado;
+        if (event.value == TIPO_CONSUMO_AVANCE.ID_TIPO_CONSUMO_AVANCE)  {
+            valorCalculado = (Number(cupoDisponible) * procMaxDesembolso) / 100;
+            this.thirdFormGroup.get('montoConsumo').setValue(0);
+            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(valorCalculado)])
+            this.thirdFormGroup.updateValueAndValidity();
+        }else {
+            this.thirdFormGroup.get('montoConsumo').setValue(0);
+            this.thirdFormGroup.get('montoConsumo').setValidators(Validators.required)
+            this.thirdFormGroup.updateValueAndValidity();
+        }
+
+    }
 
 
     onSave() {
@@ -227,11 +261,12 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             const { idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
             const createData = {
-                idCredito: idCredito,
+                idCredito,
                 idTrabajador,
                 montoConsumo: Number(montoConsumo),
                 ...form
             }
+
 
             const dialog = this.fuseService.open({
                 ...guardar
@@ -325,10 +360,12 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             correo: ['', Validators.required],
             credito: ['', Validators.required],
             idCredito: ['', Validators.required],
+            procMaxDesembolso: [''],
+            cupoDisponible: [''],
         });
 
         this.thirdFormGroup = this.fb.group({
-            montoConsumo: ['', [Validators.required] ],
+            montoConsumo: ['', [Validators.required ] ],
             numeroFactura: ['', Validators.required],
             idTipoConsumo: ['', Validators.required],
         })
@@ -351,11 +388,25 @@ export function isTenAsync(control: AbstractControl):
 
 export function validateNumbers(valoraComparar: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-
         const value = control.value;
         console.log(valoraComparar)
+        console.log(value)
 
         if (value > valoraComparar) {
+            return {notEqual: true}
+        }
+        return null;
+
+    };
+}
+
+export function validateValue(control: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const compareValue = this.secondFormGroup.get('procMaxDesembolso').value;
+        const value = control.value;
+        console.log(compareValue)
+
+        if (value > compareValue) {
             return {notEqual: true}
         }
         return null;

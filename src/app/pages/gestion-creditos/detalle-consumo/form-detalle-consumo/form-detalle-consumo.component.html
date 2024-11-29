@@ -22,7 +22,7 @@
                             </mat-form-field>
                             <mat-form-field class="w-full" floatLabel="always">
                                 <mat-label>Número de identificación</mat-label>
-                                <input  matInput placeholder="Ingrese identificación" [formControlName]="'numDocumento'"/>
+                                <input  matInput placeholder="Número de identificación" [formControlName]="'numDocumento'"/>
                                 @if (firstFormGroup.get('numDocumento').dirty || firstFormGroup.get('numDocumento').touched) {
                                     <mat-error>
                                         @if (firstFormGroup.get('numDocumento').hasError('required')) {
@@ -112,6 +112,7 @@
                                         #data
                                         [formControlName]="'idTipoConsumo'"
                                         placeholder="Tipo de consumo"
+                                        (selectionChange)="selectedTipo($event)"
                                     >
                                         <ng-container *ngIf="tipoConsumo$ | async as tipoConsumos">
                                             <mat-option [value]="consumo.id" *ngFor="let consumo of tipoConsumos.data">{{consumo.nombre}}</mat-option>
@@ -123,8 +124,14 @@
                                 <mat-form-field class="w-full" floatLabel="always">
                                     <mat-label>Valor</mat-label>
                                     <input  matInput   [formControlName]="'montoConsumo'" [mask]="'separator.0'" thousandSeparator="."  placeholder="Valor" />
-                                        <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('required')">El valor es requerido!</mat-error>
-                                        <mat-error *ngIf="(montoConsumo.touched || montoConsumo.dirty) && montoConsumo.hasError('notEqual') ">El valor ingresado no puede superar el cupo disponible!</mat-error>
+                                        <mat-error *ngIf="(montoConsumo.dirty || montoConsumo.touched)">
+                                            <span *ngIf="montoConsumo.hasError('required')">
+                                                El valor es requerido!
+                                            </span>
+                                            <span *ngIf="montoConsumo.hasError('notEqual')">
+                                                El valor ingresado no puede superar el cupo disponible!
+                                            </span>
+                                        </mat-error>
 
                                 </mat-form-field>
                             </div>

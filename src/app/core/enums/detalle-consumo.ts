@@ -12,3 +12,8 @@ export enum CodigosDetalleConsumo {
     RECHAZADA = 'e626ea69-e995-4462-be7a-805326734783',
     EN_MORA = 'e626ea69-e995-6462-be8a-905326714780',
 }
+
+export enum TIPO_CONSUMO_AVANCE {
+    ID_TIPO_CONSUMO_AVANCE = 'e626ea69-e995-4462-be9a-905326114708'
+
+}
