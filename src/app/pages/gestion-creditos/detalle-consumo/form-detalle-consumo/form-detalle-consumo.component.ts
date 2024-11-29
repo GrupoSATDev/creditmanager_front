@@ -218,10 +218,15 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
                     idCredito: response.data.creditos[0].id,
                     procMaxDesembolso: response.data.procMaxDesembolso,
+                    procMaxPrestamo: response.data.procMaxPrestamo,
                     cupoDisponible: response.data.creditos[0].cupoDisponible,
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
+                let valorCalculado;
+                valorCalculado = ((campos.cupoDisponible) * campos.procMaxPrestamo) / 100;
+                this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(Math.trunc(valorCalculado))])
+                this.thirdFormGroup.updateValueAndValidity();
 
                 setTimeout(() => {
                     this.stepper.next();
