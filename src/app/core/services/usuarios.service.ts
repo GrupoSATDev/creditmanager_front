@@ -29,6 +29,6 @@ export class UsuariosService {
     putUsuario(data):  Observable<any> {
         const id = data.id;
         delete data.id;
-        return this._http.put(`${this.appSettingService.usuarios.url.base}/${id}`, data)
+        return this._http.put(`${this.appSettingService.usuarios.url.base}/Empresa/${id}`, data)
     }
 }
