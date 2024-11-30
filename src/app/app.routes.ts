@@ -4,6 +4,9 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { RoleGuard } from 'app/core/auth/guards/role.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
+import {
+    AuthConfirmationRequiredComponent
+} from './modules/auth/confirmation-required/confirmation-required.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -80,15 +83,15 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'pages',
-        canActivate: [AuthGuard, RoleGuard],
+        canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
         resolve: {
             initialData: initialDataResolver
         },
         data: {
-            roles: ['Admin', 'Aliado'], // Solo accesible para roles específicos
-            tipos: ['Empresa Aliada'],  // Solo para TipoUsuario específico
+            roles: ['Super Admin', 'Aliado'], // Solo accesible para roles específicos
+            tipoUsuario: ['Empresa Aliada'],  // Solo para TipoUsuario específico
         },
         children: [
             {
@@ -113,5 +116,9 @@ export const appRoutes: Route[] = [
                 path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes')
             },
         ]
+    },
+    {
+        path: 'not-authorized',
+        component: AuthConfirmationRequiredComponent
     }
 ];

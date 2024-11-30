@@ -6,8 +6,10 @@ export const RoleGuard: CanActivateFn = (route, state) => {
         const authService = inject(AuthService);
         const router = inject(Router);
 
-        const requiredRole  = route.data['role'] || [];
+        const requiredRole  = route.data['roles'] || [];
         const requiredTipoUsuario  = route.data['tipoUsuario'] || [];
+
+        console.log(requiredRole)
 
         // Verifica roles desde el token
         // Verificar rol
