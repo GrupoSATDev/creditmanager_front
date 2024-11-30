@@ -312,6 +312,10 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         })
     }
 
+    onCerrar() {
+        this.router.navigate(['pages/gestion-creditos/consumos'])
+    }
+
     onUpdate() {
         if (this.isButtonDisabled) {
             return;  // Si el botón está deshabilitado, no ejecuta nada

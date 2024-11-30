@@ -207,6 +207,13 @@
                                         ></mat-progress-spinner>
                                     }
                                 </button>
+                                <button class="w-full bg-crediorange-100 text-white py-2 px-4 rounded-lg mt-2"
+                                        mat-flat-button
+                                        [disabled]="isButtonDisabled"
+                                        (click)="onCerrar()"
+                                >
+                                    Cerrar
+                                </button>
                             </div>
                         </div>
 
