@@ -3,6 +3,7 @@ import { MainDesembolsosComponent } from './main-desembolsos/main-desembolsos.co
 import { FormDesembolsoComponent } from './form-desembolso/form-desembolso.component';
 import { GridDesembolsosComponent } from './grid-desembolsos/grid-desembolsos.component';
 import { FormApproveDesembolsoComponent } from './form-approve-desembolso/form-approve-desembolso.component';
+import { FormViewDesembolsoComponent } from './form-view-desembolso/form-view-desembolso.component';
 
 export default [
     {
@@ -16,6 +17,10 @@ export default [
     {
         path: 'registrar/:id',
         component: FormDesembolsoComponent
+    },
+    {
+        path: 'view/:id',
+        component: FormViewDesembolsoComponent
     },
 
 ] as Routes
