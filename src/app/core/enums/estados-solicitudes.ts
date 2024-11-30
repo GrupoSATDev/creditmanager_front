@@ -5,7 +5,7 @@ export enum EstadosSolicitudes {
     PENDIENTE_DESEMBOLSO = 'PendienteDesembolso',
     APROBADO_DESEMBOLSO = 'AprobadaDesembolso',
     RECHAZADA_DESEMBOLSO = 'RechazadaDesembolso',
-    REALIZADA_DESEMBOLSO = 'RealizadaDesembolso',
+    REALIZADA_DESEMBOLSO = 'DesembolsoRealizado',
 }
 
 export enum CodigosEstadosSolicitudes {

@@ -119,8 +119,6 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     ];
 
     getSolicitudes(param): void {
-        console.log(param)
-        if (param != 'AprobadaDesembolso') {
             this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
                 map((response) => {
                     response.data.forEach((items) => {
@@ -149,7 +147,10 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             }, error => {
                 this.data = [];
             })
-        }else {
+    }
+
+    getDesembolsos(param) {
+        if (param == EstadosSolicitudes.APROBADO_DESEMBOLSO) {
             this.subcription$ = this.detalleConsumoService.getDetalleConsumoDesembolsos().pipe(
                 map((response) => {
                     response.data.forEach((items) => {
@@ -178,8 +179,37 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             }, error => {
                 this.data = [];
             })
-        }
+        }else {
+            this.subcription$ = this.detalleConsumoService.getDetalleConsumoDesembolsosRealizado().pipe(
+                map((response) => {
+                    response.data.forEach((items) => {
+                        if (items.estado) {
+                            items.estado = Estados.ACTIVO;
+                        }else {
+                            items.estado = Estados.INACTIVO;
+                        }
+                    })
+                    return response;
 
+                }),
+                map((response) => {
+                    response.data.forEach((items) => {
+                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                    })
+                    return response;
+                })
+            ).subscribe((response) => {
+                if (response) {
+                    this.data = response.data;
+                }else {
+                    this.data = [];
+                }
+            }, error => {
+                this.data = [];
+            })
+
+        }
 
     }
 
@@ -210,24 +240,24 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                     states.tab == 2 ? EstadosSolicitudes.APROBADA :
                     states.tab == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO : EstadosSolicitudes.APROBADA;
                 this.tabIndex = states.tab;
-                console.log(this.tabIndex)
-                this.getSolicitudes(this.selectedTab);
+
             }
         })
 
     }
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-        console.log('tabChangeEvent => ', tabChangeEvent);
-        console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index;
-        console.log(this.tabIndex)
         this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
                            tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA_DESEMBOLSO :
                            tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADO_DESEMBOLSO :
                            tabChangeEvent.index == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO :
                            EstadosSolicitudes.APROBADA
-        this.getSolicitudes(this.selectedTab)
+        if ([EstadosSolicitudes.PENDIENTE_DESEMBOLSO, EstadosSolicitudes.RECHAZADA_DESEMBOLSO].includes(this.selectedTab)) {
+            this.getSolicitudes(this.selectedTab)
+        } else if([EstadosSolicitudes.APROBADO_DESEMBOLSO, EstadosSolicitudes.REALIZADA_DESEMBOLSO].includes(this.selectedTab)) {
+            this.getDesembolsos(this.selectedTab)
+        }
     }
 
     exportToExcel(data: any[]) {

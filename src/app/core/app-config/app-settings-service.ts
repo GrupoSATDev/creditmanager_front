@@ -118,6 +118,7 @@ export class AppSettingsService {
             aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAlido'),
             cobroFijo: EndPoints.uriBase('DetalleConsumos/DetalleConsumoFijo'),
             detalleDesembolso: EndPoints.uriBase('DetalleConsumos/DesembolsoAprobados'),
+            detalleDesembolsoRealizado: EndPoints.uriBase('DetalleConsumos/DesembolsoRealizado'),
             desembolso: EndPoints.uriBase('DetalleConsumos/Desembolso'),
         }
     }
