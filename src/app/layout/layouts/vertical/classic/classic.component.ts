@@ -90,6 +90,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Subscribe to navigation data
         const userRole = this._authService.getRole();
+        console.log(userRole)
         //const userTipo = this._authService.getTipoUsuario();
         this._navigationService.navigation$
             .pipe(

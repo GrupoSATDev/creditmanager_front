@@ -69,7 +69,7 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'pages',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
         resolve: {
@@ -77,7 +77,7 @@ export const appRoutes: Route[] = [
         },
         data: {
             roles: ['Super Admin', 'Aliado'], // Solo accesible para roles específicos
-            tipoUsuario: ['Empresa Aliada'],  // Solo para TipoUsuario específico
+            tipoUsuario: ['EmprasaMaestra'],  // Solo para TipoUsuario específico
         },
         children: [
             {

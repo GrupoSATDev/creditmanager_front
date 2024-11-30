@@ -10,6 +10,7 @@ export const RoleGuard: CanActivateFn = (route, state) => {
         const requiredTipoUsuario  = route.data['tipoUsuario'] || [];
 
         console.log(requiredRole)
+        console.log(requiredTipoUsuario)
 
         // Verifica roles desde el token
         // Verificar rol
