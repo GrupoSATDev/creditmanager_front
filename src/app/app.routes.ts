@@ -70,36 +70,64 @@ export const appRoutes: Route[] = [
     {
         path: 'pages',
         canActivate: [AuthGuard, RoleGuard],
-        canActivateChild: [AuthGuard],
+        canActivateChild: [AuthGuard, RoleGuard],
         component: LayoutComponent,
         resolve: {
             initialData: initialDataResolver
         },
         data: {
             roles: ['Super Admin', 'Aliado'], // Solo accesible para roles específicos
-            tipoUsuario: ['EmprasaMaestra'],  // Solo para TipoUsuario específico
+            tipoUsuario: ['EmprasaMaestra', 'Empresa Aliada'],  // Solo para TipoUsuario específico
         },
         children: [
             {
-                path: 'configuracion', loadChildren: () => import('app/pages/configuraciones/configuraciones.routes')
+                path: 'configuracion', loadChildren: () => import('app/pages/configuraciones/configuraciones.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin']
+                }
             },
             {
-                path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes')
+                path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin', 'Analista', 'Aliado']
+                }
             },
             {
-                path: 'gestion-trabajadores', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes')
+                path: 'gestion-trabajadores', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin', 'Analista']
+                }
             },
             {
-                path: 'gestion-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes')
+                path: 'gestion-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin', 'Analista']
+                }
             },
             {
-                path: 'gestion-bancos', loadChildren: () => import('app/pages/gestion-bancos/gestion-bancos.routes')
+                path: 'gestion-bancos', loadChildren: () => import('app/pages/gestion-bancos/gestion-bancos.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin']
+                }
             },
             {
-                path: 'gestion-seguridad', loadChildren: () => import('app/pages/seguridad/seguridad.routes')
+                path: 'gestion-seguridad', loadChildren: () => import('app/pages/seguridad/seguridad.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin']
+                }
             },
             {
-                path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes')
+                path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes'),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: ['Super Admin', 'Analista', 'Cliente', 'Aliado', 'Trabajador', 'Auditor']
+                }
             },
         ]
     },
