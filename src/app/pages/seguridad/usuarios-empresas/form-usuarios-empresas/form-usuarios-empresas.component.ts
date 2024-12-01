@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -26,6 +26,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { SwalService } from '../../../../core/services/swal.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form-usuarios-empresas',
@@ -64,6 +65,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
     public municipios$: Observable<any>;
     public _matData = inject(MAT_DIALOG_DATA);
     private swalService = inject(SwalService);
+    private readonly destroyedRef = inject(DestroyRef);
 
     onSelected(matSelectChange: MatSelectChange) {
         const id = matSelectChange.value;
@@ -130,6 +132,23 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
         if (dialogData.edit) {
             const data = dialogData.data;
             this.getUsuario(data.id)
+            this.form.get('estadoContrasena').valueChanges.pipe(
+                takeUntilDestroyed(this.destroyedRef)
+            ).subscribe((response) => {
+                if (response) {
+                    this.form.get('contrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
+                    this.form.get('confirmaContrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
+                    this.form.get('contrasena').updateValueAndValidity()
+                    this.form.get('confirmaContrasena').updateValueAndValidity()
+                }else {
+                    this.form.get('contrasena').removeValidators([Validators.required]);
+                    this.form.get('confirmaContrasena').removeValidators([Validators.required]);
+                    this.form.get('contrasena').setValue('');
+                    this.form.get('confirmaContrasena').setValue('');
+                    this.form.get('contrasena').updateValueAndValidity()
+                    this.form.get('confirmaContrasena').updateValueAndValidity()
+                }
+            })
         }
     }
 
@@ -147,6 +166,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
             idDepartamento: [''],
             idMunicipio: [''],
             estado: [true],
+            estadoContrasena: [true]
         },
             { validators: passwordMatchValidator('contrasena', 'confirmaContrasena') })
     }
@@ -155,7 +175,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
         if (this.form.valid) {
             if (!this._matData.edit) {
                 const data = this.form.getRawValue();
-                const {idDepartamento, confirmaContrasena, ...form} = data;
+                const {idDepartamento, confirmaContrasena, estadoContrasena,  ...form} = data;
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -185,7 +205,7 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
                 })
             }else {
                 const data = this.form.getRawValue();
-                const {idDepartamento, confirmaContrasena, ...form} = data;
+                const {idDepartamento, confirmaContrasena, estadoContrasena, ...form} = data;
                 const dialog = this.fuseService.open({
                     ...guardar
                 });
@@ -214,6 +234,8 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
                 })
 
             }
+        } else {
+            this.form.markAllAsTouched();
         }
 
     }
@@ -230,6 +252,10 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
                 this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
             }
         })
+    }
+
+    public isEditContrasena(estado) {
+
     }
 
     closeDialog() {
