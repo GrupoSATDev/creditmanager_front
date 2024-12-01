@@ -17,6 +17,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { RoleRouteMap } from '../../../core/constant/rutasPermitidas';
 
 @Component({
     selector: 'auth-sign-in',
@@ -127,11 +128,12 @@ export class AuthSignInComponent implements OnInit {
                 // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
                 // to the correct page after a successful sign in. This way, that url can be set via
                 // routing file and we don't have to touch here.
+                const userRole = this._authService.getRole();
                 const redirectURL =
+                    RoleRouteMap[userRole] ||
                     this._activatedRoute.snapshot.queryParamMap.get(
                         'redirectURL'
                     ) || '/signed-in-redirect';
-
                 // Navigate to the redirect url
                 this._router.navigateByUrl(redirectURL);
             },
