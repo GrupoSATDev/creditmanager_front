@@ -217,7 +217,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public onSearch() {
         const data = this.firstFormGroup.getRawValue();
         this.empleadosServices.getEmpleadoParams(data).subscribe((response) => {
-            if (response) {
+            if (response && response.data.creditos.length > 0) {
                 this.showAlert = false;
                 const campos = {
                     numDoc: response.data.numDoc,
@@ -244,11 +244,16 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     this.stepper.next();
                 }, 1200)
 
+            }else {
+                this.alert = {
+                    type: 'error',
+                    message: 'El usuario no tiene crédito aprobado, por favor comunicarse con el equipo de CrediPlus.!'
+                };
             }
         }, error => {
             this.alert = {
                 type: 'error',
-                message: 'El trabajador no existe!'
+                message: error.error.errorMenssages[0]
             };
             // Show the alert
             this.showAlert = true;
