@@ -157,11 +157,14 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         this.createForm();
         const tipoDoc = this.activatedRoute.snapshot.paramMap.get('tipo');
         const numDoc = this.activatedRoute.snapshot.paramMap.get('num');
-        const dataParams = {
-            idTipoDoc: tipoDoc,
-            numDocumento: numDoc
+        if (tipoDoc && numDoc) {
+            const dataParams = {
+                idTipoDoc: tipoDoc,
+                numDocumento: numDoc
+            }
+            this.firstFormGroup.patchValue(dataParams);
         }
-        this.firstFormGroup.patchValue(dataParams);
+
     }
 
     getMunicipios(matSelectChange: MatSelectChange) {
