@@ -28,7 +28,7 @@ import { LocacionService } from '../../../../core/services/locacion.service';
 import { interval, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TipoConsumosService } from '../../../../core/services/tipo-consumos.service';
@@ -96,6 +96,8 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
+    private activatedRoute = inject(ActivatedRoute);
+
 
     private fb = inject(FormBuilder);
     private _locacionService = inject(LocacionService);
@@ -153,6 +155,13 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.createForm();
+        const tipoDoc = this.activatedRoute.snapshot.paramMap.get('tipo');
+        const numDoc = this.activatedRoute.snapshot.paramMap.get('num');
+        const dataParams = {
+            idTipoDoc: tipoDoc,
+            numDocumento: numDoc
+        }
+        this.firstFormGroup.patchValue(dataParams);
     }
 
     getMunicipios(matSelectChange: MatSelectChange) {
