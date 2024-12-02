@@ -20,9 +20,8 @@ import { Router } from '@angular/router';
 export class FormQrComponent implements OnInit{
     public dialogRef = inject(MatDialogRef<FormQrComponent>);
     public _matData = inject(MAT_DIALOG_DATA);
-    public qrDatas: string = null;
+    public qrDatas: any = null;
     public qrData: string = null;
-    public nameTrabajaador: string = '';
 
 
     employee = {
@@ -33,10 +32,10 @@ export class FormQrComponent implements OnInit{
     };
 
     ngOnInit(): void {
-        this.nameTrabajaador = this._matData.data.nombreCompleto;
-        this.qrDatas = JSON.stringify(this._matData.data);
-        this.qrData = `https://example.com/employee/${this.employee.id}?name=${encodeURIComponent(this.employee.name)}&email=${encodeURIComponent(this.employee.email)}&phone=${encodeURIComponent(this.employee.phone)}`;
-
+        const data = this._matData.data;
+        this.qrDatas = data;
+        this.qrData = `https://admin.crediplus.com.co/pages/gestion-creditos/detalle-consumo/${data.idTipoDoc}/${data.numDoc}`;
+        console.log(this.qrData)
     }
 
 }

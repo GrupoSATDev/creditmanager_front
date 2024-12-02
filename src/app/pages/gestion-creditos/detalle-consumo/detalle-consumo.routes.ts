@@ -5,6 +5,10 @@ export default [
     {
         path: '',
         component: FormDetalleConsumoComponent
+    },
+    {
+        path: ':tipo/:num',
+        component: FormDetalleConsumoComponent
     }
 
 ] as Routes
