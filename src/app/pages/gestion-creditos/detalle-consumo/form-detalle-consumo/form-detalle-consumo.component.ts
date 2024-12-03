@@ -232,6 +232,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                     procMaxDesembolso: response.data.procMaxDesembolso,
                     procMaxPrestamo: response.data.procMaxPrestamo,
                     cupoDisponible: response.data.creditos[0].cupoDisponible,
+                    cupoDisponibleAvances: response.data.creditos[0].cupoDisponibleAvances,
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
@@ -261,12 +262,11 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     }
 
     selectedTipo(event: MatSelectChange) {
-        const { procMaxDesembolso, procMaxPrestamo, cupoDisponible } = this.secondFormGroup.getRawValue();
+        const { procMaxDesembolso, procMaxPrestamo, cupoDisponible, cupoDisponibleAvances } = this.secondFormGroup.getRawValue();
         let valorCalculado;
         if (event.value == TIPO_CONSUMO_AVANCE.ID_TIPO_CONSUMO_AVANCE)  {
-            valorCalculado = (Number(cupoDisponible) * procMaxDesembolso) / 100;
             this.thirdFormGroup.get('montoConsumo').setValue(0);
-            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(valorCalculado)])
+            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(cupoDisponibleAvances)])
             this.thirdFormGroup.updateValueAndValidity();
         }else {
             valorCalculado = (Number(cupoDisponible) * procMaxPrestamo) / 100;
@@ -390,6 +390,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
             procMaxDesembolso: [''],
             procMaxPrestamo: [''],
             cupoDisponible: [''],
+            cupoDisponibleAvances: [''],
         });
 
         this.thirdFormGroup = this.fb.group({
