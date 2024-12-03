@@ -236,9 +236,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                 }
                 this.secondFormGroup.patchValue(campos);
                 this.creditos = response.data.creditos;
-                let valorCalculado;
-                valorCalculado = ((campos.cupoDisponible) * campos.procMaxPrestamo) / 100;
-                this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(Math.trunc(valorCalculado))])
+                this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(campos.cupoDisponible)])
                 this.thirdFormGroup.updateValueAndValidity();
 
                 setTimeout(() => {
@@ -271,7 +269,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         }else {
             valorCalculado = (Number(cupoDisponible) * procMaxPrestamo) / 100;
             this.thirdFormGroup.get('montoConsumo').setValue(0);
-            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(valorCalculado)])
+            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(cupoDisponible)])
             this.thirdFormGroup.updateValueAndValidity();
         }
 

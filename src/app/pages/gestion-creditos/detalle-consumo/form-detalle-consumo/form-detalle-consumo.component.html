@@ -112,7 +112,6 @@
                                         #data
                                         [formControlName]="'idTipoConsumo'"
                                         placeholder="Tipo de consumo"
-                                        (selectionChange)="selectedTipo($event)"
                                     >
                                         <ng-container *ngIf="tipoConsumo$ | async as tipoConsumos">
                                             <mat-option [value]="consumo.id" *ngFor="let consumo of tipoConsumos.data">{{consumo.nombre}}</mat-option>
