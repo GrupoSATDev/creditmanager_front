@@ -106,7 +106,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
     public municipios$: Observable<any>;
     public tipoConsumo$ = this.tipoConsumosService.getTipoConsumos().pipe(
         map((response) => {
-            response.data = response.data.filter((item) => item.nombre !== 'Cobros Fijos');
+            response.data = response.data.filter((item) => item.nombre !== 'Cobros Fijos' && item.nombre !== 'Avance');
             return response;
         }),
         tap((response) => {
@@ -359,16 +359,13 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                         title: 'Registro Creado o Actualizado con Exito.',
                         timer: 4000,
                     })
-                    setTimeout(() => {
-                        this.router.navigate(['pages/gestion-creditos/consumos']);
-                    }, 5000)
                 }
             });
 
         // Habilitar el botón después de 30 segundos
         setTimeout(() => {
             this.isButtonDisabled = false;
-        }, 10000);  // 30 segundos en milisegundos
+        }, 5000);  // 30 segundos en milisegundos
     }
 
     private createForm() {
