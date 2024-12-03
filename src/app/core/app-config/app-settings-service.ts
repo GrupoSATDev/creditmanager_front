@@ -116,7 +116,7 @@ export class AppSettingsService {
             desembolsoBase: EndPoints.uriBase('DetalleConsumos/DetalleConsumoDesembolso'),
             baseTrabajador: EndPoints.uriBase('DetalleConsumos/Trabajador'),
             aliado: EndPoints.uriBase('DetalleConsumos/AllPagoAlido'),
-            cobroFijo: EndPoints.uriBase('DetalleConsumos/DetalleConsumoFijo'),
+            cobroFijo: EndPoints.uriBase('DetalleConsumos/DetalleConsumoCobroFijo'),
             detalleDesembolso: EndPoints.uriBase('DetalleConsumos/DesembolsoAprobados'),
             detalleDesembolsoRealizado: EndPoints.uriBase('DetalleConsumos/DesembolsoRealizado'),
             desembolso: EndPoints.uriBase('DetalleConsumos/Desembolso'),
