@@ -25,6 +25,18 @@
                         <div class="space-y-4">
                             <div class="flex justify-between items-center border-b pb-2">
                                 <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Empresa</h3>
+                                </div>
+                                <p class="text-lg font-bold text-gray-800"></p>
+                            </div>
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Trabajador</h3>
+                                </div>
+                                <p class="text-lg font-bold text-gray-800"></p>
+                            </div>
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <div>
                                     <h3 class="text-lg font-semibold text-gray-700">Fecha de compra</h3>
                                 </div>
                                 <p class="text-lg font-bold text-gray-800">{{detalle.fechaCreacion | date: 'dd/MM/yyyy'}}</p>
@@ -39,7 +51,6 @@
                             <div class="flex justify-between items-center border-b pb-2">
                                 <div>
                                     <h3 class="text-lg font-semibold text-gray-700">Valor factura</h3>
-                                    <p class="text-sm text-gray-500">Indica el valor en COP</p>
                                 </div>
                                 <p class="text-lg font-bold text-gray-800">{{detalle.montoConsumo | currency}}</p>
                             </div>
@@ -53,18 +64,13 @@
                                 <p class="text-lg font-semibold text-gray-700">Cantidad cuotas</p>
                                 <p class="text-lg font-bold text-gray-800">{{detalle.cantidadCuotas}}</p>
                             </div>
-
-                            <div class="flex justify-between items-center border-t pt-4">
-                                <p class="text-lg font-semibold text-gray-700">Detalle compra</p>
-                                <p class="text-lg font-bold text-gray-800">{{detalle.detalleCompra}}</p>
-                            </div>
                         </div>
 
                     </div>
 
                 </div>
                 <!-- Acciónes -->
-                <ng-container *ngIf="detalle.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION">
+                <!--<ng-container *ngIf="detalle.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION">
                     <div class="flex justify-end items-center mt-8 p-4 gap-2.5">
                         <button (click)="onReject()" mat-flat-button class="fuse-mat-button-large bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
                             Rechazar
@@ -73,7 +79,7 @@
                             Aprobar
                         </button>
                     </div>
-                </ng-container>
+                </ng-container>-->
 
             </div>
 

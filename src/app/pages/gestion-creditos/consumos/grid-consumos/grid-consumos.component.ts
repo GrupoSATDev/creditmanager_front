@@ -54,13 +54,13 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     public fuseService = inject(FuseConfirmationService);
     data = [];
 
-    columns = ['Fecha','Número de factura', 'Detalle compra', 'Valor factura', 'Valor cuotas', 'Cantidad cuotas', 'Estado'];
+    columns = ['Fecha','Empresa', 'Número de factura', 'Trabajador', 'Valor factura', 'Cantidad cuotas', 'Estado'];
     columnPropertyMap = {
         'Fecha': 'fechaCreacion',
+        'Empresa': 'nombreSubEmpresa',
         'Número de factura': 'numeroFactura',
-        'Detalle compra': 'detalleCompra',
+        'Trabajador': 'detalleCompra',
         'Valor factura': 'montoConsumo',
-        'Valor cuotas': 'montoCuotas',
         'Cantidad cuotas': 'cantidadCuotas',
         'Estado': 'nombreEstadoCredito',
     };
