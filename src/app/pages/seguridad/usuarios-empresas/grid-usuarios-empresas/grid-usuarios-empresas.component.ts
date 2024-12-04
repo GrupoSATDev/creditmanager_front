@@ -14,6 +14,9 @@ import { GenerosService } from '../../../../core/services/generos.service';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
 import { Estados } from '../../../../core/enums/estados';
 import { items } from '../../../../mock-api/apps/file-manager/data';
+import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-grid-usuarios-empresas',
@@ -24,6 +27,11 @@ import { items } from '../../../../mock-api/apps/file-manager/data';
         MatFormField,
         MatIcon,
         MatInput,
+        MatTabGroup,
+        FuseAlertComponent,
+        MatTab,
+        MatTabContent,
+        NgIf,
     ],
   templateUrl: './grid-usuarios-empresas.component.html',
   styleUrl: './grid-usuarios-empresas.component.scss'
@@ -33,16 +41,17 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
+    public tabIndex ;
 
     data = [];
 
-    columns = ['Estado', 'Usuario', 'Nombre completo', 'Rol', 'Tipo de usuario'];
+    columns = ['Usuario', 'Nombre completo', 'Rol', 'Tipo de usuario', 'Estado'];
     columnPropertyMap = {
-        'Estado': 'estado',
         'Usuario': 'correo',
         'Nombre completo': 'nombreCompleto',
         'Rol': 'nombreRol',
         'Tipo de usuario': 'nombreTipoUsuario',
+        'Estado': 'estado'
     };
 
     buttons: IButton[] = [
@@ -62,6 +71,11 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
         private estadoDatosService: EstadosDatosService,
         private generoService: GenerosService
     ) {
+    }
+
+    tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+
+
     }
 
     onNew() {

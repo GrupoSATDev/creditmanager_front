@@ -59,7 +59,7 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
         'Fecha': 'fechaCreacion',
         'Empresa': 'nombreSubEmpresa',
         'Número de factura': 'numeroFactura',
-        'Trabajador': 'detalleCompra',
+        'Trabajador': 'nombreTrabajador',
         'Valor factura': 'montoConsumo',
         'Cantidad cuotas': 'cantidadCuotas',
         'Estado': 'nombreEstadoCredito',
