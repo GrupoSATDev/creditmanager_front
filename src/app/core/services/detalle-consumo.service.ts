@@ -14,7 +14,7 @@ export class DetalleConsumoService {
   ) { }
 
   getDetalle(param): Observable<any> {
-      return this._http.get(`${this.appSettings.detalleConsumos.url.base}/${param}`);
+      return this._http.get(`${this.appSettings.detalleConsumos.url.base}/DetalleConsumo/${param}`);
   }
 
   getConsumo(id): Observable<any> {

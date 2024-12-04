@@ -9,7 +9,7 @@ import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { map, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
-import { EstadoDetalleConsumo } from '../../../../core/enums/detalle-consumo';
+import { EstadoDetalleConsumo, EstadoDetalleConsumosId } from '../../../../core/enums/detalle-consumo';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
@@ -48,7 +48,7 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
     private router = inject(Router);
     private estadoService: EstadosDatosService = inject(EstadosDatosService);
     private consumoService = inject(DetalleConsumoService);
-    private selectedTab: any = EstadoDetalleConsumo.EN_REVISION;
+    private selectedTab: any = EstadoDetalleConsumosId.EN_REVISION;
     public tabIndex ;
     public searchTerm: string = '';
     public fuseService = inject(FuseConfirmationService);
@@ -85,10 +85,10 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
             if (states.state) {
                 console.log('Si entro')
                 console.log(states)
-                this.selectedTab = states.tab == 0 ? EstadoDetalleConsumo.EN_REVISION :
-                                   states.tab == 1 ? EstadoDetalleConsumo.APROBADA :
+                this.selectedTab = states.tab == 0 ? EstadoDetalleConsumosId.EN_REVISION :
+                                   states.tab == 1 ? EstadoDetalleConsumosId.APROBADAS :
                                    //states.tab == 2 ? EstadoDetalleConsumo.PAGADO :
-                                   states.tab == 2 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
+                                   states.tab == 2 ? EstadoDetalleConsumosId.RECHAZADAS : EstadoDetalleConsumosId.EN_REVISION;
                 this.tabIndex = states.tab;
                 console.log(this.tabIndex)
                 this.getDetalle(this.selectedTab);
@@ -102,10 +102,10 @@ export class GridConsumosComponent implements OnInit, OnDestroy{
         console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index;
         console.log(this.tabIndex)
-        this.selectedTab = tabChangeEvent.index == 0 ? EstadoDetalleConsumo.EN_REVISION :
-                           tabChangeEvent.index == 1 ? EstadoDetalleConsumo.APROBADA :
+        this.selectedTab = tabChangeEvent.index == 0 ? EstadoDetalleConsumosId.EN_REVISION :
+                           tabChangeEvent.index == 1 ? EstadoDetalleConsumosId.APROBADAS :
                            //tabChangeEvent.index == 2 ? EstadoDetalleConsumo.PAGADO :
-                           tabChangeEvent.index == 2 ? EstadoDetalleConsumo.RECHAZADA : EstadoDetalleConsumo.EN_REVISION;
+                           tabChangeEvent.index == 2 ? EstadoDetalleConsumosId.RECHAZADAS : EstadoDetalleConsumosId.EN_REVISION;
         this.getDetalle(this.selectedTab);
 
     }
