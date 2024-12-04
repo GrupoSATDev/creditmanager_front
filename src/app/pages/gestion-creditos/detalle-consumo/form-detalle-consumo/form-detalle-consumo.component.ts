@@ -358,6 +358,9 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                         timer: 4000,
                     });
                     this.detalleSubscription$.unsubscribe();
+                    this.isButtonDisabled = false;
+                }else {
+                    this.isButtonDisabled = true;
                 }
             });
 

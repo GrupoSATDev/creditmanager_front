@@ -7,7 +7,7 @@
 
             <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'500'">
                 <!-- Primer paso:  Consulta de empleado -->
-                <mat-step [stepControl]="firstFormGroup" label="Consultar trabajador">
+                <mat-step [stepControl]="firstFormGroup" label="Consultar trabajador" [editable]="false">
                     <div class="flex flex-col items-center w-full">
                         <form [formGroup]="firstFormGroup" class="space-y-4 w-full max-w-sm">
                             <mat-form-field  class="w-full">
@@ -48,7 +48,7 @@
                 </mat-step>
 
                 <!-- Segundo Stepper: Información del Documento -->
-                <mat-step [stepControl]="secondFormGroup" label="Verificar información">
+                <mat-step [stepControl]="secondFormGroup" label="Verificar información" [editable]="false">
                     <div class="w-full">
                         <form [formGroup]="secondFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
                             <div class="flex flex-col sm:flex-row gap-4">
@@ -96,7 +96,7 @@
 
                 </mat-step>
 
-                <mat-step [stepControl]="thirdFormGroup" label="Completar compra">
+                <mat-step [stepControl]="thirdFormGroup" label="Completar compra" [editable]="false">
                     <div class="w-full h-full p-4 sm:p-8">
                         <form [formGroup]="thirdFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
                             <div class="flex flex-col">
