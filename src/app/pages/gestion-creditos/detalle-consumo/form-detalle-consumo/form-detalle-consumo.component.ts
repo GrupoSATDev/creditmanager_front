@@ -343,7 +343,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         }
 
         // Llamar al servicio y luego establecer un intervalo de 30 segundos
-        this.detalleSubscription$ = interval(10000)
+        this.detalleSubscription$ = interval(4000)
             .pipe(
                 takeUntilDestroyed(this.destroyedRef),
                 switchMap(() => this.detalleConsumo.getConsumoTrabajador(this.detaleConsumo.idTrabajador))
@@ -356,14 +356,15 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
                         icon: 'success',
                         title: 'Registro Creado o Actualizado con Exito.',
                         timer: 4000,
-                    })
+                    });
+                    this.detalleSubscription$.unsubscribe();
                 }
             });
 
         // Habilitar el botón después de 30 segundos
         setTimeout(() => {
             this.isButtonDisabled = false;
-        }, 5000);  // 30 segundos en milisegundos
+        }, 3000);  // 30 segundos en milisegundos
     }
 
     private createForm() {
