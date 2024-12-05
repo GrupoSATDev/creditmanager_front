@@ -67,10 +67,11 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Nombre completo', 'Deuda total', 'Empresa', 'Estado'];
+    columns = ['Nombre completo', 'Valor proximo a pagar', 'Deuda total', 'Empresa', 'Estado'];
 
     columnPropertyMap = {
         'Nombre completo': 'nombreTrabajador',
+        'Valor proximo a pagar': 'montoProximoPago',
         'Deuda total': 'deudaTotal',
         'Empresa': 'nombreSubEmpresa',
         'Estado': 'nombreEstadoCredito',
@@ -116,6 +117,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
                 response.data.forEach((items) => {
                     //items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
                     items.deudaTotal = this.currencyPipe.transform(items.deudaTotal, 'USD', 'symbol', '1.2-2');
+                    items.montoProximoPago = this.currencyPipe.transform(items.montoProximoPago, 'USD', 'symbol', '1.2-2');
                     //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
                 })
                 return response;

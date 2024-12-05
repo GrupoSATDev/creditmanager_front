@@ -264,7 +264,7 @@ export class FormDetalleConsumoComponent implements OnInit, OnDestroy{
         let valorCalculado;
         if (event.value == TIPO_CONSUMO_AVANCE.ID_TIPO_CONSUMO_AVANCE)  {
             this.thirdFormGroup.get('montoConsumo').setValue(0);
-            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(cupoDisponibleAvances)])
+            this.thirdFormGroup.get('montoConsumo').setValidators([Validators.required,validateNumbers(cupoDisponible)])
             this.thirdFormGroup.updateValueAndValidity();
         }else {
             valorCalculado = (Number(cupoDisponible) * procMaxPrestamo) / 100;
