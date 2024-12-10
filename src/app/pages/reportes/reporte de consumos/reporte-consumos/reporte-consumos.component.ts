@@ -112,6 +112,8 @@ export class ReporteConsumosComponent implements OnInit{
             this.reportesService.getReporteConsumo(consulta).subscribe((response) => {
                 if (response.data) {
                     this.data = response.data;
+                } else {
+                    this.data = [];
                 }
             })
 
