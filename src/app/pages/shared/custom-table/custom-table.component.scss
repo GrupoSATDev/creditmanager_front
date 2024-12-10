@@ -1,0 +1,77 @@
+mat-table {
+    width: 1200px;
+    max-width: 100%;
+    display: table;
+    border-spacing: 0;
+}
+
+mat-header-row {
+    display: table-row;
+    background-color: #f4f4f4;
+    font-weight: 600;
+    border-bottom: 2px solid #e0e0e0; /* Línea separadora */
+}
+
+mat-header-cell {
+    display: table-cell;
+    padding: 12px 16px; /* Espaciado interno para el encabezado */
+    text-align: left; /* Alineación izquierda */
+    white-space: nowrap; /* Evita que el texto salte de línea */
+    font-size: 14px; /* Ajuste de tipografía */
+    color: #333; /* Color de texto */
+    border-right: 1px solid #e0e0e0; /* Opcional: línea divisoria entre columnas */
+}
+
+mat-header-cell:last-child {
+    border-right: none; /* Quita el borde derecho de la última celda */
+}
+
+mat-row {
+    display: table-row;
+    border-bottom: 1px solid #e0e0e0; /* Línea divisoria entre filas */
+}
+
+mat-cell {
+    display: table-cell;
+    padding: 8px 16px; /* Espaciado interno */
+    text-align: left;
+    vertical-align: middle; /* Alinea el contenido verticalmente */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Añade "..." si el contenido es muy largo */
+}
+
+mat-cell:last-child {
+    border-right: none; /* Quita el borde derecho de la última celda */
+}
+
+mat-paginator {
+    display: flex;
+    justify-content: space-between; /* Espacia los elementos dentro del paginador */
+    align-items: center; /* Centra verticalmente los elementos */
+    padding: 2px 0; /* Espaciado interno */
+    background-color: #f4f4f4; /* Fondo similar al encabezado */
+    border-top: 2px solid #e0e0e0; /* Línea separadora del contenido de la tabla */
+    box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.1); /* Sombra sutil para separación */
+}
+
+mat-paginator .mat-paginator-container {
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    gap: 8px; /* Espacio entre elementos en pantallas pequeñas */
+}
+
+mat-paginator .mat-paginator-page-size {
+    margin-right: 16px; /* Espaciado entre el selector de tamaño y los controles */
+}
+
+mat-paginator .mat-paginator-range-label {
+    margin: 0 16px; /* Espaciado a los lados del rango */
+    font-size: 14px; /* Tipografía consistente */
+    color: #555; /* Color más suave para el texto */
+}
+
+mat-paginator .mat-paginator-navigation-button {
+    color: #333; /* Color para los botones de navegación */
+    transition: color 0.2s ease;
+}
+
