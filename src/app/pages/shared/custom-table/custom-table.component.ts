@@ -6,7 +6,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { IButton } from '../interfaces/buttonsInterfaces';
-
+import { CustomPaginatorService } from './custom-paginator.service';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 @Component({
   selector: 'app-custom-table',
   standalone: true,
@@ -18,6 +19,9 @@ import { IButton } from '../interfaces/buttonsInterfaces';
         MatIconModule,
         MatIconButton,
         MatButton,
+    ],
+    providers: [
+        { provide: MatPaginatorIntl, useClass: CustomPaginatorService }
     ],
   templateUrl: './custom-table.component.html',
   styleUrl: './custom-table.component.scss'
