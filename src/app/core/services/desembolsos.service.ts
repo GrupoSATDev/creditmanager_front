@@ -21,7 +21,7 @@ export class DesembolsosService {
       const id = data.id;
       delete data.id;
       const {idEstado, idCuentaDestino, numeroFactura, idCuentaBancaria } = data;
-      return this._http.patch(`${this.AppSettings.detalleConsumos.url.base}/${id}?idEstado=${idEstado}&numFactura=${numeroFactura}&cuentaDestino=${idCuentaDestino}&idCuentaBancaria=${idCuentaBancaria}`,{} )
+      return this._http.patch(`${this.AppSettings.detalleConsumos.url.base}/Desembolso/${id}?idEstado=${idEstado}&numFactura=${numeroFactura}&cuentaDestino=${idCuentaDestino}&idCuentaBancaria=${idCuentaBancaria}`,{} )
   }
 
 }
