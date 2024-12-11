@@ -67,7 +67,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: '3.4',
-                title: 'Cobro aliados',
+                title: 'Subscripción',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobro-aliado',
             },

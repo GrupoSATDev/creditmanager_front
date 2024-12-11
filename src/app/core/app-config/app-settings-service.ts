@@ -243,7 +243,7 @@ export class AppSettingsService {
 
     public cobroAliado = {
         url: {
-            base: EndPoints.uriBase('CobroAliados/Tabla')
+            base: EndPoints.uriBase('CobroAliados')
         }
     }
 

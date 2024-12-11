@@ -77,7 +77,7 @@ export class GridCobroAliadosComponent implements OnInit, OnDestroy {
             action: (element) => {
                 console.log('Editing', element);
                 this.selectedData = element;
-                this.router.navigate(['pages/gestion-cobros/cobros/cobro', this.selectedData.idTrabajador])
+                this.router.navigate(['pages/gestion-cobros/cobro-aliado/factura', this.selectedData.id])
             }
         },
     ];

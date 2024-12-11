@@ -1,0 +1,219 @@
+@if(detalleFactura) {
+    <div
+        class="absolute inset-0 min-w-0 overflow-auto text-center print:overflow-visible"
+        cdkScrollable
+    >
+        <!-- Main -->
+        <div class="inline-block p-6 text-left sm:p-10 print:p-0">
+            <!-- Invoice -->
+            <div
+                class="bg-card w-240 rounded-2xl p-16 shadow print:w-auto print:rounded-none print:bg-transparent print:shadow-none"
+            >
+                <div class="flex items-start justify-between">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                        <div class="text-secondary text-4xl tracking-tight">
+                            Orden
+                        </div>
+                        <div class="text-4xl">{{detalleFactura.consecutivo}}</div>
+                        <div class="text-md mt-6">
+                            <div class="text-xl font-medium">Empresa: {{detalleFactura.nombreSubEmpresa}}</div>
+                        </div>
+                        <div class="text-secondary font-medium tracking-tight col-span-2">
+                            Periodo cobrado
+                        </div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Fecha inicial
+                        </div>
+                        <div class="font-medium">{{detalleFactura.fechaIncial | date: 'dd/MM/yyyy'}}</div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Fecha final
+                        </div>
+                        <div class="font-medium">{{detalleFactura.fechaFinal | date: 'dd/MM/yyyy'}}</div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Tipo de subscripción
+                        </div>
+                        <div class="font-medium">{{detalleFactura.subscripcion}}</div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Total
+                        </div>
+                        <div class="font-medium">{{detalleFactura.total | currency: 'USD'}}</div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Observaciónes
+                        </div>
+                        <div class="font-medium">{{detalleFactura.observacion}}</div>
+                        <div class="text-secondary font-medium tracking-tight">
+                            Estado
+                        </div>
+                        <div class="font-medium">{{detalleFactura.nombreEstadoCobro}}</div>
+                    </div>
+                    <div
+                        class="dark -mr-16 grid auto-cols-max grid-flow-col gap-x-8 rounded-l-2xl bg-accent px-8 py-6"
+                    >
+                        <div class="w-24 place-self-center">
+                            <img class="w-24" src="images/logo/logo-blanco.svg" />
+                        </div>
+                        <div class="border-l pl-10 text-md">
+                            <div>Calle 70B Cra 41 # 187</div>
+                            <div>Barranquilla - Atlantico</div>
+                            <div>+57 301 2523319</div>
+                            <div>info&#64;crediplus.com.co</div>
+                            <a target="_blank" href="https://crediplus.com.co">crediplus.com.co</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="mt-12 grid grid-cols-12 gap-x-1">
+                    <!-- Columns -->
+                    <div class="text-secondary col-span-8 text-lg font-medium">
+                        Concepto
+                    </div>
+                    <div
+                        class="text-secondary col-span-4 text-right text-lg font-medium"
+                    >
+                        Total
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    <!-- Item -->
+                    <div class="col-span-10 text-md tracking-tight ">
+                        Subscripción a plataforma CrediPlus durante el periodio {{detalleFactura.fechaIncial | date: 'dd/MM/yyyy'}} - {{detalleFactura.fechaFinal | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="col-span-2 self-center text-right">{{detalleFactura.detalleCobroAliados[0].valor | currency: 'USD'}}</div>
+
+                    <!-- Divider -->
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    <!--&lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">Development</div>
+                    <div class="self-center text-right">$60.50</div>
+                    <div class="self-center text-right">350</div>
+                    <div class="col-span-2 self-center text-right">$21,175.00</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    &lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">Testing</div>
+                    <div class="self-center text-right">$25.00</div>
+                    <div class="self-center text-right">50</div>
+                    <div class="col-span-2 self-center text-right">$1,250.00</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    &lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">
+                        Documentation & Training
+                    </div>
+                    <div class="self-center text-right">$26.50</div>
+                    <div class="self-center text-right">260</div>
+                    <div class="col-span-2 self-center text-right">$6,890.00</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    &lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">
+                        Critical bug fixes for a year
+                    </div>
+                    <div class="self-center text-right">$25,000</div>
+                    <div class="self-center text-right">2</div>
+                    <div class="col-span-2 self-center text-right">$50,000.00</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    &lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">
+                        Extended security updates for a year
+                    </div>
+                    <div class="self-center text-right">$15.000</div>
+                    <div class="self-center text-right">2</div>
+                    <div class="col-span-2 self-center text-right">$30,000.00</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    &lt;!&ndash; Item &ndash;&gt;
+                    <div class="col-span-8 text-lg font-medium">
+                        Extended updates for a year
+                    </div>
+                    <div class="self-center text-right">$50.000</div>
+                    <div class="self-center text-right">2</div>
+                    <div class="col-span-2 self-center text-right">$100,000.00</div>-->
+
+                    <!-- Spacer -->
+                    <div class="col-span-12 mt-16"></div>
+
+                    <!-- Subtotal -->
+                    <div
+                        class="text-secondary col-span-10 self-center font-medium tracking-tight"
+                    >
+                        Subtotal
+                    </div>
+                    <div class="col-span-2 text-right text-lg">{{detalleFactura.total | currency: 'USD'}}</div>
+
+                    <!-- Divider -->
+                    <div class="col-span-12 my-3 border-b"></div>
+
+                    <!-- Tax -->
+                    <!--<div
+                        class="text-secondary col-span-10 self-center font-medium tracking-tight"
+                    >
+                        Iva
+                    </div>-->
+                    <!--<div class="col-span-2 text-right text-lg">$11,365.75</div>-->
+
+                    <!-- Divider -->
+                    <!--<div class="col-span-12 my-3 border-b"></div>-->
+
+                    <!-- Discount -->
+                    <!--<div
+                        class="text-secondary col-span-10 self-center font-medium tracking-tight"
+                    >
+                        DISCOUNT
+                    </div>
+                    <div class="col-span-2 text-right text-lg">$3,680.75</div>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <div class="col-span-12 my-3 border-b"></div>-->
+
+                    <!-- Total -->
+                    <div
+                        class="text-secondary col-span-10 self-center text-2xl font-medium tracking-tight"
+                    >
+                        Total a pagar
+                    </div>
+                    <div class="col-span-2 text-right text-2xl font-medium">
+                        {{detalleFactura.total | currency: 'USD'}}
+                    </div>
+                </div>
+
+                <!--<div class="mt-16">
+                    <div class="font-medium">
+                        Please pay within 15 days. Thank you for your business.
+                    </div>
+                    <div class="mt-4 flex items-start">
+                        <img class="mt-2 w-10 flex-0" src="images/logo/logo.svg" />
+                        <div class="text-secondary ml-6 text-sm">
+                            In condimentum malesuada efficitur. Mauris volutpat
+                            placerat auctor. Ut ac congue dolor. Quisque scelerisque
+                            lacus sed feugiat fermentum. Cras aliquet facilisis
+                            pellentesque. Nunc hendrerit quam at leo commodo, a
+                            suscipit tellus dapibus. Etiam at felis volutpat est
+                            mollis lacinia. Mauris placerat sem sit amet velit
+                            mollis, in porttitor ex finibus. Proin eu nibh id libero
+                            tincidunt lacinia et eget.
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+}
+

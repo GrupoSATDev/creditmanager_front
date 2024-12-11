@@ -14,6 +14,10 @@ export class CobroAliadosService {
   ) { }
 
     getCobroAliado(param): Observable<any> {
-        return this._http.get(`${this.appSettings.cobroAliado.url.base}/${param}`)
+        return this._http.get(`${this.appSettings.cobroAliado.url.base}/Tabla/${param}`)
+    }
+
+    getCobroAliados(id): Observable<any> {
+        return this._http.get(`${this.appSettings.cobroAliado.url.base}/${id}`)
     }
 }
