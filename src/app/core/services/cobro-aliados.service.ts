@@ -20,4 +20,10 @@ export class CobroAliadosService {
     getCobroAliados(id): Observable<any> {
         return this._http.get(`${this.appSettings.cobroAliado.url.base}/${id}`)
     }
+
+    putCobroAliado(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.cobroAliado.url.base}/${id}`, data)
+    }
 }

@@ -16,6 +16,9 @@ import { MatButton } from '@angular/material/button';
 import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCobroAliadoComponent } from '../dialog-cobro-aliado/dialog-cobro-aliado.component';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 
 @Component({
   selector: 'app-grid-cobro-aliados',
@@ -52,10 +55,12 @@ export class GridCobroAliadosComponent implements OnInit, OnDestroy {
     private currencyPipe = inject(CurrencyPipe);
     private cobroAliadoService = inject(CobroAliadosService);
     public fuseService = inject(FuseConfirmationService);
+    public estadosDatosService = inject(EstadosDatosService);
 
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
+    public _matDialog = inject(MatDialog);
 
 
     data = [];
@@ -80,7 +85,37 @@ export class GridCobroAliadosComponent implements OnInit, OnDestroy {
                 this.router.navigate(['pages/gestion-cobros/cobro-aliado/factura', this.selectedData.id])
             }
         },
+        {
+            label: 'post_add',
+            icon: 'post_add',
+            action: (element) => {
+                console.log('Editing', element);
+                this.onUpdateCobro(element)
+            }
+        },
     ];
+
+    buttonsView: IButton[] = [
+        {
+            label: 'View',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Editing', element);
+                this.selectedData = element;
+                this.router.navigate(['pages/gestion-cobros/cobro-aliado/factura', this.selectedData.id])
+            }
+        },
+    ];
+
+    onUpdateCobro(data) {
+        this._matDialog.open(DialogCobroAliadoComponent, {
+            data: {
+                data: data
+            },
+            width: '30%',
+            disableClose: true
+        })
+    }
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         this.selectedTab =
@@ -136,6 +171,17 @@ export class GridCobroAliadosComponent implements OnInit, OnDestroy {
 
     }
 
+    private listenGrid() {
+        const refreshData$ = this.estadosDatosService.stateGrid.asObservable();
+
+        refreshData$.subscribe((state) => {
+            if (state) {
+                this.getAliados(this.selectedTab);
+            }
+        })
+
+    }
+
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();
@@ -143,6 +189,7 @@ export class GridCobroAliadosComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getAliados(this.selectedTab);
+        this.listenGrid();
     }
 
 }
