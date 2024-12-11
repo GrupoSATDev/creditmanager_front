@@ -28,6 +28,10 @@ export default [
                 path: 'subscripciones',
                 loadChildren: () => import('./subscripciones/subscripciones.routes')
             },
+            {
+                path: 'cobro-aliado',
+                loadChildren: () => import('./cobro-aliados/cobro-aliados.routes')
+            }
         ]
     }
 

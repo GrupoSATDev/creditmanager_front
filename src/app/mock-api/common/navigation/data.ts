@@ -65,6 +65,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-cobros/maestro',
             },
+            {
+                id: '3.4',
+                title: 'Cobro aliados',
+                type: 'basic',
+                link: '/pages/gestion-cobros/cobro-aliado',
+            },
             /*{
                 id: 'apps.gestion.subcripciones',
                 title: 'Subscripciones',
