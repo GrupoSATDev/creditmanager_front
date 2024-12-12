@@ -15,7 +15,7 @@ import { Estados } from '../../../../core/enums/estados';
 import { FormApproveComponent } from '../form-approve/form-approve.component';
 import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
-import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { CodigosEstadosSolicitudes, EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { Router } from '@angular/router';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { exportar } from '../../../../core/constant/dialogs';
@@ -53,7 +53,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private currencyPipe = inject(CurrencyPipe);
     public fuseService = inject(FuseConfirmationService);
     private router = inject(Router);
-    private selectedTab: any = EstadosSolicitudes.PENDIENTE;
+    private selectedTab: any = CodigosEstadosSolicitudes.PENDIENTE;
     public tabIndex ;
     public searchTerm: string = '';
 
@@ -139,11 +139,10 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             if (states.state) {
                 console.log('Si entro')
                 console.log(states)
-                this.selectedTab = states.tab == 0 ? EstadosSolicitudes.PENDIENTE :
-                                    states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
-                                    states.tab == 2 ? EstadosSolicitudes.APROBADA :
-                                    states.tab == 3 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
-                                    EstadosSolicitudes.APROBADA;
+                this.selectedTab = states.tab == 0 ? CodigosEstadosSolicitudes.PENDIENTE :
+                                    states.tab == 1 ? CodigosEstadosSolicitudes.RECHAZADA :
+                                    states.tab == 2 ? CodigosEstadosSolicitudes.APROBADA :
+                                    CodigosEstadosSolicitudes.PENDIENTE;
                 this.tabIndex = states.tab;
                 console.log(this.tabIndex)
                 this.getSolicitudes(this.selectedTab);
@@ -162,9 +161,9 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index;
         console.log(this.tabIndex)
-        this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.PENDIENTE :
-                           tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADA : EstadosSolicitudes.PENDIENTE
+        this.selectedTab = tabChangeEvent.index == 0 ? CodigosEstadosSolicitudes.PENDIENTE :
+                           tabChangeEvent.index == 1 ? CodigosEstadosSolicitudes.RECHAZADA :
+                           tabChangeEvent.index == 2 ? CodigosEstadosSolicitudes.APROBADA : CodigosEstadosSolicitudes.PENDIENTE
         this.getSolicitudes(this.selectedTab)
     }
 
