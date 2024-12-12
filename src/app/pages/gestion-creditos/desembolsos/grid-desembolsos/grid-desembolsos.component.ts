@@ -9,7 +9,7 @@ import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/
 import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { map, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { CodigosEstadosSolicitudes, EstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -19,6 +19,7 @@ import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
+import { CodigosDesembolso, CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 
 @Component({
   selector: 'app-grid-desembolsos',
@@ -49,7 +50,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
     private router = inject(Router);
-    private selectedTab: any = EstadosSolicitudes.PENDIENTE_DESEMBOLSO;
+    private selectedTab: any = CodigosEstadosSolicitudes.PENDIENTE;
     public tabIndex ;
     private _matDialog = inject(MatDialog);
     private estadoDatosService = inject(EstadosDatosService);
@@ -61,21 +62,38 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     data = [];
 
-    columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Estado'];
+    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Estado'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
+        'Identificación': 'documentoTrabajador',
         'Trabajador': 'nombreTrabajador',
-        'Cupo solicitado': 'cupo',
         'Empresa': 'nombreSubEmpresa',
+        'Cargo': 'cargoTrabajador',
+        'Tipo de contrato': 'tipoContratoTrabajador',
+        'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
+        'Fecha fin de contrato': 'fechaFinContratoTrabajador',
+        'Salario devengado': 'salarioDevengadoTrabajador',
+        'Cupo solicitado': 'cupo',
+        'Tipo de solicitud': 'nombreTipoSolicitud',
         'Estado': 'nombreEstadoSolicitud',
     };
 
-    columnsDesembolsos = ['Fecha de aprobación','Trabajador','Cupo aprobado', 'Empresa', 'Estado'];
+    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto consumo', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Número de cuenta', 'Estado'];
     columnPropertyMapDesembolsos = {
-        'Fecha de aprobación': 'fechaCreacion',
+        'Fecha de solicitud': 'fechaCreacion',
+        'Identificación': 'documentoTrabajador',
         'Trabajador': 'nombreTrabajador',
-        'Cupo aprobado': 'montoConsumo',
         'Empresa': 'nombreSubEmpresa',
+        'Cargo': 'cargoTrabajador',
+        'Tipo de contrato': 'tipoContratoTrabajador',
+        'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
+        'Fecha fin de contrato': 'fechaFinContratoTrabajador',
+        'Salario devengado': 'salarioDevengadoTrabajador',
+        'Monto consumo': 'montoConsumo',
+        'Cupo disponible': 'cupoDisponibleTrabajador',
+        'Tipo de consumo': 'tipoConsumo',
+        'Tipo de cuenta': 'tipoCuentaTrabajador',
+        'Número de cuenta': 'numeroCuentaTrabajador',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -131,7 +149,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     ];
 
     getSolicitudes(param): void {
-            this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
+            this.subcription$ = this.solicitudService.getSolicitudesDesembolso(param).pipe(
                 map((response) => {
                     response.data.forEach((items) => {
                         if (items.estado) {
@@ -146,7 +164,10 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 map((response) => {
                     response.data.forEach((items) => {
                         items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
+                        items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                         items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
+                        items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
                     })
                     return response;
                 })
@@ -162,67 +183,38 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     }
 
     getDesembolsos(param) {
-        if (param == EstadosSolicitudes.APROBADO_DESEMBOLSO) {
-            this.subcription$ = this.detalleConsumoService.getDetalleConsumoDesembolsos().pipe(
-                map((response) => {
-                    response.data.forEach((items) => {
-                        if (items.estado) {
-                            items.estado = Estados.ACTIVO;
-                        }else {
-                            items.estado = Estados.INACTIVO;
-                        }
-                    })
-                    return response;
-
-                }),
-                map((response) => {
-                    response.data.forEach((items) => {
-                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
-                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
-                    })
-                    return response;
+        this.subcription$ = this.detalleConsumoService.getDetallesConsumoDesembolsos(param).pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                    }else {
+                        items.estado = Estados.INACTIVO;
+                    }
                 })
-            ).subscribe((response) => {
-                if (response) {
-                    this.data = response.data;
-                }else {
-                    this.data = [];
-                }
-            }, error => {
-                this.data = [];
-            })
-        }else {
-            this.subcription$ = this.detalleConsumoService.getDetalleConsumoDesembolsosRealizado().pipe(
-                map((response) => {
-                    response.data.forEach((items) => {
-                        if (items.estado) {
-                            items.estado = Estados.ACTIVO;
-                        }else {
-                            items.estado = Estados.INACTIVO;
-                        }
-                    })
-                    return response;
+                return response;
 
-                }),
-                map((response) => {
-                    response.data.forEach((items) => {
-                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
-                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
-                    })
-                    return response;
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
+                    items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
+                    items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
+                    items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+                    items.cupoDisponibleTrabajador = this.currencyPipe.transform(items.cupoDisponibleTrabajador, 'USD', 'symbol', '1.2-2');
                 })
-            ).subscribe((response) => {
-                if (response) {
-                    this.data = response.data;
-                }else {
-                    this.data = [];
-                }
-            }, error => {
-                this.data = [];
+                return response;
             })
-
-        }
-
+        ).subscribe((response) => {
+            if (response) {
+                this.data = response.data;
+            }else {
+                this.data = [];
+            }
+        }, error => {
+            this.data = [];
+        })
     }
 
     onSearch(event: Event) {
@@ -247,7 +239,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 console.log('Si entro')
                 console.log(states)
                 this.selectedTab =
-                    states.tab == 0 ? EstadosSolicitudes.PENDIENTE :
+                    states.tab == 0 ? CodigosEstadosSolicitudes.PENDIENTE :
                     states.tab == 1 ? EstadosSolicitudes.RECHAZADA :
                     states.tab == 2 ? EstadosSolicitudes.APROBADA :
                     states.tab == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO : EstadosSolicitudes.APROBADA;
@@ -260,14 +252,14 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         this.tabIndex = tabChangeEvent.index;
-        this.selectedTab = tabChangeEvent.index == 0 ? EstadosSolicitudes.PENDIENTE_DESEMBOLSO :
-                           tabChangeEvent.index == 1 ? EstadosSolicitudes.RECHAZADA_DESEMBOLSO :
-                           tabChangeEvent.index == 2 ? EstadosSolicitudes.APROBADO_DESEMBOLSO :
-                           tabChangeEvent.index == 3 ? EstadosSolicitudes.REALIZADA_DESEMBOLSO :
+        this.selectedTab = tabChangeEvent.index == 0 ? CodigosEstadosSolicitudes.PENDIENTE :
+                           tabChangeEvent.index == 1 ? CodigosDesembolso.RECHAZADA :
+                           tabChangeEvent.index == 2 ? CodigosDesembolso.APROBADA :
+                           tabChangeEvent.index == 3 ? CodigosDesembolso.REALIZADA :
                            EstadosSolicitudes.APROBADA
-        if ([EstadosSolicitudes.PENDIENTE_DESEMBOLSO, EstadosSolicitudes.RECHAZADA_DESEMBOLSO].includes(this.selectedTab)) {
+        if ([CodigosEstadosSolicitudes.PENDIENTE].includes(this.selectedTab)) {
             this.getSolicitudes(this.selectedTab)
-        } else if([EstadosSolicitudes.APROBADO_DESEMBOLSO, EstadosSolicitudes.REALIZADA_DESEMBOLSO].includes(this.selectedTab)) {
+        } else if([CodigosDesembolso.RECHAZADA, CodigosDesembolso.APROBADA, CodigosDesembolso.REALIZADA].includes(this.selectedTab)) {
             this.getDesembolsos(this.selectedTab)
         }
     }

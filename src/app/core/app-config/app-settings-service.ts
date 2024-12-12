@@ -120,6 +120,7 @@ export class AppSettingsService {
             detalleDesembolso: EndPoints.uriBase('DetalleConsumos/DesembolsoAprobados'),
             detalleDesembolsoRealizado: EndPoints.uriBase('DetalleConsumos/DesembolsoRealizado'),
             desembolso: EndPoints.uriBase('DetalleConsumos/Desembolso'),
+            desembolsos: EndPoints.uriBase('DetalleConsumos/Desembolsos'),
         }
     }
 

@@ -14,7 +14,11 @@ export class SolicitudesService {
   ) { }
 
   getSolicitudes(param): Observable<any> {
-      return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/${param}`);
+      return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/CreditoAumento/${param}`);
+  }
+
+  getSolicitudesDesembolso(param): Observable<any> {
+      return this._http.get(`${this.appSettings.solicitudesCreditos.url.base}/Desembolso/${param}`);
   }
 
   getSolicitud(id): Observable<any> {
