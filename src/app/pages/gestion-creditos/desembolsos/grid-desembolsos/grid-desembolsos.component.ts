@@ -63,7 +63,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     data = [];
 
-    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Estado'];
+    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Tipo de cuenta', 'Número de cuenta', 'Estado'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
         'Identificación': 'documentoTrabajador',
@@ -76,6 +76,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Salario devengado': 'salarioDevengadoTrabajador',
         'Cupo solicitado': 'cupo',
         'Tipo de solicitud': 'nombreTipoSolicitud',
+        'Tipo de cuenta': 'tipoCuentaTrabajador',
+        'Número de cuenta': 'numeroCuentaTrabajador',
         'Estado': 'nombreEstadoSolicitud',
     };
 
@@ -224,7 +226,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         this.searchTerm = target.value.trim().toLowerCase();
     }
 
-    private convertDataExport(data) {
+    private convertDataExport(data, ) {
         const convertData = data.map((items) => {
             return {
                 FechaSolicitud : items.fechaCreacion,
@@ -238,6 +240,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 SalarioDevengado : items.salarioDevengadoTrabajador,
                 CupoSolicitado : items.cupo,
                 TipoSolicitud : items.nombreTipoSolicitud,
+                TipoCuenta : items.tipoCuentaTrabajador,
+                NumeroCuenta : items.numeroCuentaTrabajador,
                 Estado : items.nombreEstadoSolicitud,
             };
         });
