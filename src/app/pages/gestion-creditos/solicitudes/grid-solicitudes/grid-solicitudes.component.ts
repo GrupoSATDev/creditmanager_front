@@ -60,11 +60,11 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Fecha de solicitud','Trabajador', 'Identificación', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Estado'];
+    columns = ['Fecha de solicitud','Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Estado'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
-        'Trabajador': 'nombreTrabajador',
         'Identificación': 'documentoTrabajador',
+        'Trabajador': 'nombreTrabajador',
         'Empresa': 'nombreSubEmpresa',
         'Cargo': 'cargoTrabajador',
         'Tipo de contrato': 'tipoContratoTrabajador',
@@ -148,8 +148,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         const convertData = data.map((items) => {
             return {
               FechaSolicitud : items.fechaCreacion,
-              Trabajador : items.nombreTrabajador,
               Identificacion : items.documentoTrabajador,
+              Trabajador : items.nombreTrabajador,
               Empresa : items.nombreSubEmpresa,
               Cargo : items.cargoTrabajador,
               Contrato : items.tipoContratoTrabajador,
