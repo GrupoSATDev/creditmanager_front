@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -56,16 +56,23 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private selectedTab: any = CodigosEstadosSolicitudes.PENDIENTE;
     public tabIndex ;
     public searchTerm: string = '';
+    exportData = [];
 
     data = [];
 
-    columns = ['Fecha de solicitud','Trabajador','Cupo solicitado', 'Empresa', 'Tipo de solicitud'];
+    columns = ['Fecha de solicitud','Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Cupo solicitado','Tipo de solicitud', 'Estado'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
         'Trabajador': 'nombreTrabajador',
-        'Cupo solicitado': 'cupo',
         'Empresa': 'nombreSubEmpresa',
+        'Cargo': 'cargoTrabajador',
+        'Tipo de contrato': 'tipoContratoTrabajador',
+        'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
+        'Fecha fin de contrato': 'fechaFinContratoTrabajador',
+        'Salario devengado': 'salarioDevengadoTrabajador',
+        'Cupo solicitado': 'cupo',
         'Tipo de solicitud': 'nombreTipoSolicitud',
+        'Estado': 'nombreEstadoSolicitud',
     };
 
     buttons: IButton[] = [
@@ -117,19 +124,43 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
             map((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
+                    items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                     items.cupo = this.currencyPipe.transform(items.cupo, 'USD', 'symbol', '1.2-2');
+                    items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
-            })
+            }),
         ).subscribe((response) => {
             if (response) {
                 this.data = response.data;
+                this.convertDataExport(response.data)
             }else {
                 this.data = [];
             }
         }, error => {
             this.data = [];
         })
+    }
+
+    private convertDataExport(data) {
+        const convertData = data.map((items) => {
+            return {
+              FechaSolicitud : items.fechaCreacion,
+              Trabajador : items.nombreTrabajador,
+              Identificacion : items.documentoTrabajador,
+              Empresa : items.nombreSubEmpresa,
+              Cargo : items.cargoTrabajador,
+              Contrato : items.tipoContratoTrabajador,
+              FechaInicioContrato : items.fechaInicioContratoTrabajador,
+              FechaFinContrato : items.fechaFinContratoTrabajador,
+              SalarioDevengado : items.salarioDevengadoTrabajador,
+              CupoSolicitado : items.cupo,
+              TipoSolicitud : items.nombreTipoSolicitud,
+              Estado : items.nombreEstadoSolicitud,
+            };
+        });
+        this.exportData = convertData;
     }
 
     private listenGrid() {
@@ -191,7 +222,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
                 // Export file
-                XLSX.writeFile(workbook, 'exported_data.xlsx');
+                XLSX.writeFile(workbook, `solicitudes${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`);
             }
         })
 
