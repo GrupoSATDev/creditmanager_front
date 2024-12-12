@@ -57,6 +57,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private solicitudService = inject(SolicitudesService);
     private detalleConsumoService = inject(DetalleConsumoService);
     public fuseService = inject(FuseConfirmationService);
+    exportData = [];
 
     public searchTerm: string = '';
 
@@ -174,6 +175,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             ).subscribe((response) => {
                 if (response) {
                     this.data = response.data;
+                    this.convertDataExport(response.data)
                 }else {
                     this.data = [];
                 }
@@ -220,6 +222,26 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
         this.searchTerm = target.value.trim().toLowerCase();
+    }
+
+    private convertDataExport(data) {
+        const convertData = data.map((items) => {
+            return {
+                FechaSolicitud : items.fechaCreacion,
+                Identificacion : items.documentoTrabajador,
+                Trabajador : items.nombreTrabajador,
+                Empresa : items.nombreSubEmpresa,
+                Cargo : items.cargoTrabajador,
+                Contrato : items.tipoContratoTrabajador,
+                FechaInicioContrato : items.fechaInicioContratoTrabajador,
+                FechaFinContrato : items.fechaFinContratoTrabajador,
+                SalarioDevengado : items.salarioDevengadoTrabajador,
+                CupoSolicitado : items.cupo,
+                TipoSolicitud : items.nombreTipoSolicitud,
+                Estado : items.nombreEstadoSolicitud,
+            };
+        });
+        this.exportData = convertData;
     }
 
     ngOnDestroy(): void {
@@ -279,7 +301,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
                 // Export file
-                XLSX.writeFile(workbook, 'exported_data.xlsx');
+                XLSX.writeFile(workbook, `Desembolsos${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`);
             }
         })
 
