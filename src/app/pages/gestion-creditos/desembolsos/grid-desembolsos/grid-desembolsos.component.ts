@@ -81,18 +81,18 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Estado': 'nombreEstadoSolicitud',
     };
 
-    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto consumo', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
+    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto solicitado', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
     columnPropertyMapDesembolsos = {
         'Fecha de solicitud': 'fechaCreacion',
         'Identificación': 'documentoTrabajador',
         'Trabajador': 'nombreTrabajador',
-        'Empresa': 'nombreSubEmpresa',
+        'Empresa': 'nombreEmpresaTrabajador',
         'Cargo': 'cargoTrabajador',
         'Tipo de contrato': 'tipoContratoTrabajador',
         'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
         'Fecha fin de contrato': 'fechaFinContratoTrabajador',
         'Salario devengado': 'salarioDevengadoTrabajador',
-        'Monto consumo': 'montoConsumo',
+        'Monto solicitado': 'montoConsumo',
         'Cupo disponible': 'cupoDisponibleTrabajador',
         'Tipo de consumo': 'tipoConsumo',
         'Tipo de cuenta': 'tipoCuentaTrabajador',
@@ -178,7 +178,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             ).subscribe((response) => {
                 if (response) {
                     this.data = response.data;
-                    this.convertDataExport(response.data)
+                    this.convertDataExportPendiente(response.data)
                 }else {
                     this.data = [];
                 }
@@ -214,6 +214,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         ).subscribe((response) => {
             if (response) {
                 this.data = response.data;
+                this.convertDataExport(response.data)
             }else {
                 this.data = [];
             }
@@ -221,6 +222,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             this.data = [];
         })
     }
+
+
 
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -235,13 +238,38 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 Trabajador : items.nombreTrabajador,
                 Empresa : items.nombreSubEmpresa,
                 Cargo : items.cargoTrabajador,
-                Contrato : items.tipoContratoTrabajador,
+                TipoContrato : items.tipoContratoTrabajador,
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
                 FechaFinContrato : items.fechaFinContratoTrabajador,
                 SalarioDevengado : items.salarioDevengadoTrabajador,
-                CupoSolicitado : items.cupo,
+                MontoSolicitado : items.montoConsumo,
+                CupoDisponible : items.cupoDisponibleTrabajador,
+                TipoConsumo : items.tipoConsumo,
+                TipoCuenta : items.tipoCuentaTrabajador,
+                Banco : items.bancotrabajador,
+                NumeroCuenta : items.numeroCuentaTrabajador,
+                Estado : items.nombreEstadoCredito,
+            };
+        });
+        this.exportData = convertData;
+    }
+
+    private convertDataExportPendiente(data, ) {
+        const convertData = data.map((items) => {
+            return {
+                FechaSolicitud : items.fechaCreacion,
+                Identificacion : items.documentoTrabajador,
+                Trabajador : items.nombreTrabajador,
+                Empresa : items.nombreSubEmpresa,
+                Cargo : items.cargoTrabajador,
+                TipoContrato : items.tipoContratoTrabajador,
+                FechaInicioContrato : items.fechaInicioContratoTrabajador,
+                FechaFinContrato : items.fechaFinContratoTrabajador,
+                SalarioDevengado : items.salarioDevengadoTrabajador,
+                CupoSolicitado : items.cupoDisponibleTrabajador,
                 TipoSolicitud : items.nombreTipoSolicitud,
                 TipoCuenta : items.tipoCuentaTrabajador,
+                Banco : items.bancotrabajador,
                 NumeroCuenta : items.numeroCuentaTrabajador,
                 Estado : items.nombreEstadoSolicitud,
             };
