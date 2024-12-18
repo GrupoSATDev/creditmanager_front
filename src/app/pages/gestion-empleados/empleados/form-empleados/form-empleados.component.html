@@ -217,14 +217,14 @@
                             <mat-datepicker-toggle matIconSuffix [for]="inicio"></mat-datepicker-toggle>
                             <mat-datepicker #inicio></mat-datepicker>
                         </mat-form-field>
-                        <ng-container *ngIf="form.get('estado').value == false">
-                            <mat-form-field  class="w-full" floatLabel="always">
-                                <mat-label>Fin de contrato</mat-label>
-                                <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'" placeholder="dd/mm/yyyy">
-                                <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
-                                <mat-datepicker #fin></mat-datepicker>
-                            </mat-form-field>
-                        </ng-container>
+
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Fin de contrato</mat-label>
+                            <input matInput [matDatepicker]="fin"  [formControlName]="'fechaFinContrato'" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matIconSuffix [for]="fin"></mat-datepicker-toggle>
+                            <mat-datepicker #fin></mat-datepicker>
+                        </mat-form-field>
+
 
                     </div>
 

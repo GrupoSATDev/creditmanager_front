@@ -61,7 +61,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: '3.3',
-                title: 'Pago trabajadores',
+                title: 'Cobro trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/maestro',
             },
