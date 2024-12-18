@@ -14,7 +14,7 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Fecha de corte</mat-label>
-                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy" [max]="fechaActual">
+                        <input matInput [matDatepicker]="finalPicker"  [formControlName]="'fechaFinal'" placeholder="dd/mm/yyyy">
                         <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
                         <mat-datepicker #finalPicker></mat-datepicker>
                     </mat-form-field>
