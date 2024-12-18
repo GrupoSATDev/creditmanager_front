@@ -49,7 +49,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: '3.1',
-                title: 'Cobro trabajadores',
+                title: 'Historico - Trabajadores',
                 type: 'basic',
                 link: '/pages/gestion-cobros/cobros',
             },
