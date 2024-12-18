@@ -160,6 +160,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                     idCredito: response.data.creditos[0].id,
                     numCuentaBancaria: response.data.numCuentaBancaria,
                     idTipoCuenta: response.data.idTipoCuenta,
+                    nombreTipoCuenta: response.data.nombreTipoCuenta,
                     id
                 }
                 this.secondFormGroup.patchValue(campos);
@@ -167,7 +168,8 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                 this.thirdFormGroup.patchValue({
                     idCuentaBancaria: campos.idTipoCuenta,
                     cuentaDestino: campos.numCuentaBancaria,
-                    montoConsumo: cupo
+                    montoConsumo: cupo,
+                    nombreTipoCuenta: campos.nombreTipoCuenta,
                 })
                 this.creditos = response.data.creditos;
 
@@ -184,9 +186,18 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     }
 
     private getCuentas() {
-        this.subscription$ = this.cuentasServices.getCuentas().subscribe((response) => {
+        this.subscription$ = this.cuentasServices.getCuentasActivas().subscribe((response) => {
             this.cuentas = response.data;
+            this.thirdFormGroup.get('cuentaOrigen').setValue(response.data[0].numeroCuenta)
         })
+    }
+
+    selectedData(event: MatSelectChange) {
+        const id = event.value;
+        const origenCuenta = this.cuentas.find(item => item.idTipoCuenta == id)
+        this.thirdFormGroup.get('cuentaOrigen').setValue(origenCuenta.numeroCuenta)
+        this.thirdFormGroup.get('nombreTipoCuenta').setValue(origenCuenta.nombreTipoCuenta)
+
     }
 
     selected(matSelectChange: MatSelectChange) {
@@ -304,6 +315,8 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             numeroFactura: ['', Validators.required],
             idCuentaBancaria: ['', Validators.required],
             cuentaDestino: ['', Validators.required],
+            nombreTipoCuenta: [{value: 0, disabled: true}, Validators.required],
+            cuentaOrigen: [{value: 0, disabled: true}, Validators.required],
         })
     }
 

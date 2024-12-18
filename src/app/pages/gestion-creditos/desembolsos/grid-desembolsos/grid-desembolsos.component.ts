@@ -81,7 +81,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Estado': 'nombreEstadoSolicitud',
     };
 
-    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto consumo', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Número de cuenta', 'Estado'];
+    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto consumo', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
     columnPropertyMapDesembolsos = {
         'Fecha de solicitud': 'fechaCreacion',
         'Identificación': 'documentoTrabajador',
@@ -96,6 +96,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Cupo disponible': 'cupoDisponibleTrabajador',
         'Tipo de consumo': 'tipoConsumo',
         'Tipo de cuenta': 'tipoCuentaTrabajador',
+        'Banco': 'bancotrabajador',
         'Número de cuenta': 'numeroCuentaTrabajador',
         'Estado': 'nombreEstadoCredito',
     };

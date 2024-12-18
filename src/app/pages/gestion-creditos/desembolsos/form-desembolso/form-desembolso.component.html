@@ -80,13 +80,25 @@
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-4">
+
                             <mat-form-field class="w-full" floatLabel="always">
-                                <mat-label>Cuenta de origen</mat-label>
-                                <mat-select [formControlName]="'idCuentaBancaria'" placeholder="Cuenta de origen">
+                                <mat-label>Tipo de cuenta</mat-label>
+                                <input matInput [formControlName]="'nombreTipoCuenta'" placeholder="Tipo de cuenta"/>
+                                <mat-error *ngIf="(cuentaDestino.touched || cuentaDestino.dirty) && cuentaDestino.hasError('required')">El campo es requerido!</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Banco</mat-label>
+                                <mat-select [formControlName]="'idCuentaBancaria'" placeholder="Cuenta de origen" (selectionChange)="selectedData($event)">
                                     <mat-option [value]="cuenta.idTipoCuenta" *ngFor="let cuenta of cuentas">{{ cuenta.nombreBanco }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <mat-form-field class="w-full" floatLabel="always">
+                                <mat-label>Cuenta origen</mat-label>
+                                <input matInput [formControlName]="'cuentaOrigen'" placeholder="Cuenta destino"/>
+                                <mat-error *ngIf="(cuentaDestino.touched || cuentaDestino.dirty) && cuentaDestino.hasError('required')">El campo es requerido!</mat-error>
+                            </mat-form-field>
                             <mat-form-field class="w-full" floatLabel="always">
                                 <mat-label>Cuenta destino</mat-label>
                                 <input matInput [formControlName]="'cuentaDestino'" placeholder="Cuenta destino"/>

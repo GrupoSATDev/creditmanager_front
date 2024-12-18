@@ -17,6 +17,10 @@ export class CuentasBancariasService {
         return this._http.get(this.appSettings.cuentasBancarias.url.base);
     }
 
+    getCuentasActivas(): Observable<any> {
+        return this._http.get(`${this.appSettings.cuentasBancarias.url.base}/Select`);
+    }
+
     getCuenta(id): Observable<any> {
         return this._http.get(`${this.appSettings.cuentasBancarias.url.base}/${id}`);
     }
