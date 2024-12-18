@@ -30,6 +30,12 @@
                         <p class="text-gray-600 font-medium">Tipo de contrato:
                             <span class="text-md text-secondary ">{{items.trabajador.nombreTipoContrato}}</span>
                         </p>
+                        <p class="text-gray-600 font-medium">Fecha inicio de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaInicioContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha fin de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaFinContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
                         <p class="text-gray-600 font-medium">Salario devengado:
                             <span class="text-md text-secondary ">{{items.trabajador.salarioDevengado | currency: 'USD'}}</span>
                         </p>
@@ -56,6 +62,9 @@
                         </p>
                         <p class="font-medium text-gray-600">Fecha de Solicitud:
                             <span class="text-md text-secondary">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Estado:
+                            <span class="text-md text-secondary">{{items.nombreEstadoSolicitud }}</span>
                         </p>
                     </div>
                 </div>
