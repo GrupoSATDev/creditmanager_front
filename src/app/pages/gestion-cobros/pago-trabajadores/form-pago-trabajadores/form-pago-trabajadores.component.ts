@@ -170,18 +170,18 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                 this.totalPagar = 0;
                 if (response && Array.isArray(response.data)) {
                     response.data.forEach((items) => {
-                        items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
-                        items.pagar = (items.montoConsumo - items.comision);
-                        items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
-                        items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
+                        //items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
+                        //items.pagar = (items.montoConsumo - items.comision);
+                        items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
+                        //items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
                         items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');
                         items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
                         //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
                         items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
 
-                        this.subtotal += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
-                        this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                        this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                        //this.subtotal += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
+                        //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                        this.totalPagar += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
                     });
                 }else {
                     this.data = [];
