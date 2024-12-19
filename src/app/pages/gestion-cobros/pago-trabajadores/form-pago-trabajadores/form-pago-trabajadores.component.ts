@@ -179,9 +179,9 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                         //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
                         items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
 
-                        //this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
-                        //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                        //this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
+                        this.subtotal += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
+                        this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
+                        this.totalPagar += parseFloat(items.pagar.replace(/[^0-9.-]+/g, ''));
                     });
                 }else {
                     this.data = [];
