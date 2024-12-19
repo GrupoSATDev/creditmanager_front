@@ -89,8 +89,8 @@
                         </div>
                         <div class="flex flex-col sm:flex-row gap-4">
                             <mat-form-field class="w-full" floatLabel="always">
-                                <mat-label>Cuenta destino: </mat-label>
-                                <input matInput [formControlName]="'cuentaDestino'" placeholder="Cuenta destino"/>
+                                <mat-label>Cuenta destino:  Banco - Tipo - Número</mat-label>
+                                <input matInput [formControlName]="'cuentaDestinoInformativa'" placeholder="Cuenta destino"/>
                                 <mat-error *ngIf="(cuentaDestino.touched || cuentaDestino.dirty) && cuentaDestino.hasError('required')">El campo es requerido!</mat-error>
                             </mat-form-field>
                         </div>

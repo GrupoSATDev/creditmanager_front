@@ -135,6 +135,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
     private getSolicitud(id) {
         let cupo: number;
+        let cuentaDestinoInformativa: string;
         this.subscription$ = this.detalleConsumoService.getDetalleConsumoDesembolso(id).pipe(
             switchMap((response) => {
                 const dataForm = {
@@ -142,11 +143,13 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                     numDocumento: response.data.trabajador.numDoc
                 }
                 cupo = response.data.montoConsumo;
+                cuentaDestinoInformativa = response.data.bancotrabajador + ' - ' + response.data.tipoCuentaTrabajador + ' - ' + response.data.numeroCuentaTrabajador;
                 return this.empleadosServices.getEmpleadoParams(dataForm);
             })
         ).subscribe((response) => {
             if(response) {
                 this.showAlert = false;
+
 
                 const campos = {
                     numDoc: response.data.numDoc,
@@ -168,6 +171,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                 this.thirdFormGroup.patchValue({
                     idCuentaBancaria: campos.idTipoCuenta,
                     cuentaDestino: campos.numCuentaBancaria,
+                    cuentaDestinoInformativa: cuentaDestinoInformativa,
                     montoConsumo: cupo,
                     nombreTipoCuenta: campos.nombreTipoCuenta,
                 })
@@ -315,6 +319,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             numeroFactura: ['', Validators.required],
             idCuentaBancaria: ['', Validators.required],
             cuentaDestino: ['', Validators.required],
+            cuentaDestinoInformativa: [{value: 0, disabled: true}],
             nombreTipoCuenta: [{value: 0, disabled: true}, Validators.required],
             cuentaOrigen: [{value: 0, disabled: true}, Validators.required],
         })
