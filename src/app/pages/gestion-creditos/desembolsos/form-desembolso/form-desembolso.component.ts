@@ -162,6 +162,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                     credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
                     idCredito: response.data.creditos[0].id,
                     numCuentaBancaria: response.data.numCuentaBancaria,
+                    cuentaDestinoInformativa: cuentaDestinoInformativa,
                     idTipoCuenta: response.data.idTipoCuenta,
                     nombreTipoCuenta: response.data.nombreTipoCuenta,
                     id
@@ -310,6 +311,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             credito: ['', Validators.required],
             idCredito: ['', Validators.required],
             numCuentaBancaria: [''],
+            cuentaDestinoInformativa: [''],
             idTipoCuenta: [''],
             id: ['']
         });
