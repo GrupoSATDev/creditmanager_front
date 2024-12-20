@@ -7,7 +7,7 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatOption, MatSelect } from '@angular/material/select';
+import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import {
     AbstractControl,
     FormBuilder,
@@ -187,6 +187,11 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
     getEmpleadosSubEmpresas(id) {
         this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id)
+    }
+
+    selectedEmpleados(event: MatSelectChange) {
+        const id = event.value;
+        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id);
     }
 
     onGet() {

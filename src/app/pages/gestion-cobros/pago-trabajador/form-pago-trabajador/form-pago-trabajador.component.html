@@ -34,6 +34,7 @@
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Empresa</mat-label>
                         <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'"
+                                    (selectionChange)="selectedEmpleados($event)"
                         >
                             <ng-container *ngIf="empresa$ | async as empresas">
                                 <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
