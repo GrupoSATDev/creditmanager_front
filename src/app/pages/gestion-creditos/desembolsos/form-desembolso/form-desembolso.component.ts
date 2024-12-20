@@ -233,7 +233,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
         return this.thirdFormGroup.get('montoConsumo');
     }
     get comprobante() {
-        return this.thirdFormGroup.get('numeroFactura');
+        return this.thirdFormGroup.get('numFactura');
     }
 
     get cuentaDestino() {
@@ -242,7 +242,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
     onSave() {
         if (this.thirdFormGroup.valid) {
-            const {montoConsumo, idCuentaBancaria, cuentaDestino,  ...form} = this.thirdFormGroup.getRawValue();
+            const {montoConsumo, idCuentaBancaria, cuentaDestino, cuentaDestinoInformativa, cuentaOrigen, nombreTipoCuenta,  ...form} = this.thirdFormGroup.getRawValue();
             const { id, idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
             console.log(idCredito)
@@ -257,7 +257,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             const createData = {
                 id,
                 idEstado: CodigosEstadosSolicitudes.REALIZADA,
-                idCuentaDestino: cuentaDestino,
+                cuentaDestino: cuentaDestino,
                 idCuentaBancaria: resultadoCuenta[0].id,
                 ...form
             }
@@ -318,7 +318,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
 
         this.thirdFormGroup = this.fb.group({
             montoConsumo: [{value: 0, disabled: true}, [Validators.required] ],
-            numeroFactura: ['', Validators.required],
+            numFactura: ['', Validators.required],
             idCuentaBancaria: ['', Validators.required],
             cuentaDestino: ['', Validators.required],
             cuentaDestinoInformativa: [{value: 0, disabled: true}],

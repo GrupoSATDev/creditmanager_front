@@ -68,7 +68,7 @@
                         <div class="flex flex-col sm:flex-row items-baseline gap-4">
                             <mat-form-field class="w-full" floatLabel="always">
                                 <mat-label>Número de comprobante</mat-label>
-                                <input matInput placeholder="Número de comprobante" [formControlName]="'numeroFactura'"/>
+                                <input matInput placeholder="Número de comprobante" [formControlName]="'numFactura'"/>
                                 <mat-error *ngIf="(comprobante.touched || comprobante.dirty) && comprobante.hasError('required')">El campo es requerido!</mat-error>
                             </mat-form-field>
 
