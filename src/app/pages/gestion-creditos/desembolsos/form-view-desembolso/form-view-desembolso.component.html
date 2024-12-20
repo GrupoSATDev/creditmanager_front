@@ -30,6 +30,12 @@
                         <p class="text-gray-600 font-medium">Tipo de contrato:
                             <span class="text-md text-secondary ">{{items.trabajador.nombreTipoContrato}}</span>
                         </p>
+                        <p class="text-gray-600 font-medium">Fecha inicio de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaInicioContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha fin de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaFinContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
                         <p class="text-gray-600 font-medium">Salario devengado:
                             <span class="text-md text-secondary ">{{items.trabajador.salarioDevengado | currency: 'USD'}}</span>
                         </p>
@@ -45,6 +51,9 @@
                     </div>
 
                     <div>
+                        <p class="font-medium text-gray-600">Tipo de consumo:
+                            <span class="text-md text-secondary">{{items.tipoConsumo}}</span>
+                        </p>
                         <p class="font-medium text-gray-600">Estado de Desembolso:
                             <span class="text-md text-secondary">{{items.nombreEstadoCredito}}</span>
                         </p>
@@ -52,7 +61,10 @@
                             <span class="text-md text-secondary">{{items.montoConsumo | currency}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Fecha de Solicitud:
-                            <span class="text-md text-secondary">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                            <span class="text-md text-secondary">{{items.fechaCreacionSolicitud | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Cuenta destino:
+                            <span class="text-md text-secondary">{{items.bancotrabajador  }} - {{items.tipoCuentaTrabajador}} - {{items.numeroCuentaTrabajador}} </span>
                         </p>
                     </div>
                 </div>
