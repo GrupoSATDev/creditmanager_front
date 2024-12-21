@@ -30,9 +30,9 @@
                 class="sm:w-auto w-full sm:mt-0 mt-2 rounded-lg transition duration-200 text-white font-semibold"
                 mat-flat-button
                 [color]="'primary'"
-                [ngClass]="{'bg-green-700': data.length, 'bg-credigray-100': !data.length}"
-                [disabled]="!data.length"
-                (click)="exportToExcel(data)"
+                [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
+                [disabled]="!exportData.length"
+                (click)="exportToExcel(exportData)"
             >
                 <span> Exportar </span>
             </button>

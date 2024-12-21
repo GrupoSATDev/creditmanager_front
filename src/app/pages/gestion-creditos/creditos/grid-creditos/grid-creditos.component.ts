@@ -55,23 +55,35 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     public searchTerm: string = '';
 
     data = [];
+    exportData = [];
 
-    columns = ['Fecha de solicitud', 'Solicitante','Cupo solicitado', 'Empresa', 'Estado',];
-    columnsAprobadas = ['Fecha de aprobación', 'Solicitante','Cupo aprobado', 'Empresa', 'Estado',];
+    columns = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo solicitado', 'Empresa', 'Tasa de interes díaria', 'Estado',];
+    columnsAprobadas = ['Fecha de aprobación', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Empresa', 'Tasa de interes díaria', 'Fecha de vencimiento', 'Fecha de corte', 'Fecha limite', 'Cupo utilizado', 'Saldo disponible', 'Estado',];
 
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
+        'Identificación': 'docTrabajador',
         'Solicitante': 'nombreTrabajador',
+        'Número de crédito': 'numCredito',
         'Cupo solicitado': 'cupoSolicitado',
-        'Empresa': 'nombreEmpresaMaestra',
+        'Empresa': 'nombreSubEmpresa',
+        'Tasa de interes díaria': 'porcTasaInteres',
         'Estado': 'nombreEstadoCredito',
     };
 
     columnPropertyAprobadas = {
         'Fecha de aprobación': 'fechaAprobacion',
+        'Identificación': 'docTrabajador',
         'Solicitante': 'nombreTrabajador',
+        'Número de crédito': 'numCredito',
         'Cupo aprobado': 'cupoAprobado',
-        'Empresa': 'nombreEmpresaMaestra',
+        'Empresa': 'nombreSubEmpresa',
+        'Tasa de interes díaria': 'porcTasaInteres',
+        'Fecha de vencimiento': 'fechaVencimiento',
+        'Fecha de corte': 'fechaCorte',
+        'Fecha limite': 'fechaLimitePago',
+        'Cupo utilizado': 'cupoConsumido',
+        'Saldo disponible': 'cupoDisponible',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -127,21 +139,65 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             map((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaCorte = this.datePipe.transform(items.fechaCorte, 'dd/MM/yyyy');
+                    items.fechaLimitePago = this.datePipe.transform(items.fechaLimitePago, 'dd/MM/yyyy');
+                    items.fechaVencimiento = this.datePipe.transform(items.fechaVencimiento, 'dd/MM/yyyy');
                     items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
                     items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
                     items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
+                    items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
+                    items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
+                    items.porcTasaInteres = this.currencyPipe.transform(items.porcTasaInteres, 'percent', '%', '1.2-3');
                 })
                 return response;
             })
         ).subscribe((response) => {
             if (response) {
                 this.data = response.data;
+                this.convertDataExport(response.data)
             }else {
                 this.data = [];
             }
         }, error => {
             this.data = [];
         })
+    }
+
+    private convertDataExport(data, ) {
+        if (![EstadosCreditos.EN_REVISION].includes(this.selectedTab) ) {
+            const convertData = data.map((items) => {
+                return {
+                    FechaAprobacion : items.fechaAprobacion,
+                    Identificación : items.docTrabajador,
+                    Solicitante : items.nombreTrabajador,
+                    Númerodecrédito : items.numCredito,
+                    Cupoaprobado : items.cupoAprobado,
+                    Empresa : items.nombreSubEmpresa,
+                    Tasadeinteresdíaria : items.porcTasaInteres,
+                    Fechadevencimiento : items.fechaVencimiento,
+                    Fechadecorte : items.fechaCorte,
+                    Fechalimite : items.fechaLimitePago,
+                    Cupoutilizado : items.cupoConsumido,
+                    Saldodisponible : items.cupoDisponible,
+                    Estado : items.nombreEstadoCredito,
+                };
+            });
+            this.exportData = convertData;
+        }else {
+            const convertData = data.map((items) => {
+                return {
+                    Fechadesolicitud : items.fechaCreacion,
+                    Identificación : items.docTrabajador,
+                    Solicitante : items.nombreTrabajador,
+                    Númerodecrédito : items.numCredito,
+                    Cuposolicitado : items.cupoSolicitado,
+                    Empresa : items.nombreSubEmpresa,
+                    Tasadeinteresdíaria : items.porcTasaInteres,
+                    Estado : items.nombreEstadoCredito,
+                };
+            });
+            this.exportData = convertData;
+        }
     }
 
     onSearch(event: Event) {
@@ -175,7 +231,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
                 // Export file
-                XLSX.writeFile(workbook, 'exported_data.xlsx');
+                XLSX.writeFile(workbook, `Créditos${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`);
             }
         })
 
