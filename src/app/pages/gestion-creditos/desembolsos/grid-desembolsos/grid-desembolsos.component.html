@@ -90,9 +90,9 @@
                     <ng-template matTabContent>
                         <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
-                                [columns]="columnsDesembolsos"
-                                [displayedColumns]="columnsDesembolsos"
-                                [columnPropertyMap]="columnPropertyMapDesembolsos"
+                                [columns]="columns"
+                                [displayedColumns]="columns"
+                                [columnPropertyMap]="columnPropertyMap"
                                 [data]="data"
                                 [buttons]="buttons"
                                 [searchTerm]="searchTerm"

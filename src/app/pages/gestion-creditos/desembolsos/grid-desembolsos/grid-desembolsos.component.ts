@@ -308,13 +308,13 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         this.tabIndex = tabChangeEvent.index;
         this.selectedTab = tabChangeEvent.index == 0 ? CodigosEstadosSolicitudes.PENDIENTE :
-                           tabChangeEvent.index == 1 ? CodigosDesembolso.RECHAZADA :
+                           tabChangeEvent.index == 1 ? CodigosEstadosSolicitudes.RECHAZADA :
                            tabChangeEvent.index == 2 ? CodigosDesembolso.APROBADA :
                            tabChangeEvent.index == 3 ? CodigosDesembolso.REALIZADA :
                            EstadosSolicitudes.APROBADA
-        if ([CodigosEstadosSolicitudes.PENDIENTE].includes(this.selectedTab)) {
+        if ([CodigosEstadosSolicitudes.PENDIENTE, CodigosEstadosSolicitudes.RECHAZADA].includes(this.selectedTab)) {
             this.getSolicitudes(this.selectedTab)
-        } else if([CodigosDesembolso.RECHAZADA, CodigosDesembolso.APROBADA, CodigosDesembolso.REALIZADA].includes(this.selectedTab)) {
+        } else if([CodigosDesembolso.APROBADA, CodigosDesembolso.REALIZADA].includes(this.selectedTab)) {
             this.getDesembolsos(this.selectedTab)
         }
     }
