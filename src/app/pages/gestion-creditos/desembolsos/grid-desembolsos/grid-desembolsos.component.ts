@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { CodigosDesembolso, CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
+import { parseCurrency } from '../../../../core/utils/number-utils';
 
 @Component({
   selector: 'app-grid-desembolsos',
@@ -242,9 +243,9 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 TipoContrato : items.tipoContratoTrabajador,
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
                 FechaFinContrato : items.fechaFinContratoTrabajador,
-                SalarioDevengado : items.salarioDevengadoTrabajador,
-                MontoAprobado : items.montoConsumo,
-                CupoDisponible : items.cupoDisponibleTrabajador,
+                SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
+                MontoAprobado : parseCurrency(items.montoConsumo),
+                CupoDisponible : parseCurrency(items.cupoDisponibleTrabajador),
                 TipoConsumo : items.tipoConsumo,
                 TipoCuenta : items.tipoCuentaTrabajador,
                 Banco : items.bancotrabajador,
@@ -266,8 +267,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 TipoContrato : items.tipoContratoTrabajador,
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
                 FechaFinContrato : items.fechaFinContratoTrabajador,
-                SalarioDevengado : items.salarioDevengadoTrabajador,
-                CupoSolicitado : items.cupoDisponibleTrabajador,
+                SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
+                CupoSolicitado : (items.cupoDisponibleTrabajador),
                 TipoSolicitud : items.nombreTipoSolicitud,
                 TipoCuenta : items.tipoCuentaTrabajador,
                 Banco : items.nombreBanco,

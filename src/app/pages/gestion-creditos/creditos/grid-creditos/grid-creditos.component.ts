@@ -18,6 +18,7 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import * as XLSX from 'xlsx';
 import { exportar, guardar } from '../../../../core/constant/dialogs';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { parseCurrency } from '../../../../core/utils/number-utils';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -183,14 +184,14 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                     Identificación : items.docTrabajador,
                     Solicitante : items.nombreTrabajador,
                     Númerodecrédito : items.numCredito,
-                    Cupoaprobado : items.cupoAprobado,
+                    Cupoaprobado : parseCurrency(items.cupoAprobado),
                     Empresa : items.nombreSubEmpresa,
                     Tasadeinteresdíaria : items.porcTasaInteres,
                     Fechadevencimiento : items.fechaVencimiento,
                     Fechadecorte : items.fechaCorte,
                     Fechalimite : items.fechaLimitePago,
-                    Cupoutilizado : items.cupoConsumido,
-                    Saldodisponible : items.cupoDisponible,
+                    Cupoutilizado : parseCurrency(items.cupoConsumido),
+                    Saldodisponible : parseCurrency(items.cupoDisponible),
                     Estado : items.nombreEstadoCredito,
                 };
             });
@@ -202,7 +203,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                     Identificación : items.docTrabajador,
                     Solicitante : items.nombreTrabajador,
                     Númerodecrédito : items.numCredito,
-                    Cuposolicitado : items.cupoSolicitado,
+                    Cuposolicitado : parseCurrency(items.cupoSolicitado),
                     Empresa : items.nombreSubEmpresa,
                     Tasadeinteresdíaria : items.porcTasaInteres,
                     Estado : items.nombreEstadoCredito,

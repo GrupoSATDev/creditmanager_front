@@ -21,6 +21,7 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { parseCurrency } from '../../../../core/utils/number-utils';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -155,8 +156,8 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
               Contrato : items.tipoContratoTrabajador,
               FechaInicioContrato : items.fechaInicioContratoTrabajador,
               FechaFinContrato : items.fechaFinContratoTrabajador,
-              SalarioDevengado : items.salarioDevengadoTrabajador,
-              CupoSolicitado : items.cupo,
+              SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
+              CupoSolicitado : parseCurrency(items.cupo),
               TipoSolicitud : items.nombreTipoSolicitud,
               Estado : items.nombreEstadoSolicitud,
             };
