@@ -237,7 +237,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 FechaSolicitud : items.fechaCreacion,
                 Identificacion : items.documentoTrabajador,
                 Trabajador : items.nombreTrabajador,
-                Empresa : items.nombreSubEmpresa,
+                Empresa : items.nombreEmpresaTrabajador,
                 Cargo : items.cargoTrabajador,
                 TipoContrato : items.tipoContratoTrabajador,
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
