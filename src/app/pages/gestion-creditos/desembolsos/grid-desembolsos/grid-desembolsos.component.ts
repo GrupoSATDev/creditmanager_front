@@ -82,7 +82,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Estado': 'nombreEstadoSolicitud',
     };
 
-    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto solicitado', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
+    columnsDesembolsos = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
     columnPropertyMapDesembolsos = {
         'Fecha de solicitud': 'fechaCreacion',
         'Identificación': 'documentoTrabajador',
@@ -93,7 +93,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
         'Fecha fin de contrato': 'fechaFinContratoTrabajador',
         'Salario devengado': 'salarioDevengadoTrabajador',
-        'Monto solicitado': 'montoConsumo',
+        'Monto aprobado': 'montoConsumo',
         'Cupo disponible': 'cupoDisponibleTrabajador',
         'Tipo de consumo': 'tipoConsumo',
         'Tipo de cuenta': 'tipoCuentaTrabajador',
@@ -243,7 +243,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
                 FechaFinContrato : items.fechaFinContratoTrabajador,
                 SalarioDevengado : items.salarioDevengadoTrabajador,
-                MontoSolicitado : items.montoConsumo,
+                MontoAprobado : items.montoConsumo,
                 CupoDisponible : items.cupoDisponibleTrabajador,
                 TipoConsumo : items.tipoConsumo,
                 TipoCuenta : items.tipoCuentaTrabajador,
