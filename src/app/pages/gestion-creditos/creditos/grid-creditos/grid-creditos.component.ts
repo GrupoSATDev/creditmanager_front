@@ -110,6 +110,18 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         },
     ];
 
+    buttonsViewRechazado: IButton[] = [
+        {
+            label: 'View',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
+                this.router.navigate(['pages/gestion-creditos/creditos/view-rechazado', this.selectedData.id])
+            }
+        },
+    ];
+
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         console.log('tabChangeEvent => ', tabChangeEvent);
         console.log('index => ', tabChangeEvent.index);
