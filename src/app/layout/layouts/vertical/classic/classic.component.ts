@@ -55,7 +55,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
         'Desembolso': ['2', '2.3'],
         'aliado': ['1', '2', '2.4'],
         trabajador: ['1'],
-        auditor: ['1'],
+        'Auditor': ['2', '2.1', '2.2', '8', '8.1'],
     };
 
     /**

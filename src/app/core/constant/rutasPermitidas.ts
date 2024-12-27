@@ -3,4 +3,5 @@ export const RoleRouteMap: { [key: string]: string } = {
     'Analista': '/pages/gestion-creditos/desembolsos',
     'Aliado': '/pages/gestion-creditos/detalle-consumo',
     'Desembolso': '/pages/gestion-creditos/desembolsos',
+    'Auditor': '/pages/gestion-creditos/solicitudes',
 };
