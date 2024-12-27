@@ -14,7 +14,7 @@ export class CreditosService {
   ) { }
 
     getCreditos(param): Observable<any> {
-        return this._http.get(`${this.appSettings.creditos.url.base}/${param}`)
+        return this._http.get(`${this.appSettings.creditos.url.base}/Estado/${param}`)
     }
 
     getCredito(id): Observable<any> {
@@ -25,5 +25,10 @@ export class CreditosService {
       const id = data.id;
       delete data.id;
       return this._http.put(`${this.appSettings.creditos.url.base}/${id}`, data)
+    }
+
+    patchRechazado(data): Observable<any> {
+      const id = data.id;
+      return this._http.patch(`${this.appSettings.creditos.url.base}/${id}?id=${data.id}&idEstado=${data.idEstado}`, {})
     }
 }

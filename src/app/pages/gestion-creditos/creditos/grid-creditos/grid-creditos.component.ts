@@ -118,7 +118,8 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             tabChangeEvent.index == 0 ? EstadosCreditos.EN_REVISION :
             tabChangeEvent.index == 1 ? EstadosCreditos.APROBADO :
             tabChangeEvent.index == 2 ? EstadosCreditos.VENCIDO :
-            tabChangeEvent.index == 3 ? EstadosCreditos.BLOQUEADO : EstadosCreditos.EN_REVISION;
+            tabChangeEvent.index == 3 ? EstadosCreditos.BLOQUEADO :
+            tabChangeEvent.index == 4 ? EstadosCreditos.RECHAZADO : EstadosCreditos.EN_REVISION;
             this.getCreditos(this.selectedTab);
 
     }

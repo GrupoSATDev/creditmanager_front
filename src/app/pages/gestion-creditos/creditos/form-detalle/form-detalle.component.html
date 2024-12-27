@@ -162,7 +162,7 @@
                     <div class="flex flex-wrap justify-end items-center mt-7 gap-2.5">
                         <button
                             mat-flat-button class="lg:w-auto w-full bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-                            [disabled]="form.invalid"
+                            (click)="onRechazado()"
                         >
                             Rechazar
                         </button>

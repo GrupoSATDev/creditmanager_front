@@ -31,7 +31,7 @@ import { TasasInteresService } from '../../../../core/services/tasas-interes.ser
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { guardar } from '../../../../core/constant/dialogs';
-import { CodigoEstadosCreditos } from '../../../../core/enums/estados-creditos';
+import { CodigoEstadosCreditos, EstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
@@ -232,6 +232,40 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
                 }
             })
         }
+    }
+
+    onRechazado() {
+        const createData = {
+            id: this.idCredito,
+            idEstado: EstadosCreditos.RECHAZADO
+        }
+
+        const dialog = this.fuseService.open({
+            ...guardar
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+
+            if (response === 'confirmed') {
+                this.creditoService.patchRechazado(createData).subscribe((res) => {
+                    this.estadosDatosService.stateGrid.next(true);
+                    this.swalService.ToastAler({
+                        icon: 'success',
+                        title: 'Registro Creado o Actualizado con Exito.',
+                        timer: 4000,
+                    })
+                    this.router.navigate(['/pages/gestion-creditos/creditos']);
+                }, error => {
+                    this.swalService.ToastAler({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error al crear el registro!',
+                        timer: 4000,
+                    })
+                })
+            }
+        })
+
+
     }
 
     createForm() {
