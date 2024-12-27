@@ -84,7 +84,7 @@ export const appRoutes: Route[] = [
                 path: 'configuracion', loadChildren: () => import('app/pages/configuraciones/configuraciones.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin']
+                    roles: ['Super Admin', 'Auditor']
                 }
             },
             {
@@ -98,28 +98,28 @@ export const appRoutes: Route[] = [
                 path: 'gestion-trabajadores', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista']
+                    roles: ['Super Admin', 'Analista', 'Auditor']
                 }
             },
             {
                 path: 'gestion-cobros', loadChildren: () => import('app/pages/gestion-cobros/gestion-cobros.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista']
+                    roles: ['Super Admin', 'Analista', 'Auditor']
                 }
             },
             {
                 path: 'gestion-bancos', loadChildren: () => import('app/pages/gestion-bancos/gestion-bancos.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin']
+                    roles: ['Super Admin', 'Auditor']
                 }
             },
             {
                 path: 'gestion-seguridad', loadChildren: () => import('app/pages/seguridad/seguridad.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin']
+                    roles: ['Super Admin', 'Auditor']
                 }
             },
             {
