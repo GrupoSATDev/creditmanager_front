@@ -57,7 +57,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     data = [];
     exportData = [];
 
-    columns = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo solicitado', 'Empresa', 'Tasa de interes díaria', 'Estado',];
+    columns = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo solicitado', 'Empresa', 'Estado',];
     columnsAprobadas = ['Fecha de aprobación', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Empresa', 'Tasa de interes díaria', 'Fecha de vencimiento', 'Fecha de corte', 'Fecha limite', 'Cupo utilizado', 'Saldo disponible', 'Estado',];
 
     columnPropertyMap = {
@@ -67,7 +67,6 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         'Número de crédito': 'numCredito',
         'Cupo solicitado': 'cupoSolicitado',
         'Empresa': 'nombreSubEmpresa',
-        'Tasa de interes díaria': 'porcTasaInteres',
         'Estado': 'nombreEstadoCredito',
     };
 

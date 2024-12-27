@@ -32,6 +32,10 @@ export class PagoTrabajadoresService {
         return this._http.get(`${this.appSettings.pagoTrabajadores.url.base}/${id}`)
     }
 
+    getPagosTrabajadorIndividual(id): Observable<any> {
+        return this._http.get(`${this.appSettings.pagoTrabajadores.url.base}/individual/${id}`)
+    }
+
     tipoPagoTrabajadores(): Observable<any> {
       return this._http.get(this.appSettings.pagoTrabajadores.url.baseTipo)
     }
