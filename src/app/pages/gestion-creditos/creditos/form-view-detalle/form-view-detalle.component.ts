@@ -26,6 +26,7 @@ import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmDesembolsoComponent } from '../dialog-confirm-desembolso/dialog-confirm-desembolso.component';
 import { DialogCostosAdicionalesComponent } from '../dialog-costos-adicionales/dialog-costos-adicionales.component';
+import { DialogBloqueoComponent } from '../dialog-bloqueo/dialog-bloqueo.component';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -86,6 +87,16 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
 
     onCostos() {
         this._matDialog.open(DialogCostosAdicionalesComponent, {
+            data: {
+                data: this.items
+            },
+            width: '30%',
+            disableClose: true
+        })
+    }
+
+    onBloqueo() {
+        this._matDialog.open(DialogBloqueoComponent, {
             data: {
                 data: this.items
             },
