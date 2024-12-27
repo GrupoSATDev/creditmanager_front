@@ -1,0 +1,49 @@
+<div class="relative flex h-full w-full flex-col">
+    <!-- Content -->
+    <div
+        class="flex flex-auto flex-col items-center pb-6 sm:flex-row sm:items-start sm:pb-8"
+    >
+        <div class="flex h-10 w-10 flex-0 items-center justify-center rounded-full sm:mr-4 bg-blue-100 text-blue-600 dark:bg-blue-600 dark:text-blue-50"
+        >
+            <mat-icon
+                [svgIcon]="'heroicons_solid:question-mark-circle'"
+            >
+
+            </mat-icon>
+        </div>
+
+        <div class="flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:pr-8 sm:text-left">
+            <div class="text-xl font-medium leading-6">
+                Confirmacion
+            </div>
+
+            <div  class="text-secondary">
+                ¿Está seguro de debloquear el crédito?.
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="flex items-center justify-center space-x-3 bg-gray-50  py-4 dark:bg-black dark:bg-opacity-10 sm:justify-end"
+    >
+        <button mat-stroked-button [matDialogClose]="'cancelled'"
+                class="fuse-mat-button-large bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold">
+            Cancelar
+        </button>
+
+        <button
+            mat-flat-button
+            [color]="'primary'"
+            [matDialogClose]="'confirmed'"
+            class="fuse-mat-button-large hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+            (click)="onDesbloquear()"
+        >
+            Confirmar
+        </button>
+
+    </div>
+
+</div>
+

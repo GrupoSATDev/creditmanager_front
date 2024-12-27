@@ -65,22 +65,35 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 gap-4 justify-items-stretch max-w-lg mb-4 md:grid-cols-2 mx-auto place-content-start">
-                    <button
-                        mat-flat-button
-                        class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                        (click)="onCostos()"
-                    >
-                        Costos adicionales
-                    </button>
-                    <button
-                        mat-flat-button
-                        class="lg:w-auto w-full mt-4 bg-crediorange-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                        (click)="onBloqueo()"
-                    >
-                        Bloquear crédito
-                    </button>
-                </div>
+                @if (items.idEstadoCredito == EstadosCreditos.APROBADO) {
+                    <div class="grid grid-cols-1 gap-4 justify-items-stretch max-w-lg mb-4 md:grid-cols-2 mx-auto place-content-start">
+                        <button
+                            mat-flat-button
+                            class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            (click)="onCostos()"
+                        >
+                            Costos adicionales
+                        </button>
+                        <button
+                            mat-flat-button
+                            class="lg:w-auto w-full mt-4 bg-crediorange-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            (click)="onBloqueo()"
+                        >
+                            Bloquear crédito
+                        </button>
+                    </div>
+                } @else {
+                    <div class="grid grid-cols-1 gap-4 justify-items-stretch max-w-lg mb-4 md:grid-cols-2 mx-auto">
+                        <button
+                            mat-flat-button
+                            class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            (click)="onDesbloqueo()"
+                        >
+                            Desbloquear
+                        </button>
+                    </div>
+
+                }
                 <!--<div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-stretch lg:justify-items-center place-content-start">
                     <button
                         mat-flat-button
