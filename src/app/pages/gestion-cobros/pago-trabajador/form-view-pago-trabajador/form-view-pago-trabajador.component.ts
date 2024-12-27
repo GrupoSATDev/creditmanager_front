@@ -1,12 +1,13 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe, NgForOf } from '@angular/common';
 import { IConfig, provideNgxMask } from 'ngx-mask';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -15,7 +16,12 @@ const maskConfig: Partial<IConfig> = {
 @Component({
   selector: 'app-form-view-pago-trabajador',
   standalone: true,
-  imports: [],
+    imports: [
+        CdkScrollable,
+        CurrencyPipe,
+        DatePipe,
+        NgForOf,
+    ],
   templateUrl: './form-view-pago-trabajador.component.html',
   styleUrl: './form-view-pago-trabajador.component.scss',
     providers: [
