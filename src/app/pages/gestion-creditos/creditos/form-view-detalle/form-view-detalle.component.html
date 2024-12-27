@@ -24,6 +24,18 @@
                         <p class="font-medium text-gray-600">Cargo:
                             <span class="text-md text-secondary">{{items.trabajador.cargo}}</span>
                         </p>
+                        <p class="font-medium text-gray-600">Tipo de contrato:
+                            <span class="text-md text-secondary">{{items.trabajador.nombreTipoContrato}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha inicio de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaInicioContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha fin de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaFinContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Salario devengado:
+                            <span class="text-md text-secondary">{{items.trabajador.salarioDevengado}}</span>
+                        </p>
                         <p class="font-medium text-gray-600">Correo:
                             <span class="text-md text-secondary">{{items.trabajador.correo}}</span>
                         </p>
