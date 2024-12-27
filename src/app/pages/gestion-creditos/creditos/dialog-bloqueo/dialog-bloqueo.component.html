@@ -29,7 +29,7 @@
         class="flex items-center justify-center space-x-3 bg-gray-50  py-4 dark:bg-black dark:bg-opacity-10 sm:justify-end"
     >
         <button mat-stroked-button [matDialogClose]="'cancelled'"
-                class="fuse-mat-button-large bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold">
+                class="sm:w-auto w-full bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold">
             Cancelar
         </button>
 
@@ -37,7 +37,7 @@
             mat-flat-button
             [color]="'primary'"
             [matDialogClose]="'confirmed'"
-            class="fuse-mat-button-large hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+            class="sm:w-auto w-full bg-crediblue-50  hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
             (click)="onBloquear()"
         >
             Confirmar
