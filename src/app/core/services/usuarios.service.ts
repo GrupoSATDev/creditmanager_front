@@ -31,4 +31,15 @@ export class UsuariosService {
         delete data.id;
         return this._http.put(`${this.appSettingService.usuarios.url.base}/Empresa/${id}`, data)
     }
+
+    putUsuarioComunes(data):  Observable<any> {
+        const id = data.id;
+        delete data.id;
+        return this._http.put(`${this.appSettingService.usuarios.url.base}/Comunes`, data)
+    }
+
+    getUsuarioComun(): Observable<any> {
+        return this._http.get(`${this.appSettingService.usuarios.url.base}/Comunes`)
+    }
+
 }

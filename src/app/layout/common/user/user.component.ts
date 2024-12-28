@@ -3,7 +3,7 @@ import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, inject,
     Input,
     OnDestroy,
     OnInit,
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { Subject, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { MiPerfilComponent } from '../../../pages/profile/mi-perfil/mi-perfil.component';
 
 @Component({
     selector: 'user',
@@ -42,6 +44,7 @@ export class UserComponent implements OnInit, OnDestroy {
     user: User;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _matDialog = inject(MatDialog);
 
     /**
      * Constructor
@@ -78,6 +81,15 @@ export class UserComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    openProfile() {
+        this._matDialog.open(MiPerfilComponent, {
+            autoFocus: false,
+            maxHeight: '97vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -17,6 +17,7 @@ export class EmpleadosService {
         return this._http.get(this.appSettings.empleados.url.base)
     }
 
+
     getEmpleadosSubempresas(id): Observable<any> {
         return this._http.get(`${this.appSettings.empleados.url.base}/subEmpresa?IdSubEmpresa=${id}`)
     }

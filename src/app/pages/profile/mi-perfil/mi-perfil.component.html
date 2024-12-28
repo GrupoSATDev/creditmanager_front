@@ -1,0 +1,146 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+
+    <div
+        class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+    >
+        Mi perfil
+    </div>
+
+    <form class="mt-8" [formGroup]="form">
+
+        <div>
+            <p class="font-bold mb-4 text-2xl">Información general</p>
+            <div class="flex flex-col sm:flex-row gap-2.5">
+                <!-- Name field -->
+                <mat-form-field class="w-full" floatLabel="always">
+                    <mat-label>Primer nombre</mat-label>
+                    <input  matInput [formControlName]="'nombre'" placeholder="Primer nombre"  [readonly]="true"/>
+                </mat-form-field>
+
+                <mat-form-field  class="w-full" floatLabel="always">
+                    <mat-label>Primer apellido</mat-label>
+                    <input  matInput [formControlName]="'apellido'" placeholder="Primer apellido"  [readonly]="true"/>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex flex-col lg:flex-row mb-4 gap-2">
+                <!-- Password field -->
+                <mat-form-field class="w-full" floatLabel="always">
+                    <mat-label>Contraseña</mat-label>
+                    <input
+                        id="contrasena"
+                        matInput
+                        type="password"
+                        [formControlName]="'contrasena'"
+                        #passwordField
+                        placeholder="Contraseña"
+                    />
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="
+                                passwordField.type === 'password'
+                                    ? (passwordField.type = 'text')
+                                    : (passwordField.type = 'password')
+                            "
+                        matSuffix
+                    >
+                        @if (passwordField.type === 'password') {
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:eye'"
+                            ></mat-icon>
+                        }
+                        @if (passwordField.type === 'text') {
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:eye-slash'"
+                            ></mat-icon>
+                        }
+                    </button>
+                    @if (form.get('contrasena').dirty || form.get('contrasena').touched) {
+                        <mat-error>
+                            @if (form.get('contrasena').hasError('minlength')) {
+                                El mínimo de caracteres son 5.
+                            }
+                            @if (form.get('contrasena').hasError('maxlength')) {
+                                El maximo de caracteres son 20.
+                            }
+                        </mat-error>
+                    }
+                </mat-form-field> <!-- Password field -->
+
+                <mat-form-field class="w-full" floatLabel="always">
+                    <mat-label>Confirmar contraseña</mat-label>
+                    <input
+                        id="confirmaContrasena"
+                        matInput
+                        type="password"
+                        [formControlName]="'confirmaContrasena'"
+                        #passwordConfirm
+                        placeholder="Confirmar contraseña"
+                    />
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="
+                                passwordConfirm.type === 'password'
+                                    ? (passwordConfirm.type = 'text')
+                                    : (passwordConfirm.type = 'password')
+                            "
+                        matSuffix
+                    >
+                        @if (passwordConfirm.type === 'password') {
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:eye'"
+                            ></mat-icon>
+                        }
+                        @if (passwordConfirm.type === 'text') {
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:eye-slash'"
+                            ></mat-icon>
+                        }
+                    </button>
+                    @if (form.get('confirmaContrasena').dirty || form.get('confirmaContrasena').touched) {
+                        <mat-error>
+                            @if (form.get('confirmaContrasena').hasError('minlength')) {
+                                El mínimo de caracteres son 5.
+                            }
+                            @if (form.get('confirmaContrasena').hasError('maxlength')) {
+                                El maximo de caracteres son 20.
+                            }
+                            @if (form.get('confirmaContrasena').hasError('passwordMismatchError')) {
+                                Las contraseñas no coinciden!
+                            }
+                        </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-end gap-2.5 ">
+            <button mat-stroked-button [matDialogClose]="'cancelled'"
+                    class="sm:w-auto w-full bg-crediorange-100 rounded-lg transition duration-200 text-white font-semibold">
+                Cancelar
+            </button>
+
+            <button
+                mat-flat-button
+                [color]="'primary'"
+                [matDialogClose]="'confirmed'"
+                class="sm:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                (click)="onSave()"
+
+            >
+                Actualizar
+            </button>
+
+        </div>
+
+    </form>
+
+
+</div>
