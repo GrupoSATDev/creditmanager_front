@@ -112,6 +112,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     };
 
     compareValor: any;
+    isStepThreeComplete = false;
 
 
     public creditos = [];
@@ -276,6 +277,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                             title: 'Registro Creado o Actualizado con Exito.',
                             timer: 4000,
                         })
+                        this.isStepThreeComplete = true;
                         this.getResumenCompra(idTrabajador);
                     }, error => {
                         this.errorHandlerService.errorHandler(error);
@@ -288,12 +290,8 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     getResumenCompra(id) {
         this.subscription$ = this.detalleConsumo.getResumen(id).subscribe((response) => {
             if (response) {
-                console.log(response)
                 this.detaleConsumo = response.data;
                 this.stepper.next();
-                setTimeout(() => {
-                    this.cerrar();
-                }, 5000)
             }
         })
     }

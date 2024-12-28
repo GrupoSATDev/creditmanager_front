@@ -5,7 +5,7 @@
             {{ 'Desembolso' }}
         </div>
 
-        <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'1500'">
+        <mat-stepper [orientation]="'vertical'" [linear]="true" #stepper class="w-full px-6 py-4" [animationDuration]="'1500'" >
             <!-- Primer paso: Consulta de empleado -->
 
             <mat-step [stepControl]="secondFormGroup" label="Verificar información">
@@ -62,7 +62,7 @@
             </mat-step>
 
             <!-- Segundo paso: Información del Documento -->
-            <mat-step [stepControl]="thirdFormGroup" label="Confirmar desembolso">
+            <mat-step  label="Confirmar desembolso">
                 <div class="w-full h-full p-4 sm:p-8">
                     <form [formGroup]="thirdFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
                         <div class="flex flex-col sm:flex-row items-baseline gap-4">
@@ -103,7 +103,7 @@
             </mat-step>
 
             <!-- Resumen de desembolso -->
-            <mat-step label="Resumen de desembolso">
+            <mat-step label="Resumen de desembolso" [completed]="isStepThreeComplete">
                 <div class="w-full px-4 sm:px-8" *ngIf="detaleConsumo">
                     <div class="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
                         <div class="border-b pb-4 mb-4 text-center">
@@ -122,7 +122,7 @@
                             </div>
                             <div class="flex justify-between items-center border-b pb-2">
                                 <div><h3 class="text-lg font-semibold text-gray-700">Valor</h3></div>
-                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.montoConsumo }}</p>
+                                <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.montoConsumo | currency: 'USD' }}</p>
                             </div>
                             <div class="flex justify-between items-center border-b pb-2">
                                 <div><h3 class="text-lg font-semibold text-gray-700">Cuenta de origen</h3></div>
@@ -132,6 +132,9 @@
                                 <div><h3 class="text-lg font-semibold text-gray-700">Cuenta destino</h3></div>
                                 <p class="text-lg font-bold text-gray-800">{{ detaleConsumo.cuentaDestino }}</p>
                             </div>
+                        </div>
+                        <div class="py-4">
+                            <button (click)="cerrar()" mat-button class="w-full py-2 px-4 text-white bg-crediblue-50 rounded-lg hover:bg-opacity-80">Cerrar</button>
                         </div>
                     </div>
                 </div>
