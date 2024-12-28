@@ -49,6 +49,15 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
         if (this.buttons.length > 0 && !this.displayedColumns.includes('actions')) {
             this.displayedColumns = [...this.displayedColumns, 'actions'];
         }
+
+        this.dataSource.sortingDataAccessor = (data: T, sortHeaderId: string) => {
+            const property = this.columnPropertyMap[sortHeaderId] || sortHeaderId;
+            return this.resolveNestedProperty(data, property);
+        };
+    }
+
+    resolveNestedProperty(data: any, property: string): any {
+        return property.split('.').reduce((obj, key) => obj && obj[key], data) || '';
     }
 
     ngOnChanges(changes: SimpleChanges): void {
