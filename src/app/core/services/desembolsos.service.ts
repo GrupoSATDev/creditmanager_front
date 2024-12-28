@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsService } from '../app-config/app-settings-service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,8 @@ export class DesembolsosService {
   patchDesembolso(data): Observable<any> {
       const id = data.id;
       delete data.id;
-      const {idEstado, idCuentaDestino, numeroFactura, idCuentaBancaria } = data;
-      return this._http.patch(`${this.AppSettings.detalleConsumos.url.base}/Desembolso/${id}?idEstado=${idEstado}&numFactura=${numeroFactura}&cuentaDestino=${idCuentaDestino}&idCuentaBancaria=${idCuentaBancaria}`,{} )
+      const {idEstado, cuentaDestino, numFactura, idCuentaBancaria } = data;
+      return this._http.patch(`${this.AppSettings.detalleConsumos.url.base}/Desembolso/${id}?idEstado=${idEstado}&numFactura=${numFactura}&cuentaDestino=${cuentaDestino}&idCuentaBancaria=${idCuentaBancaria}`,{} )
   }
 
 }
