@@ -12,6 +12,8 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
+import * as XLSX from 'xlsx';
+import { parseCurrency } from '../../../../core/utils/number-utils';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -48,6 +50,7 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
     private datePipe = inject(DatePipe);
     private pagoTrabajadorService = inject(PagoTrabajadoresService);
     private subscription$: Subscription;
+    exportData: any;
 
     data = [];
     totalPagar: number;
@@ -94,9 +97,51 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
                 this.form.fechaCreacion = this.datePipe.transform( response.data.fechaCreacion, 'dd/MM/YYYY');
                 this.form.fechaFinal = response.data.fechaFinal;
                 this.form.nombreSubempresa = response.data.nombreSubempresa;
-                this.form.total = this.currencyPipe.transform(response.data.total, 'USD', 'symbol', '1.2-2');;
+                this.form.total = this.currencyPipe.transform(response.data.total, 'USD', 'symbol', '1.2-2');
+                this.exportData = response.data;
             //}
         })
+    }
+
+    exportToExcel() {
+        const header = [
+            ['Detalle pago trabajadores'], // Título
+            ['Empresa:', this.exportData.nombreSubempresa],
+            ['Fecha de liquidación:',this.exportData.fechaFinal],
+            ['Total:', this.exportData.total],
+        ];
+
+
+        const detalle = this.exportData.detallePagoTrabajador.map((items) => {
+            return {
+                Identificación: items.documentoTrabajador,
+                'Nombre completo': items.nombreCompleto,
+                'Valor pagado': parseCurrency(items.valorPago),
+            };
+        })
+
+        // Crear una hoja de trabajo para el encabezado
+        const worksheet = XLSX.utils.aoa_to_sheet(header);
+
+        // Agregar espacio entre el encabezado y el detalle
+        const detailStartRow = header.length + 2; // Encabezado + 1 fila vacía
+
+        // Combinar encabezado y detalle en la misma hoja
+        XLSX.utils.sheet_add_json(worksheet, detalle, {
+            origin: `A${detailStartRow}`, // Comienza después del encabezado
+            skipHeader: false, // Incluye encabezados de columnas
+        });
+
+        // Ajustar celdas (opcional: unir celdas para título)
+        worksheet['!merges'] = [
+            { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }, // Unir celdas para el título
+        ];
+
+        // Crear el libro de trabajo y guardar
+        const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, `DetallePago${this.exportData.fechaFinal}`);
+        XLSX.writeFile(workbook, `DetallePago${this.exportData.fechaFinal}.xlsx`);
+
     }
 
     closeDialog() {
