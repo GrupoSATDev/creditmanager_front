@@ -48,7 +48,7 @@
                 </mat-step>
 
                 <!-- Segundo Stepper: Información del Documento -->
-                <mat-step [stepControl]="secondFormGroup" label="Verificar información" [editable]="false">
+                <mat-step [stepControl]="secondFormGroup" label="Verificar información" >
                     <div class="w-full">
                         <form [formGroup]="secondFormGroup" class="space-y-4 w-full max-w-lg mx-auto">
                             <div class="flex flex-col sm:flex-row gap-4">
@@ -88,9 +88,8 @@
                                 </mat-form-field>
                             </div>
                         </form>
-                        <div class="flex flex-wrap justify-center sm:justify-center gap-4 mt-2">
-                            <button mat-button matStepperPrevious class="sm:w-auto w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Anterior</button>
-                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="sm:w-auto w-full bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
+                        <div class="flex flex-wrap justify-center sm:justify-center mt-2 w-full">
+                            <button mat-button [disabled]="secondFormGroup.invalid" matStepperNext class="w-2/3 bg-crediblue-50 text-white py-2 px-4 rounded">Siguiente</button>
                         </div>
                     </div>
 

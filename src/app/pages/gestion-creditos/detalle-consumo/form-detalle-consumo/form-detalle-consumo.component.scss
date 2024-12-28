@@ -4,3 +4,7 @@
     background-color: #155ee9 !important;
     color: #fff;
 }
+
+::ng-deep .mat-vertical-stepper-header{
+    pointer-events: none !important;
+}
