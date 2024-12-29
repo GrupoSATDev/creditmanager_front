@@ -247,6 +247,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             const { id, idCredito, idTrabajador } = this.secondFormGroup.getRawValue();
 
             console.log(idCredito)
+
             const cuenta = this.cuentas;
             const resultadoCuenta = cuenta.filter((cuenta) => {
                 if (cuenta.idTipoCuenta == idCuentaBancaria) {
@@ -258,7 +259,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
             const createData = {
                 id,
                 idEstado: CodigosEstadosSolicitudes.REALIZADA,
-                cuentaDestino: cuentaDestino,
+                cuentaDestino: cuentaDestinoInformativa,
                 idCuentaBancaria: resultadoCuenta[0].id,
                 ...form
             }
