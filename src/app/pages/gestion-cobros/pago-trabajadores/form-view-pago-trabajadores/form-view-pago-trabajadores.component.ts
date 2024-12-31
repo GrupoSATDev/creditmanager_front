@@ -65,11 +65,11 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
         total: ''
     }
 
-    columns = ['Identificación', 'Nombres Apellidos', 'Valor pagado' ];
+    columns = ['Identificación', 'Nombres Apellidos', 'Valor cobro',];
     columnPropertyMap = {
         'Identificación': 'documentoTrabajador',
         'Nombres Apellidos': 'nombreCompleto',
-        'Valor pagado': 'valorPago',
+        'Valor cobro': 'valorPago',
     };
     ngOnDestroy(): void {
         this.subscription$.unsubscribe();
@@ -105,7 +105,7 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
 
     exportToExcel() {
         const header = [
-            ['Detalle pago trabajadores'], // Título
+            ['Detalle cobro trabajadores'], // Título
             ['Empresa:', this.exportData.nombreSubempresa],
             ['Fecha de liquidación:',this.exportData.fechaFinal],
             ['Total:', this.exportData.total],
@@ -116,7 +116,7 @@ export class FormViewPagoTrabajadoresComponent implements OnInit, OnDestroy {
             return {
                 Identificación: items.documentoTrabajador,
                 'Nombre completo': items.nombreCompleto,
-                'Valor pagado': parseCurrency(items.valorPago),
+                'Valor': parseCurrency(items.valorPago),
             };
         })
 
