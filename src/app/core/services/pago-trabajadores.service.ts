@@ -13,8 +13,8 @@ export class PagoTrabajadoresService {
       private appSettings: AppSettingsService
   ) { }
 
-    getPagosTrabajadores(): Observable<any> {
-        return this._http.get(`${this.appSettings.pagoTrabajadores.url.base}/Tabla`)
+    getPagosTrabajadores(params): Observable<any> {
+        return this._http.get(`${this.appSettings.pagoTrabajadores.url.base}/Tabla?IdEstadoCobroPago=${params}`)
     }
 
     getPagoTrabajadorIndividual(params): Observable<any> {
@@ -38,6 +38,12 @@ export class PagoTrabajadoresService {
 
     tipoPagoTrabajadores(): Observable<any> {
       return this._http.get(this.appSettings.pagoTrabajadores.url.baseTipo)
+    }
+
+    putPagoTrabajadorIndividual(data): Observable<any> {
+        const id = data.id;
+        delete data.id;
+        return this._http.put(`${this.appSettings.pagoTrabajadores.url.base}/${id}`, data)
     }
 
 

@@ -14,6 +14,7 @@ import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { CodigoCobroTrabajador } from '../../../../core/enums/codigo-cobro-trabajador';
+import { DialogEstadoComponent } from '../dialog-estado/dialog-estado.component';
 
 @Component({
   selector: 'app-grid-pago-trabajador',
@@ -72,7 +73,43 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/pages/gestion-cobros/trabajador/individual/', element.id])
             }
         },
+        {
+            label: 'View',
+            icon: 'published_with_changes',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onCambioEstado();
+            }
+        }
     ];
+
+    buttonsPagados: IButton[] = [
+        {
+            label: 'Eye',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Editing', element);
+                this.router.navigate(['/pages/gestion-cobros/trabajador/individual/', element.id])
+            }
+        },
+    ]
+
+    onCambioEstado(): void {
+        this._matDialog.open(DialogEstadoComponent, {
+            autoFocus: false,
+            data: {
+                edit: true,
+                data: this.selectedData
+            },
+            width: '30%',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+
+    }
+
+
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         this.tabIndex = tabChangeEvent.index;
@@ -85,7 +122,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getPagoTrabajadores(this.selectedTab);
-        //this.listenGrid();
+        this.listenGrid();
     }
 
     onNew() {

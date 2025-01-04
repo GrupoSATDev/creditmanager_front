@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { Subscription, tap } from 'rxjs';
 import { PagoAliadosService } from '../../../../core/services/pago-aliados.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,10 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { Router } from '@angular/router';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
+import { CodigoCobroTrabajador } from '../../../../core/enums/codigo-cobro-trabajador';
+import { DialogEstadoMasivoComponent } from '../dialog-estado-masivo/dialog-estado-masivo.component';
 
 @Component({
   selector: 'app-grid-pago-trabajadores',
@@ -22,6 +26,11 @@ import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajad
         MatFormField,
         MatIcon,
         MatInput,
+        FuseAlertComponent,
+        MatTab,
+        MatTabContent,
+        MatTabGroup,
+        NgIf,
     ],
     providers: [
         DatePipe,
@@ -41,6 +50,8 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
     private _matDialog = inject(MatDialog);
     private estadoDatosService = inject(EstadosDatosService)
     private router = inject(Router);
+    private selectedTab: any = CodigoCobroTrabajador.PENDIENTES;
+    public tabIndex ;
 
     data = [];
 
@@ -61,13 +72,52 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
                 this.router.navigate(['/pages/gestion-cobros/trabajadores/pago/', element.id])
             }
         },
+        {
+            label: 'View',
+            icon: 'published_with_changes',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onCambioEstado();
+            }
+        }
     ];
+
+    buttonsPagado: IButton[] = [
+        {
+            label: 'Eye',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Editing', element);
+                this.router.navigate(['/pages/gestion-cobros/trabajadores/pago/', element.id])
+            }
+        },
+    ];
+
+    onCambioEstado(): void {
+        this._matDialog.open(DialogEstadoMasivoComponent, {
+            autoFocus: false,
+            data: {
+                edit: true,
+                data: this.selectedData
+            },
+            width: '30%',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+        this.tabIndex = tabChangeEvent.index;
+        this.selectedTab = tabChangeEvent.index == 0 ? CodigoCobroTrabajador.PENDIENTES : CodigoCobroTrabajador.PAGADOS;
+        this.getPagoTrabajadores(this.selectedTab);
+    }
 
     ngOnDestroy(): void {
     }
 
     ngOnInit(): void {
-        this.getPagoTrabajadores();
+        this.getPagoTrabajadores(this.selectedTab);
         this.listenGrid();
     }
 
@@ -75,8 +125,8 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
         this.router.navigate(['/pages/gestion-cobros/trabajadores/pago'])
     }
 
-    public getPagoTrabajadores() {
-        this.pagoTrabajadorService.getPagosTrabajadores().pipe(
+    public getPagoTrabajadores(params) {
+        this.pagoTrabajadorService.getPagosTrabajadores(params).pipe(
             tap((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
@@ -106,7 +156,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
         refreshData$.subscribe((state) => {
             if (state) {
-                this.getPagoTrabajadores();
+                this.getPagoTrabajadores(this.selectedTab);
             }
         })
 
