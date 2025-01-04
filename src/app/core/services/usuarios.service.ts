@@ -13,8 +13,8 @@ export class UsuariosService {
       private appSettingService: AppSettingsService
   ) { }
 
-    getUsuarios():  Observable<any> {
-      return this._http.get(`${this.appSettingService.usuarios.url.base}/Table`)
+    getUsuarios(params):  Observable<any> {
+      return this._http.get(`${this.appSettingService.usuarios.url.base}/Table?idTipoUsuario=${params}`)
     }
 
     getUsuario(id):  Observable<any> {

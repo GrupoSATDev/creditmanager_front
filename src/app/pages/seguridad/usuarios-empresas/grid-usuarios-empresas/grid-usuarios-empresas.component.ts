@@ -7,16 +7,15 @@ import { MatInput } from '@angular/material/input';
 import { map, Subscription } from 'rxjs';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { FormUsuariosEmpresasComponent } from '../form-usuarios-empresas/form-usuarios-empresas.component';
-import { FormEmpleadosComponent } from '../../../gestion-empleados/empleados/form-empleados/form-empleados.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
 import { Estados } from '../../../../core/enums/estados';
-import { items } from '../../../../mock-api/apps/file-manager/data';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { NgIf } from '@angular/common';
+import { CodigosUsuarios } from '../../../../core/enums/codigos-usuarios';
 
 @Component({
   selector: 'app-grid-usuarios-empresas',
@@ -41,6 +40,7 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
     public subcription$: Subscription;
     public selectedData: any;
     public searchTerm: string = '';
+    private selectedTab: any = CodigosUsuarios.USUARIOS;
     public tabIndex ;
 
     data = [];
@@ -74,6 +74,10 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
     }
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+        this.tabIndex = tabChangeEvent.index;
+        this.selectedTab = tabChangeEvent.index == 0 ? CodigosUsuarios.USUARIOS : CodigosUsuarios.TRABAJADORES;
+
+        this.getUsuarios(this.selectedTab);
 
 
     }
@@ -108,8 +112,8 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
         this.searchTerm = target.value.trim().toLowerCase();
     }
 
-    getUsuarios(): void {
-        this.subcription$ = this.usuariosService.getUsuarios().pipe(
+    getUsuarios(params): void {
+        this.subcription$ = this.usuariosService.getUsuarios(params).pipe(
             map((response) => {
                 response.data.forEach((items) => {
                     if (items.estado) {
@@ -138,7 +142,7 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
     }
 
     ngOnInit(): void {
-        this.getUsuarios();
+        this.getUsuarios(this.selectedTab);
     }
 
     ngOnDestroy(): void {
