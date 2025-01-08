@@ -122,9 +122,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         this.form = this.fb.group({
             fechaFinal: ['', Validators.required],
             idSubEmpresa: ['', Validators.required],
-            idTipoPagoTrabajador: ['', Validators.required],
             idTrabajador: ['', Validators.required],
-            valorAbono: ['', [this.maxAmountValidator.bind(this)]],
             observacion: [''],
         })
 
@@ -132,16 +130,6 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
-        this.form.get('valorAbono').valueChanges.subscribe((response) => {
-            console.log(response)
-            if (response == 0) {
-                this.form.get('valorAbono').setValidators([Validators.required, this.maxAmountValidator.bind(this)])
-                //this.actualizaSelected(response)
-                this.form.updateValueAndValidity()
-            }else if (response > 0) {
-                this.actualizaSelected(response);
-            }
-        })
     }
 
     actualizaSelected(inputValue: number) {
@@ -233,7 +221,6 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
         const createData = {
             ...consulta,
-            idTipoPagoTrabajador,
             detallePagoTrabajador,
             idTrabajador,
             ...form
@@ -268,7 +255,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
                         //this.subtotal += parseFloat(items.montoConsumo.replace(/[^0-9.-]+/g, ''));
                         //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
-                        this.totalPagar += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
+                        this.totalPagar += parseFloat(items.valorPendiente.replace(/[^0-9.-]+/g, ''));
                     });
                 }else {
                     this.data = [];

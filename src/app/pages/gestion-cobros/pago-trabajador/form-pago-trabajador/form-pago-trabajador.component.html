@@ -20,18 +20,6 @@
                     </mat-form-field>
 
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
-                        <mat-label>Tipo de pago</mat-label>
-                        <mat-select placeholder="Tipo de pago trabajador" [formControlName]="'idTipoPagoTrabajador'">
-                            <ng-container *ngIf="tipoPago$ | async as tipoPagos">
-                                <mat-option [value]="item.id" *ngFor="let item of tipoPagos.data">{{item.nombre}}</mat-option>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
-
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-2.5">
-                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Empresa</mat-label>
                         <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'"
                                     (selectionChange)="selectedEmpleados($event)"
@@ -41,6 +29,11 @@
                             </ng-container>
                         </mat-select>
                     </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2.5">
+
 
                     <mat-form-field  class="w-full min-w-90" floatLabel="always">
                         <mat-label>Trabajadores</mat-label>
@@ -53,18 +46,6 @@
                 </div>
 
                 <div class="flex flex-col items-baseline sm:flex-row gap-2.5" *ngIf="data.length">
-                    <mat-form-field  class="w-full" floatLabel="always">
-                        <mat-label>Valor a cancelar</mat-label>
-                        <input  matInput
-                                [allowNegativeNumbers]="false"
-                                [separatorLimit]="'999999999'"
-                                (blur)="valorAbono.updateValueAndValidity()"
-                                mask="separator.2" thousandSeparator="," decimalMarker="." [formControlName]="'valorAbono'" placeholder="Valor a cancelar" />
-                        <!--<mat-error *ngIf="valorAbono.hasError('required') && valorAbono.touched">El valor es requerido!</mat-error>-->
-                        <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('required')">El valor es requerido!</mat-error>
-                        <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('exceedsBalance')">El valor ingresado no puede superar el total a pagar!</mat-error>
-                        <mat-error *ngIf="(valorAbono.touched || valorAbono.dirty) && valorAbono.hasError('valueZero')">El valor ingresado no puede ser 0!</mat-error>
-                    </mat-form-field>
 
                     <mat-form-field class="w-full" floatLabel="always">
                         <mat-label>Observaciones</mat-label>

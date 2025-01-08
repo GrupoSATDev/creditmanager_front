@@ -146,7 +146,6 @@ export class FormPagoTrabajadoresComponent implements OnInit{
 
         const createData = {
             ...consulta,
-            idTipoPagoTrabajador: this.idTipoPagoTrabajador,
             detallePagoTrabajador
         }
 
