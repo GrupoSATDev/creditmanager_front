@@ -33,6 +33,6 @@ export class CuentasBancariasService {
     putCuentas(data): Observable<any> {
         const id = data.id;
         delete data.id;
-        return this._http.post(`${this.appSettings.cuentasBancarias.url.base}/${id}`, data);
+        return this._http.put(`${this.appSettings.cuentasBancarias.url.base}/${id}`, data);
     }
 }

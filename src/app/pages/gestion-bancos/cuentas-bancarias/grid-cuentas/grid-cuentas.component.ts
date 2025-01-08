@@ -34,11 +34,12 @@ export class GridCuentasComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Número de cuenta', 'Tipo de cuenta', 'Banco', ];
+    columns = ['Número de cuenta', 'Tipo de cuenta', 'Banco', 'Estado' ];
     columnPropertyMap = {
         'Número de cuenta': 'numeroCuenta',
         'Tipo de cuenta': 'nombreTipoCuenta',
-        'Banco': 'nombreBanco'
+        'Banco': 'nombreBanco',
+        'Estado': 'estado',
     };
 
     buttons: IButton[] = [
@@ -93,6 +94,9 @@ export class GridCuentasComponent implements OnInit, OnDestroy{
                 response.data.forEach((items) => {
                     if (items.estado) {
                         items.estado = Estados.ACTIVO;
+                        return items;
+                    }else {
+                        items.estado = Estados.INACTIVO;
                         return items;
                     }
                 })

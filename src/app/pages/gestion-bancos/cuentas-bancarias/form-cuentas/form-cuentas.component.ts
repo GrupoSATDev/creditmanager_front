@@ -17,6 +17,7 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -53,7 +54,7 @@ export class FormCuentasComponent implements OnInit{
     public dialogRef = inject(MatDialogRef<FormCuentasComponent>);
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
-    public toasService = inject(ToastAlertsService);
+    private swalService = inject(SwalService);
     public bancosService = inject(BancosService);
     private cuentasBancariasService = inject(CuentasBancariasService);
     private tipoCuentasService = inject(TipoCuentasService);
@@ -84,9 +85,18 @@ export class FormCuentasComponent implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.form.patchValue(data);
+            const id = data.id;
+            this.getCuenta(id);
         }
 
+    }
+
+    private getCuenta(id) {
+        this.cuentasBancariasService.getCuenta(id).subscribe((response) => {
+            if (response) {
+                this.form.patchValue(response.data);
+            }
+        })
     }
 
     private createForm() {
@@ -115,10 +125,10 @@ export class FormCuentasComponent implements OnInit{
                         this.cuentasBancariasService.postCuentas(data).subscribe((res) => {
                             console.log(res)
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro Creado o Actualizado con Exito.',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro Creado con Exito.',
+                                timer: 4000,
                             })
                             this.closeDialog();
                         })
@@ -138,10 +148,10 @@ export class FormCuentasComponent implements OnInit{
                     if (response === 'confirmed') {
                         this.cuentasBancariasService.putCuentas(data).subscribe((res) => {
                             this.estadosDatosService.stateGrid.next(true);
-                            this.toasService.toasAlertWarn({
-                                message: 'Registro actualizado con exito!',
-                                actionMessage: 'Cerrar',
-                                duration: 3000
+                            this.swalService.ToastAler({
+                                icon: 'success',
+                                title: 'Registro Creado o Actualizado con Exito.',
+                                timer: 4000,
                             })
                             this.closeDialog();
                         })
