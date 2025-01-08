@@ -16,6 +16,7 @@ import { MatSelect } from '@angular/material/select';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -38,6 +39,7 @@ const maskConfig: Partial<IConfig> = {
         NgxMaskDirective,
         NgIf,
         AsyncPipe,
+        MatSlideToggle,
     ],
     providers: [
         provideNgxMask(maskConfig)
@@ -94,6 +96,7 @@ export class FormCuentasComponent implements OnInit{
             idBanco: [''],
             numeroCuenta: [''],
             descripcion: [''],
+            estado: [true],
         })
     }
 

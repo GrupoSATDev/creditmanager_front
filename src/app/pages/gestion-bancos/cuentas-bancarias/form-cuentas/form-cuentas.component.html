@@ -9,6 +9,23 @@
 
         <!-- Sign Up form -->
         <form class="mt-8" [formGroup]="form">
+            <div class="flex mb-4">
+                <div
+                    class="fcursor-pointer"
+                    (click)="twoStepToggle.toggle()"
+                >
+                    <div class="font-medium leading-6">
+                        Estado {{form.get('estado').value ? 'Activo' : 'Inactivo'}}
+                    </div>
+                </div>
+                <mat-slide-toggle
+                    class="ml-4"
+                    [color]="'primary'"
+                    [formControlName]="'estado'"
+                    #twoStepToggle
+                >
+                </mat-slide-toggle>
+            </div>
             <!-- Name field -->
             <mat-form-field  class="w-full" floatLabel="always">
                 <mat-label>Tipo de cuenta</mat-label>
