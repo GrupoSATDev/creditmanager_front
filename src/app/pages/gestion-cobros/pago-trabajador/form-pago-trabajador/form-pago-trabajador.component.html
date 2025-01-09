@@ -35,13 +35,21 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
 
 
-                    <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                    <mat-form-field class="w-full min-w-90" floatLabel="always">
                         <mat-label>Trabajadores</mat-label>
-                        <mat-select placeholder="Trabajadores" [formControlName]="'idTrabajador'">
-                            <ng-container *ngIf="empleados$ | async as empleados">
-                                <mat-option [value]="item.id" *ngFor="let item of empleados.data">{{item.primerNombre}} {{item.primerApellido}}</mat-option>
-                            </ng-container>
-                        </mat-select>
+                        <input type="text"
+                               placeholder="Trabajadores"
+                               matInput
+                               [formControl]="empleadoControl"
+                               [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete"
+                                          [displayWith]="displayFn"
+                                          (optionSelected)="onOptionSelected($event)">
+                            <mat-option *ngFor="let empleado of filteredEmpleados$ | async"
+                                        [value]="empleado">
+                                {{empleado.primerNombre}} {{empleado.primerApellido}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 

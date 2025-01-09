@@ -10,7 +10,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
 import {
     AbstractControl,
-    FormBuilder,
+    FormBuilder, FormControl,
     FormGroup,
     ReactiveFormsModule,
     ValidationErrors,
@@ -26,9 +26,10 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { Router } from '@angular/router';
 import { confirmarPago } from '../../../../core/constant/dialogs';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, startWith, tap } from 'rxjs';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -59,6 +60,8 @@ const maskConfig: Partial<IConfig> = {
         MatError,
         JsonPipe,
         CdkScrollable,
+        MatAutocomplete,
+        MatAutocompleteTrigger,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -87,6 +90,8 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     public message: string;
     public selectOptionValue: any;
     private empleadosService = inject(EmpleadosService);
+    filteredEmpleados$: Observable<any[]>;
+    empleadoControl = new FormControl('');
 
     empresa$ = this.empresaClienteService.getEmpresasClientes().pipe(
         tap((response) => {
@@ -105,7 +110,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
             }
         })
     )
-    empleados$: Observable<any>;
+    empleados = [];
     data = [];
     totalPagar: number;
     totalComision: number;
@@ -117,6 +122,27 @@ export class FormPagoTrabajadorComponent  implements OnInit{
         'N factura / Comprobante': 'numeroFactura',
         'Valor pendiente': 'valorPendiente',
     };
+
+    displayFn(empleado: any): string {
+        return empleado ? `${empleado.primerNombre} ${empleado.primerApellido}` : '';
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        return this.empleados.filter(empleado =>
+            `${empleado.primerNombre} ${empleado.primerApellido}`
+                .toLowerCase()
+                .includes(filterValue)
+        );
+    }
+
+    onOptionSelected(event: any) {
+        // Aquí puedes emitir el id del trabajador al formulario padre
+        const selectedEmpleado = event.option.value;
+        this.empleadoControl.setValue(selectedEmpleado);
+        // Si estás usando reactive forms en el componente padre:
+        this.form.get('idTrabajador').setValue(selectedEmpleado.id);
+    }
 
     private createForm() {
         this.form = this.fb.group({
@@ -130,6 +156,14 @@ export class FormPagoTrabajadorComponent  implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+
+        this.filteredEmpleados$ = this.empleadoControl.valueChanges.pipe(
+            startWith(''),
+            map((value: any) => {
+                const name = typeof value === 'string' ? value : value?.primerNombre || value?.primerApellido;
+                return name ? this._filter(name) : this.empleados.slice();
+            })
+        );
     }
 
     actualizaSelected(inputValue: number) {
@@ -174,12 +208,21 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     }
 
     getEmpleadosSubEmpresas(id) {
-        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id)
+         this.empleadosService.getEmpleadosSubempresas(id).subscribe((response) => {
+             if (response.data) {
+                 this.empleados = response.data;
+             }
+         })
     }
 
     selectedEmpleados(event: MatSelectChange) {
         const id = event.value;
-        this.empleados$ = this.empleadosService.getEmpleadosSubempresas(id);
+         this.empleadosService.getEmpleadosSubempresas(id).subscribe((response) => {
+             if (response.data) {
+                 this.empleados = response.data;
+                 this.empleadoControl.reset('');
+             }
+         })
     }
 
     onGet() {
