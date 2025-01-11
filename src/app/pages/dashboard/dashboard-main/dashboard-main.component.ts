@@ -75,9 +75,7 @@ export class DashboardMainComponent implements  OnInit{
     }
 
     ngOnInit(): void {
-        this.getIndicadores();
         this.getIndicadoresMontos();
-
     }
 
     private getIndicadores() {
