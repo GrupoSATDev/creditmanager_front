@@ -16,4 +16,8 @@ export class DashboardService {
   getIndicadores(): Observable<any>  {
       return this._http.get(`${this.appSettings.dashboard.url.base}/EmpresaMaestra`)
   }
+
+  getCardsMontos(): Observable<any> {
+      return this._http.get(`${this.appSettings.dashboard.url.base}/Montos`)
+  }
 }

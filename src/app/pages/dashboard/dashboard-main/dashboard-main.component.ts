@@ -7,6 +7,7 @@ import { MatButton } from '@angular/material/button';
 import { DateTime } from 'luxon';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { FuseAlertComponent } from '../../../../@fuse/components/alert';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 const now = DateTime.now();
 @Component({
   selector: 'app-dashboard-main',
@@ -21,12 +22,15 @@ const now = DateTime.now();
         MatButton,
         NgIf,
         FuseAlertComponent,
+        CdkScrollable,
     ],
   templateUrl: './dashboard-main.component.html',
   styleUrl: './dashboard-main.component.scss'
 })
 export class DashboardMainComponent implements  OnInit{
     public indicadoresService = inject(DashboardService);
+
+    dataCards: any;
 
     chartOptions: ApexOptions = {
         chart: {
@@ -72,6 +76,7 @@ export class DashboardMainComponent implements  OnInit{
 
     ngOnInit(): void {
         this.getIndicadores();
+        this.getIndicadoresMontos();
 
     }
 
@@ -95,6 +100,14 @@ export class DashboardMainComponent implements  OnInit{
                     response.data.canCreditosRechazados,
                     response.data.canCreditosPendientes
                 ];
+            }
+        })
+    }
+    private getIndicadoresMontos() {
+        this.indicadoresService.getCardsMontos().subscribe((response) => {
+            if (response.data) {
+
+                this.dataCards = response.data;
             }
         })
     }

@@ -1,11 +1,156 @@
 
 <div
-    class="bg-card flex min-w-0 flex-auto flex-col dark:bg-transparent sm:absolute sm:inset-0 sm:overflow-hidden"
+    class="relative min-w-0 flex h-full w-full flex-col dark:bg-transparent sm:overflow-hidden sm:inset-0"
 >
     <div
         class="relative flex flex-0 flex-col px-6 py-6 sm:flex-row sm:items-center sm:justify-between md:px-8"
     >
         <div class="text-3xl font-semibold tracking-tight">Dashboard</div>
+
+    </div>
+    <div class="flex w-full lg:flex-row lg:gap-2 flex-col mb-5 p-5">
+        <div class="bg-white w-1/2 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Cobros fijos pendientes por pagar
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight ">
+                    {{ dataCards?.montoCobrosFijosPendientesPorPagar | number: '1.0-0' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white w-1/2 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto crédito aprobado
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoCreditoAprobado | number: '1.0-0' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white w-1/2 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto disponible por consuir
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoCreditoAprobado - dataCards?.montoCreditoConsumido   | number: '1.0-0'  }}
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col mb-5 p-5">
+
+        <div class="bg-white w-2/5 flex flex-col  overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto crédito consumido
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoCreditoConsumido | number:  '1.0-0' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white w-2/5 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto pago trabajadores liquidados
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoPagoTrabajadorLiquidados | number: '1.0-0'  }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white w-2/5 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto intereses ganados de liquidaciones
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoInteresesGanadosDeLiquidaciones | number: '1.0-0'  }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col mb-5 p-5">
+
+        <div class="bg-white w-2/5 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
+            <!-- Header Section -->
+            <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
+                <div class="truncate text-lg font-semibold leading-6 tracking-tight text-white mx-auto">
+                    Monto intereses pendientes de liquidaciones
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="px-6 py-5 flex flex-col lg:gap-3 lg:flex-row lg:items-center mx-auto">
+                <div class="mt-3 lg:mt-0 lg:ml-4 flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                    <span class="text-blue-600 text-5xl font-bold">$</span>
+                </div>
+                <div class="text-4xl font-semibold text-gray-800 leading-tight tracking-tight">
+                    {{ dataCards?.montoInteresesPendientesPorLiquidar | number: '1.0-0'  }}
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -54,6 +199,8 @@
                         </div>
                     </div>
                 </div>-->
+
+
                 <div class="flex h-auto flex-auto flex-col">
                     <ng-container *ngIf="chartOptions.series.length > 0; else noData">
                         <apx-chart [series]="chartOptions.series"
@@ -80,6 +227,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 
