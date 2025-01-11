@@ -8,7 +8,7 @@
         <div class="text-3xl font-semibold tracking-tight">Dashboard</div>
 
     </div>
-    <div class="flex w-full lg:flex-row lg:gap-2 flex-col mb-5 p-5">
+    <div class="flex w-full lg:flex-row lg:gap-2 flex-col p-5">
         <div class="bg-white w-1/2 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
             <!-- Header Section -->
             <div class="px-6 py-4 flex items-start justify-between bg-gradient-to-r from-indigo-500 to-blue-500 rounded-t-2xl">
@@ -70,7 +70,7 @@
 
     </div>
 
-    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col mb-5 p-5">
+    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col p-5">
 
         <div class="bg-white w-2/5 flex flex-col  overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
             <!-- Header Section -->
@@ -131,7 +131,7 @@
 
     </div>
 
-    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col mb-5 p-5">
+    <div class="flex w-full lg:flex-row justify-center lg:gap-2 flex-col p-5">
 
         <div class="bg-white w-2/5 flex flex-col overflow-hidden rounded-2xl shadow-lg sm:col-span-2 lg:col-span-1 border border-gray-200">
             <!-- Header Section -->
@@ -201,7 +201,7 @@
                 </div>-->
 
 
-                <div class="flex h-auto flex-auto flex-col">
+                <div class="flex h-auto flex-auto flex-col p-3">
                     <ng-container *ngIf="chartOptions.series.length > 0; else noData">
                         <apx-chart [series]="chartOptions.series"
                                    [chart]="chartOptions.chart"
