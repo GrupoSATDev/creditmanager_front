@@ -5,8 +5,8 @@ import { DecimalPipe, NgIf } from '@angular/common';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { MatButton } from '@angular/material/button';
 import { DateTime } from 'luxon';
-import { DashboardService } from '../../../core/services/dashboard.service';
-import { FuseAlertComponent } from '../../../../@fuse/components/alert';
+import { DashboardService } from '../../../../core/services/dashboard.service';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 const now = DateTime.now();
 @Component({

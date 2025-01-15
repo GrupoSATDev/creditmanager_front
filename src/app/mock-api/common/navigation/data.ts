@@ -5,9 +5,34 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id   : '1',
         title: 'Dashboard',
-        type : 'basic',
+        type : 'collapsable',
         icon : 'heroicons_outline:chart-pie',
-        link : '/dashboard'
+        children: [
+            {
+                id: '1.1',
+                title: 'Resumen ejecutivo',
+                type: 'basic',
+                link: '/pages/dashboard/resumen-ejecutivo',
+            },
+            {
+                id: '1.2',
+                title: 'Rentabilidad e intereses',
+                type: 'basic',
+                link: '/pages/dashboard/rentabilidad',
+            },
+            {
+                id: '1.3',
+                title: 'Cartera y morosidad',
+                type: 'basic',
+                link: '/pages/dashboard/cartera',
+            },
+            {
+                id: '1.4',
+                title: 'Comparativas financieras',
+                type: 'basic',
+                link: '/pages/dashboard/financieras',
+            },
+        ],
     },
     {
         id: '2',
