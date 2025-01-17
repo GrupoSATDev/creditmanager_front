@@ -20,4 +20,8 @@ export class DashboardService {
   getCardsMontos(): Observable<any> {
       return this._http.get(`${this.appSettings.dashboard.url.base}/Montos`)
   }
+
+  getRentabilidadInteres(): Observable<any> {
+      return this._http.get(`${this.appSettings.dashboard.url.base}/Intereses`)
+  }
 }
