@@ -8,7 +8,7 @@
 
     </div>
     <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
-        <div class="flex h-auto flex-auto flex-col p-3">
+        <div class="flex flex-row h-auto justify-center p-3">
             <ng-container *ngIf="chartOptions?.series.length > 0; else noData">
                 <apx-chart
                     [series]="chartOptions.series"
