@@ -61,7 +61,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     columns = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo solicitado', 'Empresa', 'Estado',];
     columnsAprobadas = ['Fecha de aprobación', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Empresa', 'Tasa de interes díaria', 'Fecha de vencimiento', 'Fecha de corte', 'Fecha limite', 'Cupo utilizado', 'Saldo disponible', 'Estado',];
-    columnsSinFijos = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Cupo disponible', 'Tasa de interes', 'Empresa', 'Cobro fijo' , 'Estado',];
+    columnsSinFijos = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Cupo disponible', 'Tasa de interes', 'Empresa', 'Estado',];
 
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
@@ -82,7 +82,6 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         'Cupo disponible': 'cupoDisponible',
         'Tasa de interes': 'porcTasaInteres',
         'Empresa': 'nombreSubEmpresa',
-        'Cobro fijo': 'sinFijoCobro',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -286,7 +285,6 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                 Cupodisponible : parseCurrency(items.cupoDisponible),
                 Tasadeinteres : items.porcTasaInteres,
                 Empresa : items.nombreSubEmpresa,
-                CobroFijo : items.sinFijoCobro ? CodigoCobroFijo.COBRO_FIJO : CodigoCobroFijo.SIN_COBRO,
                 Estado : items.nombreEstadoCredito,
             };
         });
