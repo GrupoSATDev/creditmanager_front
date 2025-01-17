@@ -19,6 +19,7 @@ import * as XLSX from 'xlsx';
 import { exportar, guardar } from '../../../../core/constant/dialogs';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { parseCurrency } from '../../../../core/utils/number-utils';
+import { CodigoCobroFijo } from '../../../../core/enums/codigo-cobro-fijo';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -60,6 +61,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     columns = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo solicitado', 'Empresa', 'Estado',];
     columnsAprobadas = ['Fecha de aprobación', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Empresa', 'Tasa de interes díaria', 'Fecha de vencimiento', 'Fecha de corte', 'Fecha limite', 'Cupo utilizado', 'Saldo disponible', 'Estado',];
+    columnsSinFijos = ['Fecha de solicitud', 'Identificación', 'Solicitante', 'Número de crédito', 'Cupo aprobado', 'Cupo disponible', 'Tasa de interes', 'Empresa', 'Cobro fijo' , 'Estado',];
 
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacion',
@@ -68,6 +70,19 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         'Número de crédito': 'numCredito',
         'Cupo solicitado': 'cupoSolicitado',
         'Empresa': 'nombreSubEmpresa',
+        'Estado': 'nombreEstadoCredito',
+    };
+
+    columnPropertyMapSinFijos = {
+        'Fecha de solicitud': 'fechaCreacion',
+        'Identificación': 'docTrabajador',
+        'Solicitante': 'nombreTrabajador',
+        'Número de crédito': 'numCredito',
+        'Cupo aprobado': 'cupoAprobado',
+        'Cupo disponible': 'cupoDisponible',
+        'Tasa de interes': 'porcTasaInteres',
+        'Empresa': 'nombreSubEmpresa',
+        'Cobro fijo': 'sinFijoCobro',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -131,8 +146,13 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             tabChangeEvent.index == 1 ? EstadosCreditos.APROBADO :
             tabChangeEvent.index == 2 ? EstadosCreditos.VENCIDO :
             tabChangeEvent.index == 3 ? EstadosCreditos.BLOQUEADO :
-            tabChangeEvent.index == 4 ? EstadosCreditos.RECHAZADO : EstadosCreditos.EN_REVISION;
-            this.getCreditos(this.selectedTab);
+            tabChangeEvent.index == 4 ? EstadosCreditos.RECHAZADO :
+            tabChangeEvent.index == 5 ? EstadosCreditos.SIN_FIJO :  EstadosCreditos.EN_REVISION;
+            if ([EstadosCreditos.EN_REVISION, EstadosCreditos.APROBADO, EstadosCreditos.VENCIDO, EstadosCreditos.BLOQUEADO, EstadosCreditos.RECHAZADO].includes(this.selectedTab)) {
+                this.getCreditos(this.selectedTab);
+            }else {
+                this.getSinCobrosFijos();
+            }
 
     }
 
@@ -176,6 +196,48 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         })
     }
 
+    getSinCobrosFijos() {
+        this.subcription$ = this.creditoService.getCreditosSinCobrosFijos().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                        items.sinFijoCobro = CodigoCobroFijo.COBRO_FIJO;
+                    }else {
+                        items.estado = Estados.INACTIVO;
+                        items.sinFijoCobro = CodigoCobroFijo.SIN_COBRO;
+                    }
+                })
+                return response;
+
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaCorte = this.datePipe.transform(items.fechaCorte, 'dd/MM/yyyy');
+                    items.fechaLimitePago = this.datePipe.transform(items.fechaLimitePago, 'dd/MM/yyyy');
+                    items.fechaVencimiento = this.datePipe.transform(items.fechaVencimiento, 'dd/MM/yyyy');
+                    items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
+                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
+                    items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
+                    items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
+                    items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
+                    items.porcTasaInteres = this.currencyPipe.transform(items.porcTasaInteres, 'percent', '%', '1.2-3');
+                })
+                return response;
+            })
+        ).subscribe((response) => {
+            if (response) {
+                this.data = response.data;
+                this.convertDataExportFijos(response.data)
+            }else {
+                this.data = [];
+            }
+        }, error => {
+            this.data = [];
+        })
+    }
+
     private convertDataExport(data, ) {
         if (![EstadosCreditos.EN_REVISION].includes(this.selectedTab) ) {
             const convertData = data.map((items) => {
@@ -211,6 +273,24 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             });
             this.exportData = convertData;
         }
+    }
+
+    private convertDataExportFijos(data, ) {
+        const convertData = data.map((items) => {
+            return {
+                FechaAprobacion : items.fechaAprobacion,
+                Identificación : items.docTrabajador,
+                Solicitante : items.nombreTrabajador,
+                Númerodecrédito : items.numCredito,
+                Cupoaprobado : parseCurrency(items.cupoAprobado),
+                Cupodisponible : parseCurrency(items.cupoDisponible),
+                Tasadeinteres : items.porcTasaInteres,
+                Empresa : items.nombreSubEmpresa,
+                CobroFijo : items.sinFijoCobro ? CodigoCobroFijo.COBRO_FIJO : CodigoCobroFijo.SIN_COBRO,
+                Estado : items.nombreEstadoCredito,
+            };
+        });
+        this.exportData = convertData;
     }
 
     onSearch(event: Event) {
