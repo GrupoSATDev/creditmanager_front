@@ -32,7 +32,7 @@ export class DashboardRentabilidadInteresesComponent implements  OnInit {
                 series: [montoInteresesPendientes, montoInteresesGanados], // Valores de las categorías
                 chart: {
                     type: 'donut',
-                    height: 550,
+                    height: 400,
                     width: 1000
                 },
                 labels: ['Intereses Pendientes por Liquidar', 'Intereses Ganados de Liquidaciones'],
