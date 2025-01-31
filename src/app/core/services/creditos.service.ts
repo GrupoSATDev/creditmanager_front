@@ -31,6 +31,12 @@ export class CreditosService {
       return this._http.put(`${this.appSettings.creditos.url.base}/${id}`, data)
     }
 
+    putCreditoEdit(data): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.creditos.url.base}/parcial/${id}`, data)
+    }
+
     patchRechazado(data): Observable<any> {
       const id = data.id;
       return this._http.patch(`${this.appSettings.creditos.url.base}/${id}?id=${data.id}&idEstado=${data.idEstado}`, {})

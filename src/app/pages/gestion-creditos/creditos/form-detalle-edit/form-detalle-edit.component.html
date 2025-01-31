@@ -74,17 +74,6 @@
                                 </ng-container>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Capital de inversión</mat-label>
-                            <mat-select
-                                [formControlName]="'idCapitalInversion'"
-                                placeholder="Capital de inversion"
-                            >
-                                <ng-container *ngIf="capital$ | async as capital">
-                                    <mat-option [value]="item.id" *ngFor="let item of capital.data">{{item.detalleInversion + ' - ' + '$' +item.rubroInversion}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
                         @if (tasas$ | async; as tasas) {
                             @for (item of tasas.data; track item) {
                                 <mat-form-field  class="w-full" floatLabel="always">
@@ -118,21 +107,6 @@
                             }
                             @if (form.get('cantCuotas').hasError('max')) {
                                 <mat-error> La cuota maxima es 36.</mat-error>
-                            }
-                        </mat-form-field>
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Cupo sugerido</mat-label>
-                            <input  matInput  [formControlName]="'capacidadEndeudamiento'" [readonly]="true"  placeholder="cupo sugerido" />
-                            <mat-error *ngIf="(cupoAprobado.touched || cupoAprobado.dirty) && cupoAprobado.hasError('exceedsBalance')">El cupo aprobado no puede superar el 40% del salario devengado!</mat-error>
-                        </mat-form-field>
-                        <mat-form-field  class="w-full" floatLabel="always">
-                            <mat-label>Cupo aprobado</mat-label>
-                            <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." placeholder="Cupo aprobado" />
-                            @if (form.get('cupoAprobado').hasError('required')) {
-                                <mat-error> El cupo aprobado es requirido! </mat-error>
-                            }
-                            @if (form.get('cupoAprobado').hasError('exceedsBalance')) {
-                                <mat-error> El cupo aprobado no puede ser mayor que el valor solicitado! </mat-error>
                             }
                         </mat-form-field>
                         <mat-form-field  class="w-full" floatLabel="always">
@@ -176,7 +150,7 @@
                                 mat-flat-button class="lg:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
                                 [disabled]="form.invalid"
                         >
-                            Guardar
+                            Actualizar
                         </button>
                     </div>
                 </ng-container>

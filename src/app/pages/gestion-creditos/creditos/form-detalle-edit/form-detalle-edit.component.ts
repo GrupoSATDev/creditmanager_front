@@ -162,10 +162,14 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
             this.items = response.data;
-            this.form.get('capacidadEndeudamiento').setValue(this.currencyPipe.transform(this.items.trabajador.capacidadEndeudamiento, 'USD', 'symbol', '1.2-2'))
-            this.form.get('fechaLimitePago').setValue(this.datePipe.transform(this.items.fechaLimitePago, 'yyyy-MM-dd'))
-            this.enDeudamiento = (this.items.trabajador.salarioDevengado * this.items.procMaxPrestamo) / 100;
-        })
+            const [year, month, day] = this.items.fechaLimitePago.split('-');
+            const [anioCorte, mesCorte, diaCorte] = this.items.fechaCorte.split('-');
+            const [anioVence, mesVence, diaVence] = this.items.fechaVencimiento.split('-');
+            this.form.get('fechaLimitePago').setValue(new Date(+year, +month - 1, +day));
+            this.form.get('fechaCorte').setValue(new Date(+anioCorte, +mesCorte - 1, +diaCorte));
+            this.form.get('fechaVencimiento').setValue(new Date(+anioVence, +mesVence - 1, +diaVence));
+            this.form.get('cantCuotas').setValue(this.items.cantCuotas);
+        });
     }
 
     getEstadoCredito() {
@@ -198,7 +202,6 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
                 fechaCorte: fechaCorteTransform,
                 fechaLimitePago: fechaLimitePagoTransform,
                 idEstadoCredito: CodigoEstadosCreditos.APROBADO,
-                cupoAprobado: Number(cupoAprobado),
                 id: this.idCredito,
                 ...form
             };
@@ -211,7 +214,7 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
             dialog.afterClosed().subscribe((response) => {
 
                 if (response === 'confirmed') {
-                    this.creditoService.putCredito(createData).subscribe((res) => {
+                    this.creditoService.putCreditoEdit(createData).subscribe((res) => {
                         this.estadosDatosService.stateGrid.next(true);
                         this.swalService.ToastAler({
                             icon: 'success',
@@ -232,44 +235,12 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
     }
 
     onRechazado() {
-        const createData = {
-            id: this.idCredito,
-            idEstado: EstadosCreditos.RECHAZADO
-        }
-
-        const dialog = this.fuseService.open({
-            ...guardar
-        });
-
-        dialog.afterClosed().subscribe((response) => {
-
-            if (response === 'confirmed') {
-                this.creditoService.patchRechazado(createData).subscribe((res) => {
-                    this.estadosDatosService.stateGrid.next(true);
-                    this.swalService.ToastAler({
-                        icon: 'success',
-                        title: 'Registro Creado o Actualizado con Exito.',
-                        timer: 4000,
-                    })
-                    this.router.navigate(['/pages/gestion-creditos/creditos']);
-                }, error => {
-                    this.swalService.ToastAler({
-                        icon: 'error',
-                        title: 'Ha ocurrido un error al crear el registro!',
-                        timer: 4000,
-                    })
-                })
-            }
-        })
-
-
+        this.router.navigate(['/pages/gestion-creditos/creditos']);
     }
 
     createForm() {
         this.form = this.fb.group({
-            cupoAprobado: ['', [Validators.required, this.maxAmountValidator.bind(this)]],
             idTipoPago: [''],
-            capacidadEndeudamiento: [{value: '', disabled: true}],
             fechaLimitePago: ['', [Validators.required]],
             idCapitalInversion: [''],
             idTasaInteres: ['', [Validators.required]],
