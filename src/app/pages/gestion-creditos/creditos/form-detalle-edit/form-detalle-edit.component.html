@@ -1,0 +1,190 @@
+<div class="absolute inset-0 min-w-0 overflow-auto print:overflow-visible" cdkScrollable>
+
+    <div class="inline-block p-6 sm:p-10 print:p-0 w-full">
+        <div class="bg-card shadow print:bg-transparent print:p-0 print:shadow-none rounded-2xl mx-auto overflow-hidden w-full max-w-3xl" >
+            <div class="bg-crediblue-50 px-6 py-4 flex items-center justify-between">
+                <div>
+                    <a mat-button [routerLink]="['/pages/gestion-creditos/creditos']" class="flex items-center">
+                        <mat-icon [svgIcon]="'heroicons_outline:arrow-long-left'" class="text-white"></mat-icon>
+                    </a>
+                </div>
+                <h2 class="text-lg sm:text-xl font-bold text-white">Detalle de Crédito</h2>
+            </div>
+
+            <div class="p-4 sm:p-6" *ngIf="items">
+                <!-- Información del Cliente y Empresa -->
+                <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-stretch lg:justify-items-center">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold text-gray-800">{{items.trabajador.primerNombre}} {{items.trabajador.segundoNombre}} {{items.trabajador.primerApellido}} {{items.trabajador.segundoApellido}} </h3>
+                        <p class="font-medium text-gray-600">Identificación:
+                            <span class="text-md text-secondary ">{{items.trabajador.numDoc}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Empresa:
+                            <span class="text-md text-secondary ">{{items.nombreSubEmpresa}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Cargo:
+                            <span class="text-md text-secondary ">{{items.trabajador.cargo}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Tipo de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.nombreTipoContrato}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha inicio de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaInicioContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Fecha fin de contrato:
+                            <span class="text-md text-secondary ">{{items.trabajador.fechaFinContrato | date: 'dd/MM/yyyy'}}</span>
+                        </p>
+                        <p class="text-gray-600 font-medium">Salario devengado:
+                            <span class="text-md text-secondary ">{{items.trabajador.salarioDevengado | currency: 'USD'}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Correo:
+                            <span class="text-md text-secondary ">{{items.trabajador.correo}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Dirección:
+                            <span class="text-md text-secondary ">{{items.trabajador.direccion}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Teléfono:
+                            <span class="text-md text-secondary ">{{items.trabajador.telefono}}</span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="font-medium text-gray-600">Número de crédito:
+                            <span class="text-md text-secondary ">{{items.numCredito }}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Cupo solicitado:
+                            <span class="text-md text-secondary ">{{items.cupoSolicitado | currency}}</span>
+                        </p>
+                        <p class="font-medium text-gray-600">Fecha de Solicitud:
+                            <span class="text-md text-secondary ">{{items.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <p class="text-lg text-gray-600 font-bold mb-10">Información de Crédito</p>
+                    <form [formGroup]="form">
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Tipo de pago</mat-label>
+                            <mat-select
+                                [formControlName]="'idTipoPago'"
+                            >
+                                <ng-container *ngIf="tipoPagos$ | async as tipoPagos">
+                                    <mat-option [value]="item.id" *ngFor="let item of tipoPagos.data">{{item.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Capital de inversión</mat-label>
+                            <mat-select
+                                [formControlName]="'idCapitalInversion'"
+                                placeholder="Capital de inversion"
+                            >
+                                <ng-container *ngIf="capital$ | async as capital">
+                                    <mat-option [value]="item.id" *ngFor="let item of capital.data">{{item.detalleInversion + ' - ' + '$' +item.rubroInversion}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                        @if (tasas$ | async; as tasas) {
+                            @for (item of tasas.data; track item) {
+                                <mat-form-field  class="w-full" floatLabel="always">
+                                    <mat-label>Tasa de interes EA</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idTasaInteres'"
+                                        placeholder="Tasa de interes"
+                                    >
+                                        <mat-option [value]="item.id" >{{item.porcentaje}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            }
+                        } @else {
+                            <div class="inline-block mb-4 print:p-0 w-full">
+                                <fuse-alert
+                                    [type]="'info'"
+                                    [appearance]="'outline'">
+                                    <span fuseAlertTitle>Información</span>
+                                    No hay tasas de interés disponibles, por favor comuniquese con el administrador.
+                                </fuse-alert>
+                            </div>
+                        }
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Cantidad de cuotas</mat-label>
+                            <input  matInput type="number"  [formControlName]="'cantCuotas'"  placeholder="Cantidad de cuotas" [min]="1" [max]="36" />
+                            @if (form.get('cantCuotas').hasError('required')) {
+                                <mat-error> La cantidad de cuotas es requirida! </mat-error>
+                            }
+                            @if (form.get('cantCuotas').hasError('min')) {
+                                <mat-error> La cuota mínima es 1.</mat-error>
+                            }
+                            @if (form.get('cantCuotas').hasError('max')) {
+                                <mat-error> La cuota maxima es 36.</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Cupo sugerido</mat-label>
+                            <input  matInput  [formControlName]="'capacidadEndeudamiento'" [readonly]="true"  placeholder="cupo sugerido" />
+                            <mat-error *ngIf="(cupoAprobado.touched || cupoAprobado.dirty) && cupoAprobado.hasError('exceedsBalance')">El cupo aprobado no puede superar el 40% del salario devengado!</mat-error>
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Cupo aprobado</mat-label>
+                            <input  matInput   [formControlName]="'cupoAprobado'" mask="separator.0" thousandSeparator="." placeholder="Cupo aprobado" />
+                            @if (form.get('cupoAprobado').hasError('required')) {
+                                <mat-error> El cupo aprobado es requirido! </mat-error>
+                            }
+                            @if (form.get('cupoAprobado').hasError('exceedsBalance')) {
+                                <mat-error> El cupo aprobado no puede ser mayor que el valor solicitado! </mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Fecha de vencimiento</mat-label>
+                            <input matInput [matDatepicker]="picker"  [formControlName]="'fechaVencimiento'" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            @if (form.get('fechaVencimiento').hasError('required')) {
+                                <mat-error> La fecha de vencimiento es requirida! </mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Fecha de corte</mat-label>
+                            <input matInput [matDatepicker]="fechaCorte" [formControlName]="'fechaCorte'" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle  matIconSuffix [for]="fechaCorte"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaCorte></mat-datepicker>
+                            @if (form.get('fechaCorte').hasError('required')) {
+                                <mat-error> La fecha de corte es requirida! </mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field  class="w-full" floatLabel="always">
+                            <mat-label>Fecha limite de pago</mat-label>
+                            <input matInput [matDatepicker]="limite"  [formControlName]="'fechaLimitePago'" placeholder="dd/mm/yyyy">
+                            <mat-datepicker-toggle matIconSuffix [for]="limite"></mat-datepicker-toggle>
+                            <mat-datepicker #limite></mat-datepicker>
+                        </mat-form-field>
+
+                    </form>
+
+                </div>
+                <!-- Acciónes -->
+                <ng-container>
+                    <div class="flex flex-wrap justify-end items-center mt-7 gap-2.5">
+                        <button
+                            mat-flat-button class="lg:w-auto w-full bg-crediorange-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                            (click)="onRechazado()"
+                        >
+                            Cancelar
+                        </button>
+                        <button (click)="onSave()"
+                                mat-flat-button class="lg:w-auto w-full bg-crediblue-50 hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                                [disabled]="form.invalid"
+                        >
+                            Guardar
+                        </button>
+                    </div>
+                </ng-container>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
