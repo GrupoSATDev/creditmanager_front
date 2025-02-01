@@ -20,6 +20,7 @@ import { exportar, guardar } from '../../../../core/constant/dialogs';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { parseCurrency } from '../../../../core/utils/number-utils';
 import { CodigoCobroFijo } from '../../../../core/enums/codigo-cobro-fijo';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 @Component({
   selector: 'app-grid-creditos',
@@ -55,6 +56,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private currencyPipe = inject(CurrencyPipe);
     public fuseService = inject(FuseConfirmationService);
     public searchTerm: string = '';
+    private aesEncriptService = inject(AesEncryptionService);
 
     data = [];
     exportData = [];
@@ -180,41 +182,51 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         this.subcription$ = this.creditoService.getCreditos(params).pipe(
             map((response) => {
                 response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
+                    items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
 
-            }),
-            map((response) => {
-                response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
                     items.fechaCorte = this.datePipe.transform(items.fechaCorte, 'dd/MM/yyyy');
                     items.fechaLimitePago = this.datePipe.transform(items.fechaLimitePago, 'dd/MM/yyyy');
                     items.fechaVencimiento = this.datePipe.transform(items.fechaVencimiento, 'dd/MM/yyyy');
                     items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
-                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
+
+                    if (items.cupoAprobado) {
+                        items.cupoAprobado = this.aesEncriptService.decrypt(items.cupoAprobado);
+                    }
+                    if (items.cupoConsumido) {
+                        items.cupoConsumido = this.aesEncriptService.decrypt(items.cupoConsumido);
+                    }
+                    if (items.cupoDisponible) {
+                        items.cupoDisponible = this.aesEncriptService.decrypt(items.cupoDisponible);
+                    }
+                    if (items.porcTasaInteres) {
+                        items.porcTasaInteres = this.aesEncriptService.decrypt(items.porcTasaInteres);
+                    }
+
                     items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
+                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
                     items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
                     items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
                     items.porcTasaInteres = this.currencyPipe.transform(items.porcTasaInteres, 'percent', '%', '1.2-3');
-                })
+                });
+
                 return response;
             })
-        ).subscribe((response) => {
-            if (response) {
-                this.data = response.data;
-                this.convertDataExport(response.data)
-            }else {
+        ).subscribe(
+            (response) => {
+                if (response) {
+                    this.data = response.data;
+                    this.convertDataExport(response.data);
+                } else {
+                    this.data = [];
+                }
+            },
+            (error) => {
                 this.data = [];
             }
-        }, error => {
-            this.data = [];
-        })
+        );
     }
+
 
     getSinCobrosFijos() {
         this.subcription$ = this.creditoService.getCreditosSinCobrosFijos().pipe(
@@ -238,6 +250,18 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
                     items.fechaLimitePago = this.datePipe.transform(items.fechaLimitePago, 'dd/MM/yyyy');
                     items.fechaVencimiento = this.datePipe.transform(items.fechaVencimiento, 'dd/MM/yyyy');
                     items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
+
+                    if (items.cupoAprobado) {
+                        items.cupoAprobado = this.aesEncriptService.decrypt(items.cupoAprobado);
+                    }
+
+                    if (items.cupoDisponible) {
+                        items.cupoDisponible = this.aesEncriptService.decrypt(items.cupoDisponible);
+                    }
+                    if (items.porcTasaInteres) {
+                        items.porcTasaInteres = this.aesEncriptService.decrypt(items.porcTasaInteres);
+                    }
+
                     items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
                     items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
                     items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
