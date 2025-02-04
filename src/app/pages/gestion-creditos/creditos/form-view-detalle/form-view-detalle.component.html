@@ -52,10 +52,10 @@
                             <span class="text-md text-secondary">{{items.numCredito}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Cupo aprobado:
-                            <span class="text-md text-secondary">{{items.cupoAprobado | currency}}</span>
+                            <span class="text-md text-secondary">{{aesEncriptService.decrypt(items.cupoAprobado) | currency}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Tasa de interes díaria:
-                            <span class="text-md text-secondary">{{items.porcTasaInteres}}%</span>
+                            <span class="text-md text-secondary">{{aesEncriptService.decrypt(items.porcTasaInteres)}}%</span>
                         </p>
                         <p class="font-medium text-gray-600">Fecha de aprobación:
                             <span class="text-md text-secondary">{{items.fechaAprobacion | date:'dd/MM/yyyy'}}</span>
@@ -70,10 +70,10 @@
                             <span class="text-md text-secondary">{{items.fechaLimitePago | date:'dd/MM/yyyy'}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Cupo utilizado:
-                            <span class="text-md text-secondary">{{items.cupoConsumido | currency}}</span>
+                            <span class="text-md text-secondary">{{aesEncriptService.decrypt(items.cupoConsumido) | currency}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Saldo disponible:
-                            <span class="text-md text-secondary">{{items.cupoDisponible | currency}}</span>
+                            <span class="text-md text-secondary">{{aesEncriptService.decrypt(items.cupoDisponible) | currency}}</span>
                         </p>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <p class="font-medium text-gray-600">Factura: {{item.numeroFactura}}</p>
-                                    <p class="font-medium text-gray-600">Valor: {{item.montoConsumo | currency}}</p>
+                                    <p class="font-medium text-gray-600">Valor: {{aesEncriptService.decrypt(item.montoConsumo) | currency}}</p>
                                 </div>
                                 <div class="flex justify-between">
                                     <p class="font-medium text-gray-600">Cuotas: {{item.cantidadCuotas}}</p>

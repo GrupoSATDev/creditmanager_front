@@ -22,6 +22,7 @@ import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { parseCurrency } from '../../../../core/utils/number-utils';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 @Component({
   selector: 'app-grid-solicitudes',
@@ -57,6 +58,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
     private selectedTab: any = CodigosEstadosSolicitudes.PENDIENTE;
     public tabIndex ;
     public searchTerm: string = '';
+    private aesEncriptService = inject(AesEncryptionService);
     exportData = [];
 
     data = [];
@@ -114,17 +116,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
         this.subcription$ = this.solicitudService.getSolicitudes(param).pipe(
             map((response) => {
                 response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
-
-            }),
-            map((response) => {
-                response.data.forEach((items) => {
+                    items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
                     items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
                     items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');

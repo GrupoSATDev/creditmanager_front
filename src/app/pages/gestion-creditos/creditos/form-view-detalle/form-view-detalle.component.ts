@@ -29,6 +29,7 @@ import { DialogCostosAdicionalesComponent } from '../dialog-costos-adicionales/d
 import { DialogBloqueoComponent } from '../dialog-bloqueo/dialog-bloqueo.component';
 import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { DialogDesbloqueoComponent } from '../dialog.desbloqueo/dialog.desbloqueo.component';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -82,6 +83,7 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     tasas = [];
     idCredito: string = '';
     public _matDialog = inject(MatDialog);
+    public aesEncriptService = inject(AesEncryptionService);
 
     ngOnDestroy(): void {
         this.subcription$.unsubscribe();

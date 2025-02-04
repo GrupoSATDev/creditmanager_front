@@ -35,6 +35,7 @@ import { CodigoEstadosCreditos, EstadosCreditos } from '../../../../core/enums/e
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SwalService } from '../../../../core/services/swal.service';
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -99,6 +100,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
     private currencyPipe = inject(CurrencyPipe);
     private swalService = inject(SwalService);
     private readonly parametroTasa = 'Activas';
+    private aesEncriptService = inject(AesEncryptionService);
     enDeudamiento: any;
     tipoPagos$ = this.tiposPagos.getTiposPagos().pipe(
         tap((response) => {
@@ -201,7 +203,7 @@ export class FormDetalleComponent implements OnInit, OnDestroy {
                 fechaCorte: fechaCorteTransform,
                 fechaLimitePago: fechaLimitePagoTransform,
                 idEstadoCredito: CodigoEstadosCreditos.APROBADO,
-                cupoAprobado: Number(cupoAprobado),
+                cupoAprobado: this.aesEncriptService.encrypt(Number(cupoAprobado).toString()),
                 id: this.idCredito,
                 ...form
             };

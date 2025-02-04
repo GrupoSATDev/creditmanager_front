@@ -38,6 +38,7 @@ import { SwalService } from '../../../../core/services/swal.service';
 import { SolicitudesService } from '../../../../core/services/solicitudes.service';
 import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -106,6 +107,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     public thirdFormGroup: FormGroup;
     private subscription$: Subscription;
     showAlert: boolean = false;
+    private aesEncriptService = inject(AesEncryptionService);
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: ''
@@ -160,7 +162,7 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
                     segundoApellido:  response.data.segundoApellido,
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
-                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
+                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(this.aesEncriptService.decrypt(response.data.creditos[0].cupoDisponible), 'USD', 'symbol', '1.2-2'),
                     idCredito: response.data.creditos[0].id,
                     numCuentaBancaria: response.data.numCuentaBancaria,
                     cuentaDestinoInformativa: cuentaDestinoInformativa,

@@ -21,6 +21,7 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
 import { CodigosDesembolso, CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { parseCurrency } from '../../../../core/utils/number-utils';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 @Component({
   selector: 'app-grid-desembolsos',
@@ -58,6 +59,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     private solicitudService = inject(SolicitudesService);
     private detalleConsumoService = inject(DetalleConsumoService);
     public fuseService = inject(FuseConfirmationService);
+    private aesEncriptService = inject(AesEncryptionService);
     exportData = [];
 
     public searchTerm: string = '';
@@ -193,23 +195,23 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         this.subcription$ = this.detalleConsumoService.getDetallesConsumoDesembolsos(param).pipe(
             map((response) => {
                 response.data.forEach((items) => {
-                    if (items.estado) {
-                        items.estado = Estados.ACTIVO;
-                    }else {
-                        items.estado = Estados.INACTIVO;
-                    }
-                })
-                return response;
 
-            }),
-            map((response) => {
-                response.data.forEach((items) => {
+                    items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
+
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
                     items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
                     items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                     items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
-                    items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
+
+                    if (items.cupoDisponibleTrabajador) {
+                        items.cupoDisponibleTrabajador = this.aesEncriptService.decrypt(items.cupoDisponibleTrabajador);
+                    }
+
+                    if (items.montoConsumo) {
+                        items.montoConsumo = this.aesEncriptService.decrypt(items.montoConsumo);
+                    }
                     items.cupoDisponibleTrabajador = this.currencyPipe.transform(items.cupoDisponibleTrabajador, 'USD', 'symbol', '1.2-2');
+                    items.montoConsumo = this.currencyPipe.transform(items.montoConsumo, 'USD', 'symbol', '1.2-2');
                 })
                 return response;
             })
