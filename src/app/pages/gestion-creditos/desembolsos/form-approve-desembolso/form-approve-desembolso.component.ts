@@ -19,6 +19,7 @@ import { guardar } from '../../../../core/constant/dialogs';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { CodigosEstadosSolicitudes } from '../../../../core/enums/estados-solicitudes';
 import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -61,6 +62,7 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
     private currencyPipe = inject(CurrencyPipe);
     private swalService = inject(SwalService);
     private errorHandlerService = inject(ErrorHandlerService)
+    private aesEncriptService = inject(AesEncryptionService);
 
     showAlert: boolean = false;
     alert: { type: FuseAlertType; message: string } = {
@@ -98,7 +100,7 @@ export class FormApproveDesembolsoComponent implements OnInit, OnDestroy {
                     segundoApellido:  response.data.segundoApellido,
                     idTrabajador: response.data.id,
                     correo: response.data.correo,
-                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(response.data.creditos[0].cupoDisponible, 'USD', 'symbol', '1.2-2'),
+                    credito: response.data.creditos[0].numCredito + ' - ' + this.currencyPipe.transform(this.aesEncriptService.decrypt(response.data.creditos[0].cupoDisponible), 'USD', 'symbol', '1.2-2'),
                     idCredito: response.data.creditos[0].id,
                     numCuentaBancaria: response.data.numCuentaBancaria,
                     idTipoCuenta: response.data.idTipoCuenta,

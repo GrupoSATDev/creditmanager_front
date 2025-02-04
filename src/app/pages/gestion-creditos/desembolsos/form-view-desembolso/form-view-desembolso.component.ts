@@ -12,6 +12,7 @@ import { DateAdapterService } from '../../../../core/services/date-adapter.servi
 import { IConfig, provideNgxMask } from 'ngx-mask';
 import { FuseAlertType } from '../../../../../@fuse/components/alert';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -49,6 +50,7 @@ export class FormViewDesembolsoComponent implements OnInit, OnDestroy{
     private subscription$: Subscription;
     private empleadosServices = inject(EmpleadosService)
     showAlert: boolean = false;
+    public aesEncriptService = inject(AesEncryptionService);
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: ''

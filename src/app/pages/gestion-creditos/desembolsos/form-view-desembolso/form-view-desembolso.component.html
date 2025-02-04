@@ -58,7 +58,7 @@
                             <span class="text-md text-secondary">{{items.nombreEstadoCredito}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Valor de desembolso:
-                            <span class="text-md text-secondary">{{items.montoConsumo | currency}}</span>
+                            <span class="text-md text-secondary">{{aesEncriptService.decrypt(items.montoConsumo) | currency}}</span>
                         </p>
                         <p class="font-medium text-gray-600">Fecha de Solicitud:
                             <span class="text-md text-secondary">{{items.fechaCreacionSolicitud | date:'dd/MM/yyyy' }}</span>
