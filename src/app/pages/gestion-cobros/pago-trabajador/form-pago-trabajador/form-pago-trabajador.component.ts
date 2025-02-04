@@ -30,6 +30,7 @@ import { map, Observable, startWith, tap } from 'rxjs';
 import { EmpleadosService } from '../../../../core/services/empleados.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -92,6 +93,7 @@ export class FormPagoTrabajadorComponent  implements OnInit{
     private empleadosService = inject(EmpleadosService);
     filteredEmpleados$: Observable<any[]>;
     empleadoControl = new FormControl('');
+    private aesEncriptService = inject(AesEncryptionService);
 
     empresa$ = this.empresaClienteService.getEmpresasClientes().pipe(
         tap((response) => {
@@ -289,6 +291,13 @@ export class FormPagoTrabajadorComponent  implements OnInit{
                 this.totalPagar = 0;
                 if (response && Array.isArray(response.data)) {
                     response.data.forEach((items) => {
+                        if (items.montoCuota) {
+                            items.montoCuota = this.aesEncriptService.decrypt(items.montoCuota);
+                        }
+                        if (items.valorPendiente) {
+                            items.valorPendiente = this.aesEncriptService.decrypt(items.valorPendiente);
+                        }
+
                         items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
                         items.comision = this.currencyPipe.transform(items.comision, 'USD', 'symbol', '1.2-2');
                         items.pagar = this.currencyPipe.transform(items.pagar, 'USD', 'symbol', '1.2-2');

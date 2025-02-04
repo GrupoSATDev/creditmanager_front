@@ -22,6 +22,7 @@ import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajad
 import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabajadores.service';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { IConfig, provideNgxMask } from 'ngx-mask';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -85,6 +86,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     totalComision: number;
     subtotal: number;
     fechaActual: Date = new Date();
+    private aesEncriptService = inject(AesEncryptionService);
 
     columns = ['Identificación', 'Nombres Apellidos', 'Valor pendiente' ];
     columnPropertyMap = {
@@ -169,6 +171,13 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                 this.totalPagar = 0;
                 if (response && Array.isArray(response.data)) {
                     response.data.forEach((items) => {
+                        if (items.montoCuota) {
+                            items.montoCuota = this.aesEncriptService.decrypt(items.montoCuota);
+                        }
+                        if (items.valorPendiente) {
+                            items.valorPendiente = this.aesEncriptService.decrypt(items.valorPendiente);
+                        }
+
                         //items.comision = ((items.montoConsumo * items.porcentajeSubEmpresa) / 100);
                         //items.pagar = (items.montoConsumo - items.comision);
                         items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
