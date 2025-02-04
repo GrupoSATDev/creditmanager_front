@@ -101,7 +101,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
             label: 'Eliminar',
             icon: 'delete',
             action: this.deleteItem.bind(this),
-            color: 'warn',
+            iconColor: 'text-crediorange-100'
         },
     ];
 

@@ -19,7 +19,7 @@
                             [class.mat-accent]="button.color === 'accent'"
                             [class.mat-warn]="button.color === 'warn'"
                     >
-                        <mat-icon>{{ button.icon }}</mat-icon>
+                        <mat-icon [class]="button.iconColor">{{ button.icon }}</mat-icon>
                     </button>
                     <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)"
                             [matTooltip]="button.label"

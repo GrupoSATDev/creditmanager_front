@@ -4,4 +4,5 @@ export interface IButton {
     action: (element: any) => void;
     color?: string;
     customClass?: string;
+    iconColor?: string;
 }
