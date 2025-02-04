@@ -12,10 +12,10 @@
             <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <ng-container *ngFor="let button of buttons">
-                    <button mat-icon-button *ngIf="button.icon" (click)="onButtonClick(button.action, element)">
+                    <button mat-icon-button *ngIf="button.icon" (click)="onButtonClick(button.action, element)"  [matTooltip]="button.label">
                         <mat-icon>{{ button.icon }}</mat-icon>
                     </button>
-                    <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)">
+                    <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)" [matTooltip]="button.label">
                         {{ button.label }}
                     </button>
                 </ng-container>

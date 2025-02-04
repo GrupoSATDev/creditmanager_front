@@ -8,6 +8,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { IButton } from '../interfaces/buttonsInterfaces';
 import { CustomPaginatorService } from './custom-paginator.service';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatTooltip } from '@angular/material/tooltip';
 @Component({
   selector: 'app-custom-table',
   standalone: true,
@@ -19,6 +20,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
         MatIconModule,
         MatIconButton,
         MatButton,
+        MatTooltip,
     ],
     providers: [
         { provide: MatPaginatorIntl, useClass: CustomPaginatorService }

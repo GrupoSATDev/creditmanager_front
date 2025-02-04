@@ -23,6 +23,7 @@ import { CobroTrabajadoresService } from '../../../../core/services/cobro-trabaj
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
 import { IConfig, provideNgxMask } from 'ngx-mask';
 import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
+import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
@@ -94,6 +95,14 @@ export class FormPagoTrabajadoresComponent implements OnInit{
         'Nombres Apellidos': 'nombreCompleto',
         'Valor pendiente': 'valorPendiente',
     };
+
+    buttons: IButton[] = [
+        {
+            label: 'Eliminar',
+            icon: 'delete',
+            action: this.deleteItem.bind(this),
+        },
+    ];
 
     private createForm() {
         this.form = this.fb.group({
@@ -223,6 +232,14 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                 timer: 4000,
             })
         })
+    }
+
+    deleteItem(item: any): void {
+        const index = this.data.findIndex((d) => d === item);
+        if (index > -1) {
+            this.data.splice(index, 1);
+            this.data = [...this.data];
+        }
     }
 
 
