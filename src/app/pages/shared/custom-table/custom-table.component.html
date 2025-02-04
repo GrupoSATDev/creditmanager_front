@@ -12,10 +12,22 @@
             <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <ng-container *ngFor="let button of buttons">
-                    <button mat-icon-button *ngIf="button.icon" (click)="onButtonClick(button.action, element)"  [matTooltip]="button.label">
+                    <button mat-icon-button *ngIf="button.icon" (click)="onButtonClick(button.action, element)"
+                            [matTooltip]="button.label"
+                            [class]="button.customClass"
+                            [class.mat-primary]="button.color === 'primary'"
+                            [class.mat-accent]="button.color === 'accent'"
+                            [class.mat-warn]="button.color === 'warn'"
+                    >
                         <mat-icon>{{ button.icon }}</mat-icon>
                     </button>
-                    <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)" [matTooltip]="button.label">
+                    <button mat-button *ngIf="!button.icon" (click)="onButtonClick(button.action, element)"
+                            [matTooltip]="button.label"
+                            [class]="button.customClass"
+                            [class.mat-primary]="button.color === 'primary'"
+                            [class.mat-accent]="button.color === 'accent'"
+                            [class.mat-warn]="button.color === 'warn'"
+                    >
                         {{ button.label }}
                     </button>
                 </ng-container>
