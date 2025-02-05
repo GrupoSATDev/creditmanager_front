@@ -100,6 +100,7 @@
                     matInput
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar'"
+                    (input)="onSearch($event)"
                 />
             </mat-form-field>            <!-- Add product button -->
 
@@ -118,6 +119,7 @@
                 [displayedColumns]="columns"
                 [columnPropertyMap]="columnPropertyMap"
                 [data]="detalle"
+                [searchTerm]="searchTerm"
             ></app-custom-table>
         </div>
 

@@ -13,6 +13,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 
 @Component({
   selector: 'app-form-cobros-empleados',
@@ -52,6 +53,8 @@ export class FormCobrosEmpleadosComponent implements OnInit, OnDestroy{
     public subcription$: Subscription;
     private datePipe = inject(DatePipe);
     private currencyPipe = inject(CurrencyPipe);
+    public aesEncriptService = inject(AesEncryptionService);
+    public searchTerm: string = '';
 
     columns = ['Fecha de cobro', 'Nombre completo', 'Empresa', 'Concepto', 'Valor pendiente', 'Valor cuota', 'No. cuota', 'Estado'];
 
@@ -78,6 +81,12 @@ export class FormCobrosEmpleadosComponent implements OnInit, OnDestroy{
         this.subcription$ = this.cobroTrabadorService.getCobroEmpleado(id).pipe(
             map((response) => {
                 response.data.forEach((items) => {
+                    if (items.montoCuota) {
+                        items.montoCuota = this.aesEncriptService.decrypt(items.montoCuota);
+                    }
+                    if (items.valorPendiente) {
+                        items.valorPendiente = this.aesEncriptService.decrypt(items.valorPendiente);
+                    }
                     items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
                     items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
                     items.montoCuota = this.currencyPipe.transform(items.montoCuota, 'USD', 'symbol', '1.2-2');
@@ -87,8 +96,15 @@ export class FormCobrosEmpleadosComponent implements OnInit, OnDestroy{
             })
         ).subscribe((response) => {
             console.log(response)
-            this.detalle = response.data;
+            if (response.data) {
+                this.detalle = response.data;
+            }
         })
+    }
+
+    onSearch(event: Event) {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value.trim().toLowerCase();
     }
 
 }
