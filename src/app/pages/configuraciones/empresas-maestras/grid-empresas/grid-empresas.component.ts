@@ -55,7 +55,7 @@ export class GridEmpresasComponent implements OnInit, AfterViewInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'Edit',
+            label: 'Edición',
             icon: 'edit',
             action: (element) => {
                 console.log('Editing', element);

@@ -46,7 +46,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'Edit',
+            label: 'Edición',
             icon: 'edit',
             action: (element) => {
                 console.log('Editing', element);
@@ -55,7 +55,7 @@ export class GridEmpleadosComponent implements OnInit, OnDestroy{
             }
         },
         {
-            label: 'View',
+            label: 'Ver QR',
             icon: 'qr_code',
             action: (element) => {
                 console.log('View', element);

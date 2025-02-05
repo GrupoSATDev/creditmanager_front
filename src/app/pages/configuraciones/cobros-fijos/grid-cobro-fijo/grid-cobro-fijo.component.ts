@@ -51,7 +51,7 @@ export class GridCobroFijoComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'Edit',
+            label: 'Edición',
             icon: 'edit',
             action: (element) => {
                 console.log('Editing', element);
