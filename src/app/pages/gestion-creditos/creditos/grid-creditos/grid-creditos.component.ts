@@ -105,7 +105,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     buttons: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -117,7 +117,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     buttonsView: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -129,7 +129,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     buttonsEdit: IButton[] = [
         {
-            label: 'Edit',
+            label: 'Edición',
             icon: 'edit',
             action: (element) => {
                 console.log('Approve', element);
@@ -138,7 +138,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             }
         },
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -150,7 +150,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
 
     buttonsViewRechazado: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -161,8 +161,6 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     ];
 
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-        console.log('tabChangeEvent => ', tabChangeEvent);
-        console.log('index => ', tabChangeEvent.index);
         this.selectedTab =
             tabChangeEvent.index == 0 ? EstadosCreditos.EN_REVISION :
             tabChangeEvent.index == 1 ? EstadosCreditos.APROBADO :

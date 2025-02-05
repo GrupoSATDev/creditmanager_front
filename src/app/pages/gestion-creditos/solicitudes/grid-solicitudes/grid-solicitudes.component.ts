@@ -81,7 +81,7 @@ export class GridSolicitudesComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);

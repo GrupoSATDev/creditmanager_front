@@ -107,7 +107,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     buttons: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -120,7 +120,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     buttonsApprove: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -132,7 +132,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
     ];
     buttonsView: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);
@@ -145,7 +145,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
 
     buttonsPendiente: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Approve', element);

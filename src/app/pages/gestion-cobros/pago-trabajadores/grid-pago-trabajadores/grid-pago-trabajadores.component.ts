@@ -65,7 +65,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'Eye',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
@@ -73,7 +73,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
             }
         },
         {
-            label: 'View',
+            label: 'Cambiar estado',
             icon: 'published_with_changes',
             action: (element) => {
                 console.log('View', element);
@@ -85,7 +85,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
     buttonsPagado: IButton[] = [
         {
-            label: 'Eye',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);

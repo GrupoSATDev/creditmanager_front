@@ -79,7 +79,7 @@ export class GridCobrosEmpleadosComponent implements OnInit, OnDestroy{
 
     buttons: IButton[] = [
         {
-            label: 'View',
+            label: 'Ver',
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
