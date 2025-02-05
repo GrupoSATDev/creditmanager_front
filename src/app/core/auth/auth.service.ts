@@ -95,7 +95,6 @@ export class AuthService {
 
             }),
             switchMap((response: any) => {
-                console.log(response)
                 // Store the access token in the local storage
                 //this.accessToken = response.token;
                 this.accessToken = response.accessToken;
