@@ -227,6 +227,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/consumos',
             },
+            {
+                id: '8.2',
+                title: 'Reporte de desembolsos',
+                type: 'basic',
+                link: '/pages/reportes/desembolsos',
+            },
         ],
     },
 
