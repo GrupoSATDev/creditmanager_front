@@ -43,7 +43,7 @@ export class DashboardCarteraMorosidadComponent implements  OnInit{
                 chart: {
                     type: 'bar',
                     height: 400,
-                    width: 600,
+                    width: 1000,
                     fontFamily: 'Inter, sans-serif',
                     toolbar: {
                         show: true,
