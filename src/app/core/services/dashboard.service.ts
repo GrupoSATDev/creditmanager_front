@@ -24,4 +24,8 @@ export class DashboardService {
   getRentabilidadInteres(): Observable<any> {
       return this._http.get(`${this.appSettings.dashboard.url.base}/Intereses`)
   }
+
+  getCarteras(): Observable<any> {
+      return this._http.get(`${this.appSettings.dashboard.url.base}/Carteras`)
+  }
 }
