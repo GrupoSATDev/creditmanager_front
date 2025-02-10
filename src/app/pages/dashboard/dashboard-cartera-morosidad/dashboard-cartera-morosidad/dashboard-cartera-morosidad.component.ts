@@ -37,7 +37,7 @@ export class DashboardCarteraMorosidadComponent implements  OnInit{
 
             this.chartOptions = {
                 series: [{
-                    name: 'Total Pagos',
+                    name: 'Deudas pendientes',
                     data: []
                 }],
                 chart: {
@@ -185,7 +185,7 @@ export class DashboardCarteraMorosidadComponent implements  OnInit{
 
             // Actualizar las series del gráfico
             this.chartOptions.series = [{
-                name: 'Total Pagos',
+                name: 'Pagos pendientes',
                 data: Array.from(pagosPorSubempresa.values())
             }];
 
