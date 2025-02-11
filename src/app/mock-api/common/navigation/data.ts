@@ -26,12 +26,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/dashboard/cartera',
             },
-            {
+            /*{
                 id: '1.4',
                 title: 'Comparativas financieras',
                 type: 'basic',
                 link: '/pages/dashboard/financieras',
-            },
+            },*/
         ],
     },
     {
