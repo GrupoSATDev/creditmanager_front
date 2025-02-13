@@ -203,10 +203,6 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                     items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                     items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
 
-                    if (items.cupoDisponibleTrabajador) {
-                        items.cupoDisponibleTrabajador = this.aesEncriptService.decrypt(items.cupoDisponibleTrabajador);
-                    }
-
                     if (items.montoConsumo) {
                         items.montoConsumo = this.aesEncriptService.decrypt(items.montoConsumo);
                     }
@@ -217,6 +213,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             })
         ).subscribe((response) => {
             if (response) {
+                console.log('Si')
                 this.data = response.data;
                 this.convertDataExport(response.data)
             }else {
