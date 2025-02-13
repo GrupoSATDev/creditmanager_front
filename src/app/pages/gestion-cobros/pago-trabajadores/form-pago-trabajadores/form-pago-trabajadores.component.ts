@@ -238,8 +238,15 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     deleteItem(item: any): void {
         const index = this.data.findIndex((d) => d === item);
         if (index > -1) {
+            // Extraer el valor numérico de `montoCuota` antes de eliminar el item
+            const montoCuota = parseFloat(item.montoCuota.replace(/[^0-9.-]+/g, ''));
+
+            // Restar el valor eliminado del totalPagar
+            this.totalPagar -= isNaN(montoCuota) ? 0 : montoCuota;
+
+            // Eliminar el item de la lista
             this.data.splice(index, 1);
-            this.data = [...this.data];
+            this.data = [...this.data]; // Para disparar detección de cambios en Angular
         }
     }
 
