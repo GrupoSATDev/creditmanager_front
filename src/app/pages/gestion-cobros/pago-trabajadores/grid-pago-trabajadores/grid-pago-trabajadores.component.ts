@@ -92,6 +92,14 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
                 this.router.navigate(['/pages/gestion-cobros/trabajadores/pago/', element.id])
             }
         },
+        {
+            label: 'Comprobante',
+            icon: 'document_scanner',
+            action: (element) => {
+                console.log('Editing', element);
+                this.router.navigate(['/pages/gestion-cobros/trabajador/individual/', element.id])
+            }
+        },
     ];
 
     onCambioEstado(): void {
