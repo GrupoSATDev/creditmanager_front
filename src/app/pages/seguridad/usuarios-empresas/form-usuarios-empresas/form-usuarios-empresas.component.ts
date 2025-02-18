@@ -16,7 +16,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
 import { TipoUsuariosService } from '../../../../core/services/tipo-usuarios.service';
@@ -85,6 +85,10 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
     );
 
     public tipoUsuarios$ = this.tipoUsuariosService.getTipoUsuarios().pipe(
+        map((response) => {
+            response.data = response.data.filter((res) => res.nombre !== 'Trabajador');
+            return response;
+        }),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
