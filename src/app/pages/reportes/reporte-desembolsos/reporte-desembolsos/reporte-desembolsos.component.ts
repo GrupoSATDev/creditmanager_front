@@ -86,9 +86,9 @@ export class ReporteDesembolsosComponent {
     )
     data = [];
     exportData = [];
-    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
+    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
     columnPropertyMap = {
-        'Fecha de solicitud': 'fechaCreacion',
+        'Fecha de solicitud': 'fechaCreacionSolicitud',
         'Identificación': 'documentoTrabajador',
         'Trabajador': 'nombreTrabajador',
         'Empresa': 'nombreEmpresaTrabajador',
@@ -99,7 +99,6 @@ export class ReporteDesembolsosComponent {
         'Salario devengado': 'salarioDevengadoTrabajador',
         'Monto aprobado': 'montoConsumo',
         'Cupo disponible': 'cupoDisponibleTrabajador',
-        'Tipo de consumo': 'tipoConsumo',
         'Tipo de cuenta': 'tipoCuentaTrabajador',
         'Banco': 'bancotrabajador',
         'Número de cuenta': 'numeroCuentaTrabajador',
@@ -109,7 +108,7 @@ export class ReporteDesembolsosComponent {
     private convertDataExport(data, ) {
         const convertData = data.map((items) => {
             return {
-                FechaSolicitud : items.fechaCreacion,
+                FechaSolicitud : items.fechaCreacionSolicitud,
                 Identificacion : items.documentoTrabajador,
                 Trabajador : items.nombreTrabajador,
                 Empresa : items.nombreEmpresaTrabajador,
@@ -120,7 +119,6 @@ export class ReporteDesembolsosComponent {
                 SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
                 MontoAprobado : parseCurrency(items.montoConsumo),
                 CupoDisponible : parseCurrency(items.cupoDisponibleTrabajador),
-                TipoConsumo : items.tipoConsumo,
                 TipoCuenta : items.tipoCuentaTrabajador,
                 Banco : items.bancotrabajador,
                 NumeroCuenta : items.numeroCuentaTrabajador,
@@ -142,7 +140,6 @@ export class ReporteDesembolsosComponent {
 
     private createForm() {
         this.form = this.fb.group({
-            idEstadoCredito: ['', Validators.required],
             fechaInicio: ['', Validators.required],
             fechaFinal: ['', Validators.required],
         })
@@ -161,7 +158,6 @@ export class ReporteDesembolsosComponent {
             const consulta = {
                 fechaInicio: fechaIniciallData,
                 fechaFinal: fechaFinallData,
-                ...form
             }
 
             this.reportesService.getReporteDesembolsos(consulta).pipe(
@@ -169,7 +165,7 @@ export class ReporteDesembolsosComponent {
                     response.data.forEach((items) => {
                         items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
 
-                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.fechaCreacionSolicitud = this.datePipe.transform(items.fechaCreacionSolicitud, 'dd/MM/yyyy');
                         items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
                         items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                         items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');

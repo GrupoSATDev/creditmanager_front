@@ -20,6 +20,6 @@ export class ReportesService {
 
   getReporteDesembolsos(data): Observable<any> {
       console.log(data)
-      return this._http.get(`${this.appSettings.reportes.url.reporteDesembolso}?idEstadoCredito=${data.idEstadoCredito}&fechaInicio=${data.fechaInicio}&fechaFinal=${data.fechaFinal}`)
+      return this._http.get(`${this.appSettings.reportes.url.reporteDesembolso}?fechaInicio=${data.fechaInicio}&fechaFinal=${data.fechaFinal}`)
   }
 }

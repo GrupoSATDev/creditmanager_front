@@ -239,7 +239,7 @@ export class AppSettingsService {
     public reportes = {
         url: {
             reporteConsumo: EndPoints.uriBase('Reportes/DetalleConsumoAliado'),
-            reporteDesembolso: EndPoints.uriBase('Reportes/DetalleDesembolsos'),
+            reporteDesembolso: EndPoints.uriBase('Reportes/DetalleDesembolsosRealizados'),
         }
     }
 

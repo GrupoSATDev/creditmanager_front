@@ -39,7 +39,7 @@
     <div class="px-6 border-b mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
 
         <form [formGroup]="form" class="flex flex-col sm:flex-row gap-2.5">
-            <mat-form-field class="w-full sm:w-1/2">
+          <!--  <mat-form-field class="w-full sm:w-1/2">
                 <mat-label>Estados</mat-label>
                 <mat-select
                     (selectionChange)="onSelect($event)"
@@ -49,7 +49,7 @@
                         <mat-option [value]="item.id" *ngFor="let item of detalleConsumo.data">{{item.nombre}}</mat-option>
                     </ng-container>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field>-->
 
             <mat-form-field  class="w-full  sm:w-1/2" floatLabel="always">
                 <mat-label>Fecha de inicio</mat-label>
