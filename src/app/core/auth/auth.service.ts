@@ -6,6 +6,7 @@ import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
 import { user } from '../../mock-api/common/user/data';
 import { jwtDecode } from 'jwt-decode';
+import { AesEncryptionService } from '../services/aes-encryption.service';
 
 export type UserRole = 'Aliado' | 'Analista' | 'Super Admin' | 'Auditor' | 'Trabajador' | 'Cliente';
 export type UserType = 'Empresa Aliada' | 'Trabajador' | 'EmprasaMaestra' | 'Cliente-Aliado' | 'Empresa Cliente';
@@ -16,6 +17,7 @@ export class AuthService {
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
     private _appSettings = inject(AppSettingsService);
+    private aesEncriptService = inject(AesEncryptionService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -60,6 +62,14 @@ export class AuthService {
      * @param credentials
      */
     signIn(credentials: { correo: string; contrasena: string }): Observable<any> {
+        const form = {
+            correo: credentials.correo,
+            contrasena: credentials.contrasena
+        }
+
+        const encryptForm = {
+            login: this.aesEncriptService.encryptObject(form)
+        }
         // Throw error, if the user is already logged in
         //TODO esto ocasiona error
        /* if (this._authenticated) {
@@ -67,7 +77,7 @@ export class AuthService {
         }*/
 
         //return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-        return this._httpClient.post(this._appSettings.auth.url.base, credentials).pipe(
+        return this._httpClient.post(this._appSettings.auth.url.base, encryptForm).pipe(
             map((response: any) => {
                 const dataUser = {
                     id: Math.random().toString(),

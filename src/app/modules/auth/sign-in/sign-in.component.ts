@@ -18,6 +18,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { RoleRouteMap } from '../../../core/constant/rutasPermitidas';
+import { AesEncryptionService } from '../../../core/services/aes-encryption.service';
 
 @Component({
     selector: 'auth-sign-in',

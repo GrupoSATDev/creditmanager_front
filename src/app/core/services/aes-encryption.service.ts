@@ -23,6 +23,16 @@ export class AesEncryptionService {
         return encrypted.toString(); // Devuelve en Base64 (igual que en C#)
     }
 
+    encryptObject(obj: any): string {
+        // Convertir el objeto a una cadena JSON
+        const jsonString = JSON.stringify(obj);
+
+        // Encriptar la cadena JSON utilizando el método `encrypt`
+        const encrypted = this.encrypt(jsonString);
+
+        return encrypted; // Devuelve el objeto encriptado en Base64
+    }
+
     decrypt(cipherText: string): string {
         const decrypted = CryptoJS.AES.decrypt(
             cipherText, // Ahora pasamos el string directamente
