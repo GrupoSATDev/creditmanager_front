@@ -39,10 +39,11 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Inversor', 'Rubro invertido', 'Rubro disponible', 'Fecha de retorno', 'Detalle de inversión'];
+    columns = ['Inversor', 'Rubro invertido', 'Rubro consumido', 'Rubro disponible', 'Fecha de retorno', 'Detalle de inversión'];
     columnPropertyMap = {
         'Inversor': 'nombreInversor',
         'Rubro invertido': 'rubroInversion',
+        'Rubro consumido': 'montoUtilizado',
         'Rubro disponible': 'montoDisponible',
         'Fecha de retorno': 'plazoPagoInversor',
         'Detalle de inversión': 'detalleInversion',
@@ -108,6 +109,7 @@ export class GridCapitalInversionComponent implements OnInit, OnDestroy{
                 response.data.forEach((items) => {
                     items.plazoPagoInversor = this.datePipe.transform(items.plazoPagoInversor, 'dd/MM/yyyy');
                     items.rubroInversion = this.currencyPipe.transform(items.rubroInversion, 'USD', 'symbol', '1.2-2');
+                    items.montoUtilizado = this.currencyPipe.transform(items.montoUtilizado, 'USD', 'symbol', '1.2-2');
                     items.montoDisponible = this.currencyPipe.transform(items.montoDisponible, 'USD', 'symbol', '1.2-2');
                 })
                 return response;

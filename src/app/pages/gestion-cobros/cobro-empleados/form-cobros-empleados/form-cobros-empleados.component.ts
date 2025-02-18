@@ -56,14 +56,13 @@ export class FormCobrosEmpleadosComponent implements OnInit, OnDestroy{
     public aesEncriptService = inject(AesEncryptionService);
     public searchTerm: string = '';
 
-    columns = ['Fecha de cobro', 'Nombre completo', 'Empresa', 'Concepto', 'Valor pendiente', 'Valor cuota', 'No. cuota', 'Estado'];
+    columns = ['Fecha de cobro', 'Nombre completo', 'Empresa', 'Concepto', 'Valor cuota', 'No. cuota', 'Estado'];
 
     columnPropertyMap = {
         'Fecha de cobro': 'fechaCobro',
         'Nombre completo': 'nombreTrabajador',
         'Empresa': 'nombreSubEmpresa',
         'Concepto': 'tipoConsumo',
-        'Valor pendiente': 'valorPendiente',
         'Valor cuota': 'montoCuota',
         'No. cuota': 'numCuota',
         'Estado': 'nombreEstadoCredito',
