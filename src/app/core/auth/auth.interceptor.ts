@@ -8,6 +8,7 @@ import { inject } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { Observable, catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 /**
  * Intercept
@@ -20,6 +21,7 @@ export const authInterceptor = (
     next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
     const authService = inject(AuthService);
+    const router = inject(Router);
 
     // Clone the request object
     let newReq = req.clone();
@@ -41,16 +43,17 @@ export const authInterceptor = (
                 'Bearer ' + authService.accessToken
             ),
         });
-        return next(newReq)
     }
 
     // Response
     return next(newReq).pipe(
         catchError((error) => {
+            console.log(error)
             // Catch "401 Unauthorized" responses
             if (error instanceof HttpErrorResponse && error.status === 401) {
                 // Sign out
                 authService.signOut();
+                router.navigate(['/sign-in']);
 
                 // Reload the app
                 location.reload();
