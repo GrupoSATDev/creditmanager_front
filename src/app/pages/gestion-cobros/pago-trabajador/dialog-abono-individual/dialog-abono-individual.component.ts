@@ -3,8 +3,8 @@ import {
     AbstractControl,
     FormBuilder,
     FormGroup,
-    FormsModule,
-    ReactiveFormsModule, ValidationErrors,
+    FormsModule, ReactiveFormsModule,
+    ValidationErrors,
     ValidatorFn,
     Validators,
 } from '@angular/forms';
@@ -12,35 +12,35 @@ import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
+import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { IConfig, NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapterService } from '../../../../core/services/date-adapter.service';
-import { CurrencyPipe, DatePipe, NgClass, NgIf } from '@angular/common';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
-import { SwalService } from '../../../../core/services/swal.service';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
+import { SwalService } from '../../../../core/services/swal.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
 
+
 @Component({
-  selector: 'app-dialog-abonos-masivos',
+  selector: 'app-dialog-abono-individual',
   standalone: true,
     imports: [
         FormsModule,
         MatButton,
+        MatError,
         MatFormField,
         MatIcon,
         MatInput,
         MatLabel,
-        NgxMaskDirective,
-        ReactiveFormsModule,
-        MatDialogClose,
-        MatError,
         NgIf,
-        NgClass,
+        NgxMaskDirective,
+        MatDialogClose,
+        ReactiveFormsModule,
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -49,11 +49,11 @@ const maskConfig: Partial<IConfig> = {
         CurrencyPipe,
         provideNgxMask(maskConfig)
     ],
-  templateUrl: './dialog-abonos-masivos.component.html',
-  styleUrl: './dialog-abonos-masivos.component.scss'
+  templateUrl: './dialog-abono-individual.component.html',
+  styleUrl: './dialog-abono-individual.component.scss'
 })
-export class DialogAbonosMasivosComponent  implements OnInit{
-    public dialogRef = inject(MatDialogRef<DialogAbonosMasivosComponent>);
+export class DialogAbonoIndividualComponent implements OnInit{
+    public dialogRef = inject(MatDialogRef<DialogAbonoIndividualComponent>);
     public _matData = inject(MAT_DIALOG_DATA);
     private fb = inject(FormBuilder);
     public form: FormGroup;
@@ -125,3 +125,4 @@ export function maxAmountValidator(total: number, totalAbono: number): Validator
         return value >= maxValue ? { maxAmount: { maxValue, actual: value } } : null;
     };
 }
+
