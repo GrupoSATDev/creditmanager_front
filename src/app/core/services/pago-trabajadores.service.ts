@@ -46,5 +46,9 @@ export class PagoTrabajadoresService {
         return this._http.put(`${this.appSettings.pagoTrabajadores.url.base}/${id}`, data)
     }
 
+    pagoTrabajadoresAbono(data): Observable<any> {
+      return this._http.post(`${this.appSettings.pagoTrabajadores.url.base}/Abonos`, data)
+    }
+
 
 }

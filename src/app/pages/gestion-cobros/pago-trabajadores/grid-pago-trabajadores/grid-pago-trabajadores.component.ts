@@ -16,6 +16,7 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/material/tabs';
 import { CodigoCobroTrabajador } from '../../../../core/enums/codigo-cobro-trabajador';
 import { DialogEstadoMasivoComponent } from '../dialog-estado-masivo/dialog-estado-masivo.component';
+import { DialogAbonosMasivosComponent } from '../dialog-abonos-masivos/dialog-abonos-masivos.component';
 
 @Component({
   selector: 'app-grid-pago-trabajadores',
@@ -80,7 +81,16 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
                 this.selectedData = element;
                 this.onCambioEstado();
             }
-        }
+        },
+        {
+            label: 'Abonos',
+            icon: 'request_quote',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onAbono();
+            }
+        },
     ];
 
     buttonsPagado: IButton[] = [
@@ -104,6 +114,19 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
     onCambioEstado(): void {
         this._matDialog.open(DialogEstadoMasivoComponent, {
+            autoFocus: false,
+            data: {
+                edit: true,
+                data: this.selectedData
+            },
+            width: '30%',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    onAbono(): void {
+        this._matDialog.open(DialogAbonosMasivosComponent, {
             autoFocus: false,
             data: {
                 edit: true,
