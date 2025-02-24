@@ -80,22 +80,22 @@
                     <div class="text-secondary col-span-4 text-lg font-medium">
                         Fecha de abono
                     </div>
-                    <div class="text-secondary col-span-4 text-lg font-medium">
-                        Valor abonado
-                    </div>
                     <div class="text-secondary col-span-4 text-right text-lg font-medium">
                         Factura No
+                    </div>
+                    <div class="text-secondary col-span-4 text-lg font-medium">
+                        Valor abonado
                     </div>
                     <div class="col-span-12 my-4 border-b"></div>
                     <ng-container *ngFor="let abono of detalleFactura.abonosPagos">
                         <div class="col-span-4 text-md tracking-tight">
                             {{ abono.fechaAbono | date: 'dd/MM/yyyy' }}
                         </div>
-                        <div class="col-span-4 text-md tracking-tight">
-                            {{ abono.valorAbonado | currency: 'USD' }}
-                        </div>
                         <div class="col-span-4 self-center text-right">
                             {{ abono.numeroFactura }}
+                        </div>
+                        <div class="col-span-4 text-md tracking-tight">
+                            {{ abono.valorAbonado | currency: 'USD' }}
                         </div>
                         <div class="col-span-12 my-4 border-b"></div>
                     </ng-container>
