@@ -80,10 +80,10 @@
                     <div class="text-secondary col-span-4 text-lg font-medium">
                         Fecha de abono
                     </div>
-                    <div class="text-secondary col-span-4 text-right text-lg font-medium">
+                    <div class="text-secondary col-span-4  text-lg font-medium">
                         Factura No
                     </div>
-                    <div class="text-secondary col-span-4 text-lg font-medium">
+                    <div class="text-secondary col-span-4 text-right text-lg  font-medium">
                         Valor abonado
                     </div>
                     <div class="col-span-12 my-4 border-b"></div>
@@ -91,10 +91,10 @@
                         <div class="col-span-4 text-md tracking-tight">
                             {{ abono.fechaAbono | date: 'dd/MM/yyyy' }}
                         </div>
-                        <div class="col-span-4 self-center text-right">
+                        <div class="col-span-4 self-center tracking-tight">
                             {{ abono.numeroFactura }}
                         </div>
-                        <div class="col-span-4 text-md tracking-tight">
+                        <div class="col-span-4 text-md text-right ">
                             {{ abono.valorAbonado | currency: 'USD' }}
                         </div>
                         <div class="col-span-12 my-4 border-b"></div>
