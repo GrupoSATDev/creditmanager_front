@@ -233,6 +233,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/desembolsos',
             },
+            {
+                id: '8.3',
+                title: 'Reporte de cobros',
+                type: 'basic',
+                link: '/pages/reportes/cobros',
+            },
         ],
     },
 

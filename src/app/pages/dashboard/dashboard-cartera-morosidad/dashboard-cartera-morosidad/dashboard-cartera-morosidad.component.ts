@@ -180,7 +180,7 @@ export class DashboardCarteraMorosidadComponent implements  OnInit{
 
             pagos.pagosPendientes.forEach((pago: any) => {
                 const totalActual = pagosPorSubempresa.get(pago.nombreSubempresa) || 0;
-                pagosPorSubempresa.set(pago.nombreSubempresa, totalActual + pago.total);
+                pagosPorSubempresa.set(pago.nombreSubempresa, totalActual + pago.total - pago.totalAbono);
             });
 
             // Actualizar las series del gráfico

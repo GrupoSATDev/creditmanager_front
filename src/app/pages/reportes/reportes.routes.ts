@@ -9,5 +9,9 @@ export default [
         path: 'desembolsos',
         loadChildren: () => import('./reporte-desembolsos/reporteDesembolsos.routes')
     },
+    {
+        path: 'cobros',
+        loadChildren: () => import('./reporte-cobro-trabajadores/reporte-cobro-trabajadores.routes')
+    }
 
 ] as Routes
