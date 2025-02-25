@@ -11,7 +11,7 @@ export class AppSettingsService {
      */
     public auth = {
         url: {
-            base: EndPoints.uriBase('Usuarios/Login'),
+            base: EndPoints.uriBase('Auth/Login'),
         },
     };
 
