@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, takeUntil, throwError } from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
 import { user } from '../../mock-api/common/user/data';
 import { jwtDecode } from 'jwt-decode';
 import { AesEncryptionService } from '../services/aes-encryption.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export type UserRole = 'Aliado' | 'Analista' | 'Super Admin' | 'Auditor' | 'Trabajador' | 'Cliente';
 export type UserType = 'Empresa Aliada' | 'Trabajador' | 'EmprasaMaestra' | 'Cliente-Aliado' | 'Empresa Cliente';
@@ -18,6 +19,8 @@ export class AuthService {
     private _userService = inject(UserService);
     private _appSettings = inject(AppSettingsService);
     private aesEncriptService = inject(AesEncryptionService);
+    private readonly destroyedRef = inject(DestroyRef);
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -162,6 +165,10 @@ export class AuthService {
             );
     }
 
+    logoutSession(): Observable<any> {
+        return this._httpClient.post(this._appSettings.auth.url.baseOut, {});
+    }
+
     /**
      * Sign out
      */
@@ -171,8 +178,7 @@ export class AuthService {
 
         // Set the authenticated flag to false
         this._authenticated = false;
-
-        // Return the observable
+                // Return the observable
         return of(true);
     }
 
