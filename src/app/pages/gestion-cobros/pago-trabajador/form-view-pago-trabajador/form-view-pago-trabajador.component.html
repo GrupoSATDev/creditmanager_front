@@ -87,18 +87,20 @@
                         Valor abonado
                     </div>
                     <div class="col-span-12 my-4 border-b"></div>
-                    <ng-container *ngFor="let abono of detalleFactura.abonosPagos">
-                        <div class="col-span-4 text-md tracking-tight">
-                            {{ abono.fechaCreacion | date: 'dd/MM/yyyy' }}
-                        </div>
-                        <div class="col-span-4 self-center tracking-tight">
-                            {{ abono.comprobante }}
-                        </div>
-                        <div class="col-span-4 text-md text-right ">
-                            {{ abono.valor | currency: 'USD' }}
-                        </div>
-                        <div class="col-span-12 my-4 border-b"></div>
-                    </ng-container>
+                    @if (detalleFactura.abonosPagos.length > 0) {
+                        <ng-container *ngFor="let abono of detalleFactura.abonosPagos">
+                            <div class="col-span-4 text-md tracking-tight">
+                                {{ abono.fechaCreacion | date: 'dd/MM/yyyy' }}
+                            </div>
+                            <div class="col-span-4 self-center tracking-tight">
+                                {{ abono.comprobante }}
+                            </div>
+                            <div class="col-span-4 text-md text-right ">
+                                {{ abono.valor | currency: 'USD' }}
+                            </div>
+                            <div class="col-span-12 my-4 border-b"></div>
+                        </ng-container>
+                    }
 
                     <!-- Spacer -->
                     <div class="col-span-12 mt-16"></div>
@@ -121,7 +123,7 @@
                         Total a cobrar
                     </div>
                     <div class="col-span-2 text-right text-2xl font-medium">
-                        {{detalleFactura.total | currency: 'USD'}}
+                        {{(detalleFactura.total - totalAbonos) | currency: 'USD'}}
                     </div>
                 </div>
             </div>

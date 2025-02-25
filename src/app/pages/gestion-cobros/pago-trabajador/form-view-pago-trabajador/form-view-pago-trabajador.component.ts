@@ -5,7 +5,7 @@ import { CurrencyPipe, DatePipe, DecimalPipe, NgForOf } from '@angular/common';
 import { IConfig, provideNgxMask } from 'ngx-mask';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { PagoTrabajadoresService } from '../../../../core/services/pago-trabajadores.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
@@ -44,6 +44,7 @@ export class FormViewPagoTrabajadorComponent  implements OnInit, OnDestroy  {
     public subcription$: Subscription;
     private pagoTrabajadorService = inject(PagoTrabajadoresService);
     public detalleFactura: any;
+    public totalAbonos: number = 0;
 
     ngOnDestroy(): void {
     }
@@ -54,7 +55,17 @@ export class FormViewPagoTrabajadorComponent  implements OnInit, OnDestroy  {
     }
 
     getPagoIndividual(id) {
-        this.subcription$ = this.pagoTrabajadorService.getPagosTrabajadorIndividual(id).subscribe((response) => {
+        this.subcription$ = this.pagoTrabajadorService.getPagosTrabajadorIndividual(id).pipe(
+            map((response) => {
+                if (response.data.abonosPagos) {
+                    response.data.abonosPagos.forEach((items) => {
+                        this.totalAbonos += items.valor;
+                    })
+                    return response;
+                }
+
+            })
+        ).subscribe((response) => {
             if (response.data) {
                 this.detalleFactura = response.data;
             }
