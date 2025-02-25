@@ -89,13 +89,13 @@
                     <div class="col-span-12 my-4 border-b"></div>
                     <ng-container *ngFor="let abono of detalleFactura.abonosPagos">
                         <div class="col-span-4 text-md tracking-tight">
-                            {{ abono.fechaAbono | date: 'dd/MM/yyyy' }}
+                            {{ abono.fechaCreacion | date: 'dd/MM/yyyy' }}
                         </div>
                         <div class="col-span-4 self-center tracking-tight">
-                            {{ abono.numeroFactura }}
+                            {{ abono.comprobante }}
                         </div>
                         <div class="col-span-4 text-md text-right ">
-                            {{ abono.valorAbonado | currency: 'USD' }}
+                            {{ abono.valor | currency: 'USD' }}
                         </div>
                         <div class="col-span-12 my-4 border-b"></div>
                     </ng-container>
@@ -108,10 +108,10 @@
                         Observaciones
                     </div>
                     <div class="col-span-10 text-right text-lg">{{detalleFactura.observacion}}</div>
-                    <div class="text-secondary col-span-10 self-center font-medium tracking-tight">
+                   <!-- <div class="text-secondary col-span-10 self-center font-medium tracking-tight">
                         Subtotal
                     </div>
-                    <div class="col-span-2 text-right text-lg">{{detalleFactura.total | currency: 'USD'}}</div>
+                    <div class="col-span-2 text-right text-lg">{{detalleFactura.total | currency: 'USD'}}</div>-->
 
                     <!-- Divider -->
                     <div class="col-span-12 my-3 border-b"></div>
