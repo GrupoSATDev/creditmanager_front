@@ -14,6 +14,7 @@ export class AppSettingsService {
             base: EndPoints.uriBase('Auth/Login'),
             baseOut: EndPoints.uriBase('Auth/logout'),
             baseCheck: EndPoints.uriBase('Auth/checkSession'),
+            baseRefresh: EndPoints.uriBase('Auth/refresh'),
         },
     };
 
@@ -242,6 +243,7 @@ export class AppSettingsService {
         url: {
             reporteConsumo: EndPoints.uriBase('Reportes/DetalleConsumoAliado'),
             reporteDesembolso: EndPoints.uriBase('Reportes/DetalleDesembolsosRealizados'),
+            reporteCobro: EndPoints.uriBase('Reportes/CobrosTrabajadores'),
         }
     }
 
