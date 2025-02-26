@@ -74,20 +74,21 @@
                     </ng-container>
 
                     <!-- Sección de Abonos -->
-                    <div class="col-span-12 text-xl font-bold mt-8 mb-4">
-                        Abonos Realizados
-                    </div>
-                    <div class="text-secondary col-span-4 text-lg font-medium">
-                        Fecha de abono
-                    </div>
-                    <div class="text-secondary col-span-4  text-lg font-medium">
-                        Factura No
-                    </div>
-                    <div class="text-secondary col-span-4 text-right text-lg  font-medium">
-                        Valor abonado
-                    </div>
-                    <div class="col-span-12 my-4 border-b"></div>
                     @if (detalleFactura.abonosPagos.length > 0) {
+                        <div class="col-span-12 text-xl font-bold mt-8 mb-4">
+                            Abonos Realizados
+                        </div>
+                        <div class="text-secondary col-span-4 text-lg font-medium">
+                            Fecha de abono
+                        </div>
+                        <div class="text-secondary col-span-4  text-lg font-medium">
+                            Factura No
+                        </div>
+                        <div class="text-secondary col-span-4 text-right text-lg  font-medium">
+                            Valor abonado
+                        </div>
+                        <div class="col-span-12 my-4 border-b"></div>
+
                         <ng-container *ngFor="let abono of detalleFactura.abonosPagos">
                             <div class="col-span-4 text-md tracking-tight">
                                 {{ abono.fechaCreacion | date: 'dd/MM/yyyy' }}
