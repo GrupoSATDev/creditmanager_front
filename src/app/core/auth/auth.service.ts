@@ -2,12 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, map, Observable, of, switchMap, takeUntil, throwError } from 'rxjs';
+import {
+    BehaviorSubject,
+    catchError,
+    interval,
+    map,
+    Observable,
+    of,
+    switchMap,
+    takeUntil,
+    tap,
+    throwError,
+} from 'rxjs';
 import { AppSettingsService } from '../app-config/app-settings-service';
 import { user } from '../../mock-api/common/user/data';
 import { jwtDecode } from 'jwt-decode';
 import { AesEncryptionService } from '../services/aes-encryption.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { TokenrenewaldialogComponent } from '../../pages/shared/tokenrenewaldialog/tokenrenewaldialog.component';
+import { Router } from '@angular/router';
 
 export type UserRole = 'Aliado' | 'Analista' | 'Super Admin' | 'Auditor' | 'Trabajador' | 'Cliente';
 export type UserType = 'Empresa Aliada' | 'Trabajador' | 'EmprasaMaestra' | 'Cliente-Aliado' | 'Empresa Cliente';
@@ -20,6 +34,39 @@ export class AuthService {
     private _appSettings = inject(AppSettingsService);
     private aesEncriptService = inject(AesEncryptionService);
     private readonly destroyedRef = inject(DestroyRef);
+    private matDialog = inject(MatDialog);
+    private router = inject(Router);
+
+    private _tokenExpirationSubject = new BehaviorSubject<boolean>(false); // Para notificar que el token está por expirar
+
+    constructor() {
+        this.restoreSession();
+        this.checkTokenExpiration();
+    }
+
+    private restoreSession(): void {
+        if (!this.accessToken || !this.accessRefreshToken) {
+            this.signOut();
+            return;
+        }
+
+        // Verifica si el token está expirado
+        if (AuthUtils.isTokenExpired(this.accessToken)) {
+            console.log("Token expirado, intentando renovar...");
+            this.signInUsingToken().subscribe((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    console.log("No se pudo renovar el token, cerrando sesión...");
+                    this.signOut();
+                } else {
+                    console.log("Token renovado exitosamente.");
+                    this._authenticated = true;
+                }
+            });
+        } else {
+            console.log("Token válido, restaurando sesión...");
+            this._authenticated = true;
+        }
+    }
 
 
     // -----------------------------------------------------------------------------------------------------
@@ -33,8 +80,16 @@ export class AuthService {
         localStorage.setItem('accessToken', token);
     }
 
+    set refreshToken(token: string) {
+        localStorage.setItem('refreshToken', token);
+    }
+
     get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    get accessRefreshToken(): string {
+        return localStorage.getItem('refreshToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -75,9 +130,9 @@ export class AuthService {
         }
         // Throw error, if the user is already logged in
         //TODO esto ocasiona error
-       /* if (this._authenticated) {
+        if (this._authenticated) {
             return throwError('User is already logged in.');
-        }*/
+        }
 
         //return this._httpClient.post('api/auth/sign-in', credentials).pipe(
         return this._httpClient.post(this._appSettings.auth.url.base, encryptForm).pipe(
@@ -111,6 +166,7 @@ export class AuthService {
                 // Store the access token in the local storage
                 //this.accessToken = response.token;
                 this.accessToken = response.accessToken;
+                this.refreshToken = response.refreshToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
@@ -130,40 +186,82 @@ export class AuthService {
     /**
      * Sign in using the access token
      */
-    signInUsingToken(): Observable<any> {
-        // Sign in using the token
-        return this._httpClient
-            .post('api/auth/sign-in-with-token', {
-                accessToken: this.accessToken,
-            })
-            .pipe(
-                catchError(() =>
-                    // Return false
-                    of(false)
-                ),
-                switchMap((response: any) => {
-                    // Replace the access token with the new one if it's available on
-                    // the response object.
-                    //
-                    // This is an added optional step for better security. Once you sign
-                    // in using the token, you should generate a new one on the server
-                    // side and attach it to the response object. Then the following
-                    // piece of code can replace the token with the refreshed one.
-                    if (response.accessToken) {
-                        this.accessToken = response.accessToken;
-                    }
+    signInUsingToken(): Observable<boolean> {
+        const token = this.accessToken;
+        const refreshToken = this.accessRefreshToken;
 
-                    // Set the authenticated flag to true
+        if (!token || !refreshToken) {
+            this.signOut();
+            return of(false);
+        }
+
+        console.log("Verificando token con API...");
+
+        return this._httpClient.post(this._appSettings.auth.url.baseRefresh, { token, refreshToken }).pipe(
+            catchError((error) => {
+                this.signOut();
+                return of(false);
+            }),
+            switchMap((response: any) => {
+                if (response.token) {
+                    this.accessToken = response.token;
+                    this.refreshToken = response.refreshToken;
                     this._authenticated = true;
-
-                    // Store the user on the user service
-                    this._userService.user = response.user;
-
-                    // Return true
                     return of(true);
-                })
-            );
+                }
+                this.signOut();
+                return of(false);
+            })
+        );
     }
+
+
+    public checkTokenExpiration(): void {
+        interval(10000) // Revisa cada 10 segundos
+            .pipe(
+                tap(() => {
+                    const token = this.accessToken; // Se obtiene desde localStorage
+
+                    if (token) {
+                        const expiresIn = AuthUtils.getTokenExpirationTime(token);
+                        const timeLeft = expiresIn - Date.now();
+
+                        if (timeLeft > 0 && timeLeft <= 60000) {
+                            // Si el token vence en menos de 1 minuto, avisar al usuario
+                            if (!this._tokenExpirationSubject.value) {
+                                this._tokenExpirationSubject.next(true);
+                                this.openTokenRenewalDialog();
+                            }
+                        }
+
+                        // Si ya expiró, mostrar el diálogo de renovación en lugar de cerrar sesión
+                        if (timeLeft <= 0) {
+                            if (!this._tokenExpirationSubject.value) {
+                                this._tokenExpirationSubject.next(true);
+                                this.openTokenRenewalDialog();
+                            }
+                        }
+                    }
+                })
+            ).subscribe();
+    }
+
+    public openTokenRenewalDialog(): void {
+        const dialogRef = this.matDialog.open(TokenrenewaldialogComponent, {
+            width: '400px',
+            disableClose: true,
+        });
+
+        dialogRef.afterClosed().subscribe((renew: boolean) => {
+            if (renew) {
+                this.signInUsingToken().subscribe();
+            } else {
+                this.signOut();
+                this.router.navigate(['/sign-in']);
+            }
+        });
+    }
+
 
     logoutSession(): Observable<any> {
         return this._httpClient.post(this._appSettings.auth.url.baseOut, {});
@@ -173,12 +271,14 @@ export class AuthService {
      * Sign out
      */
     signOut(): Observable<any> {
-        // Remove the access token from the local storage
+        console.log("Cerrando sesión...");
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
 
-        // Set the authenticated flag to false
         this._authenticated = false;
-                // Return the observable
+        this._userService.user = null; // Limpiar usuario
+        this.router.navigate(['/sign-in']);
+
         return of(true);
     }
 
@@ -228,8 +328,8 @@ export class AuthService {
         }
 
         // If the access token exists, and it didn't expire, sign in using it
-        //return this.signInUsingToken();
-        return of(true);
+        return this.signInUsingToken();
+        //return of(true);
 
     }
 

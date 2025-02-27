@@ -186,4 +186,22 @@ export class AuthUtils {
 
         return date;
     }
+
+    public static getTokenExpirationTime(token: string): any {
+        if (!token) {
+            return null;
+        }
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            if (!payload.exp) {
+                return null;
+            }
+
+            return new Date(payload.exp * 1000);
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    }
 }
