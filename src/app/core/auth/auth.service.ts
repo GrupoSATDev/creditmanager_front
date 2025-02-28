@@ -217,29 +217,80 @@ export class AuthService {
 
 
     public checkTokenExpiration(): void {
+        let userInactive = true; // Estado de inactividad del usuario
+        const inactivityThreshold = 300000; // 5 minutos de inactividad (ajusta según necesites)
+        const tokenExpirationThreshold = 60000; // 1 minuto antes de vencer (para renovación automática)
+
+        // Función para marcar al usuario como activo
+        const markUserAsActive = () => {
+            userInactive = false; // El usuario está activo
+            setTimeout(() => {
+                userInactive = true; // Vuelve a inactivo después del umbral
+            }, inactivityThreshold);
+        };
+
+        // Detectar actividad del usuario
+        const activityEvents = ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'];
+        activityEvents.forEach(event => {
+            window.addEventListener(event, markUserAsActive);
+        });
+
+        // Detectar si el usuario cambia de pestaña o minimiza el navegador
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                userInactive = true; // El usuario está inactivo (minimizó el navegador o cambió de pestaña)
+            } else {
+                markUserAsActive(); // El usuario volvió a la aplicación
+            }
+        });
+
+        // Detectar si el usuario cambia a otra aplicación
+        window.addEventListener('blur', () => {
+            userInactive = true; // El usuario está inactivo (cambió a otra aplicación)
+        });
+        window.addEventListener('focus', markUserAsActive); // El usuario volvió a la aplicación
+
         interval(10000) // Revisa cada 10 segundos
             .pipe(
                 tap(() => {
                     const token = this.accessToken; // Se obtiene desde localStorage
+                    const refreshToken = this.accessRefreshToken; // Se obtiene desde localStorage
 
-                    if (token) {
-                        const expiresIn = AuthUtils.getTokenExpirationTime(token);
-                        const timeLeft = expiresIn - Date.now();
+                    if (!token || !refreshToken) {
+                        this.signOut(); // Si no hay token o refreshToken, cerrar sesión
+                        return;
+                    }
 
-                        if (timeLeft > 0 && timeLeft <= 60000) {
-                            // Si el token vence en menos de 1 minuto, avisar al usuario
-                            if (!this._tokenExpirationSubject.value) {
-                                this._tokenExpirationSubject.next(true);
-                                this.openTokenRenewalDialog();
-                            }
+                    const expiresIn = AuthUtils.getTokenExpirationTime(token);
+                    const timeLeft = expiresIn - Date.now();
+
+                    if (timeLeft > 0 && timeLeft <= tokenExpirationThreshold) {
+                        // Token está a punto de vencer (1 minuto antes)
+                        if (!userInactive) {
+                            // Usuario activo: renovar token automáticamente
+                            this.signInUsingToken().subscribe({
+                                next: (success) => {
+                                    if (success) {
+                                        console.log('Token renovado automáticamente');
+                                    } else {
+                                        console.error('Error renovando el token');
+                                        this.signOut(); // Cerrar sesión si falla la renovación
+                                    }
+                                },
+                                error: (err) => {
+                                    console.error('Error renovando el token:', err);
+                                    this.signOut(); // Cerrar sesión si hay un error
+                                },
+                            });
                         }
-
-                        // Si ya expiró, mostrar el diálogo de renovación en lugar de cerrar sesión
-                        if (timeLeft <= 0) {
-                            if (!this._tokenExpirationSubject.value) {
-                                this._tokenExpirationSubject.next(true);
-                                this.openTokenRenewalDialog();
-                            }
+                    } else if (timeLeft <= 0) {
+                        // Token ya expiró
+                        if (userInactive) {
+                            // Usuario inactivo: cerrar sesión automáticamente
+                            this.signOut();
+                        } else {
+                            // Usuario activo pero el token expiró: cerrar sesión
+                            this.signOut();
                         }
                     }
                 })
