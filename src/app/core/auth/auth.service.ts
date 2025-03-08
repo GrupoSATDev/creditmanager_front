@@ -102,7 +102,7 @@ export class AuthService {
      * @param email
      */
     forgotPassword(email: string): Observable<any> {
-        return this._httpClient.post('api/auth/forgot-password', email);
+        return this._httpClient.post(`${this._appSettings.auth.url.baseReset}?email=${email}`, {});
     }
 
     /**
@@ -328,7 +328,7 @@ export class AuthService {
 
         this._authenticated = false;
         this._userService.user = null; // Limpiar usuario
-        this.router.navigate(['/sign-in']);
+        //this.router.navigate(['/sign-in']);
 
         return of(true);
     }
