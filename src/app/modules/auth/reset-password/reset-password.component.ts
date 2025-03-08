@@ -66,13 +66,13 @@ export class AuthResetPasswordComponent implements OnInit {
         // Create the form
         this.resetPasswordForm = this._formBuilder.group(
             {
-                password: ['', Validators.required],
-                passwordConfirm: ['', Validators.required],
+                contrasena: ['', Validators.required],
+                contrasenaConfirm: ['', Validators.required],
             },
             {
                 validators: FuseValidators.mustMatch(
-                    'password',
-                    'passwordConfirm'
+                    'contrasena',
+                    'contrasenaConfirm'
                 ),
             }
         );
@@ -99,7 +99,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
         // Send the request to the server
         this._authService
-            .resetPassword(this.resetPasswordForm.get('password').value)
+            .resetPassword(this.resetPasswordForm.get('contrasena').value)
             .pipe(
                 finalize(() => {
                     // Re-enable the form
