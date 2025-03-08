@@ -98,6 +98,11 @@ export class AuthForgotPasswordComponent implements OnInit {
 
                     // Show the alert
                     this.showAlert = true;
+                    this.alert = {
+                        type: 'success',
+                        message:
+                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico si estás registrado en nuestro sistema.",
+                    };
                 })
             )
             .subscribe(
@@ -109,14 +114,14 @@ export class AuthForgotPasswordComponent implements OnInit {
                             "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico si estás registrado en nuestro sistema.",
                     };
                 },
-                (response) => {
+                /*(response) => {
                     // Set the alert
                     this.alert = {
                         type: 'error',
                         message:
                             '¡No se encontró el correo electrónico!',
                     };
-                }
+                }*/
             );
     }
 }
