@@ -68,15 +68,27 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
         tap((response) => {
             const selectedValue = response.data;
             if (selectedValue) {
+                selectedValue.unshift({
+                    id: "0",
+                    nombre: "Todos"
+                });
+
+                // Establecer el valor inicial en el formulario
                 this.form.get('idEstadoCredito').setValue(selectedValue[0].id);
             }
-        })
+        }),
+
     )
     data = [];
-    columns = ['Empresa', 'Trabajador', 'Fecha de cobro', 'Valor cuota', 'Valor sin intereses', 'Intereses ganados' ];
+    columns = ['Trabajador', 'Identificación', 'Tipo de contrato', 'Empresa', 'Inicio de contrato', 'Fin de contrato', 'Cantidad de cuotas', 'Fecha de cobro', 'Valor cuota', 'Valor sin intereses', 'Intereses ganados' ];
     columnPropertyMap = {
-        'Empresa': 'nombreSubEmpresa',
         'Trabajador': 'nombreTrabajador',
+        'Identificación': 'documetoTrabajador',
+        'Tipo de contrato': 'tipoContratoTrabajador',
+        'Empresa': 'nombreSubEmpresa',
+        'Inicio de contrato': 'fechaInicioContratoTrabajador',
+        'Fin de contrato': 'fechaFinContratoTrabajador',
+        'Cantidad de cuotas': 'numCuota',
         'Fecha de cobro': 'fechaCobro',
         'Valor cuota': 'montoCuota',
         'Valor sin intereses': 'montoCuotaSinIntereses',
@@ -116,17 +128,28 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
             const fechaIniciallData = this.datePipe.transform(fechaInicio, 'yyyy-MM-dd')
             const fechaFinallData = this.datePipe.transform(fechaFinal, 'yyyy-MM-dd')
 
-            const consulta = {
+            let consulta = {
                 fechaInicio: fechaIniciallData,
                 fechaFinal: fechaFinallData,
                 ...form
             }
+
+            if(consulta.idEstadoCredito == '0') {
+                consulta =  {
+                    fechaInicio: consulta.fechaInicio,
+                    fechaFinal: consulta.fechaFinal,
+                    idEstadoCredito: ''
+                }
+            }
+            console.log(consulta);
 
             this.reportesService.getReporteCobros(consulta).pipe(
                 map((response) => {
                     response.data.forEach((items) => {
 
                         items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+                        items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
+                        items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
 
                         if (items.montoCuota) {
                             items.montoCuota = this.aesEncriptService.decrypt(items.montoCuota);
@@ -164,8 +187,13 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
     private convertDataExportFijos(data, ) {
         const convertData = data.map((items) => {
             return {
-                Empresa : items.nombreSubEmpresa,
                 Trabajador : items.nombreTrabajador,
+                Identificación: items.documetoTrabajador,
+                TipodeContrato: items.tipoContratoTrabajador,
+                Empresa : items.nombreSubEmpresa,
+                Iniciodecontrato: items.fechaInicioContratoTrabajador,
+                Findecontrato: items.fechaFinContratoTrabajador,
+                CantidaddeCuotas: items.numCuota,
                 FechaCobro : items.fechaCobro,
                 ValorCuota : parseCurrency(items.montoCuota),
                 ValorSinIntereses : parseCurrency(items.montoCuotaSinIntereses),
