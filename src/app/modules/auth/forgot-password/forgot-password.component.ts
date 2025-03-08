@@ -101,7 +101,7 @@ export class AuthForgotPasswordComponent implements OnInit {
                     this.alert = {
                         type: 'success',
                         message:
-                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico si estás registrado en nuestro sistema.",
+                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico para continuar con el proceso.",
                     };
                 })
             )
@@ -111,7 +111,7 @@ export class AuthForgotPasswordComponent implements OnInit {
                     this.alert = {
                         type: 'success',
                         message:
-                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico si estás registrado en nuestro sistema.",
+                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico para continuar con el proceso.",
                     };
                 },
                 /*(response) => {
