@@ -16,6 +16,7 @@ export class AppSettingsService {
             baseCheck: EndPoints.uriBase('Auth/checkSession'),
             baseRefresh: EndPoints.uriBase('Auth/refresh'),
             baseReset: EndPoints.uriBase('Auth/resetPassword'),
+            baseChange: EndPoints.uriBase('Auth/ChangePassword'),
         },
     };
 
