@@ -12,12 +12,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { FuseValidators } from '@fuse/validators';
 import { AuthService } from 'app/core/auth/auth.service';
-import { finalize } from 'rxjs';
+import { delay, finalize } from 'rxjs';
 import { AesEncryptionService } from '../../../core/services/aes-encryption.service';
 
 @Component({
@@ -49,6 +49,7 @@ export class AuthResetPasswordComponent implements OnInit {
     };
     resetPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
+    showResponse: boolean = false;
 
     /**
      * Constructor
@@ -56,7 +57,8 @@ export class AuthResetPasswordComponent implements OnInit {
     constructor(
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
     ) {
 
     }
@@ -106,7 +108,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
         const form = {
            contrasena: this.aesEncriptService.encrypt(this.resetPasswordForm.get('contrasena').value),
-           token: this.token
+           token: this.token.replace(/\s/g, '+')
         };
 
         // Send the request to the server
@@ -122,15 +124,18 @@ export class AuthResetPasswordComponent implements OnInit {
 
                     // Show the alert
                     this.showAlert = true;
-                })
+                    this.showResponse = true;
+                }),
+                delay(2000)
             )
             .subscribe(
                 (response) => {
                     // Set the alert
                     this.alert = {
                         type: 'success',
-                        message: 'Your password has been reset.',
+                        message: 'Se realizó el cambio de contraseña',
                     };
+                    this.router.navigate(['/sign-in']);
                 },
                 (response) => {
                     // Set the alert

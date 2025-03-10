@@ -16,6 +16,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { finalize } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'auth-forgot-password',
@@ -32,6 +33,7 @@ import { finalize } from 'rxjs';
         MatButtonModule,
         MatProgressSpinnerModule,
         RouterLink,
+        NgIf,
     ],
 })
 export class AuthForgotPasswordComponent implements OnInit {
@@ -43,6 +45,7 @@ export class AuthForgotPasswordComponent implements OnInit {
     };
     forgotPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
+    showResponse: boolean = false;
 
     /**
      * Constructor
@@ -98,30 +101,27 @@ export class AuthForgotPasswordComponent implements OnInit {
 
                     // Show the alert
                     this.showAlert = true;
-                    this.alert = {
-                        type: 'success',
-                        message:
-                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico para continuar con el proceso.",
-                    };
+                    this.showResponse = true;
                 })
             )
             .subscribe(
                 (response) => {
-                    // Set the alert
-                    this.alert = {
-                        type: 'success',
-                        message:
-                            "¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico para continuar con el proceso.",
-                    };
+                    if (response) {
+                        // Set the alert
+                        this.alert = {
+                            type: 'success',
+                            message:
+                                '¡Se ha enviado el restablecimiento de contraseña! Recibirás un correo electrónico para continuar con el proceso.',
+                        };
+                    }
                 },
-                /*(response) => {
+                (error) => {
                     // Set the alert
                     this.alert = {
                         type: 'error',
-                        message:
-                            '¡No se encontró el correo electrónico!',
+                        message: '¡No se encontró el correo electrónico!',
                     };
-                }*/
+                }
             );
     }
 }
