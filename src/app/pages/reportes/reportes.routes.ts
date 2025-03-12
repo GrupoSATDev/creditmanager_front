@@ -12,6 +12,11 @@ export default [
     {
         path: 'cobros',
         loadChildren: () => import('./reporte-cobro-trabajadores/reporte-cobro-trabajadores.routes')
-    }
+    },
+    {
+        path: 'solicitudes',
+        loadChildren: () => import('./reporte-solicitudes/reporte-solicitudes.routes')
+    },
+
 
 ] as Routes
