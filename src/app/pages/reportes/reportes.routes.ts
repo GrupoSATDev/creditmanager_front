@@ -17,6 +17,10 @@ export default [
         path: 'solicitudes',
         loadChildren: () => import('./reporte-solicitudes/reporte-solicitudes.routes')
     },
+    {
+        path: 'deudas',
+        loadChildren: () => import('./reporte-deudas/reporte-deudas.routes')
+    },
 
 
 ] as Routes
