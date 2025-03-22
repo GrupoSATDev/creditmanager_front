@@ -245,6 +245,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/solicitudes',
             },
+            {
+                id: '8.5',
+                title: 'Reporte deudas',
+                type: 'basic',
+                link: '/pages/reportes/deudas',
+            },
         ],
     },
 
