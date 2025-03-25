@@ -267,7 +267,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                 FechaInicioContrato : items.fechaInicioContratoTrabajador,
                 FechaFinContrato : items.fechaFinContratoTrabajador,
                 SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
-                CupoSolicitado : (items.cupoDisponibleTrabajador),
+                CupoSolicitado : parseCurrency(items.cupo),
                 TipoSolicitud : items.nombreTipoSolicitud,
                 TipoCuenta : items.tipoCuentaTrabajador,
                 Banco : items.nombreBanco,
