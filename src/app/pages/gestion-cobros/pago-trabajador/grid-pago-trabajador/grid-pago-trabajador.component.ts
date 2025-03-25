@@ -113,7 +113,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
                 edit: true,
                 data: this.selectedData
             },
-            width: '30%',
+            width: '35%',
             disableClose: true,
             panelClass: 'custom-dialog-container'
         })
@@ -127,7 +127,7 @@ export class GridPagoTrabajadorComponent implements OnInit, OnDestroy {
                 edit: true,
                 data: this.selectedData
             },
-            width: '30%',
+            width: '35%',
             disableClose: true,
             panelClass: 'custom-dialog-container'
         })
