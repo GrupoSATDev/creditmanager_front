@@ -29,7 +29,7 @@ import { CuentasBancariasService } from '../../../../core/services/cuentas-banca
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
-import { Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { guardar } from '../../../../core/constant/dialogs';
 import { FormatoOptionsPipe } from '../../../../core/pipes/formato-options.pipe';
 import { TipoCuentasService } from '../../../../core/services/tipo-cuentas.service';
@@ -291,7 +291,14 @@ export class FormDesembolsoComponent implements OnInit, OnDestroy{
     }
 
     getResumenCompra(id) {
-        this.subscription$ = this.detalleConsumo.getResumen(id).subscribe((response) => {
+        this.subscription$ = this.detalleConsumo.getResumen(id).pipe(
+            map((response) => {
+                if (response.data.montoConsumo) {
+                    response.data.montoConsumo = this.aesEncriptService.decrypt(response.data.montoConsumo);
+                }
+                return response;
+            })
+        ).subscribe((response) => {
             if (response) {
                 this.detaleConsumo = response.data;
                 this.stepper.next();
