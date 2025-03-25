@@ -28,22 +28,18 @@
                 />
             </mat-form-field>
             <!-- Add product button -->
+            <button
+                class="w-full mt-2 sm:mt-0 rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+                [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
+                [disabled]="!exportData.length"
+                (click)="exportToExcel(exportData)"
+            >
+
+                <span> Exportar </span>
+            </button>
         </div>
-    </div>
-
-    <div class="px-6 border-b mt-6 w-full shrink-0 sm:mt-0 sm:space-x-2 lg:w-full">
-        <!--<button
-            class="sm:sm:w-1/6 w-full sm:mt-6 rounded-lg transition duration-200 text-white font-semibold"
-            mat-flat-button
-            [color]="'primary'"
-            [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
-            [disabled]="!exportData.length"
-            (click)="exportToExcel(exportData)"
-        >
-
-            <span> Exportar </span>
-        </button>-->
-
     </div>
 
     <!--Main-->

@@ -14,6 +14,8 @@ import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { map } from 'rxjs';
+import { Estados } from '../../../../core/enums/estados';
 
 @Component({
     selector: 'app-reporte-deudas',
@@ -43,10 +45,12 @@ export class ReporteDeudasComponent implements OnInit {
     private reportesService = inject(ReportesService);
     private datePipe = inject(DatePipe);
     public fuseService = inject(FuseConfirmationService);
+    private currencyPipe = inject(CurrencyPipe);
     data = [];
     exportData = [];
-    columns = ['Trabajador', 'Identificación', 'Empresa', 'Cantidad cuota', 'Valor desembolso', 'Deuda', 'Deuda intereses', 'Valor cuota', 'Deuda costos', ];
+    columns = ['Fecha de desembolso', 'Trabajador', 'Identificación', 'Empresa', 'Cantidad cuota', 'Valor desembolso', 'Deuda', 'Deuda intereses', 'Valor cuota', 'Deuda costos', ];
     columnPropertyMap = {
+        'Fecha de desembolso': 'fechaDesembolso',
         'Trabajador': 'nombreTrabajador',
         'Identificación': 'documentoTrabajador',
         'Empresa': 'nombreSubEmpresa',
@@ -68,7 +72,21 @@ export class ReporteDeudasComponent implements OnInit {
     }
 
     private loadDeudas() {
-        this.reportesService.getReporteDeudas().subscribe((response) => {
+        this.reportesService.getReporteDeudas().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+
+                    items.fechaDesembolso = this.datePipe.transform(items.fechaDesembolso, 'dd/MM/yyyy');
+                    items.valorDesembolso = this.currencyPipe.transform(items.valorDesembolso, 'USD', 'symbol', '1.2-2');
+                    items.deudaTotal = this.currencyPipe.transform(items.deudaTotal, 'USD', 'symbol', '1.2-2');
+                    items.deudaIntereses = this.currencyPipe.transform(items.deudaIntereses, 'USD', 'symbol', '1.2-2');
+                    items.valorCuota = this.currencyPipe.transform(items.valorCuota, 'USD', 'symbol', '1.2-2');
+                    items.deudaCobroFijo = this.currencyPipe.transform(items.deudaCobroFijo, 'USD', 'symbol', '1.2-2');
+                })
+                return response;
+
+            })
+        ).subscribe((response) => {
             if (response.data) {
                 this.data = response.data;
                 this.convertDataExport(response.data);
@@ -102,23 +120,16 @@ export class ReporteDeudasComponent implements OnInit {
     private convertDataExport(data) {
         const convertData = data.map((items) => {
             return {
-                FechaSolicitud: items.fechaCreacionSolicitud,
-                Identificacion: items.documentoTrabajador,
+                FechaDesembolso: items.fechaDesembolso,
                 Trabajador: items.nombreTrabajador,
-                Empresa: items.nombreEmpresaTrabajador,
-                Cargo: items.cargoTrabajador,
-                TipoContrato: items.tipoContratoTrabajador,
-                FechaInicioContrato: items.fechaInicioContratoTrabajador,
-                FechaFinContrato: items.fechaFinContratoTrabajador,
-                SalarioDevengado: parseCurrency(
-                    items.salarioDevengadoTrabajador
-                ),
-                MontoAprobado: parseCurrency(items.montoConsumo),
-                CupoDisponible: parseCurrency(items.cupoDisponibleTrabajador),
-                TipoCuenta: items.tipoCuentaTrabajador,
-                Banco: items.bancotrabajador,
-                NumeroCuenta: items.numeroCuentaTrabajador,
-                Estado: items.nombreEstadoCredito,
+                Identificacion: items.documentoTrabajador,
+                Empresa: items.nombreSubEmpresa,
+                CantidadCuotas: items.cantCuotas,
+                ValorDesembolso: parseCurrency(items.valorDesembolso),
+                Deuda: parseCurrency(items.deudaTotal),
+                DeudaIntereses: parseCurrency(items.deudaIntereses),
+                ValorCuota: parseCurrency(items.valorCuota),
+                DeudaCostos: parseCurrency(items.deudaCobroFijo),
             };
         });
         this.exportData = convertData;
