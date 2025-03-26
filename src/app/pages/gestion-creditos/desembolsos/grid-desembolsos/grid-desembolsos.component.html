@@ -145,9 +145,9 @@
                     <ng-template matTabContent>
                         <ng-container *ngIf="data.length; else noData">
                             <app-custom-table
-                                [columns]="columnsDesembolsos"
-                                [displayedColumns]="columnsDesembolsos"
-                                [columnPropertyMap]="columnPropertyMapDesembolsos"
+                                [columns]="columnsDesembolsosRealizados"
+                                [displayedColumns]="columnsDesembolsosRealizados"
+                                [columnPropertyMap]="columnPropertyMapDesembolsosRealizados"
                                 [data]="data"
                                 [buttons]="buttonsView"
                                 [searchTerm]="searchTerm"

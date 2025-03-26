@@ -105,6 +105,26 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         'Estado': 'nombreEstadoCredito',
     };
 
+    columnsDesembolsosRealizados = ['Fecha de desembolso', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de consumo', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
+    columnPropertyMapDesembolsosRealizados = {
+        'Fecha de desembolso': 'fechaDesembolso',
+        'Identificación': 'documentoTrabajador',
+        'Trabajador': 'nombreTrabajador',
+        'Empresa': 'nombreEmpresaTrabajador',
+        'Cargo': 'cargoTrabajador',
+        'Tipo de contrato': 'tipoContratoTrabajador',
+        'Fecha de inicio contrato': 'fechaInicioContratoTrabajador',
+        'Fecha fin de contrato': 'fechaFinContratoTrabajador',
+        'Salario devengado': 'salarioDevengadoTrabajador',
+        'Monto aprobado': 'montoConsumo',
+        'Cupo disponible': 'cupoDisponibleTrabajador',
+        'Tipo de consumo': 'tipoConsumo',
+        'Tipo de cuenta': 'tipoCuentaTrabajador',
+        'Banco': 'bancotrabajador',
+        'Número de cuenta': 'numeroCuentaTrabajador',
+        'Estado': 'nombreEstadoCredito',
+    };
+
     buttons: IButton[] = [
         {
             label: 'Ver',
@@ -199,6 +219,7 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
                     items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
 
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaDesembolso = this.datePipe.transform(items.fechaDesembolso, 'dd/MM/yyyy');
                     items.fechaInicioContratoTrabajador = this.datePipe.transform(items.fechaInicioContratoTrabajador, 'dd/MM/yyyy');
                     items.fechaFinContratoTrabajador = this.datePipe.transform(items.fechaFinContratoTrabajador, 'dd/MM/yyyy');
                     items.salarioDevengadoTrabajador = this.currencyPipe.transform(items.salarioDevengadoTrabajador, 'USD', 'symbol', '1.2-2');
@@ -213,9 +234,8 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
             })
         ).subscribe((response) => {
             if (response) {
-                console.log('Si')
                 this.data = response.data;
-                this.convertDataExport(response.data)
+                param == CodigosDesembolso.REALIZADA ? this.convertDataExportDesembolso(response.data) : this.convertDataExport(response.data);
             }else {
                 this.data = [];
             }
@@ -235,6 +255,30 @@ export class GridDesembolsosComponent implements OnInit, OnDestroy {
         const convertData = data.map((items) => {
             return {
                 FechaSolicitud : items.fechaCreacion,
+                Identificacion : items.documentoTrabajador,
+                Trabajador : items.nombreTrabajador,
+                Empresa : items.nombreEmpresaTrabajador,
+                Cargo : items.cargoTrabajador,
+                TipoContrato : items.tipoContratoTrabajador,
+                FechaInicioContrato : items.fechaInicioContratoTrabajador,
+                FechaFinContrato : items.fechaFinContratoTrabajador,
+                SalarioDevengado : parseCurrency(items.salarioDevengadoTrabajador),
+                MontoAprobado : parseCurrency(items.montoConsumo),
+                CupoDisponible : parseCurrency(items.cupoDisponibleTrabajador),
+                TipoConsumo : items.tipoConsumo,
+                TipoCuenta : items.tipoCuentaTrabajador,
+                Banco : items.bancotrabajador,
+                NumeroCuenta : items.numeroCuentaTrabajador,
+                Estado : items.nombreEstadoCredito,
+            };
+        });
+        this.exportData = convertData;
+    }
+
+    private convertDataExportDesembolso(data, ) {
+        const convertData = data.map((items) => {
+            return {
+                FechaDesembolso : items.fechaDesembolso,
                 Identificacion : items.documentoTrabajador,
                 Trabajador : items.nombreTrabajador,
                 Empresa : items.nombreEmpresaTrabajador,
