@@ -75,8 +75,8 @@ export class AuthResetPasswordComponent implements OnInit {
         // Create the form
         this.resetPasswordForm = this._formBuilder.group(
             {
-                contrasena: ['', Validators.required],
-                contrasenaConfirm: ['', Validators.required],
+                contrasena: ['', [Validators.required, Validators.minLength(8)]],
+                contrasenaConfirm: ['', [Validators.required, Validators.minLength(8)]],
             },
             {
                 validators: FuseValidators.mustMatch(
