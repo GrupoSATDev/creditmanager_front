@@ -133,7 +133,7 @@ export class AuthResetPasswordComponent implements OnInit {
                     // Set the alert
                     this.alert = {
                         type: 'success',
-                        message: 'Se realizó el cambio de contraseña',
+                        message: response.msg,
                     };
                     this.router.navigate(['/sign-in']);
                 },
