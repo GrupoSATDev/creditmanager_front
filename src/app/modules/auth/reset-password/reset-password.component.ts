@@ -133,7 +133,7 @@ export class AuthResetPasswordComponent implements OnInit {
                     // Set the alert
                     this.alert = {
                         type: 'success',
-                        message: response.msg,
+                        message: 'Contraseña actualizada con éxito.',
                     };
                     this.router.navigate(['/sign-in']);
                 },
