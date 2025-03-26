@@ -45,7 +45,7 @@ export class AuthResetPasswordComponent implements OnInit {
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
-        message: '',
+        message: 'Contraseña actualizada con éxito.',
     };
     resetPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
@@ -126,7 +126,7 @@ export class AuthResetPasswordComponent implements OnInit {
                     this.showAlert = true;
                     this.showResponse = true;
                 }),
-                delay(2000)
+                delay(3500)
             )
             .subscribe(
                 (response) => {
