@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx';
 import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadoSolicitudesService } from '../../../../core/services/estado-solicitudes.service';
+import { TipoSolicitudesService } from '../../../../core/services/tipo-solicitudes.service';
 
 @Component({
     selector: 'app-reporte-solicitudes',
@@ -64,15 +65,33 @@ export class ReporteSolicitudesComponent implements OnInit {
     estados = new FormControl(['']);
     data = [];
     private aesEncriptService = inject(AesEncryptionService);
-    private estadoSolicitudesService = inject(EstadoSolicitudesService);
+    private tipoSolicitudesService = inject(TipoSolicitudesService);
     private currencyPipe = inject(CurrencyPipe);
     exportData = [];
     public fuseService = inject(FuseConfirmationService);
 
-    public solicitudes$ = this.estadoSolicitudesService.getEstados().pipe(
+    columns = ['Número de solicitud', 'Fecha de solicitud',  'Cupo', 'Trabajador', 'Identificación', 'Salario devengado', 'Inicio de contrato', 'Fin de contrato', 'Empresa', 'Tipo de solicitud' ];
+    columnPropertyMap = {
+        'Número de solicitud': 'numSolicitud',
+        'Fecha de solicitud': 'fechaCreacion',
+        'Cupo': 'cupo',
+        'Trabajador': 'nombreTrabajador',
+        'Identificación': 'documetoTrabajador',
+        'Salario devengado': 'salarioDevengadoTrabajador',
+        'Inicio de contrato': 'fechaInicioContratoTrabajador',
+        'Fin de contrato': 'fechaFinContratoTrabajador',
+        'Empresa': 'nombreSubEmpresa',
+        'Tipo de solicitud': 'nombreTipoSolicitud',
+    };
+
+    public solicitudes$ = this.tipoSolicitudesService.getTipos().pipe(
         tap((response) => {
             const selectedValue = response.data;
             if (selectedValue) {
+                selectedValue.unshift({
+                    id: "null",
+                    nombre: "Todos"
+                });
                 this.form.get('idTipoSolicitud').setValue(selectedValue[0].id);
             }
         }),
@@ -117,8 +136,8 @@ export class ReporteSolicitudesComponent implements OnInit {
                 .pipe(
                     map((response) => {
                         response.data.forEach((items) => {
-                            items.fechaCobro = this.datePipe.transform(
-                                items.fechaCobro,
+                            items.fechaCreacion = this.datePipe.transform(
+                                items.fechaCreacion,
                                 'dd/MM/yyyy'
                             );
                             items.fechaInicioContratoTrabajador =
@@ -132,46 +151,15 @@ export class ReporteSolicitudesComponent implements OnInit {
                                     'dd/MM/yyyy'
                                 );
 
-                            if (items.montoCuota) {
-                                items.montoCuota =
-                                    this.aesEncriptService.decrypt(
-                                        items.montoCuota
-                                    );
-                            }
-
-                            if (items.montoCuotaSinIntereses) {
-                                items.montoCuotaSinIntereses =
-                                    this.aesEncriptService.decrypt(
-                                        items.montoCuotaSinIntereses
-                                    );
-                            }
-
-                            if (items.interesesGanados) {
-                                items.interesesGanados =
-                                    this.aesEncriptService.decrypt(
-                                        items.interesesGanados
-                                    );
-                            }
-
-                            items.montoCuota = this.currencyPipe.transform(
-                                items.montoCuota,
+                            items.cupo = this.currencyPipe.transform(
+                                items.cupo,
                                 'USD',
                                 'symbol',
                                 '1.2-2'
                             );
-                            items.montoCuotaSinIntereses =
+                            items.salarioDevengadoTrabajador =
                                 this.currencyPipe.transform(
-                                    items.montoCuotaSinIntereses,
-                                    'USD',
-                                    'symbol',
-                                    '1.2-2'
-                                );
-                            items.interesesGanados = parseFloat(
-                                items.interesesGanados.replace(',', '.')
-                            );
-                            items.interesesGanados =
-                                this.currencyPipe.transform(
-                                    items.interesesGanados,
+                                    items.salarioDevengadoTrabajador,
                                     'USD',
                                     'symbol',
                                     '1.2-2'
@@ -194,17 +182,16 @@ export class ReporteSolicitudesComponent implements OnInit {
     private convertDataExportFijos(data) {
         const convertData = data.map((items) => {
             return {
+                NumeroSolicitud: items.numSolicitud,
+                FechaSolicitud: items.fechaCreacion,
+                Cupo: parseCurrency(items.cupo),
                 Trabajador: items.nombreTrabajador,
                 Identificación: items.documetoTrabajador,
-                TipodeContrato: items.tipoContratoTrabajador,
-                Empresa: items.nombreSubEmpresa,
+                Salariodevengado: parseCurrency(items.salarioDevengadoTrabajador),
                 Iniciodecontrato: items.fechaInicioContratoTrabajador,
                 Findecontrato: items.fechaFinContratoTrabajador,
-                CantidaddeCuotas: items.numCuota,
-                FechaCobro: items.fechaCobro,
-                ValorCuota: parseCurrency(items.montoCuota),
-                ValorSinIntereses: parseCurrency(items.montoCuotaSinIntereses),
-                InteresesGanados: parseCurrency(items.interesesGanados),
+                Empresa: items.nombreSubEmpresa,
+                TipodeSolicitud: items.nombreTipoSolicitud,
             };
         });
         this.exportData = convertData;
@@ -227,7 +214,7 @@ export class ReporteSolicitudesComponent implements OnInit {
                 // Export file
                 XLSX.writeFile(
                     workbook,
-                    `Reporte cobros trabajadores${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`
+                    `Reporte de solicitudes${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`
                 );
             }
         });
