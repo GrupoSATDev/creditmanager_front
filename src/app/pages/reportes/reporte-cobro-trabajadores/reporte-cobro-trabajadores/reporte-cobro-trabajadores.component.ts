@@ -80,7 +80,7 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
 
     )
     data = [];
-    columns = ['Trabajador', 'Identificación', 'Tipo de contrato', 'Empresa', 'Inicio de contrato', 'Fin de contrato', 'Cantidad de cuotas', 'Fecha de cobro', 'Valor cuota', 'Valor sin intereses', 'Intereses ganados' ];
+    columns = ['Trabajador', 'Identificación', 'Tipo de contrato', 'Empresa', 'Inicio de contrato', 'Fin de contrato', 'Cantidad de cuotas', 'Fecha de cobro', 'Valor cuota', 'Valor sin intereses', 'Intereses ganados', 'Estado' ];
     columnPropertyMap = {
         'Trabajador': 'nombreTrabajador',
         'Identificación': 'documetoTrabajador',
@@ -93,6 +93,7 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
         'Valor cuota': 'montoCuota',
         'Valor sin intereses': 'montoCuotaSinIntereses',
         'Intereses ganados': 'interesesGanados',
+        'Estado': 'nombreEstadoCredito',
     };
 
     private aesEncriptService = inject(AesEncryptionService);
@@ -198,6 +199,7 @@ export class ReporteCobroTrabajadoresComponent implements OnInit{
                 ValorCuota : parseCurrency(items.montoCuota),
                 ValorSinIntereses : parseCurrency(items.montoCuotaSinIntereses),
                 InteresesGanados : parseCurrency(items.interesesGanados),
+                Estado : items.nombreEstadoCredito,
             };
         });
         this.exportData = convertData;

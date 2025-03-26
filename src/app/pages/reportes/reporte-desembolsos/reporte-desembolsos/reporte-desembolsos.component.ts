@@ -86,7 +86,7 @@ export class ReporteDesembolsosComponent {
     )
     data = [];
     exportData = [];
-    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de cuenta', 'Banco', 'Número de cuenta', 'Estado'];
+    columns = ['Fecha de solicitud', 'Identificación', 'Trabajador', 'Empresa', 'Cargo', 'Tipo de contrato', 'Fecha de inicio contrato', 'Fecha fin de contrato', 'Salario devengado', 'Monto aprobado', 'Cupo disponible', 'Tipo de cuenta', 'Banco', 'Cuenta destino', 'Estado'];
     columnPropertyMap = {
         'Fecha de solicitud': 'fechaCreacionSolicitud',
         'Identificación': 'documentoTrabajador',
@@ -101,7 +101,7 @@ export class ReporteDesembolsosComponent {
         'Cupo disponible': 'cupoDisponibleTrabajador',
         'Tipo de cuenta': 'tipoCuentaTrabajador',
         'Banco': 'bancotrabajador',
-        'Número de cuenta': 'numeroCuentaTrabajador',
+        'Cuenta destino': 'cuentaDestino',
         'Estado': 'nombreEstadoCredito',
     };
 
@@ -121,7 +121,7 @@ export class ReporteDesembolsosComponent {
                 CupoDisponible : parseCurrency(items.cupoDisponibleTrabajador),
                 TipoCuenta : items.tipoCuentaTrabajador,
                 Banco : items.bancotrabajador,
-                NumeroCuenta : items.numeroCuentaTrabajador,
+                Cuentadestino : items.cuentaDestino,
                 Estado : items.nombreEstadoCredito,
             };
         });
