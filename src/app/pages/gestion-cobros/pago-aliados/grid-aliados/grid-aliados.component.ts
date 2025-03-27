@@ -13,10 +13,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormAliadosComponent } from '../form-aliados/form-aliados.component';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { Router } from '@angular/router';
+import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 
 @Component({
-  selector: 'app-grid-aliados',
-  standalone: true,
+    selector: 'app-grid-aliados',
+    standalone: true,
     imports: [
         AsyncPipe,
         CustomTableComponent,
@@ -29,15 +30,13 @@ import { Router } from '@angular/router';
         NgForOf,
         NgIf,
         MatButton,
+        FuseAlertComponent,
     ],
-  templateUrl: './grid-aliados.component.html',
-  styleUrl: './grid-aliados.component.scss',
-    providers: [
-        DatePipe,
-        CurrencyPipe
-    ],
+    templateUrl: './grid-aliados.component.html',
+    styleUrl: './grid-aliados.component.scss',
+    providers: [DatePipe, CurrencyPipe],
 })
-export class GridAliadosComponent implements OnInit, OnDestroy{
+export class GridAliadosComponent implements OnInit, OnDestroy {
     private datePipe = inject(DatePipe);
     public subcription$: Subscription;
     public selectedData: any;
@@ -46,16 +45,16 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
 
     private pagoAliadoService = inject(PagoAliadosService);
     private _matDialog = inject(MatDialog);
-    private estadoDatosService = inject(EstadosDatosService)
+    private estadoDatosService = inject(EstadosDatosService);
     private router = inject(Router);
 
     data = [];
 
-    columns = ['Creación', 'Empresa', 'Total', ];
+    columns = ['Creación', 'Empresa', 'Total'];
     columnPropertyMap = {
-        'Creación': 'fechaCreacion',
-        'Empresa': 'nombreSubempresa',
-        'Total': 'total'
+        Creación: 'fechaCreacion',
+        Empresa: 'nombreSubempresa',
+        Total: 'total',
     };
 
     buttons: IButton[] = [
@@ -64,13 +63,15 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             icon: 'visibility',
             action: (element) => {
                 console.log('Editing', element);
-                this.router.navigate(['/pages/gestion-cobros/aliados/detalle/', element.id])
-            }
+                this.router.navigate([
+                    '/pages/gestion-cobros/aliados/detalle/',
+                    element.id,
+                ]);
+            },
         },
     ];
 
-    ngOnDestroy(): void {
-    }
+    ngOnDestroy(): void {}
 
     ngOnInit(): void {
         this.getAliados();
@@ -78,32 +79,39 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
     }
 
     onNew() {
-        this.router.navigate(['/pages/gestion-cobros/aliados/aliado'])
+        this.router.navigate(['/pages/gestion-cobros/aliados/aliado']);
     }
 
     public getAliados() {
-        this.pagoAliadoService.getAliados().pipe(
-            tap((response) => {
-                response.data.forEach((items) => {
-                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
-                    items.total = this.currencyPipe.transform(items.total, 'USD', 'symbol', '1.2-2');
-                    //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
+        this.pagoAliadoService
+            .getAliados()
+            .pipe(
+                tap((response) => {
+                    response.data.forEach((items) => {
+                        items.fechaCreacion = this.datePipe.transform(
+                            items.fechaCreacion,
+                            'dd/MM/yyyy'
+                        );
+                        items.total = this.currencyPipe.transform(
+                            items.total,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
+                    });
+                    return response;
                 })
-                return response;
-            })
-
-        ).subscribe((response) => {
-
-            this.data = response.data;
-
-        })
+            )
+            .subscribe((response) => {
+                this.data = response.data;
+            });
     }
 
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
         this.searchTerm = target.value.trim().toLowerCase();
     }
-
 
     private listenGrid() {
         const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
@@ -112,8 +120,6 @@ export class GridAliadosComponent implements OnInit, OnDestroy{
             if (state) {
                 this.getAliados();
             }
-        })
-
+        });
     }
-
 }

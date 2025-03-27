@@ -41,21 +41,37 @@
     </div>
 
     <!--Main-->
-    <div class="flex flex-auto overflow-hidden">
-        <!-- Products list -->
-        <div
-            class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
-        >
-            <app-custom-table
-                [columns]="columns"
-                [displayedColumns]="columns"
-                [columnPropertyMap]="columnPropertyMap"
-                [data]="data"
-                [buttons]="buttons"
-                [searchTerm]="searchTerm"
-            ></app-custom-table>
+    @if(data.length > 0) {
+        <div class="flex flex-auto overflow-hidden">
+            <!-- Products list -->
+            <div
+                class="flex flex-auto flex-col overflow-hidden sm:mb-18 sm:overflow-y-auto"
+            >
+                <app-custom-table
+                    [columns]="columns"
+                    [displayedColumns]="columns"
+                    [columnPropertyMap]="columnPropertyMap"
+                    [data]="data"
+                    [buttons]="buttons"
+                    [searchTerm]="searchTerm"
+                ></app-custom-table>
+            </div>
+
         </div>
 
-    </div>
+    }@else {
+        <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+
+            <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                <fuse-alert
+                    [type]="'info'"
+                    [appearance]="'outline'">
+                    <span fuseAlertTitle>Información</span>
+                    No hay información hasta el momento.
+                </fuse-alert>
+            </div>
+        </div>
+    }
+
 
 </div>
