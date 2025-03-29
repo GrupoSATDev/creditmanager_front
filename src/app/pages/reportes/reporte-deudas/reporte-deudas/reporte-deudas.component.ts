@@ -52,7 +52,7 @@ export class ReporteDeudasComponent implements OnInit {
     public fuseService = inject(FuseConfirmationService);
     private currencyPipe = inject(CurrencyPipe);
     public selectedTab: any = '';
-    tabDescription: string = 'Sin liquidar: Este reporte muestra las personas que han recibido desembolsos pero aún no ha realizado el proceso de liquidación para el cobro. '
+    tabDescription: string = 'Este reporte muestra las personas que han recibido desembolsos pero aún no ha realizado el proceso de liquidación para el cobro. '
     title: string = 'Sin liquidar';
     tabNote: string;
     data = [];
