@@ -247,7 +247,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: '8.5',
-                title: 'Reporte deudas',
+                title: 'Cartera general trabajador',
                 type: 'basic',
                 link: '/pages/reportes/deudas',
             },

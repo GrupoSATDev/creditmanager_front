@@ -12,3 +12,7 @@ export enum CodigoEstadosCreditos {
     APROBADO = 'e626ea69-e915-5462-be9a-905326714782',
     RECHAZADA = ''
 }
+
+export enum CodigoEstadosCreditosLiquidados {
+    LIQUIDADO = 'e626ea69-e995-4462-be2a-915326714790'
+}
