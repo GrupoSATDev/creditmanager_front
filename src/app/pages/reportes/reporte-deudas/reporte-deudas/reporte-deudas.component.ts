@@ -211,7 +211,7 @@ export class ReporteDeudasComponent implements OnInit {
                 mappedItem.InteresesAlaFecha = parseCurrency(items.deudaIntereses)
             }
             if (this.selectedTab == '') {
-                mappedItem.CantidadCuotas = parseCurrency(items.cantCuotas)
+                mappedItem.CantidadCuotas = items.cantCuotas
             }
             if (this.selectedTab == '') {
                 mappedItem.ValorDesembolso = parseCurrency(items.valorDesembolso)

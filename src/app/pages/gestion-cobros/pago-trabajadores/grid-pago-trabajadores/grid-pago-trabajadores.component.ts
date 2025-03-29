@@ -169,7 +169,7 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
             tap((response) => {
                 response.data.forEach((items) => {
                     items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
-                    items.total = items.total - items.totalAbono;
+                    items.total = params == CodigoCobroTrabajador.PENDIENTES ?  items.total - items.totalAbono : items.total;
                     items.total = this.currencyPipe.transform(items.total, 'USD', 'symbol', '1.2-2');
                     //items.nombreTrabajador = this.datePipe.transform(items.nombreTrabajador, 'titlecase');
                 })

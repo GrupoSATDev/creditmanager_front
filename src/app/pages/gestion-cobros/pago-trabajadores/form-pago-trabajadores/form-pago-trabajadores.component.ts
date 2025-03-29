@@ -89,8 +89,9 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     fechaActual: Date = new Date();
     private aesEncriptService = inject(AesEncryptionService);
 
-    columns = ['Identificación', 'Nombres Apellidos', 'Valor pendiente' ];
+    columns = ['Fecha de desembolso', 'Identificación', 'Nombres Apellidos', 'Valor pendiente'  ];
     columnPropertyMap = {
+        'Fecha de desembolso': 'fechaCreacion',
         'Identificación': 'documentoTrabajador',
         'Nombres Apellidos': 'nombreCompleto',
         'Valor pendiente': 'valorPendiente',
@@ -196,6 +197,7 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                         items.valorPendiente = this.currencyPipe.transform(items.valorPendiente, 'USD', 'symbol', '1.2-2');
                         //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
                         items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
+                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
 
                         //this.subtotal += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
                         //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
