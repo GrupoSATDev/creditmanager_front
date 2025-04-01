@@ -192,7 +192,8 @@ export class ReporteDeudasComponent implements OnInit {
                 // Export file
                 XLSX.writeFile(
                     workbook,
-                    `Reporte de Deudas${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`
+                    this.selectedTab == '' ? `Reporte de Deudas Sin liquidar ${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`
+                                           :`Reporte de Deudas liquidado ${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.xlsx`
                 );
             }
         });
@@ -201,14 +202,13 @@ export class ReporteDeudasComponent implements OnInit {
     private convertDataExport(data) {
         const convertData = data.map((items) => {
             const mappedItem: any = {
-                FechaDesembolso: items.fechaDesembolso,
+                FechaDeDesembolso: items.fechaDesembolso,
                 Trabajador: items.nombreTrabajador,
                 Identificacion: items.documentoTrabajador,
                 Empresa: items.nombreSubEmpresa,
-                Valorliquidado: parseCurrency(items.deudaTotal),
             };
-            if (this.selectedTab == '') {
-                mappedItem.InteresesAlaFecha = parseCurrency(items.deudaIntereses)
+            if (this.selectedTab == CodigoEstadosCreditosLiquidados.LIQUIDADO) {
+                mappedItem.Valorliquidado = parseCurrency(items.deudaTotal)
             }
             if (this.selectedTab == '') {
                 mappedItem.CantidadCuotas = items.cantCuotas
@@ -217,10 +217,16 @@ export class ReporteDeudasComponent implements OnInit {
                 mappedItem.ValorDesembolso = parseCurrency(items.valorDesembolso)
             }
             if (this.selectedTab == '') {
-                mappedItem.DeudaCostos = parseCurrency(items.deudaCobroFijo)
+                mappedItem.DeudaAlaFecha = parseCurrency(items.deudaTotal)
+            }
+            if (this.selectedTab == '') {
+                mappedItem.InteresesAlaFecha = parseCurrency(items.deudaIntereses)
             }
             if (this.selectedTab == '') {
                 mappedItem.ValorCuota = parseCurrency(items.valorCuota)
+            }
+            if (this.selectedTab == '') {
+                mappedItem.DeudaCostos = parseCurrency(items.deudaCobroFijo)
             }
             if (this.selectedTab == CodigoEstadosCreditosLiquidados.LIQUIDADO) {
                 mappedItem.PagosPendientes = items.pagosPendientes;
