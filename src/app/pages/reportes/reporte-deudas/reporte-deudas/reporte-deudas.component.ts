@@ -68,8 +68,6 @@ export class ReporteDeudasComponent implements OnInit {
         'Intereses a la fecha',
         'Valor cuota',
         'Deuda costos',
-        'Recaudado',
-        'Estado'
     ];
     columnsLiquidado = [
         'Fecha de desembolso',
