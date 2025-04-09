@@ -251,6 +251,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/deudas',
             },
+            {
+                id: '8.6',
+                title: 'General desembolsos',
+                type: 'basic',
+                link: '/pages/reportes/desembolsos-general',
+            },
         ],
     },
 

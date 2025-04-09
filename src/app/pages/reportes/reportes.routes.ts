@@ -21,6 +21,10 @@ export default [
         path: 'deudas',
         loadChildren: () => import('./reporte-deudas/reporte-deudas.routes')
     },
+    {
+        path: 'desembolsos-general',
+        loadChildren: () => import('./reporte-desembolsos-general/reportes-desembolsos-general.routes')
+    }
 
 
 ] as Routes

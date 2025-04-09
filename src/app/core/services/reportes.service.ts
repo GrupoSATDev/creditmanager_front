@@ -36,4 +36,8 @@ export class ReportesService {
     getReporteDeudas(param): Observable<any> {
       return this._http.get(`${this.appSettings.reportes.url.reporteDeudas}?idEstadoCredito=${param}`)
     }
+
+    getReporteGeneral(): Observable<any> {
+      return this._http.get(`${this.appSettings.reportes.url.reporteGeneral}`)
+    }
 }
