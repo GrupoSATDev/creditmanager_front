@@ -90,8 +90,6 @@ export class ReporteDeudasComponent implements OnInit {
         'Intereses a la fecha': 'deudaIntereses',
         'Valor cuota': 'valorCuota',
         'Deuda costos': 'deudaCobroFijo',
-        'Recaudado': 'recaudado',
-        'Estado': 'estado',
     };
     columnPropertyLiquidadoMap = {
         'Fecha de desembolso': 'fechaDesembolso',
@@ -142,12 +140,6 @@ export class ReporteDeudasComponent implements OnInit {
                         );
                         items.deudaTotal = this.currencyPipe.transform(
                             items.deudaTotal,
-                            'USD',
-                            'symbol',
-                            '1.2-2'
-                        );
-                        items.recaudado = this.currencyPipe.transform(
-                            items.recaudado,
                             'USD',
                             'symbol',
                             '1.2-2'
@@ -237,12 +229,6 @@ export class ReporteDeudasComponent implements OnInit {
             }
             if (this.selectedTab == '') {
                 mappedItem.DeudaCostos = parseCurrency(items.deudaCobroFijo)
-            }
-            if (this.selectedTab == '') {
-                mappedItem.Recaudado = parseCurrency(items.recaudado)
-            }
-            if (this.selectedTab == '') {
-                mappedItem.Estado = items.estado
             }
             if (this.selectedTab == CodigoEstadosCreditosLiquidados.LIQUIDADO) {
                 mappedItem.PagosPendientes = items.pagosPendientes;
