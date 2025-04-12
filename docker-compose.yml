@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  crediplus_administrador:
+    build:
+      context: ./
+    container_name: crediplus_administrador
+    restart: always
+    ports:
+      - "7073:4200"
