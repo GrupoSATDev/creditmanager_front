@@ -1,13 +1,17 @@
-FROM node:20.19.0
+FROM node:20.19.0 AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm install --force
 
 COPY . .
+RUN npm run build --prod
 
-RUN npm run build  
+FROM nginx:alpine AS runner
 
-CMD ["node", "dist/main.js"]
+WORKDIR /usr/share/nginx/html
+
+COPY --from=builder /app/dist/fuse/browser ./
+
+EXPOSE 80
