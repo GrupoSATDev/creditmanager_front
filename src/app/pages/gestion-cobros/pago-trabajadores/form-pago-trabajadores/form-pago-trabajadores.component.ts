@@ -89,9 +89,10 @@ export class FormPagoTrabajadoresComponent implements OnInit{
     fechaActual: Date = new Date();
     private aesEncriptService = inject(AesEncryptionService);
 
-    columns = ['Fecha de desembolso', 'Identificación', 'Nombres Apellidos', 'Valor pendiente'  ];
+    columns = ['Fecha de desembolso', 'Días de cobro', 'Identificación', 'Nombres Apellidos', 'Valor pendiente'  ];
     columnPropertyMap = {
         'Fecha de desembolso': 'fechaCreacion',
+        'Días de cobro': 'diasTranscurridos',
         'Identificación': 'documentoTrabajador',
         'Nombres Apellidos': 'nombreCompleto',
         'Valor pendiente': 'valorPendiente',
@@ -198,6 +199,15 @@ export class FormPagoTrabajadoresComponent implements OnInit{
                         //items.porcentajeSubEmpresa = this.decimalPipe.transform(items.porcentajeSubEmpresa, '1.2-2') + '%';
                         items.fechaCobro = this.datePipe.transform(items.fechaCobro, 'dd/MM/yyyy');
                         items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                        items.inicioCobro = this.datePipe.transform(items.inicioCobro, 'dd/MM/yyyy');
+
+                        const fechaCobroDate = new Date(items.inicioCobro.split('/').reverse().join('-'));
+                        const hoy = new Date();
+                        const diffEnMilisegundos = hoy.getTime() - fechaCobroDate.getTime();
+                        const diasTranscurridos = Math.ceil(diffEnMilisegundos / (1000 * 60 * 60 * 24));
+                        items.diasTranscurridos = diasTranscurridos;
+
+
 
                         //this.subtotal += parseFloat(items.montoCuota.replace(/[^0-9.-]+/g, ''));
                         //this.totalComision += parseFloat(items.comision.replace(/[^0-9.-]+/g, ''));
