@@ -221,7 +221,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'collapsable',
         icon: 'heroicons_solid:document',
         children: [
-            {
+            /*{
                 id: '8.1',
                 title: 'Reporte de consumos',
                 type: 'basic',
@@ -238,7 +238,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Reporte de cobros',
                 type: 'basic',
                 link: '/pages/reportes/cobros',
-            },
+            },*/
             {
                 id: '8.4',
                 title: 'Reporte de solicitudes',

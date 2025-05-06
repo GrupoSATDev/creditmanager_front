@@ -70,11 +70,11 @@ export class ReporteSolicitudesComponent implements OnInit {
     exportData = [];
     public fuseService = inject(FuseConfirmationService);
 
-    columns = ['Número de solicitud', 'Fecha de solicitud',  'Cupo', 'Trabajador', 'Identificación', 'Salario devengado', 'Inicio de contrato', 'Fin de contrato', 'Empresa', 'Tipo de solicitud' ];
+    columns = ['Número de solicitud', 'Fecha de solicitud',  'Monto', 'Trabajador', 'Identificación', 'Salario devengado', 'Inicio de contrato', 'Fin de contrato', 'Empresa', 'Tipo de solicitud' ];
     columnPropertyMap = {
         'Número de solicitud': 'numSolicitud',
         'Fecha de solicitud': 'fechaCreacion',
-        'Cupo': 'cupo',
+        'Monto': 'cupo',
         'Trabajador': 'nombreTrabajador',
         'Identificación': 'documetoTrabajador',
         'Salario devengado': 'salarioDevengadoTrabajador',
@@ -82,6 +82,7 @@ export class ReporteSolicitudesComponent implements OnInit {
         'Fin de contrato': 'fechaFinContratoTrabajador',
         'Empresa': 'nombreSubEmpresa',
         'Tipo de solicitud': 'nombreTipoSolicitud',
+        'Estado': 'nombreEstadoSolicitud',
     };
 
     public solicitudes$ = this.tipoSolicitudesService.getTipos().pipe(
@@ -184,7 +185,7 @@ export class ReporteSolicitudesComponent implements OnInit {
             return {
                 NumeroSolicitud: items.numSolicitud,
                 FechaSolicitud: items.fechaCreacion,
-                Cupo: parseCurrency(items.cupo),
+                Monto: parseCurrency(items.cupo),
                 Trabajador: items.nombreTrabajador,
                 Identificación: items.documetoTrabajador,
                 Salariodevengado: parseCurrency(items.salarioDevengadoTrabajador),
@@ -192,6 +193,7 @@ export class ReporteSolicitudesComponent implements OnInit {
                 Findecontrato: items.fechaFinContratoTrabajador,
                 Empresa: items.nombreSubEmpresa,
                 TipodeSolicitud: items.nombreTipoSolicitud,
+                Estado: items.nombreEstadoSolicitud,
             };
         });
         this.exportData = convertData;
