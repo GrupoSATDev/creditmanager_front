@@ -93,7 +93,7 @@ export class DialogConfirmSolicitudComponent implements OnDestroy{
         } , error => {
             this.swalService.ToastAler({
                 icon: 'error',
-                title: 'Ha ocurrido un error al crear el registro!',
+                title: error.error.errorMenssages,
                 timer: 4000,
             })
         });
