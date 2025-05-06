@@ -36,6 +36,18 @@
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">Registrar</span>
             </button>
+
+            <button
+                class="mt-2  w-full  rounded-lg transition duration-200 text-white font-semibold sm:ml-4 sm:mt-0 sm:w-auto"
+                mat-flat-button
+                [color]="'primary'"
+                [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
+                [disabled]="!exportData.length"
+                (click)="exportToExcel(exportData)"
+            >
+
+                <span> Exportar </span>
+            </button>
         </div>
 
     </div>
