@@ -56,9 +56,10 @@ export class GridPagoTrabajadoresComponent implements OnInit, OnDestroy{
 
     data = [];
 
-    columns = ['Fecha de liquidación', 'Empresa', 'Valor', 'Estado' ];
+    columns = ['Fecha de liquidación', 'Número de pago',  'Empresa', 'Valor', 'Estado' ];
     columnPropertyMap = {
         'Fecha de liquidación': 'fechaCreacion',
+        'Número de pago': 'consecutivo',
         'Empresa': 'nombreSubempresa',
         'Valor': 'total',
         'Estado': 'nombreEstadoCobro',
