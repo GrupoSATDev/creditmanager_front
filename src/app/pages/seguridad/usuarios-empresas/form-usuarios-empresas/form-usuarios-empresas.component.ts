@@ -135,16 +135,18 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.getUsuario(data.id)
+            this.getUsuario(data.id);
             this.form.get('estadoContrasena').valueChanges.pipe(
                 takeUntilDestroyed(this.destroyedRef)
             ).subscribe((response) => {
                 if (response) {
+                    console.log(response)
                     this.form.get('contrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
                     this.form.get('confirmaContrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
                     this.form.get('contrasena').updateValueAndValidity()
                     this.form.get('confirmaContrasena').updateValueAndValidity()
                 }else {
+                    console.log(response)
                     this.form.get('contrasena').removeValidators([Validators.required]);
                     this.form.get('confirmaContrasena').removeValidators([Validators.required]);
                     this.form.get('contrasena').setValue('');
@@ -153,6 +155,12 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
                     this.form.get('confirmaContrasena').updateValueAndValidity()
                 }
             })
+        }else {
+            this.form.get('estadoContrasena').setValue(true); // siempre visible en creación
+            this.form.get('contrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
+            this.form.get('confirmaContrasena').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(20)]);
+            this.form.get('contrasena').updateValueAndValidity()
+            this.form.get('confirmaContrasena').updateValueAndValidity()
         }
     }
 
@@ -162,15 +170,15 @@ export class FormUsuariosEmpresasComponent  implements OnInit{
             nombre: ['', [Validators.required]],
             apellido: ['', [Validators.required]],
             correo: ['', [Validators.required]],
-            contrasena: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
-            confirmaContrasena: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+            contrasena: [''],
+            confirmaContrasena: [''],
             idRol: [''],
             idSubEmpresa: [''],
             idTipoUsuario: [''],
             idDepartamento: [''],
             idMunicipio: [''],
             estado: [true],
-            estadoContrasena: [true]
+            estadoContrasena: ['']
         },
             { validators: passwordMatchValidator('contrasena', 'confirmaContrasena') })
     }
