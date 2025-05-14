@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -60,6 +60,7 @@ const maskConfig: Partial<IConfig> = {
         JsonPipe,
         NgxMaskDirective,
         MatSlideToggle,
+        MatError
     ],
     providers: [
         { provide: DateAdapter, useClass: DateAdapterService },
@@ -512,7 +513,7 @@ export class FormEmpleadosComponent implements OnInit{
             firma: [''],
             idSubEmpresa: [''],
             idTipoContrato: [''],
-            salarioBase: [0],
+            salarioBase: [0, [Validators.required]],
             otroIngreso: [0],
             idDeduccionLegal: [''],
             salarioDevengado: [{value: 0, disabled: true}],

@@ -257,6 +257,13 @@
                         <mat-form-field  class="w-full" floatLabel="always">
                             <mat-label>Salario base</mat-label>
                             <input  matInput mask="separator.0" thousandSeparator="." placeholder="Salario base" [formControlName]="'salarioBase'" />
+                            @if (form.get('salarioBase').dirty || form.get('salarioBase').touched) {
+                                <mat-error>
+                                    @if (form.get('salarioBase').hasError('required')) {
+                                        El salario base es requerido!.
+                                    }
+                                </mat-error>
+                            }
                         </mat-form-field>
 
                         <mat-form-field  class="w-full" floatLabel="always">
