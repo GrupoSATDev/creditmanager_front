@@ -16,7 +16,6 @@ import { MatTab, MatTabChangeEvent, MatTabContent, MatTabGroup } from '@angular/
 import { FuseAlertComponent } from '../../../../../@fuse/components/alert';
 import { NgIf } from '@angular/common';
 import { CodigosUsuarios } from '../../../../core/enums/codigos-usuarios';
-import { FormEmpleadosComponent } from '../../../gestion-empleados/empleados/form-empleados/form-empleados.component';
 
 @Component({
   selector: 'app-grid-usuarios-empresas',
@@ -67,17 +66,7 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
         },
     ];
 
-    buttonsTrabajador: IButton[] = [
-        {
-            label: 'Edición',
-            icon: 'edit',
-            action: (element) => {
-                console.log('Editing', element);
-                this.selectedData = element;
-                this.onEditTrabajador();
-            }
-        },
-    ];
+
 
     constructor(
         private _matDialog: MatDialog,
@@ -120,20 +109,7 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
     }
 
     onEdit(): void {
-        this._matDialog.open(FormEmpleadosComponent, {
-            autoFocus: false,
-            data: {
-                edit: true,
-                data: this.selectedData
-            },
-            maxHeight: '90vh',
-            disableClose: true,
-            panelClass: 'custom-dialog-container'
-        })
-    }
-
-    onEditTrabajador(): void {
-        this._matDialog.open(FormEmpleadosComponent, {
+        this._matDialog.open(FormUsuariosEmpresasComponent, {
             autoFocus: false,
             data: {
                 edit: true,
