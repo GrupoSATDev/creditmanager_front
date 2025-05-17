@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN npm install --force
 
 COPY . .
+RUN npm install -g @angular/cli
 RUN ng build  --configuration=development
 
 FROM nginx:alpine AS runner
