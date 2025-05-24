@@ -24,6 +24,14 @@ export default [
     {
         path: 'desembolsos-general',
         loadChildren: () => import('./reporte-desembolsos-general/reportes-desembolsos-general.routes')
+    },
+    {
+        path: 'ganancias',
+        loadChildren: () =>import('./reporte-ganancias-empresa/reporte-ganancias-empresa.routes')
+    },
+    {
+        path: 'deudas-empresa',
+        loadChildren: () => import('./reporte-deudas-empresa/reporte-deudas-empresas.routes')
     }
 
 

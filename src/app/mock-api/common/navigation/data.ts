@@ -257,6 +257,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/desembolsos-general',
             },
+            {
+                id: '8.7',
+                title: 'Ganancias por empresas',
+                type: 'basic',
+                link: '/pages/reportes/ganancias',
+            },
+            {
+                id: '8.8',
+                title: 'Deudas por empresas',
+                type: 'basic',
+                link: '/pages/reportes/deudas-empresa',
+            },
         ],
     },
 
