@@ -29,6 +29,17 @@
                 />
             </mat-form-field>
             <!-- Add product button -->
+            <button
+                class="w-full rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+                [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
+                [disabled]="!exportData.length"
+                (click)="exportToExcel(exportData)"
+            >
+
+                <span> Exportar </span>
+            </button>
 
 
         </div>
@@ -40,26 +51,6 @@
 
         <form [formGroup]="form" class="flex flex-col sm:flex-row gap-2.5">
 
-            <button
-                class="sm:w-1/6 w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="onConsultar()"
-            >
-
-                <span> Consultar </span>
-            </button>
-            <button
-                class="sm:sm:w-1/6 w-full sm:mt-6 rounded-lg transition duration-200 text-white font-semibold"
-                mat-flat-button
-                [color]="'primary'"
-                [ngClass]="{'bg-green-700': exportData.length, 'bg-credigray-100': !exportData.length}"
-                [disabled]="!exportData.length"
-                (click)="exportToExcel(exportData)"
-            >
-
-                <span> Exportar </span>
-            </button>
         </form>
 
 
