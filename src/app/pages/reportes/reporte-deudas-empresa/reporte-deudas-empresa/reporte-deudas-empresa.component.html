@@ -40,20 +40,6 @@
 
         <form [formGroup]="form" class="flex flex-col sm:flex-row gap-2.5">
 
-            <mat-form-field  class="w-full  sm:w-1/2" floatLabel="always">
-                <mat-label>Fecha de inicio</mat-label>
-                <input matInput [matDatepicker]="inicioPicker"   placeholder="dd/mm/yyyy" [formControlName]="'fechaInicio'">
-                <mat-datepicker-toggle matIconSuffix [for]="inicioPicker"></mat-datepicker-toggle>
-                <mat-datepicker #inicioPicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field  class="w-full  sm:w-1/2" floatLabel="always">
-                <mat-label>Fecha fin</mat-label>
-                <input matInput [matDatepicker]="finalPicker"   placeholder="dd/mm/yyyy" [formControlName]="'fechaFinal'">
-                <mat-datepicker-toggle matIconSuffix [for]="finalPicker"></mat-datepicker-toggle>
-                <mat-datepicker #finalPicker></mat-datepicker>
-            </mat-form-field>
-
             <button
                 class="sm:w-1/6 w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
                 mat-flat-button

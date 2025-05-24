@@ -78,6 +78,7 @@ export class ReporteDeudasEmpresaComponent implements OnInit {
 
     ngOnInit(): void {
         this.createForm();
+        this.onConsultar();
     }
 
     onSearch(event: Event) {
@@ -86,26 +87,10 @@ export class ReporteDeudasEmpresaComponent implements OnInit {
     }
 
     onConsultar() {
-        if (this.form.valid) {
-            const { fechaInicio, fechaFinal } = this.form.getRawValue();
-            const fechaIniciallData = this.datePipe.transform(
-                fechaInicio,
-                'yyyy-MM-dd'
-            );
-            const fechaFinallData = this.datePipe.transform(
-                fechaFinal,
-                'yyyy-MM-dd'
-            );
 
-            let consulta = {
-                fechaInicio: fechaIniciallData,
-                fechaFinal: fechaFinallData,
-            };
-
-            console.log(consulta);
 
             this.reportesService
-                .getDeudasEmpresas(consulta)
+                .getDeudasEmpresas()
                 .pipe(
                     map((response) => {
                         response.data.forEach((items) => {
@@ -143,7 +128,7 @@ export class ReporteDeudasEmpresaComponent implements OnInit {
                         this.data = [];
                     }
                 });
-        }
+
     }
 
     private convertDataExportFijos(data) {
