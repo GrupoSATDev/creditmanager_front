@@ -160,7 +160,6 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
             })
         ).subscribe((response) => {
             if (response.data) {
-                console.log(response.data);
                 this.data = response.data;
 
             }
