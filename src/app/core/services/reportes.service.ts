@@ -40,4 +40,13 @@ export class ReportesService {
     getReporteGeneral(): Observable<any> {
       return this._http.get(`${this.appSettings.reportes.url.reporteGeneral}`)
     }
+
+    getReporteGancias(data): Observable<any> {
+        console.log(data)
+        return this._http.get(`${this.appSettings.reportes.url.reportesGanancias}?fechaInicio=${data.fechaInicio}&fechaFinal=${data.fechaFinal}`)
+    }
+
+    getDeudasEmpresas(): Observable<any> {
+        return this._http.get(`${this.appSettings.reportes.url.reporteDeudasEmpresa}`)
+    }
 }
