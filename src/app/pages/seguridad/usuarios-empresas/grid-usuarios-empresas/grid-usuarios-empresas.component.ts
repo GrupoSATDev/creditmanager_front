@@ -66,6 +66,18 @@ export class GridUsuariosEmpresasComponent implements  OnInit, OnDestroy{
         },
     ];
 
+    buttonsTrabajador: IButton[] = [
+        {
+            label: 'Edición',
+            icon: 'edit',
+            action: (element) => {
+                console.log('Editing', element);
+                this.selectedData = element;
+                this.onEdit();
+            }
+        },
+    ];
+
 
 
     constructor(
