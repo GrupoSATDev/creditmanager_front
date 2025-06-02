@@ -209,6 +209,31 @@
                         </ng-template>
                     </ng-template>
                 </mat-tab>
+                <mat-tab label="Sin cobros aumentos">
+                    <ng-template matTabContent>
+                        <ng-container *ngIf="data.length; else noData">
+                            <app-custom-table
+                                [columns]="columnsSinFijos"
+                                [displayedColumns]="columnsSinFijos"
+                                [columnPropertyMap]="columnPropertyMapSinFijos"
+                                [data]="data"
+                                [searchTerm]="searchTerm"
+                            ></app-custom-table>
+                        </ng-container>
+                        <ng-template #noData>
+                            <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
+                                <div class="inline-block p-4 sm:p-2 print:p-0 w-full">
+                                    <fuse-alert
+                                        [type]="'info'"
+                                        [appearance]="'outline'">
+                                        <span fuseAlertTitle>Información</span>
+                                        No hay créditos sin cobros aumentos hasta el momento.
+                                    </fuse-alert>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </mat-tab>
 
             </mat-tab-group>
 

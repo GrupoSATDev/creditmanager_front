@@ -147,6 +147,15 @@
                                            }">
                                     </p>
                                 </div>
+                                @if (item.idEstadoCredito == CodigosDetalleConsumo.EN_REVISION) {
+                                    <button
+                                        mat-flat-button
+                                        class="lg:w-auto w-full mt-4 bg-crediorange-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                                        (click)="onEliminarCobro(item.id)"
+                                    >
+                                        Eliminar cobro
+                                    </button>
+                                }
                             </fuse-card>
                         </ng-container>
                     </div>

@@ -167,9 +167,12 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
             tabChangeEvent.index == 2 ? EstadosCreditos.VENCIDO :
             tabChangeEvent.index == 3 ? EstadosCreditos.BLOQUEADO :
             tabChangeEvent.index == 4 ? EstadosCreditos.RECHAZADO :
-            tabChangeEvent.index == 5 ? EstadosCreditos.SIN_FIJO :  EstadosCreditos.EN_REVISION;
+            tabChangeEvent.index == 5 ? EstadosCreditos.SIN_FIJO :
+            tabChangeEvent.index == 6 ? EstadosCreditos.SIN_FIJO_AUMENTO :  EstadosCreditos.EN_REVISION;
             if ([EstadosCreditos.EN_REVISION, EstadosCreditos.APROBADO, EstadosCreditos.VENCIDO, EstadosCreditos.BLOQUEADO, EstadosCreditos.RECHAZADO].includes(this.selectedTab)) {
                 this.getCreditos(this.selectedTab);
+            }else if(this.selectedTab ===  EstadosCreditos.SIN_FIJO_AUMENTO ) {
+                this.getSinCobrosFijosAumentos();
             }else {
                 this.getSinCobrosFijos();
             }
@@ -280,6 +283,60 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
         })
     }
 
+    getSinCobrosFijosAumentos() {
+        this.subcription$ = this.creditoService.getCreditosSinCobrosFijosAumentos().pipe(
+            map((response) => {
+                response.data.forEach((items) => {
+                    if (items.estado) {
+                        items.estado = Estados.ACTIVO;
+                        items.sinFijoCobro = CodigoCobroFijo.COBRO_FIJO;
+                    }else {
+                        items.estado = Estados.INACTIVO;
+                        items.sinFijoCobro = CodigoCobroFijo.SIN_COBRO;
+                    }
+                })
+                return response;
+
+            }),
+            map((response) => {
+                response.data.forEach((items) => {
+                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    items.fechaCorte = this.datePipe.transform(items.fechaCorte, 'dd/MM/yyyy');
+                    items.fechaLimitePago = this.datePipe.transform(items.fechaLimitePago, 'dd/MM/yyyy');
+                    items.fechaVencimiento = this.datePipe.transform(items.fechaVencimiento, 'dd/MM/yyyy');
+                    items.fechaAprobacion = this.datePipe.transform(items.fechaAprobacion, 'dd/MM/yyyy');
+
+                    if (items.cupoAprobado) {
+                        items.cupoAprobado = this.aesEncriptService.decrypt(items.cupoAprobado);
+                    }
+
+                    if (items.cupoDisponible) {
+                        items.cupoDisponible = this.aesEncriptService.decrypt(items.cupoDisponible);
+                    }
+                    if (items.porcTasaInteres) {
+                        items.porcTasaInteres = this.aesEncriptService.decrypt(items.porcTasaInteres);
+                    }
+
+                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
+                    items.cupoSolicitado = this.currencyPipe.transform(items.cupoSolicitado, 'USD', 'symbol', '1.2-2');
+                    items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
+                    items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
+                    items.porcTasaInteres = this.currencyPipe.transform(items.porcTasaInteres, 'percent', '%', '1.2-3');
+                })
+                return response;
+            })
+        ).subscribe((response) => {
+            if (response) {
+                this.data = response.data;
+                this.convertDataExportFijos(response.data)
+            }else {
+                this.data = [];
+            }
+        }, error => {
+            this.data = [];
+        })
+    }
+
     private convertDataExport(data, ) {
         if (![EstadosCreditos.EN_REVISION].includes(this.selectedTab) ) {
             const convertData = data.map((items) => {
@@ -320,7 +377,7 @@ export class GridCreditosComponent implements OnInit, OnDestroy {
     private convertDataExportFijos(data, ) {
         const convertData = data.map((items) => {
             return {
-                FechaAprobacion : items.fechaAprobacion,
+                FechaSolicitud : items.fechaAprobacion,
                 Identificación : items.docTrabajador,
                 Solicitante : items.nombreTrabajador,
                 Númerodecrédito : items.numCredito,

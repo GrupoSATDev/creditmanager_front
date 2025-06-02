@@ -84,3 +84,24 @@ export const cancelar: FuseConfirmationConfig = {
         }
     }
 }
+
+export const eliminacion: FuseConfirmationConfig = {
+    title: 'Eliminar',
+    message: '¿Está seguro de eliminar el registro?',
+    icon: {
+        show: true,
+        name: 'heroicons_solid:question-mark-circle',
+        color: 'info',
+    },
+    actions: {
+        confirm: {
+            show: true,
+            label: 'Eliminar',
+            color: 'bg-crediorange-100'
+        },
+        cancel: {
+            show: true,
+            label: 'Cancelar',
+        }
+    }
+}
