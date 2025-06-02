@@ -49,4 +49,8 @@ export class ReportesService {
     getDeudasEmpresas(): Observable<any> {
         return this._http.get(`${this.appSettings.reportes.url.reporteDeudasEmpresa}`)
     }
+
+    getPrestamoHistorico(): Observable<any> {
+        return this._http.get(`${this.appSettings.reportes.url.reportePrestamoHistorico}`)
+    }
 }

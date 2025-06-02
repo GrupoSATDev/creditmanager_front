@@ -32,6 +32,10 @@ export default [
     {
         path: 'deudas-empresa',
         loadChildren: () => import('./reporte-deudas-empresa/reporte-deudas-empresas.routes')
+    },
+    {
+        path: 'historico',
+        loadChildren: () => import('./reporte-prestamo-historico/reporte-prestamo-historico.routes')
     }
 
 

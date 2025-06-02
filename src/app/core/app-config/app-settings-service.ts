@@ -258,6 +258,7 @@ export class AppSettingsService {
             reporteGeneral: EndPoints.uriBase('Reportes/General'),
             reportesGanancias: EndPoints.uriBase('Reportes/GanaciaPorSuEmpresa'),
             reporteDeudasEmpresa: EndPoints.uriBase('Reportes/DeudaSubEmpresa'),
+            reportePrestamoHistorico: EndPoints.uriBase('Reportes/PrestamoHistorico'),
         }
     }
 
