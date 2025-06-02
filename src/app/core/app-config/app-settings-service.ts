@@ -132,7 +132,7 @@ export class AppSettingsService {
             detalleDesembolsoRealizado: EndPoints.uriBase('DetalleConsumos/DesembolsoRealizado'),
             desembolso: EndPoints.uriBase('DetalleConsumos/Desembolso'),
             desembolsos: EndPoints.uriBase('DetalleConsumos/Desembolsos'),
-            cobroFijoEliminar: EndPoints.uriBase('DetalleConsumos/cobroFijo'),
+            cobroFijoEliminar: EndPoints.uriBase('DetalleConsumos/CobroFijo'),
         }
     }
 
