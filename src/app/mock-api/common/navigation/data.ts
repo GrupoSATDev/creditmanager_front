@@ -269,6 +269,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/deudas-empresa',
             },
+            {
+                id: '8.9',
+                title: 'Historico prestamos',
+                type: 'basic',
+                link: '/pages/reportes/historico',
+            },
         ],
     },
 

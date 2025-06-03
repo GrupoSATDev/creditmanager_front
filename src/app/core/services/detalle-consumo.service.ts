@@ -67,4 +67,8 @@ export class DetalleConsumoService {
   postConsumoFijo(data): Observable<any> {
       return this._http.post(this.appSettings.detalleConsumos.url.cobroFijo, data);
   }
+
+  deleteCobroFijo(id): Observable<any> {
+      return this._http.delete(`${this.appSettings.detalleConsumos.url.cobroFijoEliminar}/${id}`);
+  }
 }

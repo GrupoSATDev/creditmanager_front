@@ -6,6 +6,7 @@ export enum EstadosCreditos {
     EN_REVISION = 'e626ea69-e995-1462-be9a-905326714782',
     RECHAZADO = 'e626ea69-e995-4162-be9a-905316714781',
     APROBADO = 'e626ea69-e915-5462-be9a-905326714782',
+    SIN_FIJO_AUMENTO = 'SinFijoAumento',
 }
 
 export enum CodigoEstadosCreditos {

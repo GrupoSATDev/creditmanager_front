@@ -132,6 +132,7 @@ export class AppSettingsService {
             detalleDesembolsoRealizado: EndPoints.uriBase('DetalleConsumos/DesembolsoRealizado'),
             desembolso: EndPoints.uriBase('DetalleConsumos/Desembolso'),
             desembolsos: EndPoints.uriBase('DetalleConsumos/Desembolsos'),
+            cobroFijoEliminar: EndPoints.uriBase('DetalleConsumos/CobroFijo'),
         }
     }
 
@@ -257,6 +258,7 @@ export class AppSettingsService {
             reporteGeneral: EndPoints.uriBase('Reportes/General'),
             reportesGanancias: EndPoints.uriBase('Reportes/GanaciaPorSuEmpresa'),
             reporteDeudasEmpresa: EndPoints.uriBase('Reportes/DeudaSubEmpresa'),
+            reportePrestamoHistorico: EndPoints.uriBase('Reportes/PrestamoHistorico'),
         }
     }
 

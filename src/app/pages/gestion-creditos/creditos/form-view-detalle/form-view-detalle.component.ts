@@ -30,6 +30,9 @@ import { DialogBloqueoComponent } from '../dialog-bloqueo/dialog-bloqueo.compone
 import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { DialogDesbloqueoComponent } from '../dialog.desbloqueo/dialog.desbloqueo.component';
 import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
+import { DetalleConsumoService } from '../../../../core/services/detalle-consumo.service';
+import { eliminacion, exportar } from '../../../../core/constant/dialogs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-form-view-detalle',
@@ -72,6 +75,7 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
     public estadosDatosService = inject(EstadosDatosService);
     private activatedRoute = inject(ActivatedRoute);
     private creditoService: CreditosService = inject(CreditosService);
+    private detalleConsumoService: DetalleConsumoService = inject(DetalleConsumoService);
     private router = inject(Router);
     public subcription$: Subscription;
     public items: any;
@@ -119,6 +123,19 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
         })
     }
 
+    onEliminarCobro(id) {
+        const dialog = this.fuseService.open({
+            ...eliminacion
+        });
+
+        dialog.afterClosed().subscribe((response) => {
+            if (response === 'confirmed') {
+                this.deleteCobroFijo(id);
+            }
+        })
+
+    }
+
     ngOnInit(): void {
         this.idCredito = this.activatedRoute.snapshot.paramMap.get('id');
         this.getCredito(this.idCredito);
@@ -129,6 +146,14 @@ export class FormViewDetalleComponent implements OnInit, OnDestroy{
             this.items = response.data;
         })
     }
+
+    deleteCobroFijo(id) {
+        this.detalleConsumoService.deleteCobroFijo(id).subscribe((response) => {
+            this.getCredito(id);
+        })
+    }
+
+
 
     protected readonly CodigosDetalleConsumo = CodigosDetalleConsumo;
     protected readonly EstadosCreditos = EstadosCreditos;

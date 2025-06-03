@@ -20,6 +20,9 @@ export class CreditosService {
     getCreditosSinCobrosFijos(): Observable<any> {
         return this._http.get(`${this.appSettings.creditos.url.base}/SinCobrosFijos`)
     }
+    getCreditosSinCobrosFijosAumentos(): Observable<any> {
+        return this._http.get(`${this.appSettings.creditos.url.base}/AumentosSinCobrosFijos`)
+    }
 
     getCredito(id): Observable<any> {
         return this._http.get(`${this.appSettings.creditos.url.base}/${id}`)
