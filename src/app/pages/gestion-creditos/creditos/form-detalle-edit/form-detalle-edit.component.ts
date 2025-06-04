@@ -155,7 +155,7 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
 
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
-            console.log(response.data)
+
             this.items = response.data;
             const [year, month, day] = this.items.fechaLimitePago.split('-');
             const [anioCorte, mesCorte, diaCorte] = this.items.fechaCorte.split('-');
