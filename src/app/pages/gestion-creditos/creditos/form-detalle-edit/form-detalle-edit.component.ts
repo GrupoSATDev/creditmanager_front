@@ -97,14 +97,8 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
     private readonly parametroTasa = 'Activas';
 
     enDeudamiento: any;
-    tipoPagos$ = this.tiposPagos.getTiposPagos().pipe(
-        tap((response) => {
-            const valorSelected = response.data;
-            if (valorSelected) {
-                this.form.get('idTipoPago').setValue(valorSelected[0].id)
-            }
-        })
-    )
+    tipoPagos$ = this.tiposPagos.getTiposPagos();
+
     capital$ = this.capitalInversion.getCapitales().pipe(
         tap((response) => {
             const valorSelected = response.data;
@@ -161,6 +155,7 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
 
     getCredito(id) {
         this.subcription$ = this.creditoService.getCredito(id).subscribe((response) => {
+
             this.items = response.data;
             const [year, month, day] = this.items.fechaLimitePago.split('-');
             const [anioCorte, mesCorte, diaCorte] = this.items.fechaCorte.split('-');
@@ -169,6 +164,7 @@ export class FormDetalleEditComponent implements OnInit, OnDestroy {
             this.form.get('fechaCorte').setValue(new Date(+anioCorte, +mesCorte - 1, +diaCorte));
             this.form.get('fechaVencimiento').setValue(new Date(+anioVence, +mesVence - 1, +diaVence));
             this.form.get('cantCuotas').setValue(this.items.cantCuotas);
+            this.form.get('idTipoPago').setValue(this.items.idTipoPago);
         });
     }
 
