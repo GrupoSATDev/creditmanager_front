@@ -73,6 +73,8 @@ export class ReporteRecuperaInversionComponent implements OnInit {
         '180 días',
         '360 días',
         'Saldo capital',
+        'Intereses generales',
+        'Costos asociados',
     ];
     columnPropertyMap = {
         'Empresa': 'nombreSubEmpresa',
@@ -89,6 +91,8 @@ export class ReporteRecuperaInversionComponent implements OnInit {
         '180 días': 'dias180',
         '360 días': 'dias360',
         'Saldo capital': 'saldoCapital',
+        'Intereses generales': 'interesesGenerados',
+        'Costos asociados': 'costosAsociados',
     };
 
     ngOnInit(): void {
@@ -110,6 +114,48 @@ export class ReporteRecuperaInversionComponent implements OnInit {
                     response.data.forEach((items) => {
                         items.saldoCapital = this.currencyPipe.transform(
                             items.saldoCapital,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.interesesGenerados = this.currencyPipe.transform(
+                            items.interesesGenerados,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.costosAsociados = this.currencyPipe.transform(
+                            items.costosAsociados,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.dias30 = this.currencyPipe.transform(
+                            items.dias30,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.dias60 = this.currencyPipe.transform(
+                            items.dias60,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.dias90 = this.currencyPipe.transform(
+                            items.dias90,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.dias180 = this.currencyPipe.transform(
+                            items.dias180,
+                            'USD',
+                            'symbol',
+                            '1.2-2'
+                        );
+                        items.dias360 = this.currencyPipe.transform(
+                            items.dias360,
                             'USD',
                             'symbol',
                             '1.2-2'
@@ -148,12 +194,14 @@ export class ReporteRecuperaInversionComponent implements OnInit {
                 FechaVencimiento: items.fechaVencimiento,
                 CuotasPagadas: items.cantCuotasPagadas,
                 CuotasPendientes: items.cantCuotasPendientes,
-                '0-30 días': items.dias30,
-                '60 días': items.dias60,
-                '90 días': items.dias90,
-                '180 días': items.dias180,
-                '360 días': items.dias360,
+                '0-30 días': parseCurrency(items.dias30),
+                '60 días': parseCurrency(items.dias60),
+                '90 días': parseCurrency(items.dias90),
+                '180 días': parseCurrency(items.dias180),
+                '360 días': parseCurrency(items.dias360),
                 'Saldo capital': parseCurrency(items.saldoCapital),
+                'Intereses generales': parseCurrency(items.interesesGenerados),
+                'Costos asociados': parseCurrency(items.costosAsociados),
             };
         });
         this.exportData = convertData;
