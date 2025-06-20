@@ -275,6 +275,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/historico',
             },
+            {
+                id: '9.0',
+                title: 'Recuperación de inversión',
+                type: 'basic',
+                link: '/pages/reportes/recupera-inversion',
+            },
         ],
     },
 

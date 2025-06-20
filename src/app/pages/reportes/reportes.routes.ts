@@ -36,6 +36,10 @@ export default [
     {
         path: 'historico',
         loadChildren: () => import('./reporte-prestamo-historico/reporte-prestamo-historico.routes')
+    },
+    {
+        path: 'recupera-inversion',
+        loadChildren: () => import('./reporte-recupera-inversion/recupera-inversion.routes')
     }
 
 
