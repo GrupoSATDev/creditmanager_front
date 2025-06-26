@@ -24,6 +24,7 @@ import { FormCreditoConsumosComponent } from '../form-credito-consumos/form-cred
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
+import { Estados } from '../../../../core/enums/estados';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -75,6 +76,7 @@ export class GridCreditoConsumosComponent implements OnInit{
         'Cupo aprobado',
         'Cupo consumido',
         'Cupo disponible',
+        'Estado',
     ];
 
     columnPropertyMap = {
@@ -86,6 +88,7 @@ export class GridCreditoConsumosComponent implements OnInit{
         'Cupo aprobado': 'cupoAprobado',
         'Cupo consumido': 'cupoConsumido',
         'Cupo disponible': 'cupoDisponible',
+        'Estado': 'estado',
     };
 
     buttons: IButton[] = [
@@ -133,6 +136,7 @@ export class GridCreditoConsumosComponent implements OnInit{
         this.creditoConsumoService.getCreditoConsumos().pipe(
             map((response) => {
                     response.data.forEach((items) => {
+                        items.estado = items.estado ? Estados.ACTIVO : Estados.INACTIVO;
                         items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
 
                         if (items.cupoAprobado) {
