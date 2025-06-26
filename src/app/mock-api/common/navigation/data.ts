@@ -66,7 +66,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: '2.5',
-                title: 'Crédito consumos',
+                title: 'Créditos consumo',
                 type: 'basic',
                 link: '/pages/gestion-creditos/credito-consumos',
             },
