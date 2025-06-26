@@ -22,6 +22,8 @@ import { FormEmpleadosComponent } from '../../../gestion-empleados/empleados/for
 import { MatDialog } from '@angular/material/dialog';
 import { FormCreditoConsumosComponent } from '../form-credito-consumos/form-credito-consumos.component';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -58,8 +60,10 @@ export class GridCreditoConsumosComponent implements OnInit{
     private aesEncriptService = inject(AesEncryptionService);
     private _matDialog =  inject(MatDialog)
     private estadoDatosService = inject(EstadosDatosService)
+    private router = inject(Router);
     data = [];
     exportData = [];
+    public selectedData: any;
 
 
     columns = [
@@ -83,6 +87,18 @@ export class GridCreditoConsumosComponent implements OnInit{
         'Cupo consumido': 'cupoConsumido',
         'Cupo disponible': 'cupoDisponible',
     };
+
+    buttons: IButton[] = [
+        {
+            label: 'Ver',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
+                this.router.navigate(['pages/gestion-creditos/credito-consumos/consumo', this.selectedData.id])
+            }
+        },
+    ];
 
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -116,24 +132,24 @@ export class GridCreditoConsumosComponent implements OnInit{
     getData() {
         this.creditoConsumoService.getCreditoConsumos().pipe(
             map((response) => {
-                response.data.forEach((items) => {
-                    items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
+                    response.data.forEach((items) => {
+                        items.fechaCreacion = this.datePipe.transform(items.fechaCreacion, 'dd/MM/yyyy');
 
-                    if (items.cupoAprobado) {
-                        items.cupoAprobado = this.aesEncriptService.decrypt(items.cupoAprobado);
-                    }
-                    if (items.cupoConsumido) {
-                        items.cupoConsumido = this.aesEncriptService.decrypt(items.cupoConsumido);
-                    }
-                    if (items.cupoDisponible) {
-                        items.cupoDisponible = this.aesEncriptService.decrypt(items.cupoDisponible);
-                    }
+                        if (items.cupoAprobado) {
+                            items.cupoAprobado = this.aesEncriptService.decrypt(items.cupoAprobado);
+                        }
+                        if (items.cupoConsumido) {
+                            items.cupoConsumido = this.aesEncriptService.decrypt(items.cupoConsumido);
+                        }
+                        if (items.cupoDisponible) {
+                            items.cupoDisponible = this.aesEncriptService.decrypt(items.cupoDisponible);
+                        }
 
-                    items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
-                    items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
-                    items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
-                });
-                return response;
+                        items.cupoAprobado = this.currencyPipe.transform(items.cupoAprobado, 'USD', 'symbol', '1.2-2');
+                        items.cupoConsumido = this.currencyPipe.transform(items.cupoConsumido, 'USD', 'symbol', '1.2-2');
+                        items.cupoDisponible = this.currencyPipe.transform(items.cupoDisponible, 'USD', 'symbol', '1.2-2');
+                    });
+                    return response;
             })
         )
             .subscribe((response) => {

@@ -275,5 +275,11 @@ export class AppSettingsService {
         }
     }
 
+    public detalleCreditoConsumo = {
+        url: {
+            base: EndPoints.uriBase('DetalleCreditoConsumos')
+        }
+    }
+
 
 }
