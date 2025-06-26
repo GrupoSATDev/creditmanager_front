@@ -53,4 +53,8 @@ export class ReportesService {
     getPrestamoHistorico(): Observable<any> {
         return this._http.get(`${this.appSettings.reportes.url.reportePrestamoHistorico}`)
     }
+
+    getInversion(): Observable<any> {
+        return this._http.get(`${this.appSettings.reportes.url.reporteInversion}`)
+    }
 }

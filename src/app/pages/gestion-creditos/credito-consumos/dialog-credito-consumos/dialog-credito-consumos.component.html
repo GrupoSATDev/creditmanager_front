@@ -1,0 +1,67 @@
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            Registrar consumo
+        </div>
+        <!-- Sign Up form -->
+        <form [formGroup]="form">
+
+
+            <div class="mt-8" >
+                <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Monto consumo</mat-label>
+                        <input  matInput  [mask]="'separator.0'" thousandSeparator="." placeholder="Monto consumo" [formControlName]="'montoConsumo'"/>
+                        <!--<mat-error *ngIf="cupo.touched && cupo.hasError('required')">El valor es requerido!</mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                    <mat-form-field class="w-full" floatLabel="always" >
+                        <mat-label>Número de factura</mat-label>
+                        <input  matInput  placeholder="Monto consumo" [formControlName]="'numeroFactura'"/>
+                        <!--<mat-error *ngIf="cupo.touched && cupo.hasError('required')">El valor es requerido!</mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                    <mat-form-field class="w-full" floatLabel="always">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea matInput placeholder="Observaciones" [formControlName]="'observacion'"></textarea>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </form>
+        <div class="flex flex-wrap justify-end gap-2.5 ">
+            <button
+                class="sm:w-auto w-full sm:mt-6 bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="closeDialog()"
+
+            >
+
+                <span> Cancelar </span>
+            </button>
+
+            <button
+                class="sm:w-auto w-full sm:mt-6 bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="onSave()"
+            >
+
+                <span> Guardar </span>
+            </button>
+
+        </div>
+
+
+
+    </div>
+</div>
+

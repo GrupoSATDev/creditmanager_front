@@ -24,6 +24,10 @@ export default [
                 path: 'desembolsos',
                 loadChildren: () => import('./desembolsos/desembolsos.routes')
             },
+            {
+                path: 'credito-consumos',
+                loadChildren: () => import('./credito-consumos/credito-consumos.routes')
+            }
 
         ]
     }

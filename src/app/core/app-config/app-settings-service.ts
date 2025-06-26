@@ -259,12 +259,25 @@ export class AppSettingsService {
             reportesGanancias: EndPoints.uriBase('Reportes/GanaciaPorSuEmpresa'),
             reporteDeudasEmpresa: EndPoints.uriBase('Reportes/DeudaSubEmpresa'),
             reportePrestamoHistorico: EndPoints.uriBase('Reportes/PrestamoHistorico'),
+            reporteInversion: EndPoints.uriBase('Reportes/CarteraDeuda'),
         }
     }
 
     public cobroAliado = {
         url: {
             base: EndPoints.uriBase('CobroAliados')
+        }
+    }
+
+    public creditoConsumo = {
+        url: {
+            base: EndPoints.uriBase('CreditoConsumos')
+        }
+    }
+
+    public detalleCreditoConsumo = {
+        url: {
+            base: EndPoints.uriBase('DetalleCreditoConsumos')
         }
     }
 

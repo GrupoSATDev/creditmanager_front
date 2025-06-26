@@ -64,6 +64,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/gestion-creditos/consumos',
             },
+            {
+                id: '2.5',
+                title: 'Crédito consumos',
+                type: 'basic',
+                link: '/pages/gestion-creditos/credito-consumos',
+            },
         ],
     },
     {
@@ -274,6 +280,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Historico prestamos',
                 type: 'basic',
                 link: '/pages/reportes/historico',
+            },
+            {
+                id: '9.0',
+                title: 'Recuperación de inversión',
+                type: 'basic',
+                link: '/pages/reportes/recupera-inversion',
             },
         ],
     },
