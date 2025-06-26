@@ -1,1 +1,79 @@
-<p>form-credito-consumos works!</p>
+<div class="w-full sm:bg-card sm:rounded-2xl sm:mx-0 mx-auto" >
+    <div class="">
+        <!-- Title -->
+        <div
+            class="mt-8 text-3xl font-semibold leading-tight tracking-tight text-center"
+        >
+            Agregar crédito consumo
+        </div>
+
+        <form class="mt-8" [formGroup]="form">
+            <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'"
+                                (selectionChange)="selectedEmpleados($event)"
+                    >
+                        <ng-container *ngIf="empresa$ | async as empresas">
+                            <mat-option [value]="item.id" *ngFor="let item of empresas.data">{{item.razonSocial}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+            <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                <mat-form-field class="w-full min-w-90" floatLabel="always">
+                    <mat-label>Trabajadores</mat-label>
+                    <input type="text"
+                           placeholder="Trabajadores"
+                           matInput
+                           [formControl]="empleadoControl"
+                           [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete"
+                                      [displayWith]="displayFn"
+                                      (optionSelected)="onOptionSelected($event)">
+                        <mat-option *ngFor="let empleado of filteredEmpleados$ | async"
+                                    [value]="empleado">
+                            {{empleado.primerNombre}} {{empleado.primerApellido}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
+                <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                    <mat-label>Cupo aprobado</mat-label>
+                    <input matInput placeholder="Cupo aprobado" [formControlName]="'cupoAprobado'" [mask]="'separator.0'" thousandSeparator=".">
+                </mat-form-field>
+            </div>
+
+        </form>
+
+        <div
+            class="flex items-center justify-center space-x-3 py-4 dark:bg-black dark:bg-opacity-10 sm:justify-end"
+        >
+            <button
+                class="sm:w-auto w-full bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="closeDialog()"
+            >
+
+                <span> Cancelar </span>
+            </button>
+
+            <button
+                mat-flat-button
+                [color]="'primary'"
+                class="sm:w-auto w-full bg-crediblue-50  hover:bg-crediblue-100 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                (click)="onGuardar()"
+                [disabled]="form.invalid"
+            >
+                Guardar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

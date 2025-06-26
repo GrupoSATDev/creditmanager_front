@@ -18,6 +18,10 @@ import { data } from 'autoprefixer';
 import { map } from 'rxjs';
 import { parseCurrency } from '../../../../core/utils/number-utils';
 import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
+import { FormEmpleadosComponent } from '../../../gestion-empleados/empleados/form-empleados/form-empleados.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FormCreditoConsumosComponent } from '../form-credito-consumos/form-credito-consumos.component';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -52,6 +56,8 @@ export class GridCreditoConsumosComponent implements OnInit{
     public fuseService = inject(FuseConfirmationService);
     private currencyPipe = inject(CurrencyPipe);
     private aesEncriptService = inject(AesEncryptionService);
+    private _matDialog =  inject(MatDialog)
+    private estadoDatosService = inject(EstadosDatosService)
     data = [];
     exportData = [];
 
@@ -81,6 +87,29 @@ export class GridCreditoConsumosComponent implements OnInit{
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
         this.searchTerm = target.value.trim().toLowerCase();
+    }
+
+    onNew(): void {
+        this._matDialog.open(FormCreditoConsumosComponent, {
+            autoFocus: false,
+            data: {
+                edit: false,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    private listenGrid() {
+        const refreshData$ = this.estadoDatosService.stateGrid.asObservable();
+
+        refreshData$.subscribe((state) => {
+            if (state) {
+                this.getData();
+            }
+        })
+
     }
 
 
@@ -156,6 +185,7 @@ export class GridCreditoConsumosComponent implements OnInit{
 
     ngOnInit(): void {
         this.getData();
+        this.listenGrid();
     }
 }
 
