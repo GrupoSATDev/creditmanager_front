@@ -151,7 +151,7 @@ export class FormCreditoConsumosComponent implements OnInit {
 
             dialog.afterClosed().subscribe((response) => {
                 if (response === 'confirmed') {
-                    console.log('Entro');
+
                     this.creditoConsumoService.postCreditoConsumo(createData).pipe(
                         takeUntilDestroyed(this.destroyedRef),
                     ).subscribe((res) => {
