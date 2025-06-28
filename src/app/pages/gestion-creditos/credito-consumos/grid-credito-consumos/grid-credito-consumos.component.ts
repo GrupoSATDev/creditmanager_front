@@ -25,6 +25,9 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
 import { Estados } from '../../../../core/enums/estados';
+import {
+    DialogCreditosConsumoEstadosComponent
+} from '../dialog-creditos-consumo-estados/dialog-creditos-consumo-estados.component';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -101,6 +104,24 @@ export class GridCreditoConsumosComponent implements OnInit{
                 this.router.navigate(['pages/gestion-creditos/credito-consumos/consumo', this.selectedData.id])
             }
         },
+        {
+            label: 'Aumento',
+            icon: 'request_quote',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                //this.onAbono();
+            },
+        },
+        {
+            label: 'Cambiar estado',
+            icon: 'published_with_changes',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onCambioEstado();
+            },
+        },
     ];
 
     onSearch(event: Event) {
@@ -113,6 +134,18 @@ export class GridCreditoConsumosComponent implements OnInit{
             autoFocus: false,
             data: {
                 edit: false,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    onCambioEstado(): void {
+        this._matDialog.open(DialogCreditosConsumoEstadosComponent, {
+            autoFocus: false,
+            data: {
+                data: this.selectedData,
             },
             maxHeight: '90vh',
             disableClose: true,
