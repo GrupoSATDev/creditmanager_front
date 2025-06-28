@@ -28,6 +28,9 @@ import { Estados } from '../../../../core/enums/estados';
 import {
     DialogCreditosConsumoEstadosComponent
 } from '../dialog-creditos-consumo-estados/dialog-creditos-consumo-estados.component';
+import {
+    DialogCuposCreditosConsumoComponent
+} from '../dialog-cupos-creditos-consumo/dialog-cupos-creditos-consumo.component';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -105,12 +108,12 @@ export class GridCreditoConsumosComponent implements OnInit{
             }
         },
         {
-            label: 'Aumento',
+            label: 'Cambiar cupo',
             icon: 'request_quote',
             action: (element) => {
                 console.log('View', element);
                 this.selectedData = element;
-                //this.onAbono();
+                this.onCambioCupo();
             },
         },
         {
@@ -143,6 +146,17 @@ export class GridCreditoConsumosComponent implements OnInit{
 
     onCambioEstado(): void {
         this._matDialog.open(DialogCreditosConsumoEstadosComponent, {
+            autoFocus: false,
+            data: {
+                data: this.selectedData,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+   onCambioCupo(): void {
+        this._matDialog.open(DialogCuposCreditosConsumoComponent, {
             autoFocus: false,
             data: {
                 data: this.selectedData,
