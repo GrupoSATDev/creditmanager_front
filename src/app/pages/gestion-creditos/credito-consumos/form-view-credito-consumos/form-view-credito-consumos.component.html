@@ -68,8 +68,9 @@
                         <button
                             mat-flat-button
                             class="lg:w-auto w-full mt-4 bg-crediorange-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            (click)="items.estado ? onBloqueo() : onDesbloqueo()"
                         >
-                            Bloquear crédito
+                           {{items.estado ? 'Bloquear' : 'Desbloquear'}} crédito
                         </button>
                     </div>
 

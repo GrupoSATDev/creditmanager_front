@@ -1,50 +1,42 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
-import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
-import { SwalService } from '../../../../core/services/swal.service';
-import { CreditoConsumosService } from '../../../../core/services/credito-consumos.service';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
-import { NgxMaskDirective } from 'ngx-mask';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { ToastAlertsService } from '../../../../core/services/toast-alerts.service';
+import { FuseConfirmationService } from '../../../../../@fuse/services/confirmation';
+import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
+import { CreditoConsumosService } from '../../../../core/services/credito-consumos.service';
+import { SwalService } from '../../../../core/services/swal.service';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-dialog-creditos-consumo-estados',
+    selector: 'app-dialog-bloqueos-creditos-consumo',
     standalone: true,
-    imports: [
-        FormsModule,
-        MatButton,
-        MatFormField,
-        MatIcon,
-        MatInput,
-        MatLabel,
-        NgxMaskDirective,
-        MatDialogClose,
-    ],
-    templateUrl: './dialog-creditos-consumo-estados.component.html',
-    styleUrl: './dialog-creditos-consumo-estados.component.scss',
+    imports: [MatButton, MatIcon, MatDialogClose],
+    templateUrl: './dialog-bloqueos-creditos-consumo.component.html',
+    styleUrl: './dialog-bloqueos-creditos-consumo.component.scss',
 })
-export class DialogCreditosConsumoEstadosComponent implements OnInit {
-    public dialogRef = inject(
-        MatDialogRef<DialogCreditosConsumoEstadosComponent>
-    );
-    public _matData = inject(MAT_DIALOG_DATA);
+export class DialogBloqueosCreditosConsumoComponent implements OnInit{
+    public dialogRef = inject(MatDialogRef<DialogBloqueosCreditosConsumoComponent>);
+    public toasService = inject(ToastAlertsService);
     public estadosDatosService = inject(EstadosDatosService);
-    private swalService = inject(SwalService);
+    public _matData = inject(MAT_DIALOG_DATA);
     private creditoConsumoService = inject(CreditoConsumosService);
     public idEstado: number;
+    public estado: boolean;
+    private swalService = inject(SwalService);
+    private router  = inject(Router);
 
     ngOnInit(): void {
         const  data  = this._matData.data;
-        const { id } = data;
+        const { id, estado } = data;
         this.idEstado = id;
+        this.estado = estado;
     }
 
-    onCambioEstado(): void {
+    onBloqueo(): void {
         this.creditoConsumoService
-            .patchCreditoConsumoEstado(this.idEstado)
+            .patchCreditoConsumoEstados(this.idEstado, this.estado)
             .subscribe(
                 (response) => {
                     this.estadosDatosService.stateGrid.next(true);
@@ -54,6 +46,7 @@ export class DialogCreditosConsumoEstadosComponent implements OnInit {
                         timer: 4000,
                     });
                     this.closeDialog();
+                    this.router.navigate(['/pages/gestion-creditos/credito-consumos']);
                 },
                 (error) => {
                     this.swalService.ToastAler({
@@ -67,4 +60,5 @@ export class DialogCreditosConsumoEstadosComponent implements OnInit {
     closeDialog() {
         this.dialogRef.close();
     }
+
 }

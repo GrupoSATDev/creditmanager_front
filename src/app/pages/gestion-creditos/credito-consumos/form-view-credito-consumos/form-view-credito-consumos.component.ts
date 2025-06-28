@@ -19,6 +19,10 @@ import { EstadosCreditos } from '../../../../core/enums/estados-creditos';
 import { CodigosDetalleConsumo } from '../../../../core/enums/detalle-consumo';
 import { CreditoConsumosService } from '../../../../core/services/credito-consumos.service';
 import { DialogCreditoConsumosComponent } from '../dialog-credito-consumos/dialog-credito-consumos.component';
+import { DialogBloqueoComponent } from '../../creditos/dialog-bloqueo/dialog-bloqueo.component';
+import {
+    DialogBloqueosCreditosConsumoComponent
+} from '../dialog-bloqueos-creditos-consumo/dialog-bloqueos-creditos-consumo.component';
 
 @Component({
     selector: 'app-form-view-credito-consumos',
@@ -75,6 +79,26 @@ export class FormViewCreditoConsumosComponent implements OnInit {
 
     onConsumo() {
         this._matDialog.open(DialogCreditoConsumosComponent, {
+            data: {
+                data: this.items
+            },
+            width: '30%',
+            disableClose: true
+        })
+    }
+
+    onBloqueo() {
+        this._matDialog.open(DialogBloqueosCreditosConsumoComponent, {
+            data: {
+                data: this.items
+            },
+            width: '30%',
+            disableClose: true
+        })
+    }
+
+    onDesbloqueo() {
+        this._matDialog.open(DialogBloqueosCreditosConsumoComponent, {
             data: {
                 data: this.items
             },

@@ -35,4 +35,8 @@ export class CreditoConsumosService {
       return this._http.patch(`${this.appSettings.creditoConsumo.url.base}/${id}/estado`, {})
   }
 
+  patchCreditoConsumoEstados(id, estado): Observable<any> {
+      return this._http.patch(`${this.appSettings.creditoConsumo.url.base}/${id}/estado`, {estado})
+  }
+
 }

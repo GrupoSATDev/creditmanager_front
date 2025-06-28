@@ -51,7 +51,6 @@ export class DialogBloqueoComponent {
         }
 
         this.creditoService.patchRechazado(createData).subscribe((response) => {
-            console.log(response)
             this.estadosDatosService.stateGrid.next(true);
             this.swalService.ToastAler({
                 icon: 'success',
