@@ -39,6 +39,7 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
     @Input() searchTerm: string = '';
     @Input() filterProperties: string[] = [];
     filteredData: T[] = [];
+    @Input() getRowClassesFunction: ((row: T) => { [key: string]: boolean }) | null = null;
 
 
     dataSource = new MatTableDataSource<T>([]);
@@ -100,6 +101,13 @@ export class CustomTableComponent<T> implements  OnInit, AfterViewInit, OnChange
 
     onButtonClick(action: (element: T) => void, element: T) {
         action(element);
+    }
+
+    getClassesForTableRow(row: T): { [key: string]: boolean } {
+        if (this.getRowClassesFunction) {
+            return this.getRowClassesFunction(row);
+        }
+        return {};
     }
 
 }

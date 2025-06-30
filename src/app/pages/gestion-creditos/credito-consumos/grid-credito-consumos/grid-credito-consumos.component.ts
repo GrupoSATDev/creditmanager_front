@@ -127,6 +127,21 @@ export class GridCreditoConsumosComponent implements OnInit{
         },
     ];
 
+    getRowClassesForUser(row: any): { [key: string]: boolean } {
+        const classes: { [key: string]: boolean } = {};
+        if (row.estado === 'Activo') {
+            classes['bg-green-100'] = true;
+            classes['text-green-800'] = true;
+        } else if (row.estado === 'Inactivo') {
+            classes['bg-red-100'] = true;
+            classes['text-red-800'] = true;
+        } else if (row.estado === 'Pendiente') {
+            classes['bg-yellow-100'] = true;
+            classes['text-yellow-800'] = true;
+        }
+        return classes;
+    }
+
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
         this.searchTerm = target.value.trim().toLowerCase();
