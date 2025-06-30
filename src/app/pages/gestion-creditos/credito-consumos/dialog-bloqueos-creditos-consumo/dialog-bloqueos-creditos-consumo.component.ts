@@ -34,9 +34,9 @@ export class DialogBloqueosCreditosConsumoComponent implements OnInit{
         this.estado = estado;
     }
 
-    onBloqueo(): void {
+    onCambioEstado(): void {
         this.creditoConsumoService
-            .patchCreditoConsumoEstados(this.idEstado, this.estado)
+            .patchCreditoConsumoEstados(this.idEstado, !this.estado)
             .subscribe(
                 (response) => {
                     this.estadosDatosService.stateGrid.next(true);
