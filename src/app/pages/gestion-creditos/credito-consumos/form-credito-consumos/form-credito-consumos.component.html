@@ -9,7 +9,7 @@
 
         <form class="mt-8" [formGroup]="form">
             <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
-                <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                <mat-form-field  class="w-full " floatLabel="always">
                     <mat-label>Empresa</mat-label>
                     <mat-select placeholder="Empresa" [formControlName]="'idSubEmpresa'"
                                 (selectionChange)="selectedEmpleados($event)"
@@ -21,7 +21,7 @@
                 </mat-form-field>
             </div>
             <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
-                <mat-form-field class="w-full min-w-90" floatLabel="always">
+                <mat-form-field class="w-full " floatLabel="always">
                     <mat-label>Trabajadores</mat-label>
                     <input type="text"
                            placeholder="Trabajadores"
@@ -40,7 +40,7 @@
             </div>
 
             <div class="mt-4 flex flex-col items-center space-y-1 text-center sm:mt-0 sm:items-start sm:text-left">
-                <mat-form-field  class="w-full min-w-90" floatLabel="always">
+                <mat-form-field  class="w-full " floatLabel="always">
                     <mat-label>Cupo aprobado</mat-label>
                     <input matInput placeholder="Cupo aprobado" [formControlName]="'cupoAprobado'" [mask]="'separator.0'" thousandSeparator=".">
                 </mat-form-field>
@@ -49,7 +49,7 @@
         </form>
 
         <div
-            class="flex items-center justify-center space-x-3 py-4 dark:bg-black dark:bg-opacity-10 sm:justify-end"
+            class="flex flex-wrap justify-end gap-2.5"
         >
             <button
                 class="sm:w-auto w-full bg-credigray-100 rounded-lg transition duration-200 text-white font-semibold"
