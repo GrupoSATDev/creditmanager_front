@@ -38,6 +38,7 @@ import {
         MatButton,
         NgIf,
         NgForOf,
+        NgClass,
     ],
     templateUrl: './form-view-credito-consumos.component.html',
     styleUrl: './form-view-credito-consumos.component.scss',
@@ -50,7 +51,6 @@ import {
     ],
 })
 export class FormViewCreditoConsumosComponent implements OnInit {
-
     public toasService = inject(ToastAlertsService);
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
@@ -80,31 +80,31 @@ export class FormViewCreditoConsumosComponent implements OnInit {
     onConsumo() {
         this._matDialog.open(DialogCreditoConsumosComponent, {
             data: {
-                data: this.items
+                data: this.items,
             },
             width: '30%',
-            disableClose: true
-        })
+            disableClose: true,
+        });
     }
 
     onBloqueo() {
         this._matDialog.open(DialogBloqueosCreditosConsumoComponent, {
             data: {
-                data: this.items
+                data: this.items,
             },
             width: '30%',
-            disableClose: true
-        })
+            disableClose: true,
+        });
     }
 
     onDesbloqueo() {
         this._matDialog.open(DialogBloqueosCreditosConsumoComponent, {
             data: {
-                data: this.items
+                data: this.items,
             },
             width: '30%',
-            disableClose: true
-        })
+            disableClose: true,
+        });
     }
 
     getCredito(id) {
