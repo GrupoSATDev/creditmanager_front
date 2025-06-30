@@ -57,19 +57,21 @@
                             class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
                             (click)="onConsumo()"
                         >
-                            Registrar Consumo
+                            Registrar consumo
                         </button>
                         <button
                             mat-flat-button
                             class="lg:w-auto w-full mt-4 bg-crediblue-50 hover:bg-crediblue-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
                         >
-                            Abonar
+                            Registrar abono
                         </button>
                         <button
                             mat-flat-button
-                            class="lg:w-auto w-full mt-4 bg-crediorange-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            class="lg:w-auto w-full mt-4 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            [ngClass]="{'bg-crediorange-100': items.estado, 'bg-green-600': !items.estado}"
+                            (click)="items.estado ? onBloqueo() : onDesbloqueo()"
                         >
-                            Bloquear crédito
+                           {{items.estado ? 'Bloquear' : 'Desbloquear'}} crédito
                         </button>
                     </div>
 

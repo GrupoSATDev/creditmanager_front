@@ -25,4 +25,18 @@ export class CreditoConsumosService {
       return this._http.post(`${this.appSettings.creditoConsumo.url.base}`, data)
   }
 
+  putCreditoConsumo(data: any): Observable<any> {
+      const id = data.id;
+      delete data.id;
+      return this._http.put(`${this.appSettings.creditoConsumo.url.base}/${id}`, data)
+  }
+
+  patchCreditoConsumoEstado(id): Observable<any> {
+      return this._http.patch(`${this.appSettings.creditoConsumo.url.base}/${id}/estado`, {})
+  }
+
+  patchCreditoConsumoEstados(id, estado): Observable<any> {
+      return this._http.patch(`${this.appSettings.creditoConsumo.url.base}/${id}/estado`, {estado})
+  }
+
 }

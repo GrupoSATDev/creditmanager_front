@@ -25,6 +25,12 @@ import { EstadosDatosService } from '../../../../core/services/estados-datos.ser
 import { IButton } from '../../../shared/interfaces/buttonsInterfaces';
 import { Router } from '@angular/router';
 import { Estados } from '../../../../core/enums/estados';
+import {
+    DialogCreditosConsumoEstadosComponent
+} from '../dialog-creditos-consumo-estados/dialog-creditos-consumo-estados.component';
+import {
+    DialogCuposCreditosConsumoComponent
+} from '../dialog-cupos-creditos-consumo/dialog-cupos-creditos-consumo.component';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -101,7 +107,40 @@ export class GridCreditoConsumosComponent implements OnInit{
                 this.router.navigate(['pages/gestion-creditos/credito-consumos/consumo', this.selectedData.id])
             }
         },
+        {
+            label: 'Cambiar cupo',
+            icon: 'request_quote',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onCambioCupo();
+            },
+        },
+        {
+            label: 'Cambiar estado',
+            icon: 'published_with_changes',
+            action: (element) => {
+                console.log('View', element);
+                this.selectedData = element;
+                this.onCambioEstado();
+            },
+        },
     ];
+
+    getRowClassesForUser(row: any): { [key: string]: boolean } {
+        const classes: { [key: string]: boolean } = {};
+        if (row.estado === 'Activo') {
+            classes['bg-green-100'] = true;
+            classes['text-green-800'] = true;
+        } else if (row.estado === 'Inactivo') {
+            classes['bg-red-100'] = true;
+            classes['text-red-800'] = true;
+        } else if (row.estado === 'Pendiente') {
+            classes['bg-yellow-100'] = true;
+            classes['text-yellow-800'] = true;
+        }
+        return classes;
+    }
 
     onSearch(event: Event) {
         const target = event.target as HTMLInputElement;
@@ -113,6 +152,29 @@ export class GridCreditoConsumosComponent implements OnInit{
             autoFocus: false,
             data: {
                 edit: false,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+
+    onCambioEstado(): void {
+        this._matDialog.open(DialogCreditosConsumoEstadosComponent, {
+            autoFocus: false,
+            data: {
+                data: this.selectedData,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
+    }
+   onCambioCupo(): void {
+        this._matDialog.open(DialogCuposCreditosConsumoComponent, {
+            autoFocus: false,
+            data: {
+                data: this.selectedData,
             },
             maxHeight: '90vh',
             disableClose: true,
