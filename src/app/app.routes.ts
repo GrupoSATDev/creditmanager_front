@@ -76,7 +76,7 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         data: {
-            roles: ['Super Admin', 'Aliado', 'Desembolso', 'Analista', 'Auditor'], // Solo accesible para roles específicos
+            roles: ['Super Admin', 'Aliado', 'Desembolso', 'Analista', 'Auditor', 'Contador Cobro Credito Consumo'], // Solo accesible para roles específicos
             tipoUsuario: ['EmprasaMaestra', 'Empresa Aliada'],  // Solo para TipoUsuario específico
         },
         children: [
@@ -98,7 +98,7 @@ export const appRoutes: Route[] = [
                 path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista', 'Aliado', 'Desembolso', 'Auditor']
+                    roles: ['Super Admin', 'Analista', 'Aliado', 'Desembolso', 'Auditor', 'Contador Cobro Credito Consumo']
                 }
             },
             {

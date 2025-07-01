@@ -26,16 +26,18 @@
                     (input)="onSearch($event)"
                 />
             </mat-form-field>
-            <button
-                class="mt-2 w-full bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold sm:ml-4 sm:mt-0 sm:w-auto"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="onNew()"
+            @if (!['Contador Cobro Credito Consumo'].includes(_authService.getRole())) {
+                <button
+                    class="mt-2 w-full bg-crediblue-50 rounded-lg transition duration-200 text-white font-semibold sm:ml-4 sm:mt-0 sm:w-auto"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="onNew()"
 
-            >
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Registrar</span>
-            </button>
+                >
+                    <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Registrar</span>
+                </button>
+            }
             <!-- Add product button -->
             <button
                 class="sm:w-auto w-full sm:mt-0 mt-2 rounded-lg transition duration-200 text-white font-semibold"

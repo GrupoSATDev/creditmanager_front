@@ -31,6 +31,7 @@ import {
 import {
     DialogCuposCreditosConsumoComponent
 } from '../dialog-cupos-creditos-consumo/dialog-cupos-creditos-consumo.component';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
     selector: 'app-grid-credito-consumos',
@@ -67,6 +68,7 @@ export class GridCreditoConsumosComponent implements OnInit{
     private aesEncriptService = inject(AesEncryptionService);
     private _matDialog =  inject(MatDialog)
     private estadoDatosService = inject(EstadosDatosService)
+    public _authService: AuthService = inject(AuthService);
     private router = inject(Router);
     data = [];
     exportData = [];
