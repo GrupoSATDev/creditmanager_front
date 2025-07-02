@@ -133,7 +133,7 @@ export const appRoutes: Route[] = [
                 path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista', 'Cliente', 'Aliado', 'Trabajador', 'Auditor']
+                    roles: ['Super Admin', 'Analista', 'Cliente', 'Aliado', 'Trabajador', 'Auditor', 'Contador Cobro Credito Consumo']
                 }
             },
         ]
