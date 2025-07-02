@@ -287,6 +287,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/pages/reportes/recupera-inversion',
             },
+            {
+                id: '9.1',
+                title: 'Consumo deudores',
+                type: 'basic',
+                link: '/pages/reportes/consumo-deudores',
+            },
         ],
     },
 

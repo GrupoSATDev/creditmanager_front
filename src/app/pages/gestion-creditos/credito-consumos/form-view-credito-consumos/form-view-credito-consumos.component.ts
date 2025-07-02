@@ -23,6 +23,7 @@ import { DialogBloqueoComponent } from '../../creditos/dialog-bloqueo/dialog-blo
 import {
     DialogBloqueosCreditosConsumoComponent
 } from '../dialog-bloqueos-creditos-consumo/dialog-bloqueos-creditos-consumo.component';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
     selector: 'app-form-view-credito-consumos',
@@ -55,6 +56,7 @@ export class FormViewCreditoConsumosComponent implements OnInit {
     public fuseService = inject(FuseConfirmationService);
     public estadosDatosService = inject(EstadosDatosService);
     private activatedRoute = inject(ActivatedRoute);
+    public _authService: AuthService = inject(AuthService);
 
     private creditoConsumoService: CreditoConsumosService = inject(
         CreditoConsumosService

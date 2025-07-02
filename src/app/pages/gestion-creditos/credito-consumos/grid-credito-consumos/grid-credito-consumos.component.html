@@ -65,7 +65,7 @@
                     [displayedColumns]="columns"
                     [columnPropertyMap]="columnPropertyMap"
                     [data]="data"
-                    [buttons]="buttons"
+                    [buttons]="_authService.getRole().includes('Contador Cobro Credito Consumo') ?  buttonsRol : buttons"
                     [searchTerm]="searchTerm"
                     [getRowClassesFunction]="getRowClassesForUser"
                 ></app-custom-table>
