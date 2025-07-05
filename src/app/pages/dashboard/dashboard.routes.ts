@@ -21,6 +21,10 @@ export default [
                 path: 'financieras',
                 loadChildren: () => import('./dashboard-comparativas-financieras/comparativas-financieras.routes')
             },
+            {
+                path: 'solicitudes',
+                loadChildren: () => import('./dashboard-solicitudes/dashboard-solicitudes.routes')
+            }
         ]
     }
 
