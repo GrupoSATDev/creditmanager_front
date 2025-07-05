@@ -40,40 +40,27 @@ export class DashboardPendientesComponent implements OnInit, OnDestroy{
     pendientes = 0;
     private router = inject(Router);
 
-    constructor() {
-
-
-    }
-
     tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
         console.log('tabChangeEvent => ', tabChangeEvent);
         console.log('index => ', tabChangeEvent.index);
         this.tabIndex = tabChangeEvent.index;
         console.log(this.tabIndex);
-        this.selectedTab =
-            tabChangeEvent.index == 0
-                ? CodigosEstadosSolicitudes.PENDIENTE
-                : tabChangeEvent.index == 1
-                  ? CodigosEstadosSolicitudes.RECHAZADA
-                  : tabChangeEvent.index == 2
-                    ? CodigosEstadosSolicitudes.APROBADA
-                    : CodigosEstadosSolicitudes.PENDIENTE;
+        this.selectedTab = tabChangeEvent.index == 0 ? CodigosEstadosSolicitudes.PENDIENTE : CodigosEstadosSolicitudes.APROBADA;
         this.getSolicitudes(this.selectedTab)
     };
 
     getSolicitudes(param): void {
-
         this.subcription$ = this.solicitudesService.getSolicitudes(param).subscribe((response) => {
             if (response) {
                 this.data = response.data;
-                this.updateChart(); // Llama a la función para actualizar el gráfico
+                this.updateChart();
             }else {
                 this.data = [];
-                this.updateChart(); // Actualiza el gráfico incluso si no hay datos
+                this.updateChart();
             }
         }, error => {
             this.data = [];
-            this.updateChart(); // Actualiza el gráfico en caso de error
+            this.updateChart();
         })
     }
 
@@ -143,7 +130,6 @@ export class DashboardPendientesComponent implements OnInit, OnDestroy{
                         },
                         total: {
                             show: true,
-                            label: 'Pendientes',
                             fontSize: '14px',
                             color: '#374151',
                             formatter: () => `${this.pendientes}`
@@ -198,33 +184,13 @@ export class DashboardPendientesComponent implements OnInit, OnDestroy{
 
     private updateChart(): void {
         this.pendientes = this.data.length;
-
-        // Calculamos el porcentaje para el radial bar.
-        // Si capacidadMaximaReferencia es 0, evitamos la división por cero.
         const porcentaje = this.capacidadMaxima > 0 ?
             (this.pendientes / this.capacidadMaxima) * 100 :
-            (this.pendientes > 0 ? 100 : 0); // Si hay pendientes y no hay máxima, mostrar 100%
-
-        // Actualizamos la serie principal del gráfico radial. Solo hay una serie.
+            (this.pendientes > 0 ? 100 : 0);
         this.chartOptions = {
-            ...this.chartOptions, // Mantenemos las opciones existentes
-            series: [porcentaje], // Actualizamos solo la serie con el nuevo porcentaje
+            ...this.chartOptions,
+            series: [porcentaje],
         };
-
-        // Para asegurarnos de que los formatters de 'value' y 'total' en el centro
-        // siempre reflejen el valor actualizado de 'this.pendientes',
-        // reasignamos sus funciones. Esto es importante porque 'this.data.length'
-        // cambia después de la llamada a la API.
-        if (this.chartOptions.plotOptions?.radialBar?.dataLabels?.value) {
-            this.chartOptions.plotOptions.radialBar.dataLabels.value.formatter = (val: number) => {
-                return `${this.pendientes}`; // Usamos el valor 'this.pendientes' actualizado
-            };
-        }
-        if (this.chartOptions.plotOptions?.radialBar?.dataLabels?.total) {
-            this.chartOptions.plotOptions.radialBar.dataLabels.total.formatter = (w: any) => {
-                return `${this.pendientes}`; // Usamos el valor 'totalPendientes' actualizado
-            };
-        }
     }
 
 }

@@ -56,6 +56,18 @@
                 </mat-tab>
                 <mat-tab label="Aprobadas" >
                     <ng-template matTabContent>
+                        <h2 class="text-center font-bold text-2xl">Solicitudes Aprobadas</h2>
+                        <ng-container *ngIf="chartOptions.series && chartOptions.series.length > 0">
+                            <apx-chart
+                                [series]="chartOptions.series"
+                                [chart]="chartOptions.chart"
+                                [labels]="chartOptions.labels"
+                                [plotOptions]="chartOptions.plotOptions"
+                                [fill]="chartOptions.fill"
+                                [stroke]="chartOptions.stroke"
+                                [responsive]="chartOptions.responsive"
+                            ></apx-chart>
+                        </ng-container>
 
                         <ng-template #noData>
                             <div class="inset-0 min-w-0 overflow-auto print:overflow-visible">
