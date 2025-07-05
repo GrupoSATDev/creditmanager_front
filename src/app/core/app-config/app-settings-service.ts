@@ -261,6 +261,7 @@ export class AppSettingsService {
             reportePrestamoHistorico: EndPoints.uriBase('Reportes/PrestamoHistorico'),
             reporteInversion: EndPoints.uriBase('Reportes/CarteraDeuda'),
             reporteCreditConsumoDeudores: EndPoints.uriBase('Reportes/CreditoConsumoDeudores'),
+            reporteCreditConsumoHistorial: EndPoints.uriBase('Reportes/PagoCreditosConsumoHistorial'),
         }
     }
 

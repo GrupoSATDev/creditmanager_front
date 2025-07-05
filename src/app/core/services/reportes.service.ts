@@ -46,6 +46,11 @@ export class ReportesService {
         return this._http.get(`${this.appSettings.reportes.url.reportesGanancias}?fechaInicio=${data.fechaInicio}&fechaFinal=${data.fechaFinal}`)
     }
 
+    getReportePagoCreditosConsumoHistorial(data): Observable<any> {
+        console.log(data)
+        return this._http.get(`${this.appSettings.reportes.url.reporteCreditConsumoHistorial}?fechaInicio=${data.fechaInicio}&fechaFinal=${data.fechaFinal}`)
+    }
+
     getDeudasEmpresas(): Observable<any> {
         return this._http.get(`${this.appSettings.reportes.url.reporteDeudasEmpresa}`)
     }
