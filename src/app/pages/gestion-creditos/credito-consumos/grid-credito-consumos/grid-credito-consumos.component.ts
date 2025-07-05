@@ -14,11 +14,9 @@ import { FuseConfirmationService } from '../../../../../@fuse/services/confirmat
 import { exportar } from '../../../../core/constant/dialogs';
 import * as XLSX from 'xlsx';
 import { CreditoConsumosService } from '../../../../core/services/credito-consumos.service';
-import { data } from 'autoprefixer';
 import { map } from 'rxjs';
 import { parseCurrency } from '../../../../core/utils/number-utils';
 import { AesEncryptionService } from '../../../../core/services/aes-encryption.service';
-import { FormEmpleadosComponent } from '../../../gestion-empleados/empleados/form-empleados/form-empleados.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormCreditoConsumosComponent } from '../form-credito-consumos/form-credito-consumos.component';
 import { EstadosDatosService } from '../../../../core/services/estados-datos.service';
@@ -195,6 +193,8 @@ export class GridCreditoConsumosComponent implements OnInit{
             panelClass: 'custom-dialog-container'
         })
     }
+
+
 
     private listenGrid() {
         const refreshData$ = this.estadoDatosService.stateGrid.asObservable();

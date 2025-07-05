@@ -61,12 +61,15 @@
                             >
                                 Registrar consumo
                             </button>
-                            <button
-                                mat-flat-button
-                                class="lg:w-auto w-full mt-4 bg-crediblue-50 hover:bg-crediblue-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                            >
-                                Registrar abono
-                            </button>
+                            @if (aesEncriptService.decrypt(items.cupoConsumido) != 0)  {
+                                <button
+                                    mat-flat-button
+                                    class="lg:w-auto w-full mt-4 bg-crediblue-50 hover:bg-crediblue-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                                    (click)="onPago()"
+                                >
+                                    Registrar pagos
+                                </button>
+                            }
                             <button
                                 mat-flat-button
                                 class="lg:w-auto w-full mt-4 transition duration-200 text-white font-semibold rounded-lg md:w-auto"

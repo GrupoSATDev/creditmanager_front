@@ -282,5 +282,11 @@ export class AppSettingsService {
         }
     }
 
+    public pagosCreditos = {
+        url: {
+            base: EndPoints.uriBase('PagoCreditoConsumos'),
+        }
+    }
+
 
 }
