@@ -70,7 +70,10 @@ export class DialogCuposCreditosConsumoComponent implements OnInit {
         this.data = data;
         const cupoAprobado =
             typeof data.cupoAprobado === 'string' ? parseFloat(data.cupoAprobado.replace(/[\$,]/g, '')) : typeof data.cupoAprobado === 'number' ? data.cupoAprobado : 0;
-        this.cupoAprobado.setValidators([maxAmountValidator(cupoAprobado), Validators.required, ]);
+
+        const cupoConsumido =
+            typeof data.cupoConsumido === 'string' ? parseFloat(data.cupoConsumido.replace(/[\$,]/g, '')) : typeof data.cupoConsumido === 'number' ? data.cupoConsumido : 0;
+        this.cupoAprobado.setValidators([maxAmountValidator(cupoAprobado, cupoConsumido), Validators.required, ]);
         this.cupoAprobado.updateValueAndValidity();
     }
 
@@ -107,9 +110,12 @@ export class DialogCuposCreditosConsumoComponent implements OnInit {
     }
 }
 
-export function maxAmountValidator(cupoAprobado: number): ValidatorFn {
+export function maxAmountValidator(cupoAprobado: number, cupoConsumido: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const nuevoCupo = control.value;
+        if (cupoConsumido === 0) {
+            return null;
+        }
 
         return nuevoCupo < cupoAprobado ? { maxAmount: { cupoAprobado } } : null;
     };

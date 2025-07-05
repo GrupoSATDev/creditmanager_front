@@ -57,4 +57,8 @@ export class ReportesService {
     getInversion(): Observable<any> {
         return this._http.get(`${this.appSettings.reportes.url.reporteInversion}`)
     }
+
+    getConsumoDeudores(): Observable<any> {
+        return this._http.get(`${this.appSettings.reportes.url.reporteCreditConsumoDeudores}`)
+    }
 }

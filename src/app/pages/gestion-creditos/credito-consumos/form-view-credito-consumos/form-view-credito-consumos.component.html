@@ -52,27 +52,30 @@
                 </div>
 
                     <div class="grid grid-cols-1 gap-2 justify-items-stretch max-w-lg mb-4 md:grid-cols-3 mx-auto place-content-start">
-                        <button
-                            mat-flat-button
-                            class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                            (click)="onConsumo()"
-                        >
-                            Registrar consumo
-                        </button>
-                        <button
-                            mat-flat-button
-                            class="lg:w-auto w-full mt-4 bg-crediblue-50 hover:bg-crediblue-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                        >
-                            Registrar abono
-                        </button>
-                        <button
-                            mat-flat-button
-                            class="lg:w-auto w-full mt-4 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
-                            [ngClass]="{'bg-crediorange-100': items.estado, 'bg-green-600': !items.estado}"
-                            (click)="items.estado ? onBloqueo() : onDesbloqueo()"
-                        >
-                           {{items.estado ? 'Bloquear' : 'Desbloquear'}} crédito
-                        </button>
+                        @if (!['Contador Cobro Credito Consumo'].includes(_authService.getRole())) {
+
+                            <button
+                                mat-flat-button
+                                class="lg:w-auto w-full mt-4 bg-green-600 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                                (click)="onConsumo()"
+                            >
+                                Registrar consumo
+                            </button>
+                            <button
+                                mat-flat-button
+                                class="lg:w-auto w-full mt-4 bg-crediblue-50 hover:bg-crediblue-100 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                            >
+                                Registrar abono
+                            </button>
+                            <button
+                                mat-flat-button
+                                class="lg:w-auto w-full mt-4 transition duration-200 text-white font-semibold rounded-lg md:w-auto"
+                                [ngClass]="{'bg-crediorange-100': items.estado, 'bg-green-600': !items.estado}"
+                                (click)="items.estado ? onBloqueo() : onDesbloqueo()"
+                            >
+                               {{items.estado ? 'Bloquear' : 'Desbloquear'}} crédito
+                            </button>
+                        }
                     </div>
 
                 <!--<div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-stretch lg:justify-items-center place-content-start">

@@ -40,7 +40,11 @@ export default [
     {
         path: 'recupera-inversion',
         loadChildren: () => import('./reporte-recupera-inversion/recupera-inversion.routes')
-    }
+    },
+    {
+        path: 'consumo-deudores',
+        loadChildren: () => import('./reporte-consumo-deudores/consumo-deudores.routes')
+    },
 
 
 ] as Routes

@@ -129,6 +129,18 @@ export class GridCreditoConsumosComponent implements OnInit{
         },
     ];
 
+    buttonsRol: IButton[] = [
+        {
+            label: 'Ver',
+            icon: 'visibility',
+            action: (element) => {
+                console.log('Approve', element);
+                this.selectedData = element;
+                this.router.navigate(['pages/gestion-creditos/credito-consumos/consumo', this.selectedData.id])
+            }
+        },
+    ];
+
     getRowClassesForUser(row: any): { [key: string]: boolean } {
         const classes: { [key: string]: boolean } = {};
         if (row.estado === 'Activo') {
