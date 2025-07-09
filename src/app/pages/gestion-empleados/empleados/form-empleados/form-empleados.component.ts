@@ -11,7 +11,7 @@ import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
-import { combineLatestWith, map, Observable, take, tap } from 'rxjs';
+import { combineLatestWith, delay, map, Observable, take, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -97,6 +97,7 @@ export class FormEmpleadosComponent implements OnInit{
 
 
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -109,6 +110,7 @@ export class FormEmpleadosComponent implements OnInit{
     )
     public municipios$: Observable<any>;
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -118,6 +120,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public generos$ = this.generoService.getGeneros().pipe(
+        delay(2000),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -127,6 +130,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public empresasClientes$ = this.empresaClienteService.getEmpresasClientes().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -137,6 +141,7 @@ export class FormEmpleadosComponent implements OnInit{
     )
     public cargos$ = this.cargosServices.getCargos();
     public riesgos$ = this.riesgosServices.getRiesgos().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -146,6 +151,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public bancos$ = this.bancosServices.getBancos().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -158,6 +164,7 @@ export class FormEmpleadosComponent implements OnInit{
     public image: any;
     private tipoCuentasService = inject(TipoCuentasService);
     public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -172,6 +179,7 @@ export class FormEmpleadosComponent implements OnInit{
 
     getContratos() {
         this.tipoContratosService.getContratos().pipe(
+            delay(1800),
             tap((response) => {
                 const valorSelected = response.data;
                 const dialogData = this._matData;
@@ -204,6 +212,7 @@ export class FormEmpleadosComponent implements OnInit{
 
     private deduccioLegalService = inject(DeduccionesService);
     public deduccion$ = this.deduccioLegalService.getDeducciones().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
