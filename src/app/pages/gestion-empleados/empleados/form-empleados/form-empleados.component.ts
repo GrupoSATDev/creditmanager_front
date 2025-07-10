@@ -190,7 +190,6 @@ export class FormEmpleadosComponent implements OnInit{
             }),
         ).subscribe((response) => {
             if (response.data) {
-                console.log('contratos service', response.data);
                 this.tipoContratos = response.data;
             }
         })
