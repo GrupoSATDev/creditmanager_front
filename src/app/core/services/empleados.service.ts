@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsService } from '../app-config/app-settings-service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,11 @@ export class EmpleadosService {
     }
 
     getEmpleado(id): Observable<any> {
-      return this._http.get(`${this.appSettings.empleados.url.base}/${id}`)
+      return this._http.get(`${this.appSettings.empleados.url.base}/${id}`).pipe(
+          map((response: any) => {
+              return response.data
+          })
+      )
     }
 
     postEmpleados(data): Observable<any> {
