@@ -11,7 +11,7 @@ import { AsyncPipe, DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE, MatOption } from '@angular/material/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { TiposDocumentosService } from '../../../../core/services/tipos-documentos.service';
-import { combineLatestWith, map, Observable, take, tap } from 'rxjs';
+import { combineLatestWith, delay, lastValueFrom, map, Observable, take, tap } from 'rxjs';
 import { LocacionService } from '../../../../core/services/locacion.service';
 import { GenerosService } from '../../../../core/services/generos.service';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
@@ -97,6 +97,7 @@ export class FormEmpleadosComponent implements OnInit{
 
 
     public departamentos$ = this._locacionService.getDepartamentos().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -109,6 +110,7 @@ export class FormEmpleadosComponent implements OnInit{
     )
     public municipios$: Observable<any>;
     public tiposDocumentos$ = this.tiposDocumentosService.getTiposDocumentos().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -118,6 +120,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public generos$ = this.generoService.getGeneros().pipe(
+        delay(2000),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -127,6 +130,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public empresasClientes$ = this.empresaClienteService.getEmpresasClientes().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -137,6 +141,7 @@ export class FormEmpleadosComponent implements OnInit{
     )
     public cargos$ = this.cargosServices.getCargos();
     public riesgos$ = this.riesgosServices.getRiesgos().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -146,6 +151,7 @@ export class FormEmpleadosComponent implements OnInit{
         })
     )
     public bancos$ = this.bancosServices.getBancos().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -158,6 +164,7 @@ export class FormEmpleadosComponent implements OnInit{
     public image: any;
     private tipoCuentasService = inject(TipoCuentasService);
     public tipoCuentas$  = this.tipoCuentasService.getTipoCuentas().pipe(
+        delay(1800),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -172,6 +179,7 @@ export class FormEmpleadosComponent implements OnInit{
 
     getContratos() {
         this.tipoContratosService.getContratos().pipe(
+            delay(1800),
             tap((response) => {
                 const valorSelected = response.data;
                 const dialogData = this._matData;
@@ -194,6 +202,7 @@ export class FormEmpleadosComponent implements OnInit{
                 return item;
             }
         })
+        console.log('Select',datoDeduccion);
         this.deduccionLegal = datoDeduccion.deduccioneLegal;
         if (this.deduccionLegal) {
            this.resetConDeduccion();
@@ -204,6 +213,7 @@ export class FormEmpleadosComponent implements OnInit{
 
     private deduccioLegalService = inject(DeduccionesService);
     public deduccion$ = this.deduccioLegalService.getDeducciones().pipe(
+        delay(1500),
         tap((response) => {
             const valorSelected = response.data;
             const dialogData = this._matData;
@@ -221,24 +231,40 @@ export class FormEmpleadosComponent implements OnInit{
         name: 'Pedro'
     };
 
-    ngOnInit(): void {
+   async ngOnInit(): Promise<void> {
         this.createForm();
-        this.getContratos();
         const dialogData = this._matData;
         if (dialogData.edit) {
             const data = dialogData.data;
-            this.getTrabajador(data.id)
+            try {
+               this.tipoContratos = await lastValueFrom(this.tipoContratosService.getContratos())
+               const trabajadorEncontrado = await lastValueFrom(this.empleadosServices.getEmpleado(data.id));
+
+               this.deduccionLegal = this.buscarContrato(trabajadorEncontrado.idTipoContrato)
+               this.empleadoData(trabajadorEncontrado,  this.deduccionLegal)
+            }catch (error) {
+                console.error('Error al carga de datos:', error);
+                return undefined
+            }
+            this.setCampoValue();
+        }else {
+            try {
+                this.tipoContratos = await lastValueFrom(this.tipoContratosService.getContratos())
+                this.form.get('idTipoContrato').setValue(this.tipoContratos[0].id);
+                this.deduccionLegal = this.tipoContratos[0].deduccioneLegal;
+            }catch (e) {
+                console.error('Error al carga:', e);
+                return;
+            }
             this.setCampoValue();
         }
-
-        if (!this._matData.edit) {
-            this.setCampoValue();
-        }
-
     }
 
     public getTrabajador(id) {
-        this.empleadosServices.getEmpleado(id).subscribe((response) => {
+        this.empleadosServices.getEmpleado(id).pipe(
+            delay(1000),
+        ).subscribe((response) => {
+            console.log('Empleado',response.data)
             if (response) {
                 const data = response.data;
                 this.deduccionLegal = this.buscarContrato(data.idTipoContrato)
@@ -302,6 +328,66 @@ export class FormEmpleadosComponent implements OnInit{
             }
 
         })
+    }
+
+    empleadoData(empleado, deduccionLegal) {
+        const {
+            idDepartamento,
+            fechaNacimiento,
+            fechaInicioContrato,
+            fechaFinContrato,
+            porcentajeSalud,
+            porcentajePension,
+            capacidadEndeudamiento,
+            salarioBase,
+            otroIngreso,
+            ...form
+        } = empleado;
+
+        const fecha = new Date(fechaNacimiento)
+        const fechaInicioAntes = new Date(fechaInicioContrato)
+        const fechaFinAntes = new Date(fechaFinContrato)
+        this.municipios$ = this._locacionService.getMunicipio(idDepartamento);
+
+        if (deduccionLegal) {
+            const devengado = (salarioBase + otroIngreso) - (salarioBase * (porcentajeSalud + porcentajePension)) / VALOR_PORCENTAJE_100;
+            const salud = (salarioBase + otroIngreso) * porcentajeSalud / VALOR_PORCENTAJE_100;
+            const pension = (salarioBase +  otroIngreso) * porcentajePension / VALOR_PORCENTAJE_100;
+            const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
+            this.form.patchValue({
+                fechaNacimiento: fecha,
+                fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
+                fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
+                idDepartamento,
+                salarioBase,
+                otroIngreso,
+                salarioDevengado: devengado,
+                salud,
+                pension,
+                capacidadEndeudamiento: endeudamiento,
+                ...form
+            })
+            this.image = `data:image/png;base64,  ${empleado.foto}`;
+
+        }else {
+            const devengado = salarioBase + otroIngreso;
+            const endeudamiento = (devengado) * VALOR_PORCENTAJE_30 / VALOR_PORCENTAJE_100;
+            this.form.patchValue({
+                fechaNacimiento: fecha,
+                fechaInicioContrato: new Date(fechaInicioAntes.getFullYear(), fechaInicioAntes.getMonth(), fechaInicioAntes.getDate()),
+                fechaFinContrato: new Date(fechaFinAntes.getFullYear(), fechaFinAntes.getMonth(), fechaFinAntes.getDate()),
+                idDepartamento,
+                salarioBase,
+                otroIngreso,
+                salarioDevengado: devengado,
+                capacidadEndeudamiento: endeudamiento,
+                salud: 0,
+                pension: 0,
+                ...form
+            })
+            this.image = `data:image/png;base64,  ${empleado.foto}`;
+        }
+
     }
 
 

@@ -24,6 +24,9 @@ import {
     DialogBloqueosCreditosConsumoComponent
 } from '../dialog-bloqueos-creditos-consumo/dialog-bloqueos-creditos-consumo.component';
 import { AuthService } from '../../../../core/auth/auth.service';
+import {
+    DialogCreditoConsumoPagosComponent
+} from '../dialog-credito-consumo-pagos/dialog-credito-consumo-pagos.component';
 
 @Component({
     selector: 'app-form-view-credito-consumos',
@@ -107,6 +110,18 @@ export class FormViewCreditoConsumosComponent implements OnInit {
             width: '30%',
             disableClose: true,
         });
+    }
+
+    onPago(): void {
+        this._matDialog.open(DialogCreditoConsumoPagosComponent, {
+            autoFocus: false,
+            data: {
+                data: this.items,
+            },
+            maxHeight: '90vh',
+            disableClose: true,
+            panelClass: 'custom-dialog-container'
+        })
     }
 
     getCredito(id) {

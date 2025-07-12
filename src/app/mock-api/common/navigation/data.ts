@@ -10,9 +10,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: '1.1',
-                title: 'Resumen ejecutivo',
+                title: 'Solicitudes',
                 type: 'basic',
-                link: '/pages/dashboard/resumen-ejecutivo',
+                link: '/pages/dashboard/solicitudes',
             },
             {
                 id: '1.2',
@@ -292,6 +292,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Consumo deudores',
                 type: 'basic',
                 link: '/pages/reportes/consumo-deudores',
+            },
+            {
+                id: '9.2',
+                title: 'Consumo historial',
+                type: 'basic',
+                link: '/pages/reportes/consumo-historial',
             },
         ],
     },

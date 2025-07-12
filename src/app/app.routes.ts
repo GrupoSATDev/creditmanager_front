@@ -84,7 +84,7 @@ export const appRoutes: Route[] = [
                 path: 'dashboard', loadChildren: () => import('app/pages/dashboard/dashboard.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['legacy']
+                    roles: ['legacy', 'Super Admin']
                 }
             },
             {

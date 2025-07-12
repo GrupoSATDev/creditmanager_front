@@ -45,6 +45,10 @@ export default [
         path: 'consumo-deudores',
         loadChildren: () => import('./reporte-consumo-deudores/consumo-deudores.routes')
     },
+    {
+        path: 'consumo-historial',
+        loadChildren: () => import('./reporte-pago-creditos-consumo-historial/reporte-pago-credito-consumo.routes')
+    },
 
 
 ] as Routes
