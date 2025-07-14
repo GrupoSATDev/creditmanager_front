@@ -5,4 +5,5 @@ export const RoleRouteMap: { [key: string]: string } = {
     'Desembolso': '/pages/gestion-creditos/desembolsos',
     'Auditor': '/pages/gestion-creditos/solicitudes',
     'Contador Cobro Credito Consumo': '/pages/gestion-creditos/credito-consumos',
+    'Cajero Tienda': '/pages/gestion-creditos/credito-consumos',
 };
