@@ -52,7 +52,7 @@
                 </div>
 
                     <div class="grid grid-cols-1 gap-2 justify-items-stretch max-w-lg mb-4 md:grid-cols-3 mx-auto place-content-start">
-                        @if (!['Contador Cobro Credito Consumo'].includes(_authService.getRole())) {
+                        @if (!['Cajero Tienda'].includes(_authService.getRole())) {
 
                             <button
                                 mat-flat-button

@@ -76,7 +76,7 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         data: {
-            roles: ['Super Admin', 'Aliado', 'Desembolso', 'Analista', 'Auditor', 'Contador Cobro Credito Consumo'], // Solo accesible para roles específicos
+            roles: ['Super Admin', 'Aliado', 'Desembolso', 'Analista', 'Auditor', 'Contador Cobro Credito Consumo', 'Cajero Tienda'], // Solo accesible para roles específicos
             tipoUsuario: ['EmprasaMaestra', 'Empresa Aliada'],  // Solo para TipoUsuario específico
         },
         children: [
@@ -98,14 +98,14 @@ export const appRoutes: Route[] = [
                 path: 'gestion-creditos', loadChildren: () => import('app/pages/gestion-creditos/gestion-creditos.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista', 'Aliado', 'Desembolso', 'Auditor', 'Contador Cobro Credito Consumo']
+                    roles: ['Super Admin', 'Analista', 'Aliado', 'Desembolso', 'Auditor', 'Contador Cobro Credito Consumo', 'Cajero Tienda']
                 }
             },
             {
                 path: 'gestion-trabajadores', loadChildren: () => import('app/pages/gestion-empleados/gestion-empleados.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista', 'Auditor']
+                    roles: ['Super Admin', 'Analista', 'Auditor', 'Contador Cobro Credito Consumo']
                 }
             },
             {
@@ -133,7 +133,7 @@ export const appRoutes: Route[] = [
                 path: 'reportes', loadChildren: () => import('app/pages/reportes/reportes.routes'),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: ['Super Admin', 'Analista', 'Cliente', 'Aliado', 'Trabajador', 'Auditor', 'Contador Cobro Credito Consumo']
+                    roles: ['Super Admin', 'Analista', 'Cliente', 'Aliado', 'Trabajador', 'Auditor', 'Contador Cobro Credito Consumo', 'Cajero Tienda']
                 }
             },
         ]
