@@ -77,7 +77,7 @@ export const appRoutes: Route[] = [
         },
         data: {
             roles: ['Super Admin', 'Aliado', 'Desembolso', 'Analista', 'Auditor', 'Contador Cobro Credito Consumo', 'Cajero Tienda'], // Solo accesible para roles específicos
-            tipoUsuario: ['EmprasaMaestra', 'Empresa Aliada'],  // Solo para TipoUsuario específico
+            tipoUsuario: ['EmprasaMaestra', 'Empresa Aliada', 'Empresa Cliente'],  // Solo para TipoUsuario específico
         },
         children: [
             {
