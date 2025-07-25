@@ -84,7 +84,7 @@ export class DialogCreditoConsumosComponent implements OnInit {
                     }, error => {
                         this.swalService.ToastAler({
                             icon: 'error',
-                            title: 'Ha ocurrido un error al crear el registro!',
+                            title: error.error.errorMenssages[0],
                             timer: 4000,
                         })
                     })
